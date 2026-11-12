@@ -10,7 +10,7 @@ import { spawnSync } from "node:child_process";
 import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { homedir } from "node:os";
 import { join } from "node:path";
-import { MIN_NODE_MAJOR, dshBinPath, dshManifestPath } from "./paths.ts";
+import { MIN_NODE_MAJOR, MIN_NODE_MINOR, dshBinPath, dshManifestPath } from "./paths.ts";
 
 /** A Node binary this app is willing to boot the harness with. */
 export interface NodeRuntime {
@@ -123,9 +123,13 @@ export function resolveNodeRuntime(): NodeRuntime {
       rejected.push({ bin: candidate.bin, reason: "did not answer --version (known silent failure)" });
       continue;
     }
-    const major = Number(version.slice(1).split(".")[0]);
-    if (major < MIN_NODE_MAJOR) {
-      rejected.push({ bin: candidate.bin, version, reason: `below the required v${MIN_NODE_MAJOR}` });
+    const [major = 0, minor = 0] = version.slice(1).split(".").map(part => Number(part));
+    if (major < MIN_NODE_MAJOR || (major === MIN_NODE_MAJOR && minor < MIN_NODE_MINOR)) {
+      rejected.push({
+        bin: candidate.bin,
+        version,
+        reason: `below the required v${MIN_NODE_MAJOR}.${MIN_NODE_MINOR}`,
+      });
       continue;
     }
     cached = { bin: candidate.bin, version, major, source: candidate.source };

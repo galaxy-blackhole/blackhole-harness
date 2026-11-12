@@ -27,7 +27,13 @@ export const DEFAULT_PORT = 5439;
 export const LOOPBACK_HOST = "127.0.0.1";
 
 /** Lowest Node major this app boots the harness with; v24 exits silently on this machine. */
-export const MIN_NODE_MAJOR = 26;
+export const MIN_NODE_MAJOR = 22;
+
+/**
+ * Nhỏ nhất của dòng {@link MIN_NODE_MAJOR}: 22.6 là bản đầu có `--experimental-strip-types`.
+ * @remarks Launcher chạy thẳng `.ts` nên Node 22.0–22.5 không dùng được dù đúng major.
+ */
+export const MIN_NODE_MINOR = 6;
 
 /** Profile the app boots. */
 export const DEFAULT_PROFILE = "blackhole";
