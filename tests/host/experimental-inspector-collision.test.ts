@@ -2,17 +2,20 @@
  * author Bùi Trọng Hiếu
  * email kevinbui210191@gmail.com
  * create date 15/10/2026
- * modify date 19/10/2026
+ * modify date 12/11/2026
  * desc Test CHỐNG TRÙNG của row experimental-inspector: `inspector` là provider DUY NHẤT (mount lần hai bị
  *      cordis từ chối 'has been registered'), `dynamicCordisRunner`/`cordisInspect` của cordis-host-runner
- *      còn NGUYÊN sau mount, 0 event `inspector/*` trùng, và require.resolve 3 dependency từ profile THẬT
- *      (chưa mount ⇒ SKIP có lý do + ca dự phòng assert từ package repo).
+ *      còn NGUYÊN sau mount, 0 event `inspector/*` trùng, và require.resolve 3 dependency từ PROFILE.
+ *      12/11/2026 — profile của ca cuối là profile TẠM dựng trong tmp qua chính mountRewritePackage
+ *      (GBH_HOME trỏ home tạm), KHÔNG đọc ~/.galaxy/blackhole: profile thật là trạng thái DÙNG CHUNG, app
+ *      đóng gói mount đè lúc 14:42 nên symlink peer trỏ kernel trong .app ⇒ phép so với kernel repo đỏ OAN.
  */
 import { afterAll, beforeAll, describe, expect, test } from "bun:test";
 import {
   copyFileSync,
   cpSync,
   existsSync,
+  lstatSync,
   mkdirSync,
   mkdtempSync,
   readFileSync,
@@ -26,6 +29,7 @@ import { homedir, tmpdir } from "node:os";
 import { dirname, isAbsolute, join, sep } from "node:path";
 import { pathToFileURL } from "node:url";
 
+import { kernelModulesDir as mountKernelModulesDir, mountRewritePackage, profileModulesDir, rewritePackages } from "../../apps/cli/src/mount.ts";
 import { PACKAGE_NAME, STOCK_PACKAGE_NAME } from "../../packages/host/experimental-inspector/src/ids.ts";
 
 /** Gốc repo. */
@@ -40,16 +44,21 @@ const CORDIS_ENTRY = join(PKG, "node_modules", "@deepseek-ai", "cordis", "lib", 
 const KERNEL_MODULES = join(REPO, "apps", "host", "node_modules");
 /** Kho node_modules của WORKSPACE (bun hoist `.bun/<pkg>@<v>` vào đây) — gốc hợp lệ thứ hai khi resolve. */
 const WORKSPACE_MODULES = join(REPO, "node_modules");
-/** Home của app. */
-const HOME = process.env.HOME ?? homedir();
-/** node_modules của profile THẬT đang chạy. */
-const PROFILE_MODULES = join(HOME, ".galaxy", "blackhole", "profiles", "node_modules");
-/** Package CỦA TA trong profile (chỉ có sau khi mount). */
-const PROFILE_PACKAGE = join(PROFILE_MODULES, ...PACKAGE_NAME.split("/"));
-/** Manifest của bản mount trong profile. */
-const PROFILE_MANIFEST = join(PROFILE_PACKAGE, "package.json");
-/** Gói ta đã được mount vào profile thật chưa. */
-const PROFILE_MOUNTED = existsSync(PROFILE_MANIFEST);
+/** Một gói trong bảng rewritePackages (đúng metadata dùng lúc boot). */
+type RewritePackage = ReturnType<typeof rewritePackages>[number];
+/** Bề mặt kết quả mount mà ca test cần (MountResult của mount.ts không export). */
+interface MountOutcome {
+  /** Mount thành công. */
+  readonly ok: boolean;
+  /** Thư mục bản mount trong profile. */
+  readonly dir: string;
+  /** Peer đã symlink về kernel. */
+  readonly peers: readonly string[];
+  /** Lý do khi hỏng. */
+  readonly detail?: string;
+}
+/** Tiền tố home TẠM của ca mount profile. */
+const TMP_PREFIX = "gbh-inspector-profile-";
 /** Ba dependency runtime bắt buộc phải resolve được. */
 const DEPENDENCIES = ["open", "serve-static", "ws"] as const;
 /** Tên plugin Cordis của row (KHÔNG phải tên package). */
@@ -133,6 +142,18 @@ let pluginModule: PluginModule | undefined;
 let firstInspector: unknown;
 /** Bản stage tạm của package ta trong lượt chạy này. */
 let staged: StagedPackage | undefined;
+/** Home TẠM của profile (undefined khi gói chưa build) — KHÔNG phải ~/.galaxy/blackhole. */
+let tmpHome: string | undefined;
+/** node_modules của profile tạm (rỗng khi chưa dựng). */
+let tmpModules = "";
+/** Gói ta lấy từ bảng rewritePackages của boot (đúng metadata). */
+let inspectorPackage: RewritePackage | undefined;
+/** Kết quả mount gói ta vào profile tạm. */
+let profileMount: MountOutcome | undefined;
+/** `GBH_HOME` cũ để khôi phục sau ca. */
+let savedHome: string | undefined;
+/** `GBH_PREBUILT_LIB` cũ để khôi phục sau ca. */
+let savedPrebuilt: string | undefined;
 
 /**
  * Đường dẫn hiển thị: tương đối khi nằm trong repo, tuyệt đối khi nằm ngoài (profile).
@@ -152,11 +173,21 @@ function missingNote(...paths: readonly string[]): string {
 }
 
 /**
- * Ghi chú SKIP khi package chưa mount vào profile THẬT.
- * Nhận: không. Trả: chuỗi rỗng khi đã mount, hoặc lý do kèm đường dẫn manifest.
+ * Lấy gói ta từ bảng rewritePackages, ném lỗi rõ ràng nếu không thấy.
+ * Nhận: không. Trả: gói cần mount (kèm peers + nguồn).
  */
-function profileSkipNote(): string {
-  return PROFILE_MOUNTED ? "" : " — SKIP: chưa mount (thiếu " + displayPath(PROFILE_MANIFEST) + ")";
+function inspectorPackageOrThrow(): RewritePackage {
+  if (inspectorPackage === undefined) throw new Error("không thấy " + PACKAGE_NAME + " trong rewritePackages()");
+  return inspectorPackage;
+}
+
+/**
+ * Lấy profile tạm đã dựng, ném lỗi rõ ràng nếu chưa mount.
+ * Nhận: không. Trả: home tạm, node_modules của profile tạm, và kết quả mount.
+ */
+function profileOrThrow(): { readonly home: string; readonly modules: string; readonly outcome: MountOutcome } {
+  if (tmpHome === undefined || profileMount === undefined) throw new Error("chưa dựng profile tạm — " + missingNote(OUR_ARTIFACT));
+  return { home: tmpHome, modules: tmpModules, outcome: profileMount };
 }
 
 /**
@@ -340,6 +371,32 @@ afterAll(async () => {
   staged = undefined;
 }, 30_000);
 
+beforeAll(() => {
+  if (!CAN_MOUNT) return;
+  inspectorPackage = rewritePackages().find((candidate) => candidate.specifier === PACKAGE_NAME);
+  if (inspectorPackage === undefined) return;
+  tmpHome = mkdtempSync(join(tmpdir(), TMP_PREFIX));
+  savedHome = process.env.GBH_HOME;
+  savedPrebuilt = process.env.GBH_PREBUILT_LIB;
+  // 12/11/2026 — PROFILE PHẢI LÀ BẢN TẠM. Mount ghi symlink peer theo KERNEL đang chạy, còn
+  // ~/.galaxy/blackhole/profiles là trạng thái DÙNG CHUNG: app đóng gói đã mount đè lúc 14:42 nên link
+  // open/serve-static/ws trỏ kernel trong ".app" — phép so với kernel repo đỏ OAN dù hai kernel cùng
+  // phiên bản. GBH_PREBUILT_LIB=1 để chép lib/ dựng sẵn thay vì spawn build.ts (nhanh, không cần Bun.build).
+  process.env.GBH_HOME = tmpHome;
+  process.env.GBH_PREBUILT_LIB = "1";
+  tmpModules = profileModulesDir();
+  profileMount = mountRewritePackage(inspectorPackage);
+});
+
+afterAll(() => {
+  if (savedHome === undefined) delete process.env.GBH_HOME;
+  else process.env.GBH_HOME = savedHome;
+  if (savedPrebuilt === undefined) delete process.env.GBH_PREBUILT_LIB;
+  else process.env.GBH_PREBUILT_LIB = savedPrebuilt;
+  if (tmpHome !== undefined) rmSync(tmpHome, { recursive: true, force: true });
+  tmpHome = undefined;
+});
+
 describe("experimental-inspector — chống trùng service inspector", () => {
   test.skipIf(!CAN_MOUNT)(
     "inspector chỉ 1 provider: mount lần hai → cordis ném 'has been registered'" + missingNote(OUR_ARTIFACT, CORDIS_ENTRY),
@@ -426,24 +483,38 @@ describe("experimental-inspector — dependency runtime từ package repo", () =
   });
 });
 
-describe("experimental-inspector — dependency runtime từ PROFILE THẬT", () => {
-  test.skipIf(!PROFILE_MOUNTED)(
-    "require.resolve open/serve-static/ws TỪ PROFILE THẬT (~/.galaxy/blackhole/profiles)" + profileSkipNote(),
+describe("experimental-inspector — dependency runtime trong PROFILE TẠM (mount thật)", () => {
+  test.skipIf(!CAN_MOUNT)(
+    "mount tạo đủ symlink peer trong profile TẠM, trỏ đúng kernel đang chạy",
     () => {
-      const requireFromProfile = createRequire(join(PROFILE_PACKAGE, "lib", "index.js"));
-      const manifest = JSON.parse(readFileSync(PROFILE_MANIFEST, "utf8")) as {
-        readonly dependencies?: Readonly<Record<string, string>>;
-        readonly peerDependencies?: Readonly<Record<string, string>>;
-      };
-      const declared: Record<string, string> = { ...manifest.dependencies, ...manifest.peerDependencies };
+      const profile = profileOrThrow();
+      // Bằng chứng HERMETIC: mọi đường dẫn nằm trong home TẠM, không phải ~/.galaxy/blackhole.
+      expect(profile.modules.startsWith(profile.home + sep)).toBe(true);
+      expect(profile.modules.startsWith(join(homedir(), ".galaxy"))).toBe(false);
+      // Profile tạm phải dựng quanh ĐÚNG kernel mà ca test so (một nguồn duy nhất cho "kernel đang chạy").
+      expect(realpathSync(mountKernelModulesDir())).toBe(realpathSync(KERNEL_MODULES));
+      expect(profile.outcome.ok).toBe(true);
       for (const dependency of DEPENDENCIES) {
-        expect(declared[dependency]).toBeDefined();
-        // Mount tầng profile tạo symlink peer ở profile/node_modules → kernel (ADR 0004).
-        const link = join(PROFILE_MODULES, dependency);
+        const link = join(profile.modules, dependency);
         expect(existsSync(link)).toBe(true);
+        expect(lstatSync(link).isSymbolicLink()).toBe(true);
         expect(realpathSync(link)).toBe(realpathSync(join(KERNEL_MODULES, dependency)));
+      }
+    },
+  );
+
+  test.skipIf(!CAN_MOUNT)(
+    "createRequire từ gói đã mount trong profile TẠM resolve được open/serve-static/ws",
+    () => {
+      const profile = profileOrThrow();
+      const entry = join(profile.modules, ...PACKAGE_NAME.split("/"), "lib", "index.js");
+      expect(existsSync(entry)).toBe(true);
+      const requireFromProfile = createRequire(entry);
+      for (const dependency of DEPENDENCIES) {
+        // Mount tầng profile tạo symlink peer ở profile/node_modules → kernel (ADR 0004).
         const resolved = requireFromProfile.resolve(dependency);
-        assertResolvable(dependency, resolved, [KERNEL_MODULES, PROFILE_MODULES]);
+        assertResolvable(dependency, resolved, [KERNEL_MODULES]);
+        // Bun trả bare "ws" cho resolve("ws"); resolve package.json mới chứng minh file thật.
         const manifestPath = requireFromProfile.resolve(dependency + "/package.json");
         expect(isAbsolute(manifestPath)).toBe(true);
         expect(existsSync(manifestPath)).toBe(true);
@@ -451,6 +522,25 @@ describe("experimental-inspector — dependency runtime từ PROFILE THẬT", ()
         expect(pkg.name).toBe(dependency);
         expect(realpathSync(manifestPath).startsWith(realpathSync(KERNEL_MODULES) + sep)).toBe(true);
       }
+    },
+  );
+
+  test.skipIf(!CAN_MOUNT)(
+    "link peer trỏ BẢN CÀI KHÁC bị TRỎ LẠI về kernel đang chạy khi mount lại",
+    () => {
+      const profile = profileOrThrow();
+      const pkg = inspectorPackageOrThrow();
+      // Dựng "bản cài khác" (mô phỏng .app đóng gói, đúng trạng thái profile thật ngày 12/11/2026) và
+      // trỏ link ws sang đó — rồi chạy LẠI đúng hàm mount của boot.
+      const decoy = join(profile.home, "ban-cai-khac", "ws");
+      mkdirSync(decoy, { recursive: true });
+      const link = join(profile.modules, "ws");
+      rmSync(link, { force: true });
+      symlinkSync(decoy, link, "dir");
+      expect(realpathSync(link)).toBe(realpathSync(decoy));
+      const remount = mountRewritePackage(pkg);
+      expect(remount.ok).toBe(true);
+      expect(realpathSync(link)).toBe(realpathSync(join(KERNEL_MODULES, "ws")));
     },
   );
 });
