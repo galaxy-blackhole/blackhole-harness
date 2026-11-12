@@ -1,0 +1,62 @@
+{
+  "name": "@galaxy-blackhole/gbh-session-title",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "type": "module",
+  "main": "lib/index.js",
+  "description": "Bản viết lại của Galaxy Blackhole cho row session-title của DSH (@deepseek-ai/dsh-session-title): dịch vụ tiêu đề phiên gắn với LOG (ctx.sessionTitle — get/rename/refresh/register), phép gộp bất biến foldSessionTitle, chuẩn hoá tiêu đề an toàn UTF-8 và sổ đăng ký MỘT provider tự động; hai đơn vị chiếu title + titleInput phục vụ qua seam sessionProjections.",
+  "scripts": {
+    "build": "bun run build.ts"
+  },
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./package.json": "./package.json",
+    "./locale/*.json": "./locale/*.json"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2",
+    "@deepseek-ai/dsh-llm": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-session-projection": "0.2.1-alpha.4",
+    "@deepseek-ai/schemastery": "~3.18.5-alpha.2"
+  },
+  "devDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2",
+    "@deepseek-ai/dsh-llm": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-session-projection": "0.2.1-alpha.4",
+    "@deepseek-ai/schemastery": "~3.18.5-alpha.2"
+  },
+  "dependencies": {
+    "zod": "^4.6.7"
+  },
+  "license": "MIT",
+  "gbh": {
+    "draft": "Khoa gbh.row do LEAD khai (khong phai phien viet goi): config GOC chep nguyen van tu ours.yml. Be mat service + tap export da khop (9 = 9), gbh.peers ⊆ peerDependencies (4/4). Xem docs/recipes/HOST-ROW-REWRITE.md muc 7 va M6-MOUNT-PLAN.md muc 1c/1d.",
+    "peers": [
+      "@deepseek-ai/cordis",
+      "@deepseek-ai/dsh-llm",
+      "@deepseek-ai/dsh-session-projection",
+      "@deepseek-ai/schemastery"
+    ],
+    "tests": [
+      "tests/host/session-title.test.ts"
+    ],
+    "row": {
+      "id": "session-title",
+      "config": {
+        "fallbackMaxWords": 5,
+        "fallbackMaxBytes": 40,
+        "maxTitleBytes": 80
+      },
+      "tests": [
+        "tests/host/session-title.test.ts"
+      ]
+    },
+    "provenance": {
+      "stock": "@deepseek-ai/dsh-session-title"
+    }
+  },
+  "types": "lib/types/index.d.ts"
+}

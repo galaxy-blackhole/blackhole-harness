@@ -1,0 +1,1000 @@
+												"type": "object",
+												"properties": {
+													"members": {
+														"type": "array",
+														"items": {
+															"type": "object",
+															"properties": {
+																"id": { "type": "string" },
+																"name": { "type": "string" },
+																"role": {
+																	"type": "string",
+																	"enum": ["lead", "teammate"]
+																},
+																"phase": {
+																	"type": "string",
+																	"enum": [
+																		"failed",
+																		"provisioning",
+																		"active"
+																	],
+																	"description": "Durable lifecycle; the Lead row is always `active`. Turn activity comes from Session status."
+																},
+																"error": { "type": "string" }
+															},
+															"required": [
+																"id",
+																"name",
+																"role",
+																"phase"
+															],
+															"additionalProperties": true
+														}
+													},
+													"tasks": {
+														"type": "array",
+														"items": {
+															"type": "object",
+															"properties": {
+																"id": { "type": "string" },
+																"revision": { "type": "number" },
+																"subject": { "type": "string" },
+																"description": { "type": "string" },
+																"status": {
+																	"type": "string",
+																	"enum": [
+																		"completed",
+																		"pending",
+																		"in_progress",
+																		"deleted"
+																	]
+																},
+																"blockedBy": {
+																	"type": "array",
+																	"items": { "type": "string" }
+																},
+																"writeScopes": {
+																	"type": "array",
+																	"items": { "type": "string" }
+																},
+																"ownerName": { "type": "string" },
+																"ready": { "type": "boolean" },
+																"writeScopeWarnings": {
+																	"type": "array",
+																	"items": { "type": "string" }
+																}
+															},
+															"required": [
+																"id",
+																"revision",
+																"subject",
+																"description",
+																"status",
+																"blockedBy",
+																"writeScopes",
+																"ready",
+																"writeScopeWarnings"
+															],
+															"additionalProperties": true
+														}
+													},
+													"failure": { "type": "string" }
+												},
+												"required": ["members", "tasks"],
+												"additionalProperties": true,
+												"description": "Durable roster and non-deleted task board of the Team rooted at the projected Session."
+											},
+											"userQuestions": {
+												"type": "object",
+												"properties": {
+													"active": {
+														"type": "array",
+														"items": {
+															"type": "object",
+															"properties": {
+																"callId": { "type": "string" },
+																"questions": {
+																	"type": "array",
+																	"items": {
+																		"type": "object",
+																		"properties": {
+																			"id": {
+																				"type": "string",
+																				"description": "Stable caller-provided question id, echoed in the answer."
+																			},
+																			"question": {
+																				"type": "string",
+																				"description": "The question to display."
+																			},
+																			"detail": {
+																				"type": "string",
+																				"description": "Optional supporting detail rendered with the question but kept out of option labels."
+																			},
+																			"header": {
+																				"type": "string",
+																				"description": "Optional short heading/group label."
+																			},
+																			"options": {
+																				"type": "array",
+																				"items": {
+																					"type": "object",
+																					"properties": {
+																						"label": {
+																							"type": "string",
+																							"description": "User-facing label."
+																						},
+																						"description": {
+																							"type": "string",
+																							"description": "Optional extra context rendered by capable UIs."
+																						}
+																					},
+																					"required": ["label"],
+																					"additionalProperties": true
+																				},
+																				"description": "Optional choices the UI can render as a menu."
+																			},
+																			"multiSelect": {
+																				"type": "boolean",
+																				"description": "Whether more than one option may be selected. Defaults to single-select."
+																			},
+																			"intent": {
+																				"type": "object",
+																				"properties": {
+																					"kind": {
+																						"type": "string",
+																						"const": "plan-review",
+																						"description": "A plan submitted for review: `detail` is the plan markdown `ask()` requires, and the decision approves or declines it."
+																					},
+																					"approve": {
+																						"type": "string",
+																						"description": "The option label that approves the plan; every other option declines it. Named rather than positional so no UI infers the verdict from option order. An `approve` naming no option of its own question is rejected at `ask()`."
+																					},
+																					"callId": {
+																						"type": "string",
+																						"description": "Logged tool invocation whose arguments contain the reviewed plan."
+																					}
+																				},
+																				"required": ["kind", "approve"],
+																				"additionalProperties": true,
+																				"description": "Optional presentation intent for capable UIs; absent asks for the generic option list."
+																			}
+																		},
+																		"required": ["id", "question"],
+																		"additionalProperties": true
+																	}
+																},
+																"state": {
+																	"type": "string",
+																	"enum": ["open", "continued"]
+																}
+															},
+															"required": [
+																"callId",
+																"questions",
+																"state"
+															],
+															"additionalProperties": true
+														},
+														"description": "Calls that can still take an answer, in ask order."
+													},
+													"settled": {
+														"type": "array",
+														"items": {
+															"type": "object",
+															"properties": {
+																"callId": {
+																	"type": "string",
+																	"description": "The settled call."
+																},
+																"answers": {
+																	"type": "array",
+																	"items": {
+																		"type": "object",
+																		"properties": {
+																			"id": {
+																				"type": "string",
+																				"description": "The answered question id."
+																			},
+																			"selected": {
+																				"type": "array",
+																				"items": { "type": "string" },
+																				"description": "Selected option labels. May accompany custom text for a multi-select question."
+																			},
+																			"custom": {
+																				"type": "string",
+																				"description": "Optional free-text \"Other\" answer."
+																			}
+																		},
+																		"required": ["id", "selected"],
+																		"additionalProperties": true
+																	},
+																	"description": "The recorded batch, one entry per question; empty when the late reply carried none."
+																}
+															},
+															"required": ["callId", "answers"],
+															"additionalProperties": true
+														},
+														"description": "Calls an answer settled, in settlement order."
+													}
+												},
+												"required": ["active", "settled"],
+												"additionalProperties": true,
+												"description": "Timed questions that remain answerable in this Session, and the ones a late reply settled."
+											},
+											"goal": {
+												"oneOf": [{
+													"type": "null",
+													"const": null
+												}, {
+													"type": "object",
+													"properties": {
+														"goal": {
+															"type": "object",
+															"properties": {
+																"objective": {
+																	"type": "string",
+																	"description": "Human-requested completion objective."
+																},
+																"phase": {
+																	"type": "string",
+																	"enum": [
+																		"active",
+																		"paused",
+																		"blocked",
+																		"complete"
+																	],
+																	"description": "Durable lifecycle phase."
+																},
+																"blockedReason": {
+																	"type": "object",
+																	"properties": {
+																		"code": {
+																			"type": "string",
+																			"description": "Stable lower-kebab-case classification chosen by the blocking policy."
+																		},
+																		"message": {
+																			"type": "string",
+																			"description": "Non-empty explanation shown to humans and models."
+																		}
+																	},
+																	"required": ["code", "message"],
+																	"additionalProperties": true,
+																	"description": "Present exactly while `phase` is `blocked`."
+																},
+																"maxGoalRounds": {
+																	"type": "number",
+																	"description": "Total admitted goal-round cap."
+																},
+																"id": {
+																	"type": "string",
+																	"description": "Stable goal identity."
+																},
+																"revision": {
+																	"type": "number",
+																	"description": "Positive revision; every durable mutation increments it."
+																}
+															},
+															"required": [
+																"objective",
+																"phase",
+																"maxGoalRounds",
+																"id",
+																"revision"
+															],
+															"additionalProperties": true,
+															"description": "Current durable goal snapshot (the CAS ref for mutations rides on it)."
+														},
+														"roundsStarted": {
+															"type": "number",
+															"description": "Highest admitted round number for this goal."
+														},
+														"createdAt": {
+															"type": "number",
+															"description": "Epoch milliseconds of the create mutation."
+														},
+														"updatedAt": {
+															"type": "number",
+															"description": "Epoch milliseconds of the latest mutation."
+														}
+													},
+													"required": [
+														"goal",
+														"roundsStarted",
+														"createdAt",
+														"updatedAt"
+													],
+													"additionalProperties": true
+												}],
+												"description": "The session's current goal and admitted-round count, or `null` before the first create and after a clear tombstone. `goal/change` supplies the whole lifecycle value; matching admitted `user/message` events advance `roundsStarted`."
+											},
+											"plan": {
+												"type": "object",
+												"properties": {
+													"active": { "type": "boolean" },
+													"pending": { "type": "boolean" }
+												},
+												"required": ["active", "pending"],
+												"additionalProperties": true,
+												"description": "Plan collaboration state folded from the plan command lifecycle and `plan/mode` events."
+											}
+										},
+										"required": [],
+										"additionalProperties": true
+									}
+								},
+								"required": ["kind", "values"],
+								"additionalProperties": true
+							}
+						] }
+					},
+					sourceLocation: {
+						"file": "packages/api/session-controller/src/index.ts",
+						"line": 548,
+						"column": 9
+					}
+				},
+				"session/prompt": {
+					service: "sessionController",
+					description: "Admit one prompt after explicitly resuming its Session.",
+					invocation: { kind: "direct" },
+					parameters: [{
+						name: "request",
+						description: "Session identity, prompt content, source metadata, and delivery mode.",
+						source: "json",
+						codec: {
+							mode: "strict",
+							typeSymbol: "@deepseek-ai/dsh-api-session-controller/types#SessionPromptRequest",
+							create: _deepseek_ai_dsh_api_session_controller_session_prompt_parameter_0$schema,
+							jsonSchema: {
+								"type": "object",
+								"properties": {
+									"requestId": {
+										"type": "string",
+										"description": "Client-minted identity persisted on the exact accepted user message."
+									},
+									"sessionId": { "type": "string" },
+									"mode": {
+										"type": "string",
+										"enum": ["queue", "steer"]
+									},
+									"content": {
+										"type": "array",
+										"items": { "oneOf": [
+											{
+												"type": "object",
+												"properties": {
+													"type": {
+														"type": "string",
+														"const": "text"
+													},
+													"text": { "type": "string" }
+												},
+												"required": ["type", "text"],
+												"additionalProperties": true
+											},
+											{
+												"type": "object",
+												"properties": {
+													"type": {
+														"type": "string",
+														"const": "image"
+													},
+													"mediaType": {
+														"type": "string",
+														"enum": [
+															"image/png",
+															"image/jpeg",
+															"image/webp",
+															"image/gif"
+														]
+													},
+													"data": { "type": "string" },
+													"name": { "type": "string" }
+												},
+												"required": [
+													"type",
+													"mediaType",
+													"data"
+												],
+												"additionalProperties": true
+											},
+											{
+												"type": "object",
+												"properties": {
+													"type": {
+														"type": "string",
+														"const": "file"
+													},
+													"receiptId": { "type": "string" }
+												},
+												"required": ["type", "receiptId"],
+												"additionalProperties": true
+											}
+										] },
+										"description": "At least one non-whitespace text part or attachment."
+									},
+									"clientTimeZone": { "type": "string" }
+								},
+								"required": [
+									"requestId",
+									"sessionId",
+									"mode",
+									"content"
+								],
+								"additionalProperties": true
+							}
+						},
+						strictCodec: {
+							mode: "strict",
+							typeSymbol: "@deepseek-ai/dsh-api-session-controller/types#SessionPromptRequest",
+							create: _deepseek_ai_dsh_api_session_controller_session_prompt_parameter_0_strict$schema,
+							jsonSchema: {
+								"type": "object",
+								"properties": {
+									"requestId": {
+										"type": "string",
+										"description": "Client-minted identity persisted on the exact accepted user message."
+									},
+									"sessionId": { "type": "string" },
+									"mode": {
+										"type": "string",
+										"enum": ["queue", "steer"]
+									},
+									"content": {
+										"type": "array",
+										"items": { "oneOf": [
+											{
+												"type": "object",
+												"properties": {
+													"type": {
+														"type": "string",
+														"const": "text"
+													},
+													"text": { "type": "string" }
+												},
+												"required": ["type", "text"],
+												"additionalProperties": false
+											},
+											{
+												"type": "object",
+												"properties": {
+													"type": {
+														"type": "string",
+														"const": "image"
+													},
+													"mediaType": {
+														"type": "string",
+														"enum": [
+															"image/png",
+															"image/jpeg",
+															"image/webp",
+															"image/gif"
+														]
+													},
+													"data": { "type": "string" },
+													"name": { "type": "string" }
+												},
+												"required": [
+													"type",
+													"mediaType",
+													"data"
+												],
+												"additionalProperties": false
+											},
+											{
+												"type": "object",
+												"properties": {
+													"type": {
+														"type": "string",
+														"const": "file"
+													},
+													"receiptId": { "type": "string" }
+												},
+												"required": ["type", "receiptId"],
+												"additionalProperties": false
+											}
+										] },
+										"description": "At least one non-whitespace text part or attachment."
+									},
+									"clientTimeZone": { "type": "string" }
+								},
+								"required": [
+									"requestId",
+									"sessionId",
+									"mode",
+									"content"
+								],
+								"additionalProperties": false
+							}
+						}
+					}],
+					cancellation: { parameter: "signal" },
+					result: {
+						mode: "strict",
+						typeSymbol: "@deepseek-ai/dsh-api-session-controller/types#SessionPromptValue",
+						create: _deepseek_ai_dsh_api_session_controller_session_prompt_result$schema,
+						description: "acknowledgement that the Agent accepted the prompt.",
+						jsonSchema: {
+							"type": "object",
+							"properties": { "accepted": {
+								"type": "boolean",
+								"const": true
+							} },
+							"required": ["accepted"],
+							"additionalProperties": true
+						}
+					},
+					sourceLocation: {
+						"file": "packages/api/session-controller/src/index.ts",
+						"line": 462,
+						"column": 9
+					}
+				},
+				"session/rename": {
+					service: "sessionController",
+					description: "Rename one Session after explicitly resuming it.",
+					invocation: { kind: "direct" },
+					parameters: [{
+						name: "request",
+						description: "Session identity and proposed title.",
+						source: "json",
+						codec: {
+							mode: "strict",
+							typeSymbol: "@deepseek-ai/dsh-api-session-controller/types#SessionRenameRequest",
+							create: _deepseek_ai_dsh_api_session_controller_session_rename_parameter_0$schema,
+							jsonSchema: {
+								"type": "object",
+								"properties": {
+									"sessionId": { "type": "string" },
+									"title": { "type": "string" }
+								},
+								"required": ["sessionId", "title"],
+								"additionalProperties": true
+							}
+						},
+						strictCodec: {
+							mode: "strict",
+							typeSymbol: "@deepseek-ai/dsh-api-session-controller/types#SessionRenameRequest",
+							create: _deepseek_ai_dsh_api_session_controller_session_rename_parameter_0_strict$schema,
+							jsonSchema: {
+								"type": "object",
+								"properties": {
+									"sessionId": { "type": "string" },
+									"title": { "type": "string" }
+								},
+								"required": ["sessionId", "title"],
+								"additionalProperties": false
+							}
+						}
+					}],
+					result: {
+						mode: "strict",
+						typeSymbol: "@deepseek-ai/dsh-api-session-controller/types#SessionRenameValue",
+						create: _deepseek_ai_dsh_api_session_controller_session_rename_result$schema,
+						description: "the accepted title and durable event sequence.",
+						jsonSchema: {
+							"type": "object",
+							"properties": {
+								"title": { "type": "string" },
+								"seq": { "type": "number" }
+							},
+							"required": ["title", "seq"],
+							"additionalProperties": true
+						}
+					},
+					sourceLocation: {
+						"file": "packages/api/session-controller/src/index.ts",
+						"line": 431,
+						"column": 3
+					}
+				},
+				"session/search": {
+					service: "sessionController",
+					description: "Search visible Session content without resuming an Agent. A non-owner receives only the hits whose Session `allows()` admits; `hasMore` describes the bounded result before that filtering.",
+					invocation: { kind: "direct" },
+					parameters: [{
+						name: "request",
+						description: "literal message-content query.",
+						source: "json",
+						codec: {
+							mode: "strict",
+							typeSymbol: "@deepseek-ai/dsh-api-session-controller/types#SessionSearchRequest",
+							create: _deepseek_ai_dsh_api_session_controller_session_search_parameter_0$schema,
+							jsonSchema: {
+								"type": "object",
+								"properties": { "query": { "type": "string" } },
+								"required": ["query"],
+								"additionalProperties": true
+							}
+						},
+						strictCodec: {
+							mode: "strict",
+							typeSymbol: "@deepseek-ai/dsh-api-session-controller/types#SessionSearchRequest",
+							create: _deepseek_ai_dsh_api_session_controller_session_search_parameter_0_strict$schema,
+							jsonSchema: {
+								"type": "object",
+								"properties": { "query": { "type": "string" } },
+								"required": ["query"],
+								"additionalProperties": false
+							}
+						}
+					}],
+					cancellation: { parameter: "signal" },
+					result: {
+						mode: "strict",
+						typeSymbol: "@deepseek-ai/dsh-api-session-controller/types#SessionSearchValue",
+						create: _deepseek_ai_dsh_api_session_controller_session_search_result$schema,
+						description: "authorized bounded Session search results.",
+						jsonSchema: {
+							"type": "object",
+							"properties": {
+								"items": {
+									"type": "array",
+									"items": {
+										"type": "object",
+										"properties": {
+											"sessionId": { "type": "string" },
+											"snippet": { "type": "string" }
+										},
+										"required": ["sessionId", "snippet"],
+										"additionalProperties": true
+									}
+								},
+								"hasMore": { "type": "boolean" }
+							},
+							"required": ["items", "hasMore"],
+							"additionalProperties": true
+						}
+					},
+					sourceLocation: {
+						"file": "packages/api/session-controller/src/index.ts",
+						"line": 290,
+						"column": 9
+					}
+				},
+				"session/selectModel": {
+					service: "sessionController",
+					description: "Select one Session-local model after explicitly resuming the Session; save the default in the background.",
+					invocation: { kind: "direct" },
+					parameters: [{
+						name: "request",
+						description: "Session identity and requested model selection.",
+						source: "json",
+						codec: {
+							mode: "strict",
+							typeSymbol: "@deepseek-ai/dsh-api-session-controller/types#SessionSelectModelRequest",
+							create: _deepseek_ai_dsh_api_session_controller_session_selectModel_parameter_0$schema,
+							jsonSchema: {
+								"type": "object",
+								"properties": {
+									"sessionId": { "type": "string" },
+									"provider": { "type": "string" },
+									"model": { "type": "string" },
+									"reasoningEffort": { "type": "string" }
+								},
+								"required": [
+									"sessionId",
+									"provider",
+									"model"
+								],
+								"additionalProperties": true
+							}
+						},
+						strictCodec: {
+							mode: "strict",
+							typeSymbol: "@deepseek-ai/dsh-api-session-controller/types#SessionSelectModelRequest",
+							create: _deepseek_ai_dsh_api_session_controller_session_selectModel_parameter_0_strict$schema,
+							jsonSchema: {
+								"type": "object",
+								"properties": {
+									"sessionId": { "type": "string" },
+									"provider": { "type": "string" },
+									"model": { "type": "string" },
+									"reasoningEffort": { "type": "string" }
+								},
+								"required": [
+									"sessionId",
+									"provider",
+									"model"
+								],
+								"additionalProperties": false
+							}
+						}
+					}],
+					result: {
+						mode: "strict",
+						typeSymbol: "@deepseek-ai/dsh-api-session-controller/types#SessionSelectModelValue",
+						create: _deepseek_ai_dsh_api_session_controller_session_selectModel_result$schema,
+						description: "the normalized selection installed for the Session, without waiting for default persistence.",
+						jsonSchema: {
+							"type": "object",
+							"properties": { "selected": {
+								"type": "object",
+								"properties": {
+									"provider": { "type": "string" },
+									"model": { "type": "string" },
+									"reasoningEffort": { "type": "string" }
+								},
+								"required": ["provider", "model"],
+								"additionalProperties": true
+							} },
+							"required": ["selected"],
+							"additionalProperties": true
+						}
+					},
+					sourceLocation: {
+						"file": "packages/api/session-controller/src/index.ts",
+						"line": 311,
+						"column": 3
+					}
+				},
+				"session/updateQueue": {
+					service: "sessionController",
+					description: "Mutate one still-pending queue occurrence, resuming a cold Agent first.",
+					invocation: { kind: "direct" },
+					parameters: [{
+						name: "request",
+						description: "Session, queue item, and requested mutation.",
+						source: "json",
+						codec: {
+							mode: "strict",
+							typeSymbol: "@deepseek-ai/dsh-api-session-controller/types#SessionUpdateQueueRequest",
+							create: _deepseek_ai_dsh_api_session_controller_session_updateQueue_parameter_0$schema,
+							jsonSchema: {
+								"type": "object",
+								"properties": {
+									"sessionId": { "type": "string" },
+									"itemId": { "type": "string" },
+									"action": { "oneOf": [
+										{
+											"type": "object",
+											"properties": {
+												"kind": {
+													"type": "string",
+													"const": "edit"
+												},
+												"content": {
+													"type": "array",
+													"items": {
+														"type": "object",
+														"properties": {
+															"type": {
+																"type": "string",
+																"const": "text"
+															},
+															"text": { "type": "string" }
+														},
+														"required": ["type", "text"],
+														"additionalProperties": true
+													},
+													"description": "Non-empty text-only replacement content."
+												}
+											},
+											"required": ["kind", "content"],
+											"additionalProperties": true
+										},
+										{
+											"type": "object",
+											"properties": { "kind": {
+												"type": "string",
+												"const": "remove"
+											} },
+											"required": ["kind"],
+											"additionalProperties": true
+										},
+										{
+											"type": "object",
+											"properties": { "kind": {
+												"type": "string",
+												"const": "steer"
+											} },
+											"required": ["kind"],
+											"additionalProperties": true
+										}
+									] }
+								},
+								"required": [
+									"sessionId",
+									"itemId",
+									"action"
+								],
+								"additionalProperties": true
+							}
+						},
+						strictCodec: {
+							mode: "strict",
+							typeSymbol: "@deepseek-ai/dsh-api-session-controller/types#SessionUpdateQueueRequest",
+							create: _deepseek_ai_dsh_api_session_controller_session_updateQueue_parameter_0_strict$schema,
+							jsonSchema: {
+								"type": "object",
+								"properties": {
+									"sessionId": { "type": "string" },
+									"itemId": { "type": "string" },
+									"action": { "oneOf": [
+										{
+											"type": "object",
+											"properties": {
+												"kind": {
+													"type": "string",
+													"const": "edit"
+												},
+												"content": {
+													"type": "array",
+													"items": {
+														"type": "object",
+														"properties": {
+															"type": {
+																"type": "string",
+																"const": "text"
+															},
+															"text": { "type": "string" }
+														},
+														"required": ["type", "text"],
+														"additionalProperties": false
+													},
+													"description": "Non-empty text-only replacement content."
+												}
+											},
+											"required": ["kind", "content"],
+											"additionalProperties": false
+										},
+										{
+											"type": "object",
+											"properties": { "kind": {
+												"type": "string",
+												"const": "remove"
+											} },
+											"required": ["kind"],
+											"additionalProperties": false
+										},
+										{
+											"type": "object",
+											"properties": { "kind": {
+												"type": "string",
+												"const": "steer"
+											} },
+											"required": ["kind"],
+											"additionalProperties": false
+										}
+									] }
+								},
+								"required": [
+									"sessionId",
+									"itemId",
+									"action"
+								],
+								"additionalProperties": false
+							}
+						}
+					}],
+					result: {
+						mode: "strict",
+						typeSymbol: "@deepseek-ai/dsh-api-session-controller/types#SessionUpdateQueueValue",
+						create: _deepseek_ai_dsh_api_session_controller_session_updateQueue_result$schema,
+						description: "acknowledgement that the queue mutation was applied.",
+						jsonSchema: {
+							"type": "object",
+							"properties": { "accepted": {
+								"type": "boolean",
+								"const": true
+							} },
+							"required": ["accepted"],
+							"additionalProperties": true
+						}
+					},
+					sourceLocation: {
+						"file": "packages/api/session-controller/src/index.ts",
+						"line": 504,
+						"column": 3
+					}
+				},
+				"session/workspacePathApplications": {
+					service: "sessionController",
+					description: "Query current file handlers on the serving desktop without activating an Agent.",
+					invocation: { kind: "direct" },
+					parameters: [{
+						name: "request",
+						description: "file path in Host filesystem syntax.",
+						source: "json",
+						codec: {
+							mode: "strict",
+							typeSymbol: "@deepseek-ai/dsh-api-session-controller#session/workspacePathApplications:request",
+							create: _deepseek_ai_dsh_api_session_controller_session_workspacePathApplications_parameter_0$schema,
+							jsonSchema: {
+								"type": "object",
+								"properties": { "path": { "type": "string" } },
+								"required": ["path"],
+								"additionalProperties": true
+							}
+						},
+						strictCodec: {
+							mode: "strict",
+							typeSymbol: "@deepseek-ai/dsh-api-session-controller#session/workspacePathApplications:request",
+							create: _deepseek_ai_dsh_api_session_controller_session_workspacePathApplications_parameter_0_strict$schema,
+							jsonSchema: {
+								"type": "object",
+								"properties": { "path": { "type": "string" } },
+								"required": ["path"],
+								"additionalProperties": false
+							}
+						}
+					}],
+					cancellation: { parameter: "signal" },
+					result: {
+						mode: "strict",
+						typeSymbol: "@deepseek-ai/dsh-api-session-controller#session/workspacePathApplications:result",
+						create: _deepseek_ai_dsh_api_session_controller_session_workspacePathApplications_result$schema,
+						description: "OS application names, icons, and default selection; empty when desktop opening is unavailable.",
+						jsonSchema: {
+							"type": "array",
+							"items": {
+								"type": "object",
+								"properties": {
+									"id": {
+										"type": "string",
+										"description": "OS application identifier; callers must revalidate it against the file's current handlers before opening."
+									},
+									"name": { "type": "string" },
+									"default": { "type": "boolean" },
+									"icon": {
+										"oneOf": [{
+											"type": "null",
+											"const": null
+										}, { "type": "string" }],
+										"description": "PNG or SVG data URL, or null when the desktop supplies no icon."
+									}
+								},
+								"required": [
+									"id",
+									"name",
+									"default",
+									"icon"
+								],
+								"additionalProperties": true
+							}
+						}
+					},
+					sourceLocation: {
+						"file": "packages/api/session-controller/src/index.ts",
+						"line": 398,
+						"column": 9
+					}
+				},
+				"skills/list": {
+					service: "sessionSkillCatalog",
+					description: "List the user-invocable skills visible to one Session composition.",
+					invocation: { kind: "direct" },
+					parameters: [{
+						name: "request",
+						description: "Session identity whose cwd and preset select the catalog view.",
+						source: "json",
+						codec: {
+							mode: "strict",
+							typeSymbol: "@deepseek-ai/dsh-api-session-controller/types#SkillListRequest",
+							create: _deepseek_ai_dsh_api_session_controller_skills_list_parameter_0$schema,
+							jsonSchema: {
+								"type": "object",
+								"properties": { "sessionId": { "type": "string" } },
+								"required": ["sessionId"],
+								"additionalProperties": true
+							}
+						},
+						strictCodec: {
+							mode: "strict",
+							typeSymbol: "@deepseek-ai/dsh-api-session-controller/types#SkillListRequest",
+							create: _deepseek_ai_dsh_api_session_controller_skills_list_parameter_0_strict$schema,
+							jsonSchema: {
+								"type": "object",
+								"properties": { "sessionId": { "type": "string" } },
+								"required": ["sessionId"],
+								"additionalProperties": false
+							}
+						}
+					}],
+					cancellation: { parameter: "signal" },
+					result: {
+						mode: "strict",
+						typeSymbol: "@deepseek-ai/dsh-api-session-controller/types#SkillListValue",
+						create: _deepseek_ai_dsh_api_session_controller_skills_list_result$schema,
+						description: "user-invocable skill metadata without loading skill bodies.",
+						jsonSchema: {

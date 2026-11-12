@@ -1,0 +1,8 @@
+/*
+ * author Bùi Trọng Hiếu
+ * email kevinbui210191@gmail.com
+ * create date 15/10/2026
+ * modify date 18/10/2026
+ * desc CSS cua khung hop thoai onboarding — giu NGUYEN VAN ban goc (hash lop jLrgrW_)
+ */
+.jLrgrW_dialog{width:min(600px,100%);max-height:100%;padding:0}.jLrgrW_content{box-sizing:border-box;flex-direction:column;min-height:0;padding:28px;display:flex;overflow-y:auto}.jLrgrW_title{color:var(--dsw-alias-label-primary);outline:none;margin:0;font-size:20px;font-weight:500;line-height:28px}.jLrgrW_body{margin-top:20px}@media (width<=560px){.jLrgrW_content{padding:24px}}

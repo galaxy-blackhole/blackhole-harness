@@ -1,0 +1,76 @@
+{
+  "name": "@galaxy-blackhole/gbh-experimental-speech-to-text-sensevoice",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "type": "module",
+  "main": "lib/index.js",
+  "description": "Local SenseVoice ONNX transcription with a managed sherpa-onnx process",
+  "scripts": {
+    "build": "bun run build.ts"
+  },
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "default": "./lib/index.js"
+    },
+    "./worker": "./lib/worker.js",
+    "./locale/*.json": "./locale/*.json",
+    "./package.json": "./package.json",
+    "./src/*": "./src/*"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2",
+    "@deepseek-ai/dsh-subprocess": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-timeout": "0.2.1-alpha.4",
+    "@deepseek-ai/schemastery": "~3.18.5-alpha.2",
+    "zod": "4.4.3",
+    "@deepseek-ai/dsh-experimental-speech-to-text": "0.2.1-alpha.4"
+  },
+  "devDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2",
+    "@deepseek-ai/dsh-subprocess": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-timeout": "0.2.1-alpha.4",
+    "@deepseek-ai/schemastery": "~3.18.5-alpha.2",
+    "zod": "4.4.3",
+    "@deepseek-ai/dsh-experimental-speech-to-text": "0.2.1-alpha.4"
+  },
+  "license": "MIT",
+  "gbh": {
+    "peers": [
+      "@deepseek-ai/cordis",
+      "@deepseek-ai/dsh-experimental-speech-to-text",
+      "@deepseek-ai/dsh-subprocess",
+      "@deepseek-ai/dsh-timeout",
+      "@deepseek-ai/schemastery",
+      "zod"
+    ],
+    "tests": [
+      "tests/host/experimental-speech-to-text-sensevoice.test.ts"
+    ],
+    "draft": "19/10/2026 — GBH-ONLY, KHÔNG mount: row 'speech-to-text-sensevoice' nằm trong bundle patch dsh-experimental-voice-input-bundle (dump-now2 dòng 1559–1562) với config.dataRoot là biểu thức !!js dshHomePath('speech-to-text','sensevoice') NGUYÊN VĂN, nhưng bundle đó KHÔNG được mount trong cây plugin đang chạy (grep 'speech' trên .parity/dumps/2026-10-18T01-31-57/ours.yml = 0 dòng) ⇒ không có row stock để flip. Vì vậy KHÔNG khai gbh.row; row tương lai được PARK đúng hình dạng { id, config, moduleIds, tests } trong gbh.row_unmounted_ly_do.row — chưa mount/chưa flip, đổi tên khoá thành gbh.row là mount thật. Hai tệp locale + runtime/assets.json (1.242 B) copy BYTE-IDENTICAL (sha256 ở README §0); build.ts build RIÊNG từng entry (index + worker); sherpa-onnx-node là dependency NATIVE chỉ runtime — KHÔNG symlink, build/test KHÔNG nạp, kiểu cục bộ khai trong src/worker.ts.",
+    "row": {
+      "id": "speech-to-text-sensevoice",
+      "aliases": [
+        "@deepseek-ai/dsh-experimental-speech-to-text-sensevoice"
+      ],
+      "config": {
+        "dataRoot": {
+          "js": "dshHomePath('speech-to-text', 'sensevoice')"
+        }
+      },
+      "moduleIds": [
+        "@galaxy-blackhole/gbh-experimental-speech-to-text-sensevoice"
+      ],
+      "tests": [
+        "tests/host/experimental-speech-to-text-sensevoice.test.ts"
+      ],
+      "ownedByBundle": true
+    },
+    "provenance": {
+      "stock": "@deepseek-ai/dsh-experimental-speech-to-text-sensevoice",
+      "version": "0.2.1-alpha.4",
+      "sha": "286792bd82085586fbb0869aa32b3e3733425b4059a517465abed97dd710a15a"
+    }
+  },
+  "types": "src/index.ts"
+}

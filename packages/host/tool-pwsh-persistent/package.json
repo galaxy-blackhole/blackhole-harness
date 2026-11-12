@@ -1,0 +1,60 @@
+{
+  "name": "@galaxy-blackhole/gbh-tool-pwsh-persistent",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "type": "module",
+  "main": "lib/index.js",
+  "description": "Model-facing owner-scoped persistent PowerShell tool backed by the Harness PTY service",
+  "scripts": {
+    "build": "bun run build.ts"
+  },
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./locale/*.json": "./locale/*.json",
+    "./package.json": "./package.json"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/dsh-agent": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-output-retention": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-terminal": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-timeout": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-tools": "0.2.1-alpha.4",
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2",
+    "@deepseek-ai/dsh-working-directory": "0.2.1-alpha.4"
+  },
+  "dependencies": {
+    "@deepseek-ai/schemastery": "~3.18.5-alpha.2"
+  },
+  "license": "MIT",
+  "gbh": {
+    "peers": [
+      "@deepseek-ai/dsh-agent",
+      "@deepseek-ai/dsh-output-retention",
+      "@deepseek-ai/dsh-terminal",
+      "@deepseek-ai/dsh-timeout",
+      "@deepseek-ai/dsh-tools",
+      "@deepseek-ai/cordis",
+      "@deepseek-ai/dsh-working-directory",
+      "@deepseek-ai/schemastery"
+    ],
+    "tests": [
+      "tests/host/tool-pwsh-persistent.test.ts"
+    ],
+    "nested": {
+      "kind": "group",
+      "pluginId": "persistent-pwsh",
+      "stockId": "@deepseek-ai/dsh-tool-pwsh-persistent",
+      "presets": [
+        "persistent-shell"
+      ]
+    },
+    "provenance": {
+      "stock": "@deepseek-ai/dsh-tool-pwsh-persistent",
+      "version": "0.2.1-alpha.4",
+      "sha": "b9ecb0e226244bf7da74519a9d725feaab6efbc6ce1e74e97f1c7d68261499a9"
+    }
+  }
+}

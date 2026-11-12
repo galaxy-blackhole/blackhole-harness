@@ -1,0 +1,1000 @@
+							"type": "object",
+							"properties": { "skills": {
+								"type": "array",
+								"items": {
+									"type": "object",
+									"properties": {
+										"path": {
+											"type": "string",
+											"description": "Absolute SKILL.md path when supplied by a filesystem provider."
+										},
+										"name": {
+											"type": "string",
+											"description": "Kebab-case identifier referenced as `/name`."
+										},
+										"description": {
+											"type": "string",
+											"description": "Short routing description."
+										},
+										"whenToUse": {
+											"type": "string",
+											"description": "Optional extra routing guidance."
+										},
+										"modelInvocable": {
+											"type": "boolean",
+											"description": "Whether the same skill is also advertised to the model."
+										}
+									},
+									"required": [
+										"name",
+										"description",
+										"modelInvocable"
+									],
+									"additionalProperties": true
+								}
+							} },
+							"required": ["skills"],
+							"additionalProperties": true
+						}
+					},
+					sourceLocation: {
+						"file": "packages/api/session-controller/src/skill-catalog.ts",
+						"line": 36,
+						"column": 9
+					}
+				}
+			}
+		}, zod.z);
+		//#endregion
+		//#region ../job-controller/lib/typert.remote-client.js
+		let _deepseek_ai_dsh_api_job_controller_job_follow_parameter_0$schema$value;
+		const _deepseek_ai_dsh_api_job_controller_job_follow_parameter_0$schema = () => _deepseek_ai_dsh_api_job_controller_job_follow_parameter_0$schema$value ??= zod.z.object({
+			"sessionId": zod.z.string().readonly().optional().describe("Owning session for the fenced read. Omitted for an unowned job, which any caller may observe."),
+			"jobId": zod.z.string().readonly(),
+			"from": zod.z.number().readonly().optional().describe("Absolute byte offset to resume from (a prior frame's `next`). Omitted, the stream starts at the oldest retained byte.")
+		});
+		let _deepseek_ai_dsh_api_job_controller_job_follow_result$schema$value;
+		const _deepseek_ai_dsh_api_job_controller_job_follow_result$schema = () => _deepseek_ai_dsh_api_job_controller_job_follow_result$schema$value ??= zod.z.union([
+			zod.z.object({
+				"type": zod.z.literal("opened").readonly(),
+				"job": zod.z.object({
+					"id": zod.z.string().readonly().describe("The registry-issued id (`<kind>-<short-uuid>`)."),
+					"kind": zod.z.string().readonly().describe("The producer kind the job was registered with: a Host-registered `JobKind`, carried as an open string because a browser bundle or a Remote codec sees only the `JobKindMap` merges its own program compiles."),
+					"label": zod.z.string().readonly().describe("The producer-supplied one-line label."),
+					"owner": zod.z.string().readonly().optional().describe("Owning session; absent for an unowned job, which every caller can see."),
+					"outputLimitBytes": zod.z.number().readonly().optional().describe("Producer-owned cap for complete model-facing notices and reads, in UTF-8 bytes."),
+					"status": zod.z.union([
+						zod.z.literal("failed"),
+						zod.z.literal("running"),
+						zod.z.literal("stopping"),
+						zod.z.literal("completed"),
+						zod.z.literal("killed")
+					]).readonly().describe("Current lifecycle state."),
+					"progress": zod.z.string().readonly().optional().describe("The producer's live progress line (`3/10`, the current phase); cleared at settlement."),
+					"detail": zod.z.string().readonly().optional().describe("Terminal reason (`exit code: 3`); a recorded kill reason is merged in."),
+					"startedAt": zod.z.number().readonly().describe("Epoch ms when the job was registered."),
+					"finishedAt": zod.z.number().readonly().optional().describe("Epoch ms when the job settled; absent while live."),
+					"output": zod.z.object({
+						"total": zod.z.number().readonly(),
+						"earliest": zod.z.number().readonly(),
+						"spillPaths": zod.z.array(zod.z.string()).readonly().optional()
+					}).readonly().describe("The output ring's absolute coordinates and the complete-stream files behind it. `total` is the offset the next chunk starts at (0 while nothing was written); `earliest` is the oldest retained byte, greater than zero exactly when retention dropped the head. `spillPaths` lists the spill files the job's pull sources currently keep, in source order and deduplicated, and is absent while no source keeps one: it outlives any chunk, so a reader below `earliest` can still name where the bytes went.")
+				}).readonly(),
+				"from": zod.z.number().readonly().describe("Offset the first `output` frame continues from.")
+			}),
+			zod.z.object({
+				"type": zod.z.literal("output").readonly(),
+				"chunks": zod.z.array(zod.z.object({
+					"at": zod.z.number().readonly().describe("Absolute offset of the chunk's first byte; offsets never move once assigned."),
+					"text": zod.z.string().readonly().describe("Chunk text exactly as appended (possibly tail-trimmed by retention)."),
+					"channel": zod.z.union([
+						zod.z.literal("stdout"),
+						zod.z.literal("stderr"),
+						zod.z.literal("log")
+					]).readonly().optional().describe("Stream label, when the producer supplied one."),
+					"gapBefore": zod.z.literal(true).readonly().optional().describe("Bytes immediately before this chunk were lost, at the producer or to retention.")
+				})).readonly(),
+				"next": zod.z.number().readonly().describe("Offset to resume from after this frame."),
+				"lossy": zod.z.literal(true).readonly().optional().describe("Bytes between the requested offset and `chunks` were already evicted.")
+			}),
+			zod.z.object({
+				"type": zod.z.literal("status").readonly(),
+				"job": zod.z.object({
+					"id": zod.z.string().readonly().describe("The registry-issued id (`<kind>-<short-uuid>`)."),
+					"kind": zod.z.string().readonly().describe("The producer kind the job was registered with: a Host-registered `JobKind`, carried as an open string because a browser bundle or a Remote codec sees only the `JobKindMap` merges its own program compiles."),
+					"label": zod.z.string().readonly().describe("The producer-supplied one-line label."),
+					"owner": zod.z.string().readonly().optional().describe("Owning session; absent for an unowned job, which every caller can see."),
+					"outputLimitBytes": zod.z.number().readonly().optional().describe("Producer-owned cap for complete model-facing notices and reads, in UTF-8 bytes."),
+					"status": zod.z.union([
+						zod.z.literal("failed"),
+						zod.z.literal("running"),
+						zod.z.literal("stopping"),
+						zod.z.literal("completed"),
+						zod.z.literal("killed")
+					]).readonly().describe("Current lifecycle state."),
+					"progress": zod.z.string().readonly().optional().describe("The producer's live progress line (`3/10`, the current phase); cleared at settlement."),
+					"detail": zod.z.string().readonly().optional().describe("Terminal reason (`exit code: 3`); a recorded kill reason is merged in."),
+					"startedAt": zod.z.number().readonly().describe("Epoch ms when the job was registered."),
+					"finishedAt": zod.z.number().readonly().optional().describe("Epoch ms when the job settled; absent while live."),
+					"output": zod.z.object({
+						"total": zod.z.number().readonly(),
+						"earliest": zod.z.number().readonly(),
+						"spillPaths": zod.z.array(zod.z.string()).readonly().optional()
+					}).readonly().describe("The output ring's absolute coordinates and the complete-stream files behind it. `total` is the offset the next chunk starts at (0 while nothing was written); `earliest` is the oldest retained byte, greater than zero exactly when retention dropped the head. `spillPaths` lists the spill files the job's pull sources currently keep, in source order and deduplicated, and is absent while no source keeps one: it outlives any chunk, so a reader below `earliest` can still name where the bytes went.")
+				}).readonly()
+			})
+		]);
+		let _deepseek_ai_dsh_api_job_controller_job_kill_parameter_0$schema$value;
+		const _deepseek_ai_dsh_api_job_controller_job_kill_parameter_0$schema = () => _deepseek_ai_dsh_api_job_controller_job_kill_parameter_0$schema$value ??= zod.z.object({
+			"sessionId": zod.z.string().readonly().describe("Session whose job list carries the job; the fenced lookup reads as it."),
+			"jobId": zod.z.string().readonly()
+		});
+		let _deepseek_ai_dsh_api_job_controller_job_kill_result$schema$value;
+		const _deepseek_ai_dsh_api_job_controller_job_kill_result$schema = () => _deepseek_ai_dsh_api_job_controller_job_kill_result$schema$value ??= zod.z.object({ "outcome": zod.z.union([zod.z.literal("requested"), zod.z.literal("already-finished")]).readonly() });
+		let _deepseek_ai_dsh_api_job_controller_job_list_parameter_0$schema$value;
+		const _deepseek_ai_dsh_api_job_controller_job_list_parameter_0$schema = () => _deepseek_ai_dsh_api_job_controller_job_list_parameter_0$schema$value ??= zod.z.object({ "sessionId": zod.z.string().readonly() });
+		let _deepseek_ai_dsh_api_job_controller_job_list_result$schema$value;
+		const _deepseek_ai_dsh_api_job_controller_job_list_result$schema = () => _deepseek_ai_dsh_api_job_controller_job_list_result$schema$value ??= zod.z.object({
+			"type": zod.z.literal("rows").readonly(),
+			"jobs": zod.z.array(zod.z.object({
+				"id": zod.z.string().readonly().describe("The registry-issued id (`<kind>-<short-uuid>`)."),
+				"kind": zod.z.string().readonly().describe("The producer kind the job was registered with: a Host-registered `JobKind`, carried as an open string because a browser bundle or a Remote codec sees only the `JobKindMap` merges its own program compiles."),
+				"label": zod.z.string().readonly().describe("The producer-supplied one-line label."),
+				"owner": zod.z.string().readonly().optional().describe("Owning session; absent for an unowned job, which every caller can see."),
+				"outputLimitBytes": zod.z.number().readonly().optional().describe("Producer-owned cap for complete model-facing notices and reads, in UTF-8 bytes."),
+				"status": zod.z.union([
+					zod.z.literal("failed"),
+					zod.z.literal("running"),
+					zod.z.literal("stopping"),
+					zod.z.literal("completed"),
+					zod.z.literal("killed")
+				]).readonly().describe("Current lifecycle state."),
+				"progress": zod.z.string().readonly().optional().describe("The producer's live progress line (`3/10`, the current phase); cleared at settlement."),
+				"detail": zod.z.string().readonly().optional().describe("Terminal reason (`exit code: 3`); a recorded kill reason is merged in."),
+				"startedAt": zod.z.number().readonly().describe("Epoch ms when the job was registered."),
+				"finishedAt": zod.z.number().readonly().optional().describe("Epoch ms when the job settled; absent while live."),
+				"output": zod.z.object({
+					"total": zod.z.number().readonly(),
+					"earliest": zod.z.number().readonly(),
+					"spillPaths": zod.z.array(zod.z.string()).readonly().optional()
+				}).readonly().describe("The output ring's absolute coordinates and the complete-stream files behind it. `total` is the offset the next chunk starts at (0 while nothing was written); `earliest` is the oldest retained byte, greater than zero exactly when retention dropped the head. `spillPaths` lists the spill files the job's pull sources currently keep, in source order and deduplicated, and is absent while no source keeps one: it outlives any chunk, so a reader below `earliest` can still name where the bytes went.")
+			})).readonly()
+		});
+		let _deepseek_ai_dsh_api_job_controller_job_follow_parameter_0_strict$schema$value;
+		const _deepseek_ai_dsh_api_job_controller_job_follow_parameter_0_strict$schema = () => _deepseek_ai_dsh_api_job_controller_job_follow_parameter_0_strict$schema$value ??= zod.z.strictObject({
+			"sessionId": zod.z.string().readonly().optional().describe("Owning session for the fenced read. Omitted for an unowned job, which any caller may observe."),
+			"jobId": zod.z.string().readonly(),
+			"from": zod.z.number().readonly().optional().describe("Absolute byte offset to resume from (a prior frame's `next`). Omitted, the stream starts at the oldest retained byte.")
+		});
+		let _deepseek_ai_dsh_api_job_controller_job_kill_parameter_0_strict$schema$value;
+		const _deepseek_ai_dsh_api_job_controller_job_kill_parameter_0_strict$schema = () => _deepseek_ai_dsh_api_job_controller_job_kill_parameter_0_strict$schema$value ??= zod.z.strictObject({
+			"sessionId": zod.z.string().readonly().describe("Session whose job list carries the job; the fenced lookup reads as it."),
+			"jobId": zod.z.string().readonly()
+		});
+		let _deepseek_ai_dsh_api_job_controller_job_list_parameter_0_strict$schema$value;
+		const _deepseek_ai_dsh_api_job_controller_job_list_parameter_0_strict$schema = () => _deepseek_ai_dsh_api_job_controller_job_list_parameter_0_strict$schema$value ??= zod.z.strictObject({ "sessionId": zod.z.string().readonly() });
+		const TYPERT_REMOTE$3 = createTypertRemoteInfo({
+			package: "@deepseek-ai/dsh-api-job-controller",
+			methods: {
+				"job/follow": {
+					service: "jobController",
+					description: "Stream one job's retained output from an absolute byte offset, then its terminal projection once settled and drained. Non-consuming: the model-facing cursor and notice state never observe these reads. The request's session is the fenced read's caller; the registry rejects a job the session cannot see and an unknown job.",
+					mode: "stream",
+					invocation: { kind: "direct" },
+					parameters: [{
+						name: "request",
+						description: "target job, owning session, and optional resume offset.",
+						source: "json",
+						codec: {
+							mode: "strict",
+							typeSymbol: "@deepseek-ai/dsh-api-job-controller/types#JobFollowRequest",
+							create: _deepseek_ai_dsh_api_job_controller_job_follow_parameter_0$schema,
+							jsonSchema: {
+								"type": "object",
+								"properties": {
+									"sessionId": {
+										"type": "string",
+										"description": "Owning session for the fenced read. Omitted for an unowned job, which any caller may observe."
+									},
+									"jobId": { "type": "string" },
+									"from": {
+										"type": "number",
+										"description": "Absolute byte offset to resume from (a prior frame's `next`). Omitted, the stream starts at the oldest retained byte."
+									}
+								},
+								"required": ["jobId"],
+								"additionalProperties": true
+							}
+						},
+						strictCodec: {
+							mode: "strict",
+							typeSymbol: "@deepseek-ai/dsh-api-job-controller/types#JobFollowRequest",
+							create: _deepseek_ai_dsh_api_job_controller_job_follow_parameter_0_strict$schema,
+							jsonSchema: {
+								"type": "object",
+								"properties": {
+									"sessionId": {
+										"type": "string",
+										"description": "Owning session for the fenced read. Omitted for an unowned job, which any caller may observe."
+									},
+									"jobId": { "type": "string" },
+									"from": {
+										"type": "number",
+										"description": "Absolute byte offset to resume from (a prior frame's `next`). Omitted, the stream starts at the oldest retained byte."
+									}
+								},
+								"required": ["jobId"],
+								"additionalProperties": false
+							}
+						}
+					}],
+					cancellation: { parameter: "signal" },
+					result: {
+						mode: "strict",
+						typeSymbol: "@deepseek-ai/dsh-api-job-controller/types#JobFollowFrame",
+						create: _deepseek_ai_dsh_api_job_controller_job_follow_result$schema,
+						description: "anchor, coalesced output frames, and the terminal status.",
+						jsonSchema: { "oneOf": [
+							{
+								"type": "object",
+								"properties": {
+									"type": {
+										"type": "string",
+										"const": "opened"
+									},
+									"job": {
+										"type": "object",
+										"properties": {
+											"id": {
+												"type": "string",
+												"description": "The registry-issued id (`<kind>-<short-uuid>`)."
+											},
+											"kind": {
+												"type": "string",
+												"description": "The producer kind the job was registered with: a Host-registered `JobKind`, carried as an open string because a browser bundle or a Remote codec sees only the `JobKindMap` merges its own program compiles."
+											},
+											"label": {
+												"type": "string",
+												"description": "The producer-supplied one-line label."
+											},
+											"owner": {
+												"type": "string",
+												"description": "Owning session; absent for an unowned job, which every caller can see."
+											},
+											"outputLimitBytes": {
+												"type": "number",
+												"description": "Producer-owned cap for complete model-facing notices and reads, in UTF-8 bytes."
+											},
+											"status": {
+												"type": "string",
+												"enum": [
+													"failed",
+													"running",
+													"stopping",
+													"completed",
+													"killed"
+												],
+												"description": "Current lifecycle state."
+											},
+											"progress": {
+												"type": "string",
+												"description": "The producer's live progress line (`3/10`, the current phase); cleared at settlement."
+											},
+											"detail": {
+												"type": "string",
+												"description": "Terminal reason (`exit code: 3`); a recorded kill reason is merged in."
+											},
+											"startedAt": {
+												"type": "number",
+												"description": "Epoch ms when the job was registered."
+											},
+											"finishedAt": {
+												"type": "number",
+												"description": "Epoch ms when the job settled; absent while live."
+											},
+											"output": {
+												"type": "object",
+												"properties": {
+													"total": { "type": "number" },
+													"earliest": { "type": "number" },
+													"spillPaths": {
+														"type": "array",
+														"items": { "type": "string" }
+													}
+												},
+												"required": ["total", "earliest"],
+												"additionalProperties": true,
+												"description": "The output ring's absolute coordinates and the complete-stream files behind it. `total` is the offset the next chunk starts at (0 while nothing was written); `earliest` is the oldest retained byte, greater than zero exactly when retention dropped the head. `spillPaths` lists the spill files the job's pull sources currently keep, in source order and deduplicated, and is absent while no source keeps one: it outlives any chunk, so a reader below `earliest` can still name where the bytes went."
+											}
+										},
+										"required": [
+											"id",
+											"kind",
+											"label",
+											"status",
+											"startedAt",
+											"output"
+										],
+										"additionalProperties": true
+									},
+									"from": {
+										"type": "number",
+										"description": "Offset the first `output` frame continues from."
+									}
+								},
+								"required": [
+									"type",
+									"job",
+									"from"
+								],
+								"additionalProperties": true
+							},
+							{
+								"type": "object",
+								"properties": {
+									"type": {
+										"type": "string",
+										"const": "output"
+									},
+									"chunks": {
+										"type": "array",
+										"items": {
+											"type": "object",
+											"properties": {
+												"at": {
+													"type": "number",
+													"description": "Absolute offset of the chunk's first byte; offsets never move once assigned."
+												},
+												"text": {
+													"type": "string",
+													"description": "Chunk text exactly as appended (possibly tail-trimmed by retention)."
+												},
+												"channel": {
+													"type": "string",
+													"enum": [
+														"stdout",
+														"stderr",
+														"log"
+													],
+													"description": "Stream label, when the producer supplied one."
+												},
+												"gapBefore": {
+													"type": "boolean",
+													"const": true,
+													"description": "Bytes immediately before this chunk were lost, at the producer or to retention."
+												}
+											},
+											"required": ["at", "text"],
+											"additionalProperties": true
+										}
+									},
+									"next": {
+										"type": "number",
+										"description": "Offset to resume from after this frame."
+									},
+									"lossy": {
+										"type": "boolean",
+										"const": true,
+										"description": "Bytes between the requested offset and `chunks` were already evicted."
+									}
+								},
+								"required": [
+									"type",
+									"chunks",
+									"next"
+								],
+								"additionalProperties": true
+							},
+							{
+								"type": "object",
+								"properties": {
+									"type": {
+										"type": "string",
+										"const": "status"
+									},
+									"job": {
+										"type": "object",
+										"properties": {
+											"id": {
+												"type": "string",
+												"description": "The registry-issued id (`<kind>-<short-uuid>`)."
+											},
+											"kind": {
+												"type": "string",
+												"description": "The producer kind the job was registered with: a Host-registered `JobKind`, carried as an open string because a browser bundle or a Remote codec sees only the `JobKindMap` merges its own program compiles."
+											},
+											"label": {
+												"type": "string",
+												"description": "The producer-supplied one-line label."
+											},
+											"owner": {
+												"type": "string",
+												"description": "Owning session; absent for an unowned job, which every caller can see."
+											},
+											"outputLimitBytes": {
+												"type": "number",
+												"description": "Producer-owned cap for complete model-facing notices and reads, in UTF-8 bytes."
+											},
+											"status": {
+												"type": "string",
+												"enum": [
+													"failed",
+													"running",
+													"stopping",
+													"completed",
+													"killed"
+												],
+												"description": "Current lifecycle state."
+											},
+											"progress": {
+												"type": "string",
+												"description": "The producer's live progress line (`3/10`, the current phase); cleared at settlement."
+											},
+											"detail": {
+												"type": "string",
+												"description": "Terminal reason (`exit code: 3`); a recorded kill reason is merged in."
+											},
+											"startedAt": {
+												"type": "number",
+												"description": "Epoch ms when the job was registered."
+											},
+											"finishedAt": {
+												"type": "number",
+												"description": "Epoch ms when the job settled; absent while live."
+											},
+											"output": {
+												"type": "object",
+												"properties": {
+													"total": { "type": "number" },
+													"earliest": { "type": "number" },
+													"spillPaths": {
+														"type": "array",
+														"items": { "type": "string" }
+													}
+												},
+												"required": ["total", "earliest"],
+												"additionalProperties": true,
+												"description": "The output ring's absolute coordinates and the complete-stream files behind it. `total` is the offset the next chunk starts at (0 while nothing was written); `earliest` is the oldest retained byte, greater than zero exactly when retention dropped the head. `spillPaths` lists the spill files the job's pull sources currently keep, in source order and deduplicated, and is absent while no source keeps one: it outlives any chunk, so a reader below `earliest` can still name where the bytes went."
+											}
+										},
+										"required": [
+											"id",
+											"kind",
+											"label",
+											"status",
+											"startedAt",
+											"output"
+										],
+										"additionalProperties": true
+									}
+								},
+								"required": ["type", "job"],
+								"additionalProperties": true
+							}
+						] }
+					},
+					sourceLocation: {
+						"file": "packages/api/job-controller/src/index.ts",
+						"line": 91,
+						"column": 3
+					}
+				},
+				"job/kill": {
+					service: "jobController",
+					description: "Kill one background job on a human's behalf. The request's session is the fenced read's caller, so the job must be one that session can see: the registry's owner fence is the only access rule, and a child session's own jobs are killable from its list like any other. The kill records `cancelled by the user` as its reason; it is not one the model requested, so the owning agent still receives the completion notice, and a shell tool waiting on that job reads the reason in its own result.",
+					invocation: { kind: "direct" },
+					parameters: [{
+						name: "request",
+						description: "Session whose job list carries the job, and the job id.",
+						source: "json",
+						codec: {
+							mode: "strict",
+							typeSymbol: "@deepseek-ai/dsh-api-job-controller/types#JobKillRequest",
+							create: _deepseek_ai_dsh_api_job_controller_job_kill_parameter_0$schema,
+							jsonSchema: {
+								"type": "object",
+								"properties": {
+									"sessionId": {
+										"type": "string",
+										"description": "Session whose job list carries the job; the fenced lookup reads as it."
+									},
+									"jobId": { "type": "string" }
+								},
+								"required": ["sessionId", "jobId"],
+								"additionalProperties": true
+							}
+						},
+						strictCodec: {
+							mode: "strict",
+							typeSymbol: "@deepseek-ai/dsh-api-job-controller/types#JobKillRequest",
+							create: _deepseek_ai_dsh_api_job_controller_job_kill_parameter_0_strict$schema,
+							jsonSchema: {
+								"type": "object",
+								"properties": {
+									"sessionId": {
+										"type": "string",
+										"description": "Session whose job list carries the job; the fenced lookup reads as it."
+									},
+									"jobId": { "type": "string" }
+								},
+								"required": ["sessionId", "jobId"],
+								"additionalProperties": false
+							}
+						}
+					}],
+					result: {
+						mode: "strict",
+						typeSymbol: "@deepseek-ai/dsh-api-job-controller/types#JobKillValue",
+						create: _deepseek_ai_dsh_api_job_controller_job_kill_result$schema,
+						description: "the registry's admission of the kill request.",
+						jsonSchema: {
+							"type": "object",
+							"properties": { "outcome": {
+								"type": "string",
+								"enum": ["requested", "already-finished"]
+							} },
+							"required": ["outcome"],
+							"additionalProperties": true
+						}
+					},
+					sourceLocation: {
+						"file": "packages/api/job-controller/src/index.ts",
+						"line": 110,
+						"column": 3
+					}
+				},
+				"job/list": {
+					service: "jobController",
+					description: "Stream the jobs one session can see — its own plus every unowned job — as whole-set frames: one on open, then one after each coalesced burst of lifecycle commits. The stream has no natural end; the carrier closes it.",
+					mode: "stream",
+					invocation: { kind: "direct" },
+					parameters: [{
+						name: "request",
+						description: "the session whose visible set to mirror.",
+						source: "json",
+						codec: {
+							mode: "strict",
+							typeSymbol: "@deepseek-ai/dsh-api-job-controller/types#JobListRequest",
+							create: _deepseek_ai_dsh_api_job_controller_job_list_parameter_0$schema,
+							jsonSchema: {
+								"type": "object",
+								"properties": { "sessionId": { "type": "string" } },
+								"required": ["sessionId"],
+								"additionalProperties": true
+							}
+						},
+						strictCodec: {
+							mode: "strict",
+							typeSymbol: "@deepseek-ai/dsh-api-job-controller/types#JobListRequest",
+							create: _deepseek_ai_dsh_api_job_controller_job_list_parameter_0_strict$schema,
+							jsonSchema: {
+								"type": "object",
+								"properties": { "sessionId": { "type": "string" } },
+								"required": ["sessionId"],
+								"additionalProperties": false
+							}
+						}
+					}],
+					cancellation: { parameter: "signal" },
+					result: {
+						mode: "strict",
+						typeSymbol: "@deepseek-ai/dsh-api-job-controller/types#JobListFrame",
+						create: _deepseek_ai_dsh_api_job_controller_job_list_result$schema,
+						description: "the roster frames.",
+						jsonSchema: {
+							"type": "object",
+							"properties": {
+								"type": {
+									"type": "string",
+									"const": "rows"
+								},
+								"jobs": {
+									"type": "array",
+									"items": {
+										"type": "object",
+										"properties": {
+											"id": {
+												"type": "string",
+												"description": "The registry-issued id (`<kind>-<short-uuid>`)."
+											},
+											"kind": {
+												"type": "string",
+												"description": "The producer kind the job was registered with: a Host-registered `JobKind`, carried as an open string because a browser bundle or a Remote codec sees only the `JobKindMap` merges its own program compiles."
+											},
+											"label": {
+												"type": "string",
+												"description": "The producer-supplied one-line label."
+											},
+											"owner": {
+												"type": "string",
+												"description": "Owning session; absent for an unowned job, which every caller can see."
+											},
+											"outputLimitBytes": {
+												"type": "number",
+												"description": "Producer-owned cap for complete model-facing notices and reads, in UTF-8 bytes."
+											},
+											"status": {
+												"type": "string",
+												"enum": [
+													"failed",
+													"running",
+													"stopping",
+													"completed",
+													"killed"
+												],
+												"description": "Current lifecycle state."
+											},
+											"progress": {
+												"type": "string",
+												"description": "The producer's live progress line (`3/10`, the current phase); cleared at settlement."
+											},
+											"detail": {
+												"type": "string",
+												"description": "Terminal reason (`exit code: 3`); a recorded kill reason is merged in."
+											},
+											"startedAt": {
+												"type": "number",
+												"description": "Epoch ms when the job was registered."
+											},
+											"finishedAt": {
+												"type": "number",
+												"description": "Epoch ms when the job settled; absent while live."
+											},
+											"output": {
+												"type": "object",
+												"properties": {
+													"total": { "type": "number" },
+													"earliest": { "type": "number" },
+													"spillPaths": {
+														"type": "array",
+														"items": { "type": "string" }
+													}
+												},
+												"required": ["total", "earliest"],
+												"additionalProperties": true,
+												"description": "The output ring's absolute coordinates and the complete-stream files behind it. `total` is the offset the next chunk starts at (0 while nothing was written); `earliest` is the oldest retained byte, greater than zero exactly when retention dropped the head. `spillPaths` lists the spill files the job's pull sources currently keep, in source order and deduplicated, and is absent while no source keeps one: it outlives any chunk, so a reader below `earliest` can still name where the bytes went."
+											}
+										},
+										"required": [
+											"id",
+											"kind",
+											"label",
+											"status",
+											"startedAt",
+											"output"
+										],
+										"additionalProperties": true
+									}
+								}
+							},
+							"required": ["type", "jobs"],
+							"additionalProperties": true
+						}
+					},
+					sourceLocation: {
+						"file": "packages/api/job-controller/src/index.ts",
+						"line": 76,
+						"column": 3
+					}
+				}
+			}
+		}, zod.z);
+		//#endregion
+		//#region ../workspace-controller/lib/typert.remote-client.js
+		let _deepseek_ai_dsh_api_workspace_controller_directoryPicker_createDirectory_parameter_0$schema$value;
+		const _deepseek_ai_dsh_api_workspace_controller_directoryPicker_createDirectory_parameter_0$schema = () => _deepseek_ai_dsh_api_workspace_controller_directoryPicker_createDirectory_parameter_0$schema$value ??= zod.z.string();
+		let _deepseek_ai_dsh_api_workspace_controller_directoryPicker_createDirectory_parameter_1$schema$value;
+		const _deepseek_ai_dsh_api_workspace_controller_directoryPicker_createDirectory_parameter_1$schema = () => _deepseek_ai_dsh_api_workspace_controller_directoryPicker_createDirectory_parameter_1$schema$value ??= zod.z.string();
+		let _deepseek_ai_dsh_api_workspace_controller_directoryPicker_createDirectory_result$schema$value;
+		const _deepseek_ai_dsh_api_workspace_controller_directoryPicker_createDirectory_result$schema = () => _deepseek_ai_dsh_api_workspace_controller_directoryPicker_createDirectory_result$schema$value ??= zod.z.string();
+		let _deepseek_ai_dsh_api_workspace_controller_directoryPicker_list_parameter_0$schema$value;
+		const _deepseek_ai_dsh_api_workspace_controller_directoryPicker_list_parameter_0$schema = () => _deepseek_ai_dsh_api_workspace_controller_directoryPicker_list_parameter_0$schema$value ??= zod.z.union([zod.z.undefined(), zod.z.string()]);
+		let _deepseek_ai_dsh_api_workspace_controller_directoryPicker_list_result$schema$value;
+		const _deepseek_ai_dsh_api_workspace_controller_directoryPicker_list_result$schema = () => _deepseek_ai_dsh_api_workspace_controller_directoryPicker_list_result$schema$value ??= zod.z.object({
+			"path": zod.z.string().describe("Absolute path of the listed directory."),
+			"home": zod.z.string().describe("The host account's home directory (breadcrumb \"Home\" rooting)."),
+			"crumbs": zod.z.array(zod.z.object({
+				"name": zod.z.string().describe("Base name shown in a browser row (a root crumb carries its full path)."),
+				"path": zod.z.string().describe("Absolute host path — clients never join path segments themselves."),
+				"hidden": zod.z.boolean().describe("Hidden by the host platform's convention (dot-prefixed on POSIX); the client owns whether to show it.")
+			})).describe("Ancestor chain from the filesystem root to the listed directory inclusive; every crumb is a jump target (crumb `hidden` is always false)."),
+			"entries": zod.z.array(zod.z.object({
+				"name": zod.z.string().describe("Base name shown in a browser row (a root crumb carries its full path)."),
+				"path": zod.z.string().describe("Absolute host path — clients never join path segments themselves."),
+				"hidden": zod.z.boolean().describe("Hidden by the host platform's convention (dot-prefixed on POSIX); the client owns whether to show it.")
+			})).describe("Direct child directories, name-sorted; symlinks to directories included."),
+			"truncated": zod.z.boolean().describe("True when the backend cut `entries` at its complete-result bound: the level has more child directories than reported, and the missing rows are the name-sorted tail (hidden rows count toward the bound).")
+		});
+		let _deepseek_ai_dsh_api_workspace_controller_directoryPicker_pick_result$schema$value;
+		const _deepseek_ai_dsh_api_workspace_controller_directoryPicker_pick_result$schema = () => _deepseek_ai_dsh_api_workspace_controller_directoryPicker_pick_result$schema$value ??= zod.z.union([zod.z.literal(null), zod.z.string()]);
+		let _deepseek_ai_dsh_api_workspace_controller_workspace_archiveSession_parameter_0$schema$value;
+		const _deepseek_ai_dsh_api_workspace_controller_workspace_archiveSession_parameter_0$schema = () => _deepseek_ai_dsh_api_workspace_controller_workspace_archiveSession_parameter_0$schema$value ??= zod.z.object({
+			"sessionId": zod.z.string().readonly(),
+			"stopActivity": zod.z.boolean().readonly().optional().describe("Stop the Session's running work — its turn, subagent descendants, owned background jobs, and active schedules — instead of refusing the archive as `workspace/session-active`. The stops are requested before the archive write and are not awaited; the response arrives once the archive set is durable.")
+		});
+		let _deepseek_ai_dsh_api_workspace_controller_workspace_archiveSession_result$schema$value;
+		const _deepseek_ai_dsh_api_workspace_controller_workspace_archiveSession_result$schema = () => _deepseek_ai_dsh_api_workspace_controller_workspace_archiveSession_result$schema$value ??= zod.z.object({ "archivedSessionIds": zod.z.array(zod.z.string()).readonly() });
+		let _deepseek_ai_dsh_api_workspace_controller_workspace_create_parameter_0$schema$value;
+		const _deepseek_ai_dsh_api_workspace_controller_workspace_create_parameter_0$schema = () => _deepseek_ai_dsh_api_workspace_controller_workspace_create_parameter_0$schema$value ??= zod.z.object({ "path": zod.z.string().readonly() });
+		let _deepseek_ai_dsh_api_workspace_controller_workspace_create_result$schema$value;
+		const _deepseek_ai_dsh_api_workspace_controller_workspace_create_result$schema = () => _deepseek_ai_dsh_api_workspace_controller_workspace_create_result$schema$value ??= zod.z.object({
+			"workspace": zod.z.object({
+				"workspaceId": zod.z.string().readonly(),
+				"path": zod.z.string().readonly().describe("Canonical host directory path."),
+				"title": zod.z.string().readonly().describe("User-visible title."),
+				"sessionIds": zod.z.array(zod.z.string()).readonly().describe("Sessions accounted to this Workspace in manual order."),
+				"createdAt": zod.z.string().readonly().describe("ISO-8601 creation instant."),
+				"updatedAt": zod.z.string().readonly().describe("ISO-8601 last-mutation instant.")
+			}).readonly(),
+			"created": zod.z.boolean().readonly()
+		});
+		let _deepseek_ai_dsh_api_workspace_controller_workspace_delete_parameter_0$schema$value;
+		const _deepseek_ai_dsh_api_workspace_controller_workspace_delete_parameter_0$schema = () => _deepseek_ai_dsh_api_workspace_controller_workspace_delete_parameter_0$schema$value ??= zod.z.object({ "workspaceId": zod.z.string().readonly() });
+		let _deepseek_ai_dsh_api_workspace_controller_workspace_delete_result$schema$value;
+		const _deepseek_ai_dsh_api_workspace_controller_workspace_delete_result$schema = () => _deepseek_ai_dsh_api_workspace_controller_workspace_delete_result$schema$value ??= zod.z.object({ "deleted": zod.z.literal(true).readonly() });
+		let _deepseek_ai_dsh_api_workspace_controller_workspace_follow_result$schema$value;
+		const _deepseek_ai_dsh_api_workspace_controller_workspace_follow_result$schema = () => _deepseek_ai_dsh_api_workspace_controller_workspace_follow_result$schema$value ??= zod.z.union([
+			zod.z.object({
+				"type": zod.z.literal("baseline").readonly(),
+				"value": zod.z.object({
+					"items": zod.z.array(zod.z.object({
+						"workspaceId": zod.z.string().readonly(),
+						"path": zod.z.string().readonly().describe("Canonical host directory path."),
+						"title": zod.z.string().readonly().describe("User-visible title."),
+						"sessionIds": zod.z.array(zod.z.string()).readonly().describe("Sessions accounted to this Workspace in manual order."),
+						"createdAt": zod.z.string().readonly().describe("ISO-8601 creation instant."),
+						"updatedAt": zod.z.string().readonly().describe("ISO-8601 last-mutation instant.")
+					})).readonly(),
+					"archivedSessionIds": zod.z.array(zod.z.string()).readonly(),
+					"pinnedSessionIds": zod.z.array(zod.z.string()).readonly().describe("Registry-global pin set, most recently pinned first.")
+				}).readonly()
+			}),
+			zod.z.object({
+				"type": zod.z.literal("replace").readonly(),
+				"value": zod.z.object({
+					"items": zod.z.array(zod.z.object({
+						"workspaceId": zod.z.string().readonly(),
+						"path": zod.z.string().readonly().describe("Canonical host directory path."),
+						"title": zod.z.string().readonly().describe("User-visible title."),
+						"sessionIds": zod.z.array(zod.z.string()).readonly().describe("Sessions accounted to this Workspace in manual order."),
+						"createdAt": zod.z.string().readonly().describe("ISO-8601 creation instant."),
+						"updatedAt": zod.z.string().readonly().describe("ISO-8601 last-mutation instant.")
+					})).readonly(),
+					"archivedSessionIds": zod.z.array(zod.z.string()).readonly(),
+					"pinnedSessionIds": zod.z.array(zod.z.string()).readonly().describe("Registry-global pin set, most recently pinned first.")
+				}).readonly()
+			}),
+			zod.z.object({
+				"type": zod.z.literal("upsert").readonly(),
+				"workspace": zod.z.object({
+					"workspaceId": zod.z.string().readonly(),
+					"path": zod.z.string().readonly().describe("Canonical host directory path."),
+					"title": zod.z.string().readonly().describe("User-visible title."),
+					"sessionIds": zod.z.array(zod.z.string()).readonly().describe("Sessions accounted to this Workspace in manual order."),
+					"createdAt": zod.z.string().readonly().describe("ISO-8601 creation instant."),
+					"updatedAt": zod.z.string().readonly().describe("ISO-8601 last-mutation instant.")
+				}).readonly()
+			}),
+			zod.z.object({
+				"type": zod.z.literal("remove").readonly(),
+				"workspaceId": zod.z.string().readonly()
+			}),
+			zod.z.object({
+				"type": zod.z.literal("order").readonly(),
+				"workspaceIds": zod.z.array(zod.z.string()).readonly()
+			}),
+			zod.z.object({
+				"type": zod.z.literal("archived").readonly(),
+				"archivedSessionIds": zod.z.array(zod.z.string()).readonly()
+			}),
+			zod.z.object({
+				"type": zod.z.literal("pinned").readonly(),
+				"pinnedSessionIds": zod.z.array(zod.z.string()).readonly()
+			})
+		]);
+		let _deepseek_ai_dsh_api_workspace_controller_workspace_initializeDefault_result$schema$value;
+		const _deepseek_ai_dsh_api_workspace_controller_workspace_initializeDefault_result$schema = () => _deepseek_ai_dsh_api_workspace_controller_workspace_initializeDefault_result$schema$value ??= zod.z.union([zod.z.undefined(), zod.z.object({ "workspace": zod.z.object({
+			"workspaceId": zod.z.string().readonly(),
+			"path": zod.z.string().readonly().describe("Canonical host directory path."),
+			"title": zod.z.string().readonly().describe("User-visible title."),
+			"sessionIds": zod.z.array(zod.z.string()).readonly().describe("Sessions accounted to this Workspace in manual order."),
+			"createdAt": zod.z.string().readonly().describe("ISO-8601 creation instant."),
+			"updatedAt": zod.z.string().readonly().describe("ISO-8601 last-mutation instant.")
+		}).readonly() })]);
+		let _deepseek_ai_dsh_api_workspace_controller_workspace_insertBefore_parameter_0$schema$value;
+		const _deepseek_ai_dsh_api_workspace_controller_workspace_insertBefore_parameter_0$schema = () => _deepseek_ai_dsh_api_workspace_controller_workspace_insertBefore_parameter_0$schema$value ??= zod.z.object({
+			"workspaceId": zod.z.string().readonly(),
+			"beforeWorkspaceId": zod.z.string().readonly().optional()
+		});
+		let _deepseek_ai_dsh_api_workspace_controller_workspace_insertBefore_result$schema$value;
+		const _deepseek_ai_dsh_api_workspace_controller_workspace_insertBefore_result$schema = () => _deepseek_ai_dsh_api_workspace_controller_workspace_insertBefore_result$schema$value ??= zod.z.object({ "workspaceIds": zod.z.array(zod.z.string()).readonly() });
+		let _deepseek_ai_dsh_api_workspace_controller_workspace_insertSessionBefore_parameter_0$schema$value;
+		const _deepseek_ai_dsh_api_workspace_controller_workspace_insertSessionBefore_parameter_0$schema = () => _deepseek_ai_dsh_api_workspace_controller_workspace_insertSessionBefore_parameter_0$schema$value ??= zod.z.object({
+			"workspaceId": zod.z.string().readonly(),
+			"sessionId": zod.z.string().readonly(),
+			"beforeSessionId": zod.z.string().readonly().optional()
+		});
+		let _deepseek_ai_dsh_api_workspace_controller_workspace_insertSessionBefore_result$schema$value;
+		const _deepseek_ai_dsh_api_workspace_controller_workspace_insertSessionBefore_result$schema = () => _deepseek_ai_dsh_api_workspace_controller_workspace_insertSessionBefore_result$schema$value ??= zod.z.object({ "workspace": zod.z.object({
+			"workspaceId": zod.z.string().readonly(),
+			"path": zod.z.string().readonly().describe("Canonical host directory path."),
+			"title": zod.z.string().readonly().describe("User-visible title."),
+			"sessionIds": zod.z.array(zod.z.string()).readonly().describe("Sessions accounted to this Workspace in manual order."),
+			"createdAt": zod.z.string().readonly().describe("ISO-8601 creation instant."),
+			"updatedAt": zod.z.string().readonly().describe("ISO-8601 last-mutation instant.")
+		}).readonly() });
+		let _deepseek_ai_dsh_api_workspace_controller_workspace_pinSession_parameter_0$schema$value;
+		const _deepseek_ai_dsh_api_workspace_controller_workspace_pinSession_parameter_0$schema = () => _deepseek_ai_dsh_api_workspace_controller_workspace_pinSession_parameter_0$schema$value ??= zod.z.object({ "sessionId": zod.z.string().readonly() });
+		let _deepseek_ai_dsh_api_workspace_controller_workspace_pinSession_result$schema$value;
+		const _deepseek_ai_dsh_api_workspace_controller_workspace_pinSession_result$schema = () => _deepseek_ai_dsh_api_workspace_controller_workspace_pinSession_result$schema$value ??= zod.z.object({ "pinnedSessionIds": zod.z.array(zod.z.string()).readonly() });
+		let _deepseek_ai_dsh_api_workspace_controller_workspace_rename_parameter_0$schema$value;
+		const _deepseek_ai_dsh_api_workspace_controller_workspace_rename_parameter_0$schema = () => _deepseek_ai_dsh_api_workspace_controller_workspace_rename_parameter_0$schema$value ??= zod.z.object({
+			"workspaceId": zod.z.string().readonly(),
+			"title": zod.z.string().readonly()
+		});
+		let _deepseek_ai_dsh_api_workspace_controller_workspace_rename_result$schema$value;
+		const _deepseek_ai_dsh_api_workspace_controller_workspace_rename_result$schema = () => _deepseek_ai_dsh_api_workspace_controller_workspace_rename_result$schema$value ??= zod.z.object({ "workspace": zod.z.object({
+			"workspaceId": zod.z.string().readonly(),
+			"path": zod.z.string().readonly().describe("Canonical host directory path."),
+			"title": zod.z.string().readonly().describe("User-visible title."),
+			"sessionIds": zod.z.array(zod.z.string()).readonly().describe("Sessions accounted to this Workspace in manual order."),
+			"createdAt": zod.z.string().readonly().describe("ISO-8601 creation instant."),
+			"updatedAt": zod.z.string().readonly().describe("ISO-8601 last-mutation instant.")
+		}).readonly() });
+		let _deepseek_ai_dsh_api_workspace_controller_workspace_unarchiveSession_parameter_0$schema$value;
+		const _deepseek_ai_dsh_api_workspace_controller_workspace_unarchiveSession_parameter_0$schema = () => _deepseek_ai_dsh_api_workspace_controller_workspace_unarchiveSession_parameter_0$schema$value ??= zod.z.object({ "sessionId": zod.z.string().readonly() });
+		let _deepseek_ai_dsh_api_workspace_controller_workspace_unarchiveSession_result$schema$value;
+		const _deepseek_ai_dsh_api_workspace_controller_workspace_unarchiveSession_result$schema = () => _deepseek_ai_dsh_api_workspace_controller_workspace_unarchiveSession_result$schema$value ??= zod.z.object({ "archivedSessionIds": zod.z.array(zod.z.string()).readonly() });
+		let _deepseek_ai_dsh_api_workspace_controller_workspace_unpinSession_parameter_0$schema$value;
+		const _deepseek_ai_dsh_api_workspace_controller_workspace_unpinSession_parameter_0$schema = () => _deepseek_ai_dsh_api_workspace_controller_workspace_unpinSession_parameter_0$schema$value ??= zod.z.object({ "sessionId": zod.z.string().readonly() });
+		let _deepseek_ai_dsh_api_workspace_controller_workspace_unpinSession_result$schema$value;
+		const _deepseek_ai_dsh_api_workspace_controller_workspace_unpinSession_result$schema = () => _deepseek_ai_dsh_api_workspace_controller_workspace_unpinSession_result$schema$value ??= zod.z.object({ "pinnedSessionIds": zod.z.array(zod.z.string()).readonly() });
+		let _deepseek_ai_dsh_api_workspace_controller_directoryPicker_createDirectory_parameter_0_strict$schema$value;
+		const _deepseek_ai_dsh_api_workspace_controller_directoryPicker_createDirectory_parameter_0_strict$schema = () => _deepseek_ai_dsh_api_workspace_controller_directoryPicker_createDirectory_parameter_0_strict$schema$value ??= zod.z.string();
+		let _deepseek_ai_dsh_api_workspace_controller_directoryPicker_createDirectory_parameter_1_strict$schema$value;
+		const _deepseek_ai_dsh_api_workspace_controller_directoryPicker_createDirectory_parameter_1_strict$schema = () => _deepseek_ai_dsh_api_workspace_controller_directoryPicker_createDirectory_parameter_1_strict$schema$value ??= zod.z.string();
+		let _deepseek_ai_dsh_api_workspace_controller_directoryPicker_list_parameter_0_strict$schema$value;
+		const _deepseek_ai_dsh_api_workspace_controller_directoryPicker_list_parameter_0_strict$schema = () => _deepseek_ai_dsh_api_workspace_controller_directoryPicker_list_parameter_0_strict$schema$value ??= zod.z.union([zod.z.undefined(), zod.z.string()]);
+		let _deepseek_ai_dsh_api_workspace_controller_workspace_archiveSession_parameter_0_strict$schema$value;
+		const _deepseek_ai_dsh_api_workspace_controller_workspace_archiveSession_parameter_0_strict$schema = () => _deepseek_ai_dsh_api_workspace_controller_workspace_archiveSession_parameter_0_strict$schema$value ??= zod.z.strictObject({
+			"sessionId": zod.z.string().readonly(),
+			"stopActivity": zod.z.boolean().readonly().optional().describe("Stop the Session's running work — its turn, subagent descendants, owned background jobs, and active schedules — instead of refusing the archive as `workspace/session-active`. The stops are requested before the archive write and are not awaited; the response arrives once the archive set is durable.")
+		});
+		let _deepseek_ai_dsh_api_workspace_controller_workspace_create_parameter_0_strict$schema$value;
+		const _deepseek_ai_dsh_api_workspace_controller_workspace_create_parameter_0_strict$schema = () => _deepseek_ai_dsh_api_workspace_controller_workspace_create_parameter_0_strict$schema$value ??= zod.z.strictObject({ "path": zod.z.string().readonly() });
+		let _deepseek_ai_dsh_api_workspace_controller_workspace_delete_parameter_0_strict$schema$value;
+		const _deepseek_ai_dsh_api_workspace_controller_workspace_delete_parameter_0_strict$schema = () => _deepseek_ai_dsh_api_workspace_controller_workspace_delete_parameter_0_strict$schema$value ??= zod.z.strictObject({ "workspaceId": zod.z.string().readonly() });
+		let _deepseek_ai_dsh_api_workspace_controller_workspace_insertBefore_parameter_0_strict$schema$value;
+		const _deepseek_ai_dsh_api_workspace_controller_workspace_insertBefore_parameter_0_strict$schema = () => _deepseek_ai_dsh_api_workspace_controller_workspace_insertBefore_parameter_0_strict$schema$value ??= zod.z.strictObject({
+			"workspaceId": zod.z.string().readonly(),
+			"beforeWorkspaceId": zod.z.string().readonly().optional()
+		});
+		let _deepseek_ai_dsh_api_workspace_controller_workspace_insertSessionBefore_parameter_0_strict$schema$value;
+		const _deepseek_ai_dsh_api_workspace_controller_workspace_insertSessionBefore_parameter_0_strict$schema = () => _deepseek_ai_dsh_api_workspace_controller_workspace_insertSessionBefore_parameter_0_strict$schema$value ??= zod.z.strictObject({
+			"workspaceId": zod.z.string().readonly(),
+			"sessionId": zod.z.string().readonly(),
+			"beforeSessionId": zod.z.string().readonly().optional()
+		});
+		let _deepseek_ai_dsh_api_workspace_controller_workspace_pinSession_parameter_0_strict$schema$value;
+		const _deepseek_ai_dsh_api_workspace_controller_workspace_pinSession_parameter_0_strict$schema = () => _deepseek_ai_dsh_api_workspace_controller_workspace_pinSession_parameter_0_strict$schema$value ??= zod.z.strictObject({ "sessionId": zod.z.string().readonly() });
+		let _deepseek_ai_dsh_api_workspace_controller_workspace_rename_parameter_0_strict$schema$value;
+		const _deepseek_ai_dsh_api_workspace_controller_workspace_rename_parameter_0_strict$schema = () => _deepseek_ai_dsh_api_workspace_controller_workspace_rename_parameter_0_strict$schema$value ??= zod.z.strictObject({
+			"workspaceId": zod.z.string().readonly(),
+			"title": zod.z.string().readonly()
+		});
+		let _deepseek_ai_dsh_api_workspace_controller_workspace_unarchiveSession_parameter_0_strict$schema$value;
+		const _deepseek_ai_dsh_api_workspace_controller_workspace_unarchiveSession_parameter_0_strict$schema = () => _deepseek_ai_dsh_api_workspace_controller_workspace_unarchiveSession_parameter_0_strict$schema$value ??= zod.z.strictObject({ "sessionId": zod.z.string().readonly() });
+		let _deepseek_ai_dsh_api_workspace_controller_workspace_unpinSession_parameter_0_strict$schema$value;
+		const _deepseek_ai_dsh_api_workspace_controller_workspace_unpinSession_parameter_0_strict$schema = () => _deepseek_ai_dsh_api_workspace_controller_workspace_unpinSession_parameter_0_strict$schema$value ??= zod.z.strictObject({ "sessionId": zod.z.string().readonly() });
+		const TYPERT_REMOTE$2 = createTypertRemoteInfo({
+			package: "@deepseek-ai/dsh-api-workspace-controller",
+			methods: {
+				"directoryPicker/createDirectory": {
+					service: "directoryPickerController",
+					description: "Create one child directory for a Remote caller's in-app browser.",
+					invocation: { kind: "direct" },
+					parameters: [{
+						name: "path",
+						description: "absolute existing parent directory.",
+						source: "json",
+						codec: {
+							mode: "strict",
+							typeSymbol: "@deepseek-ai/dsh-api-workspace-controller#directoryPicker/createDirectory:path",
+							create: _deepseek_ai_dsh_api_workspace_controller_directoryPicker_createDirectory_parameter_0$schema,
+							jsonSchema: { "type": "string" }
+						},
+						strictCodec: {
+							mode: "strict",
+							typeSymbol: "@deepseek-ai/dsh-api-workspace-controller#directoryPicker/createDirectory:path",
+							create: _deepseek_ai_dsh_api_workspace_controller_directoryPicker_createDirectory_parameter_0_strict$schema,
+							jsonSchema: { "type": "string" }
+						}
+					}, {
+						name: "name",
+						description: "single non-blank path segment.",
+						source: "json",
+						codec: {
+							mode: "strict",
+							typeSymbol: "@deepseek-ai/dsh-api-workspace-controller#directoryPicker/createDirectory:name",
+							create: _deepseek_ai_dsh_api_workspace_controller_directoryPicker_createDirectory_parameter_1$schema,
+							jsonSchema: { "type": "string" }
+						},
+						strictCodec: {
+							mode: "strict",
+							typeSymbol: "@deepseek-ai/dsh-api-workspace-controller#directoryPicker/createDirectory:name",
+							create: _deepseek_ai_dsh_api_workspace_controller_directoryPicker_createDirectory_parameter_1_strict$schema,
+							jsonSchema: { "type": "string" }
+						}
+					}],
+					result: {
+						mode: "strict",
+						typeSymbol: "@deepseek-ai/dsh-api-workspace-controller#directoryPicker/createDirectory:result",
+						create: _deepseek_ai_dsh_api_workspace_controller_directoryPicker_createDirectory_result$schema,
+						description: "the created directory's absolute path.",
+						jsonSchema: { "type": "string" }
+					},
+					sourceLocation: {
+						"file": "packages/api/workspace-controller/src/directory-picker.ts",
+						"line": 88,
+						"column": 9
+					}
+				},
+				"directoryPicker/list": {
+					service: "directoryPickerController",
+					description: "List one directory level for a Remote caller's in-app browser.",
+					invocation: { kind: "direct" },
+					parameters: [{
+						name: "path",
+						description: "absolute directory to list; absent lists the home directory.",
+						source: "json",
+						acceptsUndefined: true,
+						codec: {
+							mode: "strict",
+							typeSymbol: "@deepseek-ai/dsh-api-workspace-controller#directoryPicker/list:path",
+							create: _deepseek_ai_dsh_api_workspace_controller_directoryPicker_list_parameter_0$schema,
+							jsonSchema: { "type": "string" }
+						},
+						strictCodec: {
+							mode: "strict",
+							typeSymbol: "@deepseek-ai/dsh-api-workspace-controller#directoryPicker/list:path",
+							create: _deepseek_ai_dsh_api_workspace_controller_directoryPicker_list_parameter_0_strict$schema,
+							jsonSchema: { "type": "string" }
+						}
+					}],
+					cancellation: { parameter: "signal" },
+					result: {
+						mode: "strict",
+						typeSymbol: "@deepseek-ai/dsh-host-directory-picker/types#DirectoryListing",
+						create: _deepseek_ai_dsh_api_workspace_controller_directoryPicker_list_result$schema,
+						description: "the level's listing with its ancestry.",
+						jsonSchema: {
+							"type": "object",
+							"properties": {
+								"path": {
+									"type": "string",
+									"description": "Absolute path of the listed directory."
+								},
+								"home": {
+									"type": "string",
+									"description": "The host account's home directory (breadcrumb \"Home\" rooting)."
+								},
+								"crumbs": {
+									"type": "array",
+									"items": {
+										"type": "object",
+										"properties": {
+											"name": {
+												"type": "string",
+												"description": "Base name shown in a browser row (a root crumb carries its full path)."
+											},
+											"path": {
+												"type": "string",
+												"description": "Absolute host path — clients never join path segments themselves."
+											},
+											"hidden": {
+												"type": "boolean",
+												"description": "Hidden by the host platform's convention (dot-prefixed on POSIX); the client owns whether to show it."
+											}
+										},
+										"required": [
+											"name",

@@ -1,0 +1,19 @@
+{
+  "dev": "tm-host-core",
+  "owner": "tm-host-core",
+  "evidence": [
+    "package signed, not mounted (row LỒNG trong nhóm cordis:group — CLI chưa patch-theo-nhóm)",
+    "reviewer tm-reviewer doc lap tren artifact build lai: exit 0 · artifact **432 dòng** (bản gốc cùng cấu trúc) · export **6 = 6** BẰNG TÊN (`Config` · `DEFAULT_MAX_RESULT_BYTES` · `MIN_MAX_RESULT_BYTES` · `apply` · `inject` · `name`), thieu 0/thua 0 · KHONG co lib/client.js",
+    "6 cong cu runtime dung ten goc: `terminal_open` · `terminal_send` · `terminal_read` · `terminal_signal` · `terminal_close` · `terminal_list` — dang ky qua `ctx.tools.register` (src/tools.ts:202, 246, 342, 378, 412, 448), 6 dinh nghia qua `defineTool` cua kernel; section `tool:pty` co trong artifact",
+    "Config: 2 tran byte `DEFAULT_MAX_RESULT_BYTES` (256*1024) · `MIN_MAX_RESULT_BYTES` (64) + `maxResultBytes` z.number().step(1).min(64) — trung ban goc",
+    "khong trung 6 ten tool voi goi GBH nao: quet toan bo packages/*/*/src — chi `client/ui-tool` nhac 6 ten nay o vai tro VIEW (ids.ts:132-136, model-terminal.ts) chu KHONG dang ky tool; trong cay cai chi `dsh-tool-terminal` (stock) dang ky 6 ten do",
+    "reviewer tu chay bun test tests/host/tool-terminal.test.ts: **31 pass / 0 fail / 112 expect** — A/B tren Context cordis THAT + seam gia (policy/redirect... khong, day la terminal: mo/gui/doc/signal/dong/liet ke)",
+    "row la CON cua NHOM `optional-persistent-terminals` (cordis:group, group: true, isolate.terminals: true) trong bundle `dsh-experimental-terminal-bundle/cordis.patch.yml` — cung optional-terminal-registry/bash/pwsh + optional-tool-terminal; khong phai row top-level nen KHONG khai gbh.row (CLI chua patch-theo-nhom)"
+  ],
+  "packages": [
+    {
+      "dsh": "@deepseek-ai/dsh-tool-terminal",
+      "gbh": "gbh-tool-terminal"
+    }
+  ]
+}

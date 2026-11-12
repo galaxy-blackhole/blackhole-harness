@@ -1,0 +1,67 @@
+{
+  "name": "@galaxy-blackhole/gbh-client-ui-cot-translation",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "type": "module",
+  "main": "lib/index.js",
+  "description": "Optional machine translation of expanded reasoning, preserving original Session text",
+  "scripts": {
+    "build": "bun run build.ts"
+  },
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./client": "./lib/client.js",
+    "./package.json": "./package.json",
+    "./locale/*.json": "./locale/*.json"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2",
+    "@deepseek-ai/dsh-experimental-translator": "0.2.1-alpha.4"
+  },
+  "devDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2",
+    "@deepseek-ai/schemastery": "~3.18.5-alpha.2",
+    "@deepseek-ai/dsh-typert-protocol": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-experimental-translator": "0.2.1-alpha.4"
+  },
+  "dsh": {
+    "client": {
+      "inject": [
+        "@galaxy-blackhole/gbh-api-remotes",
+        "@galaxy-blackhole/gbh-client-locale",
+        "@galaxy-blackhole/gbh-client-ui-chat",
+        "@galaxy-blackhole/gbh-client-ui-plugin-manager",
+        "@galaxy-blackhole/gbh-client-ui-settings"
+      ],
+      "platform": "web"
+    }
+  },
+  "gbh": {
+    "provenance": {
+      "stock": "@deepseek-ai/dsh-experimental-client-ui-cot-translation",
+      "version": "0.2.1-alpha.4",
+      "sha": "c0c083bef06f811219476c59bd5d7ecf2e6b2da2deb9199f73d616cff2c79f32"
+    },
+    "row": {
+      "id": "cot-translation",
+      "moduleIds": [
+        "@galaxy-blackhole/gbh-client-ui-cot-translation"
+      ],
+      "aliases": [
+        "@deepseek-ai/dsh-experimental-client-ui-cot-translation"
+      ],
+      "tests": [
+        "tests/client/ui-cot-translation.test.ts"
+      ],
+      "config": {
+        "provider": "bing",
+        "targetLanguage": "auto"
+      },
+      "ownedByBundle": true
+    }
+  },
+  "types": "lib/types/index.d.ts"
+}

@@ -1,0 +1,21 @@
+{
+  "dev": "tm-evidence",
+  "owner": "tm-evidence",
+  "evidence": [
+    "3/3 SLICE PORTED — not mounted (worker + service + tools; row: top-level `insertDisabled` mirror, 3 row LỒNG `tool-plugin-market` KHÔNG thay được bằng gbh.row; `typert.host` 407 + `typert.remote-client` 259 = 666 dòng CHƯA port)",
+    "reviewer tm-reviewer TU DO: build lại **3 entry** = exit 0 — `index.js` (service) 23.354 B · `tools.js` 6.554 B · `worker.js` 1.187 B (worker giữ dep `@deepseek-ai/dsh-plugin-market-index` external)",
+    "reviewer tu chay 3 tep test GOP: **45 pass / 0 fail / 466 expect** — worker **7 pass/41 expect** (8 ca EQUAL: spawn CA stock worker.cjs LAN library ta trong node:worker_threads) · service **25 pass/114 expect** (25 ca EQUAL tren Context cordis THAT + fetch stub) · tools **13 pass/311 expect** (tool `plugin_market` A/B)",
+    "export khop stock: `index.js` default `PluginMarket` (stock `PluginMarket as default`) · `tools.js` `inject` + `apply`; `exports` package khai `.`/`./worker`/`./tools`",
+    "grep trung ten tool: `plugin_market` NGOAI package nay (packages/ + apps/cli/ + tools/) = **0 cho** — reviewer quet packages/*/*/src = 0 dong",
+    "`tsc -p packages/host/plugin-market/tsconfig.json --noEmit` = **0 loi** (reviewer tu chay)",
+    "quyet dinh row (README §5.5 + §7): row top-level `plugin-market` mirror `gbh.row.insertDisabled: { js: \"!ctx.get('profileContext')\" }` (stock `disabled: !!js '!ctx.get(''profileContext'')'`); **ba row `tool-plugin-market`** = 2 row LONG trong `preset-standard`/`preset-ptc` + 1 TOP-LEVEL — `gbh.row` chi dien dat MOT row phang nen KHONG thay duoc ⇒ neu mount, preset agent van tro bundle stock cho tool ⇒ **can quyet dinh rieng cua Lead**, KHONG tu mount",
+    "no con lai (README §6): mat Gateway/remote cua namespace `lib/typert.host.js` 407 + `lib/typert.remote-client.js` 259 dong — hien kernel `api-remotes` giu schema",
+    "task-68 (audit 3/3 slice) — batch nay thay ky luot worker-slice truoc do (task-49)"
+  ],
+  "packages": [
+    {
+      "dsh": "@deepseek-ai/dsh-plugin-market",
+      "gbh": "gbh-plugin-market"
+    }
+  ]
+}

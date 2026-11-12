@@ -1,0 +1,32 @@
+{
+  "dev": "phien-truoc (git log)",
+  "owner": "lead",
+  "evidence": [
+    "reviewer tm-reviewer do doc lap tren artifact: ca 5 goi id goc=0 / id ta=1, build.ts doc argv[2], 0 dong ESM trong bundle client",
+    "tap slot ta = tap slot goc (ui-layout qua hang so ROOT_CHILDREN da phan giai: 6 slot con + root; cac goi con lai theo harness)",
+    "lab per-row (home rieng /tmp/rev-lab-*, cong 5480, do TRUOC regression brand): #root 24.602 · 0 loi console · 0 pageerror · 0 overlay cho ca 5 goi",
+    "test goi (reviewer tu chay): connection 24 pass · client-hmr 10 pass · ui-layout 17 pass · ui-plan 16 pass · ui-workspace 23 pass — 0 fail / tong 90 pass"
+  ],
+  "packages": [
+    {
+      "dsh": "@deepseek-ai/dsh-client-ui-layout",
+      "gbh": "gbh-client-ui-layout"
+    },
+    {
+      "dsh": "@deepseek-ai/dsh-client-ui-plan",
+      "gbh": "gbh-client-ui-plan"
+    },
+    {
+      "dsh": "@deepseek-ai/dsh-client-ui-workspace",
+      "gbh": "gbh-client-ui-workspace"
+    },
+    {
+      "dsh": "@deepseek-ai/dsh-client-connection",
+      "gbh": "gbh-client-connection"
+    },
+    {
+      "dsh": "@deepseek-ai/dsh-client-hmr",
+      "gbh": "gbh-client-hmr"
+    }
+  ]
+}

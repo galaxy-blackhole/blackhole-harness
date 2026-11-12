@@ -1,0 +1,68 @@
+{
+  "name": "@galaxy-blackhole/gbh-app-boot",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "type": "module",
+  "main": "lib/index.js",
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./package.json": "./package.json",
+    "./worker/profile-resolution-bootstrap": "./lib/worker/profile-resolution-bootstrap.js"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis-plugin-group": "~1.0.5-alpha.2",
+    "@deepseek-ai/cordis-plugin-include": "~1.0.10-alpha.2",
+    "@deepseek-ai/cordis-plugin-loader": "~1.0.6-alpha.2",
+    "@deepseek-ai/dsh-launch-environment": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-home-paths": "0.2.1-alpha.4",
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2"
+  },
+  "dependencies": {
+    "@deepseek-ai/dsh-atomic-write": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-package-manifest": "0.2.1-alpha.4",
+    "@eslint-community/regexpp": "^4.12.2",
+    "ajv": "^8.20.0",
+    "js-yaml": "^4.3.2",
+    "node-addon-require-builtin": "^0.1.9",
+    "resolve.exports": "^2.0.3",
+    "semver": "^7.8.5"
+  },
+  "gbh": {
+    "peers": [
+      "@deepseek-ai/cordis-plugin-group",
+      "@deepseek-ai/cordis-plugin-include",
+      "@deepseek-ai/cordis-plugin-loader",
+      "@deepseek-ai/dsh-launch-environment",
+      "@deepseek-ai/dsh-home-paths",
+      "@deepseek-ai/cordis",
+      "@deepseek-ai/dsh-atomic-write",
+      "@deepseek-ai/dsh-package-manifest",
+      "@eslint-community/regexpp",
+      "ajv",
+      "js-yaml",
+      "node-addon-require-builtin",
+      "resolve.exports",
+      "semver"
+    ],
+    "tests": [
+      "tests/host/app-boot.test.ts"
+    ],
+    "provenance": {
+      "stock": "@deepseek-ai/dsh-app-boot",
+      "version": "0.2.1-alpha.4",
+      "sha": "5135179ac810e4f626f32ec3bdc3293dc7d2028e8aa92e5e0c006f1a33b78e76"
+    },
+    "draft": "kernel boot library (profile resolution/loader/bootstrap) — không phải row; KHÔNG mount, nghiệm thu bằng boot-smoke home cách ly"
+  },
+  "description": "Shared boot glue for the app bins: .env loading, fail-loud Loader guards, snapshot-aware config resolution, and the Loader boot sequence",
+  "devDependencies": {
+    "@deepseek-ai/cordis-plugin-group": "~1.0.5-alpha.2",
+    "@deepseek-ai/cordis-plugin-include": "~1.0.10-alpha.2",
+    "@deepseek-ai/cordis-plugin-loader": "~1.0.6-alpha.2",
+    "@deepseek-ai/dsh-launch-environment": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-home-paths": "0.2.1-alpha.4"
+  }
+}

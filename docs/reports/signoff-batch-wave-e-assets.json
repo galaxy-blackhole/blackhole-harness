@@ -1,0 +1,20 @@
+{
+  "dev": "tm-assets",
+  "owner": "tm-assets",
+  "evidence": [
+    "reviewer tm-reviewer doc lap: build artifact exit 0 · export host tap = ban goc (apply 1=1, thieu 0 thua 0) · KHONG co lib/client.js (chi nua host — dung thiet ke CONVERSION-RUNBOOK §4d)",
+    "package signed, not mounted (chưa đủ nửa client / seam)",
+    "ly do khong mount (README ca 2 goi): 'Theo CONVERSION-RUNBOOK §4d: goi HAI MAT ma chua port nua client thi chi port nua host va KHONG khai gbh.row — khai row se thay row stock ma ta chua co nua client ⇒ mat toan bo UI cua row (bai hoc bootstrap facade is missing)'; stock client.js: model-selection 1.908 dong · user-questions 1.942 dong",
+    "reviewer tu chay: ui-model-selection 5 pass / 0 fail / 24 expect · ui-user-questions 5 pass / 0 fail / 26 expect"
+  ],
+  "packages": [
+    {
+      "dsh": "@deepseek-ai/dsh-client-ui-model-selection",
+      "gbh": "gbh-client-ui-model-selection"
+    },
+    {
+      "dsh": "@deepseek-ai/dsh-client-ui-user-questions",
+      "gbh": "gbh-client-ui-user-questions"
+    }
+  ]
+}

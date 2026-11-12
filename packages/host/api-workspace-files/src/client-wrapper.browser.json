@@ -1,0 +1,24 @@
+{
+  "head": [
+    "window.__ModuleLoader__.load({",
+    "\tid: \"@galaxy-blackhole/gbh-api-workspace-files\",",
+    "\tfactory: (require) => {"
+  ],
+  "tail": [
+    "\t\texports.apply = apply;",
+    "\t\texports.inject = inject;",
+    "\t\treturn module.exports;",
+    "\t}",
+    "});",
+    "",
+    "//# sourceMappingURL=client.js.map"
+  ],
+  "parts": [
+    "part-00.ts",
+    "part-01.ts",
+    "part-02.ts",
+    "part-03.ts",
+    "part-04.ts",
+    "part-05.ts"
+  ]
+}

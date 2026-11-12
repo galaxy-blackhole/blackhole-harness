@@ -1,0 +1,44 @@
+{
+  "name": "@galaxy-blackhole/gbh-harness-dev-context",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "type": "module",
+  "main": "lib/index.js",
+  "description": "Bản viết lại của Galaxy Blackhole cho row harness-dev-context của DSH (@deepseek-ai/dsh-harness-dev-context): ngữ cảnh phát triển của harness — hai mục system prompt KHÔNG chứa đường dẫn/URL, hai dòng runtime context nêu checkout và URL Web GUI hiện tại, và một đơn vị chiếu giữ nguyên văn đoạn prompt mà phiên đã nhận.",
+  "scripts": {
+    "build": "bun run build.ts"
+  },
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/dsh-session-projection": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-system-prompt": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-web-app": "0.2.1-alpha.4"
+  },
+  "dependencies": {
+    "zod": "^4.6.7"
+  },
+  "license": "MIT",
+  "gbh": {
+    "peers": [
+      "@deepseek-ai/dsh-session-projection",
+      "@deepseek-ai/dsh-system-prompt",
+      "@deepseek-ai/dsh-web-app"
+    ],
+    "row": {
+      "id": "harness-dev-context",
+      "tests": [
+        "tests/host/harness-dev-context.test.ts"
+      ]
+    },
+    "provenance": {
+      "stock": "@deepseek-ai/dsh-harness-dev-context"
+    }
+  },
+  "types": "lib/types/index.d.ts"
+}

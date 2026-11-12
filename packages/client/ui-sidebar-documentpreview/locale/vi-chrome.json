@@ -1,0 +1,9 @@
+{
+  "title": "Bảng tính",
+  "language": "vi",
+  "loading": "Đang kết xuất tài liệu…",
+  "invalid": "Không mở được bảng tính này. Hãy kiểm tra định dạng, nội dung hoặc mật khẩu bảo vệ.",
+  "tooLarge": "Sổ làm việc này vượt giới hạn kích thước xem trước.",
+  "timeout": "Mở sổ làm việc quá thời gian. Hãy thử tệp nhỏ hơn.",
+  "encoding": "Không đọc được bảng mã văn bản này. Hãy lưu tệp dạng UTF-8 hoặc UTF-16."
+}

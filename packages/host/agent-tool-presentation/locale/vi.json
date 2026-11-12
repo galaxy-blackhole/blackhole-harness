@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "agent-tool-presentation",
+    "description": "Bộ chọn cách trình bày ở tầng agent: ghép tool của một agent thành chế độ PTC hoặc lời gọi tool native."
+  }
+}

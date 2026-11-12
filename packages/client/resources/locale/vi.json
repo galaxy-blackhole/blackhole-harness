@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "resources",
+    "description": "Mô hình tài nguyên client thống nhất: provider đăng ký theo giao thức, biến địa chỉ URL thành giá trị sống."
+  }
+}

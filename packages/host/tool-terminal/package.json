@@ -1,0 +1,63 @@
+{
+  "name": "@galaxy-blackhole/gbh-tool-terminal",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "type": "module",
+  "main": "lib/index.js",
+  "description": "Six model-facing persistent PTY tools with owner isolation and generic background-job integration",
+  "scripts": {
+    "build": "bun run build.ts"
+  },
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "dependencies": {
+    "@deepseek-ai/schemastery": "~3.18.5-alpha.2"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/dsh-agent": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-llm": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-terminal": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-output-retention": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-system-prompt": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-jobs": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-tools": "0.2.1-alpha.4",
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2",
+    "@deepseek-ai/dsh-working-directory": "0.2.1-alpha.4"
+  },
+  "license": "MIT",
+  "gbh": {
+    "tests": [
+      "tests/host/tool-terminal.test.ts"
+    ],
+    "peers": [
+      "@deepseek-ai/dsh-agent",
+      "@deepseek-ai/dsh-llm",
+      "@deepseek-ai/dsh-terminal",
+      "@deepseek-ai/dsh-output-retention",
+      "@deepseek-ai/dsh-system-prompt",
+      "@deepseek-ai/dsh-jobs",
+      "@deepseek-ai/dsh-tools",
+      "@deepseek-ai/cordis",
+      "@deepseek-ai/dsh-working-directory",
+      "@deepseek-ai/schemastery"
+    ],
+    "nested": {
+      "kind": "group",
+      "pluginId": "optional-tool-terminal",
+      "stockId": "@deepseek-ai/dsh-tool-terminal",
+      "presets": [
+        "optional-persistent-terminals"
+      ]
+    },
+    "provenance": {
+      "stock": "@deepseek-ai/dsh-tool-terminal",
+      "version": "0.2.1-alpha.4",
+      "sha": "e75845292220ed21c0af6763ffa0a044d38f7b9b4d05c2b00248aea8718a7e83"
+    }
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "dev": "tm-host-session",
+  "owner": "tm-host-session",
+  "evidence": [
+    "reviewer tm-reviewer doc lap tren artifact build lai: exit 0 · export **5 = 5** voi goc (`TypertRegistry` · `default` · `typertEndpoint` · `typertKey` · `typertPackageKey`), thieu 0 thua 0 · KHONG co lib/client.js (goi goc HAI MAT: client.browser 655 dong + client.node 645 dong)",
+    "service `typert`: chi `dsh-typert-registry` (stock) cung cap; ban ta `super(ctx, \"typert\")` ⇒ thay the 1:1, KHONG trung ten service voi goi khac (quet toan bo lib/index.js cua cay cai)",
+    "reviewer tu chay bun test tests/host/typert-registry.test.ts: **12 pass / 0 fail / 48 expect**",
+    "package signed, not mounted (chưa đủ nửa client / seam)"
+  ],
+  "packages": [
+    {
+      "dsh": "@deepseek-ai/dsh-typert-registry",
+      "gbh": "gbh-typert-registry"
+    }
+  ]
+}

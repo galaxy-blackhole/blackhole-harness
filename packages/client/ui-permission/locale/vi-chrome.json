@@ -1,0 +1,14 @@
+{
+  "title": "Quyền",
+  "description": "Chọn chế độ quyền mặc định cho phiên mới",
+  "loading": "Đang tải",
+  "unavailable": "Không dùng được",
+  "preset.readOnly": "Chỉ đọc",
+  "preset.workspaceWrite": "Ghi trong workspace",
+  "preset.fullAccess": "Toàn quyền",
+  "confirm.title": "Bật Toàn quyền?",
+  "confirm.description": "Toàn quyền cho phiên mới bớt các bước xác nhận và để agent tự làm nhiều việc hơn, kể cả thao tác nhạy cảm, sửa tệp hay chạy lệnh bên ngoài. Chỉ dùng khi bạn tin tưởng tác vụ đang chạy.",
+  "confirm.acknowledge": "Tôi hiểu rủi ro và muốn tiếp tục",
+  "confirm.cancel": "Huỷ",
+  "confirm.enable": "Bật Toàn quyền"
+}

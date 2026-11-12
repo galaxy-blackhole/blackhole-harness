@@ -1,0 +1,70 @@
+{
+  "name": "@galaxy-blackhole/gbh-host-typert-gateway",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "type": "module",
+  "main": "lib/index.js",
+  "description": "Ban viet lai cua Galaxy Blackhole cho row typert-gateway cua DSH (RPC core: claim + dispatch tren seam connection).",
+  "scripts": {
+    "build": "bun run build.ts"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2",
+    "@deepseek-ai/dsh-typert-protocol": "0.2.1-alpha.4"
+  },
+  "devDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2",
+    "@deepseek-ai/dsh-typert-protocol": "0.2.1-alpha.4"
+  },
+  "gbh": {
+    "provenance": {
+      "stock": "@deepseek-ai/dsh-api-gateway"
+    },
+    "row": {
+      "id": "typert-gateway",
+      "aliases": [
+        "@deepseek-ai/dsh-api-gateway"
+      ],
+      "moduleIds": [
+        "@galaxy-blackhole/gbh-host-typert-gateway"
+      ],
+      "tests": [
+        "tests/host/typert-gateway.test.ts"
+      ]
+    }
+  },
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./client": {
+      "types": "./lib/types/client/index.d.ts",
+      "node": "./lib/client.node.js",
+      "browser": "./lib/client.browser.js",
+      "default": "./lib/client.browser.js"
+    },
+    "./types": {
+      "types": "./lib/types/types.d.ts",
+      "default": "./lib/types/types.js"
+    },
+    "./src/*": "./src/*",
+    "./package.json": "./package.json",
+    "./stream-protocol": {
+      "types": "./lib/types/stream-protocol.d.ts",
+      "default": "./lib/types/stream-protocol.js"
+    },
+    "./locale/*.json": "./locale/*.json"
+  },
+  "dsh": {
+    "client": {
+      "inject": [
+        "@galaxy-blackhole/gbh-typert-registry",
+        "@galaxy-blackhole/gbh-client-connection"
+      ],
+      "platform": "web",
+      "immediately": true
+    }
+  },
+  "types": "lib/types/index.d.ts"
+}

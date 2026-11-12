@@ -1,0 +1,28 @@
+{
+  "dev": "tm-client-ui-b",
+  "owner": "tm-client-ui-b",
+  "evidence": [
+    "signed, MOUNTED — check:app 3 luot: (3) 151 entry · (5) 0 · #root/#root slot OK · (10) con 2 BAN MOUNT CU cua gbh-session-log-export (goi DA PARK, khong nam trong batch nay) — app LANH",
+    "CO CHE: 4 goi CLIENT row TOP-LEVEL (`dsh.client` + `exports['./client']` = ./lib/client.js), patch disabled + insert ours",
+    "ui-user-questions **10/61** client 85.361 B `591af09a22` · ui-model-selection **9/126** client 78.948 B `cbcad4f57b` · ui-input-trigger **12/77** client 69.374 B `8af33a3e2e` · ui-cordis **14/75** client 79.877 B `8eae87738d` — tat ca 0 fail, reviewer tu do",
+    "rollback san"
+  ],
+  "packages": [
+    {
+      "dsh": "@deepseek-ai/dsh-client-ui-user-questions",
+      "gbh": "gbh-client-ui-user-questions"
+    },
+    {
+      "dsh": "@deepseek-ai/dsh-client-ui-model-selection",
+      "gbh": "gbh-client-ui-model-selection"
+    },
+    {
+      "dsh": "@deepseek-ai/dsh-client-ui-input-trigger",
+      "gbh": "gbh-client-ui-input-trigger"
+    },
+    {
+      "dsh": "@deepseek-ai/dsh-client-ui-cordis",
+      "gbh": "gbh-client-ui-cordis"
+    }
+  ]
+}

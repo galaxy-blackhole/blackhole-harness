@@ -1,0 +1,40 @@
+{
+  "dev": "tm-assets",
+  "owner": "tm-assets",
+  "evidence": [
+    "reviewer do doc lap: grep 'DeepSeek Harness' trong src cua 7 goi = 0 (N2 sach trong pham vi lo nay)",
+    "reviewer tu chay bun test: 7 tep test = 107 pass / 0 fail / 1280 expect",
+    "N1=0 · N3=0 · N4=0 (chay tools/check/no-dsh-assets.ts); N2 TOAN REPO con 1 o packages/host/shell-identity/src/ids.ts (KHONG thuoc lo nay)",
+    "10 goi task-17 da doi chuoi; 2 goi khong the ky qua batch: gbh-client-settings-about (bundle patch, khong khai gbh.row.tests) + gbh-subprocess (khong khai gbh.row.tests)"
+  ],
+  "packages": [
+    {
+      "dsh": "@deepseek-ai/dsh-client-ui-layout",
+      "gbh": "gbh-client-ui-layout"
+    },
+    {
+      "dsh": "@deepseek-ai/dsh-client-ui-settings-models",
+      "gbh": "gbh-client-ui-settings-models"
+    },
+    {
+      "dsh": "@deepseek-ai/dsh-system-prompt",
+      "gbh": "gbh-system-prompt"
+    },
+    {
+      "dsh": "@deepseek-ai/dsh-harness-dev-context",
+      "gbh": "gbh-harness-dev-context"
+    },
+    {
+      "dsh": "@deepseek-ai/dsh-shell-env",
+      "gbh": "gbh-shell-env"
+    },
+    {
+      "dsh": "@deepseek-ai/dsh-llm-deepseek-account",
+      "gbh": "gbh-llm-deepseek-account"
+    },
+    {
+      "dsh": "@deepseek-ai/dsh-web-app",
+      "gbh": "gbh-web-startup"
+    }
+  ]
+}

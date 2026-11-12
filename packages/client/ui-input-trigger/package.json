@@ -1,0 +1,61 @@
+{
+  "name": "@galaxy-blackhole/gbh-client-ui-input-trigger",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "type": "module",
+  "main": "lib/index.js",
+  "description": "Input trigger pipeline: '/' and '@' detection, candidate menu, pick routing to registered sources",
+  "scripts": {
+    "build": "bun run build.ts"
+  },
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./client": "./lib/client.js",
+    "./package.json": "./package.json",
+    "./locale/*.json": "./locale/*.json"
+  },
+  "license": "MIT",
+  "dsh": {
+    "client": {
+      "inject": [
+        "@galaxy-blackhole/gbh-api-session-controller",
+        "@galaxy-blackhole/gbh-client-locale",
+        "@galaxy-blackhole/gbh-client-ui-conversation",
+        "@galaxy-blackhole/gbh-client-ui-renderer"
+      ],
+      "platform": "web"
+    }
+  },
+  "gbh": {
+    "draft": "PARKED — KHONG khai gbh.row. Do duoc 19/10/2026: da port 1:1 CA HAI nua (host apply rong 13 dong; client 1.853 dong sinh tu src/, dang ky DUNG MOT id @galaxy-blackhole/gbh-client-ui-input-trigger), dsh.client khop tuyet doi ban goc (platform web + 4 inject dung thu tu), exports co './client'. Chua khai gbh.row vi con thieu buoc cua Lead: --dump-config doi chieu row id that ('ui-input-trigger'), boot-smoke + lab:row de xac nhan slot conversation.input.overlay mount that. Khai row truoc khi boot-smoke = thay row stock bang mot entry chua duoc chung minh. Tien le ghi no: packages/host/session-title-llm.",
+    "tests": [
+      "tests/client/ui-input-trigger.test.ts"
+    ],
+    "reference": "apps/host/node_modules/@deepseek-ai/dsh-client-ui-input-trigger (chi doc)",
+    "row": {
+      "id": "ui-input-trigger",
+      "moduleIds": [
+        "@galaxy-blackhole/gbh-client-ui-input-trigger"
+      ],
+      "aliases": [
+        "@deepseek-ai/dsh-client-ui-input-trigger"
+      ],
+      "tests": [
+        "tests/client/ui-input-trigger.test.ts"
+      ]
+    },
+    "provenance": {
+      "stock": "@deepseek-ai/dsh-client-ui-input-trigger",
+      "version": "0.2.1-alpha.4",
+      "sha": "4a9605b0a811354ed49495790b331bf4f5198ff41614920d9d0c488e22a0f2af",
+      "shaFile": "lib/client.js"
+    }
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2"
+  },
+  "types": "lib/types/index.d.ts"
+}

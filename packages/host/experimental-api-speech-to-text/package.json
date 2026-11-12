@@ -1,0 +1,69 @@
+{
+  "name": "@galaxy-blackhole/gbh-experimental-api-speech-to-text",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "type": "module",
+  "main": "lib/index.js",
+  "description": "Authenticated experimental speech transcription for browser clients",
+  "scripts": {
+    "build": "bun run build.ts"
+  },
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "default": "./lib/index.js"
+    },
+    "./package.json": "./package.json",
+    "./src/*": "./src/*",
+    "./typert": "./lib/typert.host.js",
+    "./remote": "./lib/typert.remote-client.js",
+    "./locale/*.json": "./locale/*.json"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2",
+    "@deepseek-ai/dsh-typert-protocol": "0.2.1-alpha.4",
+    "@deepseek-ai/schemastery": "~3.18.5-alpha.2",
+    "zod": "4.4.3",
+    "@deepseek-ai/dsh-experimental-speech-to-text": "0.2.1-alpha.4"
+  },
+  "devDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2",
+    "@deepseek-ai/dsh-typert-protocol": "0.2.1-alpha.4",
+    "@deepseek-ai/schemastery": "~3.18.5-alpha.2",
+    "zod": "4.4.3",
+    "@deepseek-ai/dsh-experimental-speech-to-text": "0.2.1-alpha.4"
+  },
+  "license": "MIT",
+  "gbh": {
+    "peers": [
+      "@deepseek-ai/cordis",
+      "@deepseek-ai/dsh-experimental-speech-to-text",
+      "@deepseek-ai/dsh-typert-protocol",
+      "@deepseek-ai/schemastery",
+      "zod"
+    ],
+    "tests": [
+      "tests/host/experimental-api-speech-to-text.test.ts"
+    ],
+    "draft": "GBH-ONLY: profile dump .parity/dumps/2026-10-18T01-31-57/ khong co muc nao khop /speech|stt|audio/ (grep 0) VI bundle voice-input dang TAT trong preset; row goc CO that trong bundle patch dsh-experimental-voice-input-bundle (dump-now2 dong 1563-1564, khong config/inject/disabled) ⇒ khong co row nao trong profile de thay. Port HOST-ONLY 1:1: lib/index.js 219 dong (SpeechController ke thua TypertRemoteService, 6 method @Remote: catalog/follow(stream)/configure/prepare/cancelPreparation/transcribe) + 2 manifest typert generated (typert.host.js 505 dong, typert.remote-client.js 375 dong) chep nguyen van, chi doi ownership id sang @galaxy-blackhole/gbh-experimental-api-speech-to-text va giu typeSymbol cua goi khac. Row goc nam trong bundle patch dsh-experimental-voice-input-bundle (dump-now2 dong 1563-1564, khong config/inject/disabled) nhung bundle DO dang tat trong profile ⇒ chua mount/flip: khai gbh.row_unmounted_ly_do.row { id: api-speech-to-text, moduleIds, aliases: [id stock], tests } de park; 2 manifest typert da san sang cho buoc mount sau.",
+    "row": {
+      "id": "api-speech-to-text",
+      "moduleIds": [
+        "@galaxy-blackhole/gbh-experimental-api-speech-to-text"
+      ],
+      "aliases": [
+        "@deepseek-ai/dsh-experimental-api-speech-to-text"
+      ],
+      "tests": [
+        "tests/host/experimental-api-speech-to-text.test.ts"
+      ],
+      "ownedByBundle": true
+    },
+    "provenance": {
+      "stock": "@deepseek-ai/dsh-experimental-api-speech-to-text",
+      "version": "0.2.1-alpha.4",
+      "sha": "1c1746d39f81b1de49acb92623119d8e66f31724912a3e3d99a8d3d86a49ffdb"
+    }
+  },
+  "types": "src/index.ts"
+}

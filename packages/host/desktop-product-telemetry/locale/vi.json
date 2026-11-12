@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "product-telemetry-otel",
+    "description": "Các sự kiện sử dụng sản phẩm được ghi nhận tường minh và xuất qua log HTTP OpenTelemetry."
+  }
+}

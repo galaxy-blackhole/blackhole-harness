@@ -1,0 +1,64 @@
+{
+  "name": "@galaxy-blackhole/gbh-config-editor",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "type": "module",
+  "main": "lib/index.js",
+  "description": "Bản viết lại của Galaxy Blackhole cho row config-editor của DSH (@deepseek-ai/dsh-config-editor): dịch vụ configEditor — ghi cấu hình THÔ đầy đủ của một plugin vào tệp patch của profile rồi đối soát qua đường Loader bình thường.",
+  "scripts": {
+    "build": "bun run build.ts"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2",
+    "@deepseek-ai/cordis-plugin-include": "1.0.10",
+    "@deepseek-ai/cordis-plugin-loader": "1.0.6",
+    "@deepseek-ai/dsh-app-boot": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-atomic-write": "0.2.1-alpha.4",
+    "js-yaml": "^4.3.2",
+    "yaml": "^2.9.1"
+  },
+  "devDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2",
+    "@deepseek-ai/cordis-plugin-include": "1.0.10",
+    "@deepseek-ai/cordis-plugin-loader": "1.0.6",
+    "@deepseek-ai/dsh-app-boot": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-atomic-write": "0.2.1-alpha.4",
+    "@types/js-yaml": "^4.0.9",
+    "js-yaml": "^4.3.2",
+    "yaml": "^2.9.1"
+  },
+  "gbh": {
+    "peers": [
+      "@deepseek-ai/cordis",
+      "@deepseek-ai/cordis-plugin-include",
+      "@deepseek-ai/cordis-plugin-loader",
+      "@deepseek-ai/dsh-app-boot",
+      "@deepseek-ai/dsh-atomic-write",
+      "js-yaml",
+      "yaml"
+    ],
+    "row": {
+      "id": "config-editor",
+      "disabled": true,
+      "tests": [
+        "tests/host/config-editor.test.ts"
+      ],
+      "insertDisabled": {
+        "js": "!ctx.get('profileContext')"
+      }
+    },
+    "provenance": {
+      "stock": "@deepseek-ai/dsh-config-editor"
+    }
+  },
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./package.json": "./package.json",
+    "./src/*": "./src/*",
+    "./locale/*.json": "./locale/*.json"
+  },
+  "types": "lib/types/index.d.ts"
+}

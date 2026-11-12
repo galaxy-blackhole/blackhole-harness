@@ -1,0 +1,16 @@
+{
+  "dev": "tm-client-ui-b",
+  "owner": "tm-client-ui-b",
+  "evidence": [
+    "reviewer tm-reviewer doc lap: build artifact exit 0 · export host tap = ban goc (apply 1=1, thieu 0 thua 0) · KHONG co lib/client.js (chi nua host — dung thiet ke CONVERSION-RUNBOOK §4d)",
+    "package signed, not mounted (chưa đủ nửa client / seam)",
+    "ly do khong mount (draft): 'KHONG khai gbh.row: goi GOC la HAI MAT (dsh.client web + 5 inject, lib/client.js 515 dong) — theo CONVERSION-RUNBOOK §4d goi hai mat chi port nua host va KHONG khai gbh.row'",
+    "reviewer tu chay bun test tests/client/ui-agent-team.test.ts: 6 pass / 0 fail / 67 expect"
+  ],
+  "packages": [
+    {
+      "dsh": "@deepseek-ai/dsh-experimental-client-ui-agent-team",
+      "gbh": "gbh-client-ui-agent-team"
+    }
+  ]
+}

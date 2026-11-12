@@ -1,0 +1,1000 @@
+							jsonSchema: { "oneOf": [{
+								"type": "object",
+								"properties": {
+									"ok": {
+										"type": "boolean",
+										"const": true
+									},
+									"pluginRunId": { "type": "string" },
+									"waitingFor": {
+										"type": "array",
+										"items": { "type": "string" }
+									}
+								},
+								"required": ["ok", "pluginRunId"],
+								"additionalProperties": false
+							}, {
+								"type": "object",
+								"properties": {
+									"ok": {
+										"type": "boolean",
+										"const": false
+									},
+									"reason": {
+										"type": "string",
+										"enum": [
+											"rejected",
+											"host-half-failed",
+											"client-half-failed"
+										]
+									},
+									"pluginRunId": {
+										"type": "string",
+										"description": "Activation that failed; absent for a refusal before activation."
+									},
+									"startedHere": {
+										"type": "boolean",
+										"description": "Whether this page created the failed activation instead of attaching to it."
+									},
+									"message": { "type": "string" },
+									"stack": { "type": "string" }
+								},
+								"required": ["ok", "reason"],
+								"additionalProperties": false
+							}] }
+						}
+					}],
+					result: {
+						mode: "strict",
+						typeSymbol: "@deepseek-ai/dsh-cordis-host-runner/types#DynamicCordisResolveAck",
+						create: _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_resolveRequestRun_result$schema,
+						description: "Whether the still-pending request accepted this resolution.",
+						jsonSchema: {
+							"type": "object",
+							"properties": { "accepted": {
+								"type": "boolean",
+								"description": "False for late, unknown, or stale answers."
+							} },
+							"required": ["accepted"],
+							"additionalProperties": true
+						}
+					},
+					sourceLocation: {
+						"file": "packages/extensions/cordis-host-runner/src/index.ts",
+						"line": 431,
+						"column": 9
+					}
+				},
+				"dynamicCordisRunner/runHostHalf": {
+					service: "dynamicCordisRunner",
+					description: "Start Host code for an approved request or a direct panel gesture.",
+					invocation: { kind: "direct" },
+					scope: {
+						context: "agent",
+						wire: "agentId"
+					},
+					parameters: [
+						{
+							name: "agent",
+							wire: "agentId",
+							description: "Agent whose Session must own the Plugin.",
+							source: "lookup",
+							lookup: "agent",
+							codec: {
+								mode: "strict",
+								typeSymbol: "@deepseek-ai/dsh-session/types#SessionId",
+								create: _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_runHostHalf_parameter_0$schema,
+								jsonSchema: { "type": "string" }
+							},
+							strictCodec: {
+								mode: "strict",
+								typeSymbol: "@deepseek-ai/dsh-session/types#SessionId",
+								create: _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_runHostHalf_parameter_0_strict$schema,
+								jsonSchema: { "type": "string" }
+							}
+						},
+						{
+							name: "pluginId",
+							description: "Stable Plugin identity to activate.",
+							source: "json",
+							codec: {
+								mode: "strict",
+								typeSymbol: "@deepseek-ai/dsh-cordis-host-runner/types#CordisDynamicPluginId",
+								create: _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_runHostHalf_parameter_1$schema,
+								jsonSchema: { "type": "string" }
+							},
+							strictCodec: {
+								mode: "strict",
+								typeSymbol: "@deepseek-ai/dsh-cordis-host-runner/types#CordisDynamicPluginId",
+								create: _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_runHostHalf_parameter_1_strict$schema,
+								jsonSchema: { "type": "string" }
+							}
+						},
+						{
+							name: "packageId",
+							description: "Immutable Package version to activate.",
+							source: "json",
+							codec: {
+								mode: "strict",
+								typeSymbol: "@deepseek-ai/dsh-cordis-host-runner/types#CordisDynamicPackageId",
+								create: _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_runHostHalf_parameter_2$schema,
+								jsonSchema: { "type": "string" }
+							},
+							strictCodec: {
+								mode: "strict",
+								typeSymbol: "@deepseek-ai/dsh-cordis-host-runner/types#CordisDynamicPackageId",
+								create: _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_runHostHalf_parameter_2_strict$schema,
+								jsonSchema: { "type": "string" }
+							}
+						},
+						{
+							name: "mode",
+							description: "Whether to run the current version or switch versions.",
+							source: "json",
+							codec: {
+								mode: "strict",
+								typeSymbol: "@deepseek-ai/dsh-cordis-host-runner/types#CordisDynamicRunMode",
+								create: _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_runHostHalf_parameter_3$schema,
+								jsonSchema: {
+									"type": "string",
+									"enum": ["run", "update"]
+								}
+							},
+							strictCodec: {
+								mode: "strict",
+								typeSymbol: "@deepseek-ai/dsh-cordis-host-runner/types#CordisDynamicRunMode",
+								create: _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_runHostHalf_parameter_3_strict$schema,
+								jsonSchema: {
+									"type": "string",
+									"enum": ["run", "update"]
+								}
+							}
+						},
+						{
+							name: "requestId",
+							description: "Model-driven request identity, or null for a direct user gesture.",
+							source: "json",
+							codec: {
+								mode: "strict",
+								typeSymbol: "@deepseek-ai/dsh-cordis-host-runner#dynamicCordisRunner/runHostHalf:requestId",
+								create: _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_runHostHalf_parameter_4$schema,
+								jsonSchema: { "oneOf": [{
+									"type": "null",
+									"const": null
+								}, { "type": "string" }] }
+							},
+							strictCodec: {
+								mode: "strict",
+								typeSymbol: "@deepseek-ai/dsh-cordis-host-runner#dynamicCordisRunner/runHostHalf:requestId",
+								create: _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_runHostHalf_parameter_4_strict$schema,
+								jsonSchema: { "oneOf": [{
+									"type": "null",
+									"const": null
+								}, { "type": "string" }] }
+							}
+						},
+						{
+							name: "approveFutureVersions",
+							description: "Whether this approval covers later Packages of the same Plugin.",
+							source: "json",
+							codec: {
+								mode: "strict",
+								typeSymbol: "@deepseek-ai/dsh-cordis-host-runner#dynamicCordisRunner/runHostHalf:approveFutureVersions",
+								create: _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_runHostHalf_parameter_5$schema,
+								jsonSchema: { "type": "boolean" }
+							},
+							strictCodec: {
+								mode: "strict",
+								typeSymbol: "@deepseek-ai/dsh-cordis-host-runner#dynamicCordisRunner/runHostHalf:approveFutureVersions",
+								create: _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_runHostHalf_parameter_5_strict$schema,
+								jsonSchema: { "type": "boolean" }
+							}
+						}
+					],
+					result: {
+						mode: "strict",
+						typeSymbol: "@deepseek-ai/dsh-cordis-host-runner/types#DynamicCordisHostHalfResult",
+						create: _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_runHostHalf_result$schema,
+						description: "The exact Host activation or a failure message.",
+						jsonSchema: { "oneOf": [{
+							"type": "object",
+							"properties": {
+								"ok": {
+									"type": "boolean",
+									"const": true
+								},
+								"pluginId": { "type": "string" },
+								"packageId": { "type": "string" },
+								"pluginRunId": { "type": "string" },
+								"waitingFor": {
+									"type": "array",
+									"items": { "type": "string" }
+								},
+								"startedHere": {
+									"type": "boolean",
+									"description": "False when a panel merely attaches this page to an already active run."
+								}
+							},
+							"required": [
+								"ok",
+								"pluginId",
+								"packageId",
+								"pluginRunId",
+								"waitingFor",
+								"startedHere"
+							],
+							"additionalProperties": true
+						}, {
+							"type": "object",
+							"properties": {
+								"ok": {
+									"type": "boolean",
+									"const": false
+								},
+								"message": {
+									"type": "string",
+									"description": "Original error message."
+								},
+								"stack": {
+									"type": "string",
+									"description": "Original stack when the thrown value supplied one."
+								}
+							},
+							"required": ["ok", "message"],
+							"additionalProperties": true
+						}] }
+					},
+					sourceLocation: {
+						"file": "packages/extensions/cordis-host-runner/src/index.ts",
+						"line": 343,
+						"column": 9
+					}
+				},
+				"dynamicCordisRunner/settleUserRun": {
+					service: "dynamicCordisRunner",
+					description: "Settle a direct panel run after this page loaded or failed its Client half.",
+					invocation: { kind: "direct" },
+					scope: {
+						context: "agent",
+						wire: "agentId"
+					},
+					parameters: [
+						{
+							name: "agent",
+							wire: "agentId",
+							description: "Agent whose Session must own the Plugin.",
+							source: "lookup",
+							lookup: "agent",
+							codec: {
+								mode: "strict",
+								typeSymbol: "@deepseek-ai/dsh-session/types#SessionId",
+								create: _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_settleUserRun_parameter_0$schema,
+								jsonSchema: { "type": "string" }
+							},
+							strictCodec: {
+								mode: "strict",
+								typeSymbol: "@deepseek-ai/dsh-session/types#SessionId",
+								create: _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_settleUserRun_parameter_0_strict$schema,
+								jsonSchema: { "type": "string" }
+							}
+						},
+						{
+							name: "pluginId",
+							description: "Stable Plugin identity being settled.",
+							source: "json",
+							codec: {
+								mode: "strict",
+								typeSymbol: "@deepseek-ai/dsh-cordis-host-runner/types#CordisDynamicPluginId",
+								create: _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_settleUserRun_parameter_1$schema,
+								jsonSchema: { "type": "string" }
+							},
+							strictCodec: {
+								mode: "strict",
+								typeSymbol: "@deepseek-ai/dsh-cordis-host-runner/types#CordisDynamicPluginId",
+								create: _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_settleUserRun_parameter_1_strict$schema,
+								jsonSchema: { "type": "string" }
+							}
+						},
+						{
+							name: "resolution",
+							description: "Exact Client activation result from the acting page.",
+							source: "json",
+							codec: {
+								mode: "strict",
+								typeSymbol: "@deepseek-ai/dsh-cordis-host-runner/types#DynamicCordisRunResolution",
+								create: _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_settleUserRun_parameter_2$schema,
+								jsonSchema: { "oneOf": [{
+									"type": "object",
+									"properties": {
+										"ok": {
+											"type": "boolean",
+											"const": true
+										},
+										"pluginRunId": { "type": "string" },
+										"waitingFor": {
+											"type": "array",
+											"items": { "type": "string" }
+										}
+									},
+									"required": ["ok", "pluginRunId"],
+									"additionalProperties": true
+								}, {
+									"type": "object",
+									"properties": {
+										"ok": {
+											"type": "boolean",
+											"const": false
+										},
+										"reason": {
+											"type": "string",
+											"enum": [
+												"rejected",
+												"host-half-failed",
+												"client-half-failed"
+											]
+										},
+										"pluginRunId": {
+											"type": "string",
+											"description": "Activation that failed; absent for a refusal before activation."
+										},
+										"startedHere": {
+											"type": "boolean",
+											"description": "Whether this page created the failed activation instead of attaching to it."
+										},
+										"message": { "type": "string" },
+										"stack": { "type": "string" }
+									},
+									"required": ["ok", "reason"],
+									"additionalProperties": true
+								}] }
+							},
+							strictCodec: {
+								mode: "strict",
+								typeSymbol: "@deepseek-ai/dsh-cordis-host-runner/types#DynamicCordisRunResolution",
+								create: _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_settleUserRun_parameter_2_strict$schema,
+								jsonSchema: { "oneOf": [{
+									"type": "object",
+									"properties": {
+										"ok": {
+											"type": "boolean",
+											"const": true
+										},
+										"pluginRunId": { "type": "string" },
+										"waitingFor": {
+											"type": "array",
+											"items": { "type": "string" }
+										}
+									},
+									"required": ["ok", "pluginRunId"],
+									"additionalProperties": false
+								}, {
+									"type": "object",
+									"properties": {
+										"ok": {
+											"type": "boolean",
+											"const": false
+										},
+										"reason": {
+											"type": "string",
+											"enum": [
+												"rejected",
+												"host-half-failed",
+												"client-half-failed"
+											]
+										},
+										"pluginRunId": {
+											"type": "string",
+											"description": "Activation that failed; absent for a refusal before activation."
+										},
+										"startedHere": {
+											"type": "boolean",
+											"description": "Whether this page created the failed activation instead of attaching to it."
+										},
+										"message": { "type": "string" },
+										"stack": { "type": "string" }
+									},
+									"required": ["ok", "reason"],
+									"additionalProperties": false
+								}] }
+							}
+						}
+					],
+					result: {
+						mode: "strict",
+						typeSymbol: "@deepseek-ai/dsh-cordis-host-runner/types#DynamicCordisRunResponse",
+						create: _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_settleUserRun_result$schema,
+						description: "The committed activation or its failure.",
+						jsonSchema: { "oneOf": [{
+							"type": "object",
+							"properties": {
+								"ok": {
+									"type": "boolean",
+									"const": true
+								},
+								"status": {
+									"type": "string",
+									"enum": [
+										"running",
+										"awaiting-approval",
+										"starting"
+									],
+									"description": "Whether activation completed synchronously, is starting in a Client, or awaits user approval."
+								},
+								"pluginId": { "type": "string" },
+								"packageId": { "type": "string" },
+								"pluginRunId": { "type": "string" },
+								"waitingFor": {
+									"type": "array",
+									"items": { "type": "string" },
+									"description": "Missing Host services; a parked Fiber is a successful activation."
+								},
+								"clientWaitingFor": {
+									"type": "array",
+									"items": { "type": "string" },
+									"description": "Missing Client services reported by the approving page."
+								},
+								"currentPackageId": {
+									"type": "string",
+									"description": "Last fully successful Package."
+								},
+								"nextPackageId": {
+									"type": "string",
+									"description": "Selected transition target."
+								},
+								"mode": {
+									"type": "string",
+									"enum": ["run", "update"],
+									"description": "Explicit lifecycle intent."
+								}
+							},
+							"required": [
+								"ok",
+								"status",
+								"pluginId",
+								"packageId",
+								"pluginRunId",
+								"waitingFor",
+								"mode"
+							],
+							"additionalProperties": true
+						}, {
+							"type": "object",
+							"properties": {
+								"ok": {
+									"type": "boolean",
+									"const": false
+								},
+								"reason": {
+									"type": "string",
+									"enum": [
+										"cancelled",
+										"not-running",
+										"plugin-missing",
+										"rejected",
+										"host-half-failed",
+										"client-half-failed",
+										"package-missing",
+										"invalid-mode",
+										"transition-in-flight"
+									]
+								},
+								"message": { "type": "string" },
+								"stack": {
+									"type": "string",
+									"description": "Original failure stack when available."
+								}
+							},
+							"required": [
+								"ok",
+								"reason",
+								"message"
+							],
+							"additionalProperties": true
+						}] }
+					},
+					sourceLocation: {
+						"file": "packages/extensions/cordis-host-runner/src/index.ts",
+						"line": 456,
+						"column": 9
+					}
+				},
+				"dynamicCordisRunner/stopFromPanel": {
+					service: "dynamicCordisRunner",
+					description: "Stop a Plugin from the user panel and queue the resulting state change for the model's next step.",
+					invocation: { kind: "direct" },
+					scope: {
+						context: "agent",
+						wire: "agentId"
+					},
+					parameters: [{
+						name: "agent",
+						wire: "agentId",
+						description: "Agent whose Session owns the Plugin and receives the context.",
+						source: "lookup",
+						lookup: "agent",
+						codec: {
+							mode: "strict",
+							typeSymbol: "@deepseek-ai/dsh-session/types#SessionId",
+							create: _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_stopFromPanel_parameter_0$schema,
+							jsonSchema: { "type": "string" }
+						},
+						strictCodec: {
+							mode: "strict",
+							typeSymbol: "@deepseek-ai/dsh-session/types#SessionId",
+							create: _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_stopFromPanel_parameter_0_strict$schema,
+							jsonSchema: { "type": "string" }
+						}
+					}, {
+						name: "pluginId",
+						description: "Stable Plugin identity to stop.",
+						source: "json",
+						codec: {
+							mode: "strict",
+							typeSymbol: "@deepseek-ai/dsh-cordis-host-runner/types#CordisDynamicPluginId",
+							create: _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_stopFromPanel_parameter_1$schema,
+							jsonSchema: { "type": "string" }
+						},
+						strictCodec: {
+							mode: "strict",
+							typeSymbol: "@deepseek-ai/dsh-cordis-host-runner/types#CordisDynamicPluginId",
+							create: _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_stopFromPanel_parameter_1_strict$schema,
+							jsonSchema: { "type": "string" }
+						}
+					}],
+					result: {
+						mode: "strict",
+						typeSymbol: "@deepseek-ai/dsh-cordis-host-runner/types#DynamicCordisStopResponse",
+						create: _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_stopFromPanel_result$schema,
+						description: "Success or the reason no run was stopped.",
+						jsonSchema: { "oneOf": [{
+							"type": "object",
+							"properties": { "ok": {
+								"type": "boolean",
+								"const": true
+							} },
+							"required": ["ok"],
+							"additionalProperties": true
+						}, {
+							"type": "object",
+							"properties": {
+								"ok": {
+									"type": "boolean",
+									"const": false
+								},
+								"reason": {
+									"type": "string",
+									"enum": ["not-running", "plugin-missing"]
+								},
+								"message": { "type": "string" }
+							},
+							"required": [
+								"ok",
+								"reason",
+								"message"
+							],
+							"additionalProperties": true
+						}] }
+					},
+					sourceLocation: {
+						"file": "packages/extensions/cordis-host-runner/src/index.ts",
+						"line": 498,
+						"column": 9
+					}
+				},
+				"dynamicCordisRunner/syncInspectManifest": {
+					service: "dynamicCordisRunner",
+					description: "Replace the Host mirror of the Client inspect provider directory.",
+					invocation: { kind: "direct" },
+					parameters: [{
+						name: "providers",
+						description: "complete Client provider manifest.",
+						source: "json",
+						codec: {
+							mode: "strict",
+							typeSymbol: "@deepseek-ai/dsh-cordis-host-runner#dynamicCordisRunner/syncInspectManifest:providers",
+							create: _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_syncInspectManifest_parameter_0$schema,
+							jsonSchema: {
+								"type": "array",
+								"items": {
+									"type": "object",
+									"properties": {
+										"id": {
+											"type": "string",
+											"description": "Provider identity, unique within one platform."
+										},
+										"description": {
+											"type": "string",
+											"description": "Capability described by this provider."
+										},
+										"methods": {
+											"type": "array",
+											"items": {
+												"type": "object",
+												"properties": {
+													"name": {
+														"type": "string",
+														"description": "Method name, unique within its provider."
+													},
+													"description": {
+														"type": "string",
+														"description": "What the query returns and when to use it."
+													},
+													"inputSchema": { "description": "JSON Schema accepted by the query." },
+													"outputSchema": { "description": "JSON Schema produced by the query." }
+												},
+												"required": [
+													"name",
+													"description",
+													"inputSchema",
+													"outputSchema"
+												],
+												"additionalProperties": true
+											},
+											"description": "Explicit read-only queries."
+										}
+									},
+									"required": [
+										"id",
+										"description",
+										"methods"
+									],
+									"additionalProperties": true
+								}
+							}
+						},
+						strictCodec: {
+							mode: "strict",
+							typeSymbol: "@deepseek-ai/dsh-cordis-host-runner#dynamicCordisRunner/syncInspectManifest:providers",
+							create: _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_syncInspectManifest_parameter_0_strict$schema,
+							jsonSchema: {
+								"type": "array",
+								"items": {
+									"type": "object",
+									"properties": {
+										"id": {
+											"type": "string",
+											"description": "Provider identity, unique within one platform."
+										},
+										"description": {
+											"type": "string",
+											"description": "Capability described by this provider."
+										},
+										"methods": {
+											"type": "array",
+											"items": {
+												"type": "object",
+												"properties": {
+													"name": {
+														"type": "string",
+														"description": "Method name, unique within its provider."
+													},
+													"description": {
+														"type": "string",
+														"description": "What the query returns and when to use it."
+													},
+													"inputSchema": { "description": "JSON Schema accepted by the query." },
+													"outputSchema": { "description": "JSON Schema produced by the query." }
+												},
+												"required": [
+													"name",
+													"description",
+													"inputSchema",
+													"outputSchema"
+												],
+												"additionalProperties": false
+											},
+											"description": "Explicit read-only queries."
+										}
+									},
+									"required": [
+										"id",
+										"description",
+										"methods"
+									],
+									"additionalProperties": false
+								}
+							}
+						}
+					}],
+					result: {
+						mode: "strict",
+						typeSymbol: "@deepseek-ai/dsh-cordis-host-runner#dynamicCordisRunner/syncInspectManifest:result",
+						create: _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_syncInspectManifest_result$schema,
+						description: "null after accepting the manifest.",
+						jsonSchema: {
+							"type": "null",
+							"const": null
+						}
+					},
+					sourceLocation: {
+						"file": "packages/extensions/cordis-host-runner/src/index.ts",
+						"line": 516,
+						"column": 3
+					}
+				},
+				"dynamicCordisRunner/undefineFromPanel": {
+					service: "dynamicCordisRunner",
+					description: "Remove a Plugin from the user panel and queue the resulting state change for the model's next step.",
+					invocation: { kind: "direct" },
+					scope: {
+						context: "agent",
+						wire: "agentId"
+					},
+					parameters: [{
+						name: "agent",
+						wire: "agentId",
+						description: "Agent whose Session owns the Plugin and receives the context.",
+						source: "lookup",
+						lookup: "agent",
+						codec: {
+							mode: "strict",
+							typeSymbol: "@deepseek-ai/dsh-session/types#SessionId",
+							create: _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_undefineFromPanel_parameter_0$schema,
+							jsonSchema: { "type": "string" }
+						},
+						strictCodec: {
+							mode: "strict",
+							typeSymbol: "@deepseek-ai/dsh-session/types#SessionId",
+							create: _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_undefineFromPanel_parameter_0_strict$schema,
+							jsonSchema: { "type": "string" }
+						}
+					}, {
+						name: "pluginId",
+						description: "Stable Plugin identity to remove.",
+						source: "json",
+						codec: {
+							mode: "strict",
+							typeSymbol: "@deepseek-ai/dsh-cordis-host-runner/types#CordisDynamicPluginId",
+							create: _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_undefineFromPanel_parameter_1$schema,
+							jsonSchema: { "type": "string" }
+						},
+						strictCodec: {
+							mode: "strict",
+							typeSymbol: "@deepseek-ai/dsh-cordis-host-runner/types#CordisDynamicPluginId",
+							create: _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_undefineFromPanel_parameter_1_strict$schema,
+							jsonSchema: { "type": "string" }
+						}
+					}],
+					result: {
+						mode: "strict",
+						typeSymbol: "@deepseek-ai/dsh-cordis-host-runner/types#DynamicCordisUndefineReceipt",
+						create: _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_undefineFromPanel_result$schema,
+						description: "Whether removal succeeded and whether it stopped an active run.",
+						jsonSchema: { "oneOf": [{
+							"type": "object",
+							"properties": {
+								"ok": {
+									"type": "boolean",
+									"const": true
+								},
+								"wasRunning": { "type": "boolean" }
+							},
+							"required": ["ok", "wasRunning"],
+							"additionalProperties": true
+						}, {
+							"type": "object",
+							"properties": {
+								"ok": {
+									"type": "boolean",
+									"const": false
+								},
+								"reason": {
+									"type": "string",
+									"const": "plugin-missing"
+								},
+								"message": { "type": "string" }
+							},
+							"required": [
+								"ok",
+								"reason",
+								"message"
+							],
+							"additionalProperties": true
+						}] }
+					},
+					sourceLocation: {
+						"file": "packages/extensions/cordis-host-runner/src/index.ts",
+						"line": 245,
+						"column": 9
+					}
+				}
+			}
+		}, zod.z);
+		//#endregion
+		//#region ../../boot/plugin-manager/lib/typert.remote-client.js
+		let _deepseek_ai_dsh_plugin_manager_pluginManager_cancelInstall_parameter_0$schema$value;
+		const _deepseek_ai_dsh_plugin_manager_pluginManager_cancelInstall_parameter_0$schema = () => _deepseek_ai_dsh_plugin_manager_pluginManager_cancelInstall_parameter_0$schema$value ??= zod.z.string();
+		let _deepseek_ai_dsh_plugin_manager_pluginManager_cancelInstall_result$schema$value;
+		const _deepseek_ai_dsh_plugin_manager_pluginManager_cancelInstall_result$schema = () => _deepseek_ai_dsh_plugin_manager_pluginManager_cancelInstall_result$schema$value ??= zod.z.object({ "status": zod.z.union([
+			zod.z.literal("cancelled"),
+			zod.z.literal("not-running"),
+			zod.z.literal("too-late")
+		]).readonly() });
+		let _deepseek_ai_dsh_plugin_manager_pluginManager_inspect_parameter_0$schema$value;
+		const _deepseek_ai_dsh_plugin_manager_pluginManager_inspect_parameter_0$schema = () => _deepseek_ai_dsh_plugin_manager_pluginManager_inspect_parameter_0$schema$value ??= zod.z.string();
+		let _deepseek_ai_dsh_plugin_manager_pluginManager_inspect_parameter_1$schema$value;
+		const _deepseek_ai_dsh_plugin_manager_pluginManager_inspect_parameter_1$schema = () => _deepseek_ai_dsh_plugin_manager_pluginManager_inspect_parameter_1$schema$value ??= zod.z.union([zod.z.undefined(), zod.z.object({ "registry": zod.z.union([zod.z.literal(null), zod.z.string()]).readonly().optional().describe("The registry asked first; absent, the configured one.") })]);
+		let _deepseek_ai_dsh_plugin_manager_pluginManager_inspect_result$schema$value;
+		const _deepseek_ai_dsh_plugin_manager_pluginManager_inspect_result$schema = () => _deepseek_ai_dsh_plugin_manager_pluginManager_inspect_result$schema$value ??= zod.z.union([zod.z.object({
+			"status": zod.z.literal("accepted").readonly(),
+			"kind": zod.z.union([
+				zod.z.literal("registry"),
+				zod.z.literal("path"),
+				zod.z.literal("git"),
+				zod.z.literal("tarball")
+			]).readonly(),
+			"name": zod.z.string().readonly().optional(),
+			"version": zod.z.string().readonly().optional(),
+			"description": zod.z.string().readonly().optional().describe("`description` of the package manifest."),
+			"bundle": zod.z.union([
+				zod.z.literal(null),
+				zod.z.literal(false),
+				zod.z.literal(true)
+			]).readonly().describe("Whether the package declares a bundle patch; null when the spec's form does not say."),
+			"registry": zod.z.union([zod.z.literal(null), zod.z.string()]).readonly().describe("The registry that answered for a name, and for the other forms the one an install of the spec asks first."),
+			"host": zod.z.string().readonly().optional().describe("The host a git spec or a tarball URL is fetched from, which no registry stands in for.")
+		}), zod.z.object({
+			"status": zod.z.literal("refused").readonly(),
+			"problem": zod.z.union([
+				zod.z.literal("network"),
+				zod.z.literal("unknown"),
+				zod.z.literal("invalid-spec"),
+				zod.z.literal("already-installed"),
+				zod.z.literal("not-found"),
+				zod.z.literal("not-a-package"),
+				zod.z.literal("not-a-bundle")
+			]).readonly(),
+			"reason": zod.z.string().readonly().describe("What pnpm, the registry, or the file system said."),
+			"registries": zod.z.array(zod.z.union([zod.z.literal(null), zod.z.string()])).readonly().optional().describe("The registries asked, in order, when the refusal came from asking them; `reason` is the last one's.")
+		})]);
+		let _deepseek_ai_dsh_plugin_manager_pluginManager_installBundle_parameter_0$schema$value;
+		const _deepseek_ai_dsh_plugin_manager_pluginManager_installBundle_parameter_0$schema = () => _deepseek_ai_dsh_plugin_manager_pluginManager_installBundle_parameter_0$schema$value ??= zod.z.string();
+		let _deepseek_ai_dsh_plugin_manager_pluginManager_installBundle_parameter_1$schema$value;
+		const _deepseek_ai_dsh_plugin_manager_pluginManager_installBundle_parameter_1$schema = () => _deepseek_ai_dsh_plugin_manager_pluginManager_installBundle_parameter_1$schema$value ??= zod.z.union([zod.z.undefined(), zod.z.object({
+			"enabled": zod.z.boolean().optional(),
+			"saveExact": zod.z.boolean().optional().describe("Save the resolved dependency version without a range; applies to any bundle installation."),
+			"requestId": zod.z.string().optional(),
+			"approvedBuilds": zod.z.array(zod.z.string()).optional().describe("Explicitly allow these pending packages' scripts for this profile, then install; a name no longer pending refuses the call."),
+			"registry": zod.z.union([zod.z.literal(null), zod.z.string()]).optional().describe("The registry asked first; absent, the configured one. The configured fallbacks follow while a registry is unreachable or stale.")
+		})]);
+		let _deepseek_ai_dsh_plugin_manager_pluginManager_installBundle_result$schema$value;
+		const _deepseek_ai_dsh_plugin_manager_pluginManager_installBundle_result$schema = () => _deepseek_ai_dsh_plugin_manager_pluginManager_installBundle_result$schema$value ??= zod.z.object({
+			"changed": zod.z.boolean(),
+			"application": zod.z.union([
+				zod.z.literal("cancelled"),
+				zod.z.literal("failed"),
+				zod.z.literal("applied"),
+				zod.z.literal("restart-required"),
+				zod.z.literal("overridden")
+			]).describe("`cancelled` is an installation the caller stopped, its files restored."),
+			"restartReason": zod.z.union([
+				zod.z.literal("no-hmr"),
+				zod.z.literal("package-moved"),
+				zod.z.literal("host-module"),
+				zod.z.literal("unmanaged-plugin"),
+				zod.z.literal("module-comparison")
+			]).optional().describe("Present with `restart-required`: why the change takes effect only at the next start."),
+			"stage": zod.z.union([
+				zod.z.literal("remove"),
+				zod.z.literal("install"),
+				zod.z.literal("enable")
+			]).describe("Last attempted step; successful installation can proceed to enablement."),
+			"target": zod.z.string(),
+			"enabled": zod.z.boolean().optional(),
+			"error": zod.z.object({
+				"code": zod.z.union([
+					zod.z.literal("management-required"),
+					zod.z.literal("unaddressable"),
+					zod.z.literal("unknown-plugin"),
+					zod.z.literal("invalid-spec"),
+					zod.z.literal("already-installed"),
+					zod.z.literal("ambiguous-install"),
+					zod.z.literal("not-bundle"),
+					zod.z.literal("not-removable"),
+					zod.z.literal("stop-profile"),
+					zod.z.literal("bundle-in-use"),
+					zod.z.literal("stale-approval"),
+					zod.z.literal("incompatible-version"),
+					zod.z.literal("operation-error")
+				]),
+				"diagnostic": zod.z.string().optional(),
+				"incompatible": zod.z.array(zod.z.object({
+					"name": zod.z.string(),
+					"version": zod.z.string(),
+					"runtimeVersion": zod.z.string(),
+					"requirements": zod.z.record(zod.z.string(), zod.z.string()).describe("Only the requirements the running version does not satisfy, keyed `engines.dsh` or by DSH peer package name.")
+				})).optional().describe("Present with `incompatible-version`: the packages the running DSH version rejects.")
+			}).optional(),
+			"warnings": zod.z.array(zod.z.string()).optional().describe("Pre-existing inactive entries the operation left as they were."),
+			"packageResult": zod.z.object({
+				"exitCode": zod.z.number(),
+				"output": zod.z.string(),
+				"truncated": zod.z.boolean(),
+				"logPath": zod.z.string(),
+				"kind": zod.z.union([
+					zod.z.literal("network"),
+					zod.z.literal("unknown"),
+					zod.z.literal("timeout"),
+					zod.z.literal("integrity"),
+					zod.z.literal("pnpm-missing"),
+					zod.z.literal("not-found"),
+					zod.z.literal("no-matching-version"),
+					zod.z.literal("disk-full"),
+					zod.z.literal("permission"),
+					zod.z.literal("build-blocked")
+				]).optional().describe("Present when the run failed: what kind of failure its exit and output describe."),
+				"timedOut": zod.z.boolean().optional().describe("The manager terminated the run after it printed nothing for its silence bound; `exitCode` still reports how it ended."),
+				"incompatible": zod.z.array(zod.z.object({
+					"name": zod.z.string(),
+					"version": zod.z.string(),
+					"runtimeVersion": zod.z.string(),
+					"requirements": zod.z.record(zod.z.string(), zod.z.string()).describe("Only the requirements the running version does not satisfy, keyed `engines.dsh` or by DSH peer package name.")
+				})).optional().describe("Present when a compatibility check refused the run: the packages the running DSH version rejects.")
+			}).optional(),
+			"bundle": zod.z.string().optional().describe("The bundle an installation added, once pnpm and the bundle check accepted it."),
+			"version": zod.z.string().optional().describe("The installed bundle's manifest version, when declared; pnpm's `minimumReleaseAge` can make it older than the newest release."),
+			"pendingBuilds": zod.z.array(zod.z.string()).optional().describe("Exact package names awaiting explicit script approval in the profile's pnpm settings, read after a failed run."),
+			"approvedBuilds": zod.z.array(zod.z.string()).optional().describe("Package script permissions saved before this installation attempt."),
+			"registries": zod.z.array(zod.z.union([zod.z.literal(null), zod.z.string()])).optional().describe("The registries the installation asked, in order; `packageResult` is the last one's run."),
+			"failedAt": zod.z.union([zod.z.literal("registry"), zod.z.literal("spec-host")]).optional().describe("What the last failed run could not reach or get an answer from: the registry it asked, or the host a git or tarball spec is fetched from, which no registry stands in for; absent for a failure neither explains.")
+		});
+		let _deepseek_ai_dsh_plugin_manager_pluginManager_listBundles_result$schema$value;
+		const _deepseek_ai_dsh_plugin_manager_pluginManager_listBundles_result$schema = () => _deepseek_ai_dsh_plugin_manager_pluginManager_listBundles_result$schema$value ??= zod.z.array(zod.z.object({
+			"name": zod.z.string(),
+			"official": zod.z.boolean().describe("Project-maintained shipped optional bundle or on-demand catalog entry, independent of installation and selection."),
+			"availability": zod.z.union([
+				zod.z.literal("profile"),
+				zod.z.literal("installation"),
+				zod.z.literal("missing")
+			]).describe("Readable package location; on-demand catalog entries exclude undeclared transitive copies, and declared files may be missing."),
+			"installTarget": zod.z.object({
+				"spec": zod.z.string(),
+				"version": zod.z.string()
+			}).optional().describe("Exact released Host version or same-checkout development link offered for an on-demand catalog entry."),
+			"version": zod.z.string().optional(),
+			"meta": zod.z.object({
+				"title": zod.z.union([zod.z.string(), zod.z.intersection(zod.z.object({ "en": zod.z.string().readonly() }), zod.z.record(zod.z.string(), zod.z.string()).readonly())]).readonly().optional().describe("Display title; omission preserves the consumer's technical-name fallback."),
+				"description": zod.z.union([zod.z.string(), zod.z.intersection(zod.z.object({ "en": zod.z.string().readonly() }), zod.z.record(zod.z.string(), zod.z.string()).readonly())]).readonly().optional().describe("Display introduction after locale and package-field fallback."),
+				"icon": zod.z.string().readonly().optional().describe("Base64 image data URL from a package root's manifest icon or an exported `<specifier>/icon`; render as an image, not inline markup."),
+				"error": zod.z.string().readonly().optional().describe("Unmodified local metadata diagnostic; the plugin remains manageable.")
+			}).optional().describe("Local display text with available translations or literal fallbacks, or a metadata diagnostic."),
+			"description": zod.z.string().optional().describe("Untranslated `description` of this bundle's package manifest."),
+			"enabled": zod.z.boolean().describe("Selected in the profile manifest; a load error means its layer was skipped."),
+			"installed": zod.z.boolean().describe("Whether the profile declares this dependency; availability separately reports whether its files can be read."),
+			"source": zod.z.string().optional().describe("Present for a profile dependency the installation does not also supply: the spec `pnpm add` accepts, with local paths made absolute and the user information of an http(s) URL removed."),
+			"optional": zod.z.boolean().describe("Whether the installation ships the bundle for the person to switch on: named by the launcher's `OPTIONAL_BUNDLES`, held by the installation's dependencies, selected by no shipped template, and never removable."),
+			"removable": zod.z.boolean(),
+			"readOnlyReason": zod.z.union([zod.z.literal("management-required"), zod.z.literal("unaddressable")]).optional(),
+			"error": zod.z.object({
+				"code": zod.z.union([
+					zod.z.literal("management-required"),
+					zod.z.literal("unaddressable"),
+					zod.z.literal("unknown-plugin"),
+					zod.z.literal("invalid-spec"),
+					zod.z.literal("already-installed"),
+					zod.z.literal("ambiguous-install"),
+					zod.z.literal("not-bundle"),
+					zod.z.literal("not-removable"),
+					zod.z.literal("stop-profile"),
+					zod.z.literal("bundle-in-use"),
+					zod.z.literal("stale-approval"),
+					zod.z.literal("incompatible-version"),
+					zod.z.literal("operation-error")
+				]),
+				"diagnostic": zod.z.string().optional(),
+				"incompatible": zod.z.array(zod.z.object({
+					"name": zod.z.string(),
+					"version": zod.z.string(),
+					"runtimeVersion": zod.z.string(),
+					"requirements": zod.z.record(zod.z.string(), zod.z.string()).describe("Only the requirements the running version does not satisfy, keyed `engines.dsh` or by DSH peer package name.")
+				})).optional().describe("Present with `incompatible-version`: the packages the running DSH version rejects.")
+			}).optional(),
+			"rows": zod.z.array(zod.z.object({
+				"rowId": zod.z.string().describe("The row id as the patch declares it."),
+				"moduleName": zod.z.string().describe("The module the row names."),
+				"meta": zod.z.object({
+					"title": zod.z.union([zod.z.string(), zod.z.intersection(zod.z.object({ "en": zod.z.string().readonly() }), zod.z.record(zod.z.string(), zod.z.string()).readonly())]).readonly().optional().describe("Display title; omission preserves the consumer's technical-name fallback."),
+					"description": zod.z.union([zod.z.string(), zod.z.intersection(zod.z.object({ "en": zod.z.string().readonly() }), zod.z.record(zod.z.string(), zod.z.string()).readonly())]).readonly().optional().describe("Display introduction after locale and package-field fallback."),
+					"icon": zod.z.string().readonly().optional().describe("Base64 image data URL from a package root's manifest icon or an exported `<specifier>/icon`; render as an image, not inline markup."),
+					"error": zod.z.string().readonly().optional().describe("Unmodified local metadata diagnostic; the plugin remains manageable.")
+				}).optional().describe("Local package display metadata, including rows whose bundle is disabled."),

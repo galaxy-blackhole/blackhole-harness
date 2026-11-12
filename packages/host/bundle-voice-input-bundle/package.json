@@ -1,0 +1,63 @@
+{
+  "name": "@galaxy-blackhole/gbh-voice-input-bundle",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "type": "module",
+  "description": "Nhập liệu bằng giọng nói: chép lời trên máy và chèn vào ô soạn tin.",
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./cordis.patch.yml": "./cordis.patch.yml",
+    "./package.json": "./package.json",
+    "./locale/*.json": "./locale/*.json"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    }
+  },
+  "license": "MIT",
+  "gbh": {
+    "provenance": {
+      "stock": "@deepseek-ai/dsh-experimental-voice-input-bundle",
+      "stockVersion": "0.2.1-alpha.4",
+      "patch": "./cordis.patch.yml",
+      "patchLines": 13,
+      "replacements": [
+        {
+          "stock": "@deepseek-ai/dsh-experimental-speech-to-text-sensevoice",
+          "ours": "@galaxy-blackhole/gbh-experimental-speech-to-text-sensevoice",
+          "count": 1
+        },
+        {
+          "stock": "@deepseek-ai/dsh-experimental-client-ui-voice-input",
+          "ours": "@galaxy-blackhole/gbh-experimental-client-ui-voice-input",
+          "count": 1
+        },
+        {
+          "stock": "@deepseek-ai/dsh-experimental-api-speech-to-text",
+          "ours": "@galaxy-blackhole/gbh-experimental-api-speech-to-text",
+          "count": 1
+        },
+        {
+          "stock": "@deepseek-ai/dsh-experimental-speech-to-text",
+          "ours": "@galaxy-blackhole/gbh-experimental-speech-to-text",
+          "count": 1
+        }
+      ],
+      "headerLines": 6,
+      "sha": "8e609bb71c20b858c77f0e9f90bb1319db8477b13f9f965f1a1e18524bf50881",
+      "shaFile": "lib/index.js",
+      "version": "0.2.1-alpha.4"
+    },
+    "tests": [
+      "tests/host/bundle-profile-patches.test.ts"
+    ]
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2"
+  },
+  "icon": "./icon.svg"
+}

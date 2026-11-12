@@ -1,0 +1,18 @@
+/**
+ * author Bùi Trọng Hiếu
+ * email kevinbui210191@gmail.com
+ * create date 15/10/2026
+ * modify date 18/10/2026
+ * desc Khoa settings va phien ban cua thong bao chao mung
+ */
+
+
+/** Durable settings namespace for product-wide GUI onboarding facts. */
+export const WELCOME_NOTICE_SETTINGS_NAMESPACE = "ui-settings-general";
+/** Field storing the last welcome notice version the user acknowledged. */
+export const WELCOME_NOTICE_ACK_FIELD = "welcomeNoticeVersion";
+/**
+* Bump only when the notice changes materially and every user should see it
+* again. The acknowledgement is compared for exact equality.
+*/
+export const WELCOME_NOTICE_VERSION = "2026-09-28.1";

@@ -1,0 +1,33 @@
+{
+  "dev": "tm-host-core",
+  "owner": "tm-host-core",
+  "evidence": [
+    "**PORTED, NOT MOUNTED** — cả 4 gói khai `gbh.draft` (thư viện/kernel, KHÔNG có row, không flip) ⇒ chữ ký này là nghiệm thu port, không phải mount",
+    "**REVIEWER TỰ ĐO `cmp` artifact với stock: BYTE-IDENTICAL cả 4** (cùng byte + cùng sha256):",
+    "- mcp-client: `@deepseek-ai/dsh-mcp-client` · index **35.041 B** sha `758d8fc473` = stock · test **11 pass / 0 fail / 24 expect**",
+    "- acp: `@deepseek-ai/dsh-acp` · index **57.526 B** sha `9df25827fb` = stock · test **9 pass / 0 fail / 20 expect**",
+    "- app-boot: `@deepseek-ai/dsh-app-boot` · index **203.572 B** sha `5135179ac8` = stock · test **10 pass / 0 fail / 21 expect**",
+    "- ptc-runtime: `@deepseek-ai/dsh-ptc-runtime` · index **5.561 B** sha `a09ee10c5c` = stock · test **8 pass / 0 fail / 17 expect**",
+    "Tổng reviewer đo: **38 pass / 0 fail / 82 expect** (mcp+acp đúng 20 pass/44 expect như Lead)",
+    "App xac nhan khi ky: (3) **79 entry** (payload SAU alias-trim — số MỚI đúng, ngưỡng ≥72) · (5) **0** · (10) **366 file khop repo** · entry goc 0 — LANH",
+    "app-boot nghiem thu bang boot-smoke home cach ly theo chu goi; rollback: khong mount nen khong can"
+  ],
+  "packages": [
+    {
+      "dsh": "@deepseek-ai/dsh-mcp-client",
+      "gbh": "gbh-mcp-client"
+    },
+    {
+      "dsh": "@deepseek-ai/dsh-acp",
+      "gbh": "gbh-acp"
+    },
+    {
+      "dsh": "@deepseek-ai/dsh-app-boot",
+      "gbh": "gbh-app-boot"
+    },
+    {
+      "dsh": "@deepseek-ai/dsh-ptc-runtime",
+      "gbh": "gbh-ptc-runtime"
+    }
+  ]
+}

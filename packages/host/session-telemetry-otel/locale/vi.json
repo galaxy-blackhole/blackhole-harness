@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "session-telemetry-otel",
+    "description": "Tải nhật ký phiên liên quan qua OpenTelemetry theo chính sách đồng ý phản hồi."
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "session-title-first-prompt-llm",
+    "description": "Sinh tiêu đề phiên từ tin nhắn đầu tiên bằng model."
+  }
+}

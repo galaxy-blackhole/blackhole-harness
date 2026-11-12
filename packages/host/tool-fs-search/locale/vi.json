@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "tool-fs-search",
+    "description": "Công cụ tìm kiếm hệ thống tệp cho mô hình (glob, grep) dùng binary ripgrep đóng gói sẵn."
+  }
+}

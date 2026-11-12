@@ -1,0 +1,73 @@
+{
+  "name": "@galaxy-blackhole/gbh-tool-subagent-control",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "type": "module",
+  "main": "lib/index.js",
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./package.json": "./package.json",
+    "./locale/*.json": "./locale/*.json",
+    "./list-agents": "./lib/types/list-agents.js",
+    "./list-agents/locale/*.json": "./locale/list-agents/*.json"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2",
+    "@deepseek-ai/dsh-llm": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-session": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-subagent": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-tools": "0.2.1-alpha.4"
+  },
+  "dependencies": {
+    "@deepseek-ai/dsh-brand": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-util-values": "0.2.1-alpha.4"
+  },
+  "gbh": {
+    "peers": [
+      "@deepseek-ai/cordis",
+      "@deepseek-ai/dsh-llm",
+      "@deepseek-ai/dsh-session",
+      "@deepseek-ai/dsh-subagent",
+      "@deepseek-ai/dsh-tools",
+      "@deepseek-ai/dsh-brand",
+      "@deepseek-ai/dsh-util-values"
+    ],
+    "tests": [
+      "tests/host/tool-subagent-control.test.ts"
+    ],
+    "provenance": {
+      "stock": "@deepseek-ai/dsh-tool-subagent-control",
+      "version": "0.2.1-alpha.4",
+      "sha": "3f64ef2df3bfc7d7f5e31607949246dc64c32bf4179b74188bc4b764e081af38"
+    },
+    "row": {
+      "id": "tool-subagent-control",
+      "moduleIds": [
+        "@galaxy-blackhole/gbh-tool-subagent-control"
+      ],
+      "aliases": [
+        "@deepseek-ai/dsh-tool-subagent-control"
+      ],
+      "hostAliases": [
+        "@deepseek-ai/dsh-tool-subagent-control"
+      ],
+      "tests": [
+        "tests/host/tool-subagent-control.test.ts"
+      ]
+    },
+    "nested": {
+      "kind": "preset",
+      "pluginId": "tool-subagent-control",
+      "stockId": "@deepseek-ai/dsh-tool-subagent-control",
+      "presets": [
+        "preset-standard",
+        "preset-ptc",
+        "preset-cordis"
+      ]
+    }
+  },
+  "description": "Globally named send_message, interrupt_agent, and list_agents tools over ctx.subagents continuations"
+}

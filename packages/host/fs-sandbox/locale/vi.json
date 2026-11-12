@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "fs-sandbox",
+    "description": "Giới hạn phạm vi ghi và sửa tệp theo chế độ quyền hiện hành."
+  }
+}

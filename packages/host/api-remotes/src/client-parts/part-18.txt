@@ -1,0 +1,1000 @@
+															"properties": {
+																"uncachedInputTokens": { "type": "number" },
+																"outputTokens": { "type": "number" },
+																"cacheReadTokens": { "type": "number" },
+																"cacheWriteTokens": { "type": "number" }
+															},
+															"required": [
+																"uncachedInputTokens",
+																"outputTokens",
+																"cacheReadTokens",
+																"cacheWriteTokens"
+															],
+															"additionalProperties": true,
+															"description": "Provider-reported usage accumulated across the complete durable log."
+														},
+														"contextPressure": {
+															"type": "object",
+															"properties": {
+																"pressureTokens": {
+																	"type": "number",
+																	"description": "Provider-reported prompt size of the most recent request: uncached input plus cache reads and writes. Response output is excluded, so this does not grow as the current turn streams. Absent until a provider reports usage."
+																},
+																"projectedTokens": {
+																	"type": "number",
+																	"description": "What the NEXT request's prompt would cost: {@link pressureTokens} plus the heuristic repricing of everything the surface gained or lost since that sample. Only the delta is estimated, so the figure stays anchored to the provider while still reacting the moment a compaction shadows a span — which `pressureTokens` alone cannot do, since compaction reports no usage of its own. Absent until a provider reports usage."
+																},
+																"contextWindow": {
+																	"type": "number",
+																	"description": "Newest recorded route capacity; absent when no adapter advertised one."
+																}
+															},
+															"required": [],
+															"additionalProperties": true,
+															"description": "Newest request pressure paired with the newest known route capacity."
+														},
+														"contextBreakdown": {
+															"type": "object",
+															"properties": {
+																"systemTokens": {
+																	"type": "number",
+																	"description": "Heuristic tokens of the last nonempty surviving system prompt in surface order; 0 when none exists."
+																},
+																"toolsTokens": {
+																	"type": "number",
+																	"description": "Heuristic tokens of the newest request envelope's tool schemas; 0 before any request."
+																},
+																"messageTokens": {
+																	"type": "number",
+																	"description": "Heuristic tokens of every other visible surface node, including superseded system prompts."
+																}
+															},
+															"required": [
+																"systemTokens",
+																"toolsTokens",
+																"messageTokens"
+															],
+															"additionalProperties": true,
+															"description": "Heuristic system/tools/message composition of the next request."
+														},
+														"agentTeam": {
+															"type": "object",
+															"properties": {
+																"members": {
+																	"type": "array",
+																	"items": {
+																		"type": "object",
+																		"properties": {
+																			"id": { "type": "string" },
+																			"name": { "type": "string" },
+																			"role": {
+																				"type": "string",
+																				"enum": ["lead", "teammate"]
+																			},
+																			"phase": {
+																				"type": "string",
+																				"enum": [
+																					"failed",
+																					"provisioning",
+																					"active"
+																				],
+																				"description": "Durable lifecycle; the Lead row is always `active`. Turn activity comes from Session status."
+																			},
+																			"error": { "type": "string" }
+																		},
+																		"required": [
+																			"id",
+																			"name",
+																			"role",
+																			"phase"
+																		],
+																		"additionalProperties": true
+																	}
+																},
+																"tasks": {
+																	"type": "array",
+																	"items": {
+																		"type": "object",
+																		"properties": {
+																			"id": { "type": "string" },
+																			"revision": { "type": "number" },
+																			"subject": { "type": "string" },
+																			"description": { "type": "string" },
+																			"status": {
+																				"type": "string",
+																				"enum": [
+																					"completed",
+																					"pending",
+																					"in_progress",
+																					"deleted"
+																				]
+																			},
+																			"blockedBy": {
+																				"type": "array",
+																				"items": { "type": "string" }
+																			},
+																			"writeScopes": {
+																				"type": "array",
+																				"items": { "type": "string" }
+																			},
+																			"ownerName": { "type": "string" },
+																			"ready": { "type": "boolean" },
+																			"writeScopeWarnings": {
+																				"type": "array",
+																				"items": { "type": "string" }
+																			}
+																		},
+																		"required": [
+																			"id",
+																			"revision",
+																			"subject",
+																			"description",
+																			"status",
+																			"blockedBy",
+																			"writeScopes",
+																			"ready",
+																			"writeScopeWarnings"
+																		],
+																		"additionalProperties": true
+																	}
+																},
+																"failure": { "type": "string" }
+															},
+															"required": ["members", "tasks"],
+															"additionalProperties": true,
+															"description": "Durable roster and non-deleted task board of the Team rooted at the projected Session."
+														},
+														"userQuestions": {
+															"type": "object",
+															"properties": {
+																"active": {
+																	"type": "array",
+																	"items": {
+																		"type": "object",
+																		"properties": {
+																			"callId": { "type": "string" },
+																			"questions": {
+																				"type": "array",
+																				"items": {
+																					"type": "object",
+																					"properties": {
+																						"id": {
+																							"type": "string",
+																							"description": "Stable caller-provided question id, echoed in the answer."
+																						},
+																						"question": {
+																							"type": "string",
+																							"description": "The question to display."
+																						},
+																						"detail": {
+																							"type": "string",
+																							"description": "Optional supporting detail rendered with the question but kept out of option labels."
+																						},
+																						"header": {
+																							"type": "string",
+																							"description": "Optional short heading/group label."
+																						},
+																						"options": {
+																							"type": "array",
+																							"items": {
+																								"type": "object",
+																								"properties": {
+																									"label": {
+																										"type": "string",
+																										"description": "User-facing label."
+																									},
+																									"description": {
+																										"type": "string",
+																										"description": "Optional extra context rendered by capable UIs."
+																									}
+																								},
+																								"required": ["label"],
+																								"additionalProperties": true
+																							},
+																							"description": "Optional choices the UI can render as a menu."
+																						},
+																						"multiSelect": {
+																							"type": "boolean",
+																							"description": "Whether more than one option may be selected. Defaults to single-select."
+																						},
+																						"intent": {
+																							"type": "object",
+																							"properties": {
+																								"kind": {
+																									"type": "string",
+																									"const": "plan-review",
+																									"description": "A plan submitted for review: `detail` is the plan markdown `ask()` requires, and the decision approves or declines it."
+																								},
+																								"approve": {
+																									"type": "string",
+																									"description": "The option label that approves the plan; every other option declines it. Named rather than positional so no UI infers the verdict from option order. An `approve` naming no option of its own question is rejected at `ask()`."
+																								},
+																								"callId": {
+																									"type": "string",
+																									"description": "Logged tool invocation whose arguments contain the reviewed plan."
+																								}
+																							},
+																							"required": ["kind", "approve"],
+																							"additionalProperties": true,
+																							"description": "Optional presentation intent for capable UIs; absent asks for the generic option list."
+																						}
+																					},
+																					"required": ["id", "question"],
+																					"additionalProperties": true
+																				}
+																			},
+																			"state": {
+																				"type": "string",
+																				"enum": ["open", "continued"]
+																			}
+																		},
+																		"required": [
+																			"callId",
+																			"questions",
+																			"state"
+																		],
+																		"additionalProperties": true
+																	},
+																	"description": "Calls that can still take an answer, in ask order."
+																},
+																"settled": {
+																	"type": "array",
+																	"items": {
+																		"type": "object",
+																		"properties": {
+																			"callId": {
+																				"type": "string",
+																				"description": "The settled call."
+																			},
+																			"answers": {
+																				"type": "array",
+																				"items": {
+																					"type": "object",
+																					"properties": {
+																						"id": {
+																							"type": "string",
+																							"description": "The answered question id."
+																						},
+																						"selected": {
+																							"type": "array",
+																							"items": { "type": "string" },
+																							"description": "Selected option labels. May accompany custom text for a multi-select question."
+																						},
+																						"custom": {
+																							"type": "string",
+																							"description": "Optional free-text \"Other\" answer."
+																						}
+																					},
+																					"required": ["id", "selected"],
+																					"additionalProperties": true
+																				},
+																				"description": "The recorded batch, one entry per question; empty when the late reply carried none."
+																			}
+																		},
+																		"required": ["callId", "answers"],
+																		"additionalProperties": true
+																	},
+																	"description": "Calls an answer settled, in settlement order."
+																}
+															},
+															"required": ["active", "settled"],
+															"additionalProperties": true,
+															"description": "Timed questions that remain answerable in this Session, and the ones a late reply settled."
+														},
+														"goal": {
+															"oneOf": [{
+																"type": "null",
+																"const": null
+															}, {
+																"type": "object",
+																"properties": {
+																	"goal": {
+																		"type": "object",
+																		"properties": {
+																			"objective": {
+																				"type": "string",
+																				"description": "Human-requested completion objective."
+																			},
+																			"phase": {
+																				"type": "string",
+																				"enum": [
+																					"active",
+																					"paused",
+																					"blocked",
+																					"complete"
+																				],
+																				"description": "Durable lifecycle phase."
+																			},
+																			"blockedReason": {
+																				"type": "object",
+																				"properties": {
+																					"code": {
+																						"type": "string",
+																						"description": "Stable lower-kebab-case classification chosen by the blocking policy."
+																					},
+																					"message": {
+																						"type": "string",
+																						"description": "Non-empty explanation shown to humans and models."
+																					}
+																				},
+																				"required": ["code", "message"],
+																				"additionalProperties": true,
+																				"description": "Present exactly while `phase` is `blocked`."
+																			},
+																			"maxGoalRounds": {
+																				"type": "number",
+																				"description": "Total admitted goal-round cap."
+																			},
+																			"id": {
+																				"type": "string",
+																				"description": "Stable goal identity."
+																			},
+																			"revision": {
+																				"type": "number",
+																				"description": "Positive revision; every durable mutation increments it."
+																			}
+																		},
+																		"required": [
+																			"objective",
+																			"phase",
+																			"maxGoalRounds",
+																			"id",
+																			"revision"
+																		],
+																		"additionalProperties": true,
+																		"description": "Current durable goal snapshot (the CAS ref for mutations rides on it)."
+																	},
+																	"roundsStarted": {
+																		"type": "number",
+																		"description": "Highest admitted round number for this goal."
+																	},
+																	"createdAt": {
+																		"type": "number",
+																		"description": "Epoch milliseconds of the create mutation."
+																	},
+																	"updatedAt": {
+																		"type": "number",
+																		"description": "Epoch milliseconds of the latest mutation."
+																	}
+																},
+																"required": [
+																	"goal",
+																	"roundsStarted",
+																	"createdAt",
+																	"updatedAt"
+																],
+																"additionalProperties": true
+															}],
+															"description": "The session's current goal and admitted-round count, or `null` before the first create and after a clear tombstone. `goal/change` supplies the whole lifecycle value; matching admitted `user/message` events advance `roundsStarted`."
+														},
+														"plan": {
+															"type": "object",
+															"properties": {
+																"active": { "type": "boolean" },
+																"pending": { "type": "boolean" }
+															},
+															"required": ["active", "pending"],
+															"additionalProperties": true,
+															"description": "Plan collaboration state folded from the plan command lifecycle and `plan/mode` events."
+														}
+													},
+													"required": [],
+													"additionalProperties": true,
+													"description": "Provider-validated values present in the block; omitted keys remain unknown."
+												}
+											},
+											"required": [
+												"kind",
+												"asOfSeq",
+												"values"
+											],
+											"additionalProperties": true
+										}
+									},
+									"required": [
+										"agentAvailable",
+										"sessionId",
+										"updatedAt",
+										"running",
+										"blank"
+									],
+									"additionalProperties": true
+								}
+							} },
+							"required": ["items"],
+							"additionalProperties": true
+						}
+					},
+					sourceLocation: {
+						"file": "packages/api/session-controller/src/index.ts",
+						"line": 276,
+						"column": 9
+					}
+				},
+				"session/modelCatalog": {
+					service: "sessionController",
+					description: "Describe every currently routable model for Host-generation selectors.",
+					invocation: { kind: "direct" },
+					parameters: [],
+					result: {
+						mode: "strict",
+						typeSymbol: "@deepseek-ai/dsh-api-session-controller/types#ModelCatalog",
+						create: _deepseek_ai_dsh_api_session_controller_session_modelCatalog_result$schema,
+						description: "provider-grouped models, the deployment default, and isolated provider failures.",
+						jsonSchema: {
+							"type": "object",
+							"properties": {
+								"default": {
+									"type": "object",
+									"properties": {
+										"provider": { "type": "string" },
+										"model": { "type": "string" },
+										"reasoningEffort": { "type": "string" }
+									},
+									"required": ["provider", "model"],
+									"additionalProperties": true
+								},
+								"routableProviders": {
+									"type": "array",
+									"items": { "type": "string" },
+									"description": "Provider routes with at least one currently available catalog model."
+								},
+								"groups": {
+									"type": "array",
+									"items": {
+										"type": "object",
+										"properties": {
+											"id": { "type": "string" },
+											"name": { "type": "string" },
+											"models": {
+												"type": "array",
+												"items": {
+													"type": "object",
+													"properties": {
+														"id": { "type": "string" },
+														"name": { "type": "string" },
+														"description": { "type": "string" },
+														"reasoning": {
+															"type": "object",
+															"properties": {
+																"efforts": {
+																	"type": "array",
+																	"items": {
+																		"type": "object",
+																		"properties": {
+																			"id": { "type": "string" },
+																			"name": { "type": "string" },
+																			"description": { "type": "string" }
+																		},
+																		"required": ["id", "name"],
+																		"additionalProperties": true
+																	}
+																},
+																"defaultEffort": { "type": "string" }
+															},
+															"required": ["efforts"],
+															"additionalProperties": true
+														}
+													},
+													"required": ["id", "name"],
+													"additionalProperties": true
+												}
+											}
+										},
+										"required": [
+											"id",
+											"name",
+											"models"
+										],
+										"additionalProperties": true
+									}
+								},
+								"failures": {
+									"type": "array",
+									"items": {
+										"type": "object",
+										"properties": {
+											"id": { "type": "string" },
+											"name": { "type": "string" },
+											"message": { "type": "string" }
+										},
+										"required": [
+											"id",
+											"name",
+											"message"
+										],
+										"additionalProperties": true
+									}
+								}
+							},
+							"required": [
+								"default",
+								"routableProviders",
+								"groups",
+								"failures"
+							],
+							"additionalProperties": true
+						}
+					},
+					sourceLocation: {
+						"file": "packages/api/session-controller/src/index.ts",
+						"line": 338,
+						"column": 3
+					}
+				},
+				"session/openWorkspacePath": {
+					service: "sessionController",
+					description: "Verify one path through the composed filesystem and open it on the Host desktop.",
+					invocation: { kind: "direct" },
+					parameters: [{
+						name: "request",
+						description: "path after best-effort Session workspace resolution.",
+						source: "json",
+						codec: {
+							mode: "strict",
+							typeSymbol: "@deepseek-ai/dsh-api-session-controller/types#SessionOpenWorkspacePathRequest",
+							create: _deepseek_ai_dsh_api_session_controller_session_openWorkspacePath_parameter_0$schema,
+							jsonSchema: {
+								"type": "object",
+								"properties": {
+									"action": {
+										"type": "string",
+										"const": "reveal",
+										"description": "File-manager navigation when requested; omission uses the default application."
+									},
+									"application": {
+										"type": "string",
+										"description": "Registered application identifier; ignored for reveal. Omission preserves the operating system default."
+									},
+									"path": {
+										"type": "string",
+										"description": "Path after best-effort Session workspace resolution, in Host filesystem syntax."
+									}
+								},
+								"required": ["path"],
+								"additionalProperties": true
+							}
+						},
+						strictCodec: {
+							mode: "strict",
+							typeSymbol: "@deepseek-ai/dsh-api-session-controller/types#SessionOpenWorkspacePathRequest",
+							create: _deepseek_ai_dsh_api_session_controller_session_openWorkspacePath_parameter_0_strict$schema,
+							jsonSchema: {
+								"type": "object",
+								"properties": {
+									"action": {
+										"type": "string",
+										"const": "reveal",
+										"description": "File-manager navigation when requested; omission uses the default application."
+									},
+									"application": {
+										"type": "string",
+										"description": "Registered application identifier; ignored for reveal. Omission preserves the operating system default."
+									},
+									"path": {
+										"type": "string",
+										"description": "Path after best-effort Session workspace resolution, in Host filesystem syntax."
+									}
+								},
+								"required": ["path"],
+								"additionalProperties": false
+							}
+						}
+					}],
+					cancellation: { parameter: "signal" },
+					result: {
+						mode: "strict",
+						typeSymbol: "@deepseek-ai/dsh-api-session-controller/types#SessionOpenWorkspacePathValue",
+						create: _deepseek_ai_dsh_api_session_controller_session_openWorkspacePath_result$schema,
+						description: "confirmation after the native opener accepts the path.",
+						jsonSchema: {
+							"type": "object",
+							"properties": { "opened": {
+								"type": "boolean",
+								"const": true
+							} },
+							"required": ["opened"],
+							"additionalProperties": true
+						}
+					},
+					sourceLocation: {
+						"file": "packages/api/session-controller/src/index.ts",
+						"line": 368,
+						"column": 9
+					}
+				},
+				"session/page": {
+					service: "sessionController",
+					description: "Read one cold-safe, message-aligned Session history page.",
+					invocation: { kind: "direct" },
+					parameters: [{
+						name: "request",
+						description: "durable address, backward cursor, and page budget.",
+						source: "json",
+						codec: {
+							mode: "strict",
+							typeSymbol: "@deepseek-ai/dsh-api-session-controller/types#SessionPageRequest",
+							create: _deepseek_ai_dsh_api_session_controller_session_page_parameter_0$schema,
+							jsonSchema: {
+								"type": "object",
+								"properties": {
+									"address": { "oneOf": [{
+										"type": "object",
+										"properties": {
+											"kind": {
+												"type": "string",
+												"const": "session"
+											},
+											"sessionId": { "type": "string" }
+										},
+										"required": ["kind", "sessionId"],
+										"additionalProperties": true
+									}, {
+										"type": "object",
+										"properties": {
+											"kind": {
+												"type": "string",
+												"const": "subagent"
+											},
+											"parentSessionId": { "type": "string" },
+											"childSessionId": { "type": "string" },
+											"mode": {
+												"type": "string",
+												"enum": [
+													"one-shot",
+													"continuable",
+													"unknown"
+												]
+											}
+										},
+										"required": [
+											"kind",
+											"parentSessionId",
+											"childSessionId",
+											"mode"
+										],
+										"additionalProperties": true
+									}] },
+									"throughSeq": {
+										"type": "number",
+										"description": "Inclusive log cut obtained from the corresponding follow opening frame."
+									},
+									"beforeSeq": { "type": "number" },
+									"maxMessages": { "type": "number" },
+									"turnWindow": {
+										"type": "object",
+										"properties": {
+											"minMessages": {
+												"type": "number",
+												"description": "Minimum append-origin user/assistant messages; must not exceed maxMessages."
+											},
+											"minTurns": {
+												"type": "number",
+												"description": "Minimum Turn starts crossed, including the partial Turn at beforeSeq."
+											}
+										},
+										"required": ["minMessages", "minTurns"],
+										"additionalProperties": true,
+										"description": "Stop at a Turn start after both minima, unless maxMessages or history exhaustion wins."
+									}
+								},
+								"required": ["address", "throughSeq"],
+								"additionalProperties": true
+							}
+						},
+						strictCodec: {
+							mode: "strict",
+							typeSymbol: "@deepseek-ai/dsh-api-session-controller/types#SessionPageRequest",
+							create: _deepseek_ai_dsh_api_session_controller_session_page_parameter_0_strict$schema,
+							jsonSchema: {
+								"type": "object",
+								"properties": {
+									"address": { "oneOf": [{
+										"type": "object",
+										"properties": {
+											"kind": {
+												"type": "string",
+												"const": "session"
+											},
+											"sessionId": { "type": "string" }
+										},
+										"required": ["kind", "sessionId"],
+										"additionalProperties": false
+									}, {
+										"type": "object",
+										"properties": {
+											"kind": {
+												"type": "string",
+												"const": "subagent"
+											},
+											"parentSessionId": { "type": "string" },
+											"childSessionId": { "type": "string" },
+											"mode": {
+												"type": "string",
+												"enum": [
+													"one-shot",
+													"continuable",
+													"unknown"
+												]
+											}
+										},
+										"required": [
+											"kind",
+											"parentSessionId",
+											"childSessionId",
+											"mode"
+										],
+										"additionalProperties": false
+									}] },
+									"throughSeq": {
+										"type": "number",
+										"description": "Inclusive log cut obtained from the corresponding follow opening frame."
+									},
+									"beforeSeq": { "type": "number" },
+									"maxMessages": { "type": "number" },
+									"turnWindow": {
+										"type": "object",
+										"properties": {
+											"minMessages": {
+												"type": "number",
+												"description": "Minimum append-origin user/assistant messages; must not exceed maxMessages."
+											},
+											"minTurns": {
+												"type": "number",
+												"description": "Minimum Turn starts crossed, including the partial Turn at beforeSeq."
+											}
+										},
+										"required": ["minMessages", "minTurns"],
+										"additionalProperties": false,
+										"description": "Stop at a Turn start after both minima, unless maxMessages or history exhaustion wins."
+									}
+								},
+								"required": ["address", "throughSeq"],
+								"additionalProperties": false
+							}
+						}
+					}],
+					cancellation: { parameter: "signal" },
+					result: {
+						mode: "strict",
+						typeSymbol: "@deepseek-ai/dsh-api-session-controller/types#SessionPage",
+						create: _deepseek_ai_dsh_api_session_controller_session_page_result$schema,
+						description: "one chronological page.",
+						jsonSchema: {
+							"type": "object",
+							"properties": {
+								"records": {
+									"type": "array",
+									"items": {
+										"type": "object",
+										"properties": {
+											"type": {
+												"type": "string",
+												"const": "event"
+											},
+											"event": {
+												"type": "object",
+												"properties": {
+													"type": { "type": "string" },
+													"seq": { "type": "number" },
+													"time": { "type": "number" },
+													"data": {},
+													"ignorable": {
+														"type": "boolean",
+														"const": true
+													},
+													"sourceEventSeqs": { "description": "Earlier sources on current surface events; opaque JSON on unknown ignorable events." },
+													"surfaceOp": { "description": "Canonical placement on current surface events; opaque JSON on unknown ignorable events." }
+												},
+												"required": [
+													"type",
+													"seq",
+													"time",
+													"data"
+												],
+												"additionalProperties": true
+											}
+										},
+										"required": ["type", "event"],
+										"additionalProperties": true
+									}
+								},
+								"hasMore": { "type": "boolean" }
+							},
+							"required": ["records", "hasMore"],
+							"additionalProperties": true
+						}
+					},
+					sourceLocation: {
+						"file": "packages/api/session-controller/src/index.ts",
+						"line": 525,
+						"column": 3
+					}
+				},
+				"session/projections": {
+					service: "sessionController",
+					description: "Read exact projections, returning cached hints only when migration is required.",
+					invocation: { kind: "direct" },
+					parameters: [{
+						name: "request",
+						description: "Session whose current values are required.",
+						source: "json",
+						codec: {
+							mode: "strict",
+							typeSymbol: "@deepseek-ai/dsh-api-session-controller/types#SessionProjectionsRequest",
+							create: _deepseek_ai_dsh_api_session_controller_session_projections_parameter_0$schema,
+							jsonSchema: {
+								"type": "object",
+								"properties": { "sessionId": { "type": "string" } },
+								"required": ["sessionId"],
+								"additionalProperties": true
+							}
+						},
+						strictCodec: {
+							mode: "strict",
+							typeSymbol: "@deepseek-ai/dsh-api-session-controller/types#SessionProjectionsRequest",
+							create: _deepseek_ai_dsh_api_session_controller_session_projections_parameter_0_strict$schema,
+							jsonSchema: {
+								"type": "object",
+								"properties": { "sessionId": { "type": "string" } },
+								"required": ["sessionId"],
+								"additionalProperties": false
+							}
+						}
+					}],
+					cancellation: { parameter: "signal" },
+					result: {
+						mode: "strict",
+						typeSymbol: "@deepseek-ai/dsh-api-session-controller/types#SessionProjectionsValue",
+						create: _deepseek_ai_dsh_api_session_controller_session_projections_result$schema,
+						description: "a sequenced baseline, cached hints when migration is deferred, or null when absent.",
+						jsonSchema: { "oneOf": [
+							{
+								"type": "null",
+								"const": null
+							},
+							{
+								"type": "object",
+								"properties": {
+									"asOfSeq": { "type": "number" },
+									"values": {
+										"type": "object",
+										"properties": {
+											"inbox": {
+												"type": "object",
+												"properties": {
+													"next-turn": {
+														"type": "array",
+														"items": {}
+													},
+													"next-step": {
+														"type": "array",
+														"items": {}
+													}
+												},
+												"required": ["next-turn", "next-step"],
+												"additionalProperties": true,
+												"description": "Pending agent input reconstructed from durable inbox splices."
+											},
+											"workingDirectory": {
+												"oneOf": [{
+													"type": "null",
+													"const": null
+												}, { "type": "string" }],
+												"description": "Recorded current directory for Session observations, or null when none is recorded."
+											},
+											"agentPreset": {
+												"oneOf": [{
+													"type": "null",
+													"const": null
+												}, { "type": "string" }],
+												"description": "Preset the Session runs, or null when the deployment composes none."
+											},
+											"title": {
+												"oneOf": [{
+													"type": "null",
+													"const": null
+												}, { "type": "string" }],
+												"description": "The session's current normalized title — the latest `session/title` event's text (last-wins), or `null` before the first title lands. A plain string: the shape the client list rows consume."
+											},
+											"todos": {
+												"oneOf": [{
+													"type": "null",
+													"const": null
+												}, {
+													"type": "array",
+													"items": {
+														"type": "object",
+														"properties": {
+															"content": {
+																"type": "string",
+																"description": "What this task is — a short imperative line shown in the UI."
+															},
+															"status": {
+																"type": "string",
+																"enum": [
+																	"completed",
+																	"pending",
+																	"in_progress"
+																],
+																"description": "Lifecycle state. `in_progress` marks a task being worked now; parallel work may mark several."
+															}
+														},
+														"required": ["content", "status"],
+														"additionalProperties": true
+													}
+												}],
+												"description": "The agent's current whole todo list (the latest `todo/write` snapshot), or `null` before the first write. Whole-value rule: every `todo/write` carries the complete replacement list, so the fold is last-wins."
+											},
+											"sessionListMetadata": {
+												"type": "object",
+												"properties": {
+													"blank": {
+														"type": "boolean",
+														"description": "Whether the folded prefix contains no turn."
+													},
+													"lastPromptAt": {
+														"oneOf": [{
+															"type": "null",
+															"const": null
+														}, { "type": "number" }],
+														"description": "Latest human-authored prompt time in the folded prefix."
+													}
+												},
+												"required": ["blank", "lastPromptAt"],
+												"additionalProperties": true,
+												"description": "Persisted facts used to summarize a Session without activating it."
+											},
+											"imageLimits": {
+												"type": "object",
+												"properties": {
+													"maxImageBytes": { "type": "number" },
+													"maxImagesPerMessage": { "type": "number" },
+													"maxMessageImageBytes": { "type": "number" },
+													"maxImagePixels": { "type": "number" },
+													"maxImageDimension": {
+														"type": "number",
+														"description": "Maximum intrinsic width and maximum intrinsic height in pixels for one image."
+													},
+													"mediaTypes": {
+														"type": "array",
+														"items": {
+															"type": "string",
+															"enum": [
+																"image/png",
+																"image/jpeg",
+																"image/webp",
+																"image/gif"
+															]
+														}
+													}
+												},
+												"required": [
+													"maxImageBytes",
+													"maxImagesPerMessage",
+													"maxMessageImageBytes",
+													"maxImagePixels",
+													"maxImageDimension",
+													"mediaTypes"
+												],
+												"additionalProperties": true,
+												"description": "Image-intake limits enforced by the Session prompt endpoint."
+											},
+											"modelSelection": {
+												"type": "object",
+												"properties": {
+													"lastUsed": {
+														"oneOf": [{
+															"type": "null",
+															"const": null
+														}, {
+															"type": "object",
+															"properties": {
+																"provider": { "type": "string" },
+																"model": { "type": "string" },
+																"reasoningEffort": { "type": "string" }
+															},
+															"required": ["provider", "model"],
+															"additionalProperties": true
+														}],
+														"description": "Selection consumed by the latest recorded model request."

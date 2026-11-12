@@ -1,0 +1,67 @@
+{
+  "name": "@galaxy-blackhole/gbh-client-file-upload",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "type": "module",
+  "main": "lib/index.js",
+  "description": "Agent-scoped browser file upload, streaming intake, and staged receipt service",
+  "scripts": {
+    "build": "bun run build.ts"
+  },
+  "dsh": {
+    "client": {
+      "platform": "web",
+      "inject": [
+        "@galaxy-blackhole/gbh-api-remotes"
+      ],
+      "immediately": true
+    }
+  },
+  "exports": {
+    "./locale/*.json": "./locale/*.json",
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./client": {
+      "default": "./lib/client.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2",
+    "@deepseek-ai/dsh-typert-protocol": "0.2.1-alpha.4"
+  },
+  "devDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2",
+    "@deepseek-ai/dsh-typert-protocol": "0.2.1-alpha.4"
+  },
+  "gbh": {
+    "row": {
+      "id": "file-upload",
+      "moduleIds": [
+        "@galaxy-blackhole/gbh-client-file-upload"
+      ],
+      "aliases": [
+        "@deepseek-ai/dsh-client-file-upload"
+      ],
+      "tests": [
+        "tests/client/file-upload.test.ts",
+        "tests/client/file-upload-host.test.ts",
+        "tests/client/file-upload-browser.test.ts",
+        "tests/client/file-upload-staged.test.ts"
+      ]
+    },
+    "peers": [
+      "@deepseek-ai/dsh-typert-protocol"
+    ],
+    "provenance": {
+      "stock": "@deepseek-ai/dsh-client-file-upload",
+      "version": "0.2.1-alpha.4",
+      "sha": "4c09378ab7cb3dbe58253bd1fad8c4a00ebf5a93b462d96623edb7bd4e566305",
+      "shaFile": "lib/client.js"
+    }
+  },
+  "license": "MIT",
+  "types": "lib/types/index.d.ts"
+}

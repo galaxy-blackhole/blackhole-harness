@@ -1,0 +1,23 @@
+{
+  "dev": "tm-client-ui-a",
+  "owner": "tm-client-ui-a",
+  "evidence": [
+    "package signed, not mounted (thiếu nửa client; row typert-gateway còn stock)",
+    "reviewer tm-reviewer doc lap tren artifact build lai: CA HAI goi build exit 0 va **index.js BYTE-IDENTICAL** voi bundle goc `@deepseek-ai/dsh-api-gateway/lib/index.js` — sha256 `4fbe460fec585ebc2cf2887261f6c33f024081a539d9fb5d6557a9002324b23f` (3 tep trung khớp), 1.831 dong (1.830 theo cach dem cua Lead), build chan neu lech 1 byte",
+    "`gbh-host-typert-gateway` con build them entry rieng `lib/envelope.js` (tang envelope/wire cua ta) — artefact index.js van byte-identical",
+    "SEAM MO KHOÁ: `registerRemoteEvents` la HAM tren Context cordis THAT — test `tests/host/api-gateway.test.ts:126` khang dinh `typeof our.service[\"registerRemoteEvents\"] === \"function\"` va bang ben stock; ca 133/260: A/B ket qua + hasLiveClient false khi chua co client WS",
+    "reviewer tu chay GOP 2 goi (tests/host/api-gateway.test.ts + tests/host/typert-gateway.test.ts): **40 pass / 0 fail / 133 expect**",
+    "khong co nua client (0 tham chieu client.js trong artifact): ban goc HAI MAT voi client.browser.js 2.186 + client.node.js 1.991 dong ⇒ khong khai gbh.row; row `typert-gateway` trong profile van la goi stock hai mat (mount la task rieng: overlay giu nua client stock hoac port not nua client)",
+    "mapping: ma tran dong `dsh-api-gateway` -> `gbh-api-gateway` (goi thay row); `gbh-host-typert-gateway` la goi cung nua host (ruot service typertGateway + envelope) khong co package DSH rieng nen ky duoi khoa `extra:`"
+  ],
+  "packages": [
+    {
+      "dsh": "@deepseek-ai/dsh-api-gateway",
+      "gbh": "gbh-api-gateway"
+    },
+    {
+      "dsh": "extra:gbh-host-typert-gateway",
+      "gbh": "gbh-host-typert-gateway"
+    }
+  ]
+}

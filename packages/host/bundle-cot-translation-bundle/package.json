@@ -1,0 +1,53 @@
+{
+  "name": "@galaxy-blackhole/gbh-cot-translation-bundle",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "type": "module",
+  "description": "Dịch máy phần suy luận mở rộng; văn bản nguồn được gửi tới dịch vụ đã chọn.",
+  "exports": {
+    "./cordis.patch.yml": "./cordis.patch.yml",
+    "./package.json": "./package.json",
+    "./locale/*.json": "./locale/*.json",
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    }
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    }
+  },
+  "license": "MIT",
+  "gbh": {
+    "provenance": {
+      "stock": "@deepseek-ai/dsh-experimental-cot-translation-bundle",
+      "stockVersion": "0.2.1-alpha.4",
+      "patch": "./cordis.patch.yml",
+      "patchLines": 8,
+      "replacements": [
+        {
+          "stock": "@deepseek-ai/dsh-experimental-client-ui-cot-translation",
+          "ours": "@galaxy-blackhole/gbh-client-ui-cot-translation",
+          "count": 1
+        },
+        {
+          "stock": "@deepseek-ai/dsh-experimental-translator",
+          "ours": "@galaxy-blackhole/gbh-host-experimental-translator",
+          "count": 1
+        }
+      ],
+      "headerLines": 6,
+      "sha": "8e609bb71c20b858c77f0e9f90bb1319db8477b13f9f965f1a1e18524bf50881",
+      "shaFile": "lib/index.js",
+      "version": "0.2.1-alpha.4"
+    },
+    "tests": [
+      "tests/host/bundle-profile-patches.test.ts"
+    ]
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2"
+  },
+  "icon": "./icon.svg"
+}

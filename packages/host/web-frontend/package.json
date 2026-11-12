@@ -1,0 +1,21 @@
+{
+  "name": "@galaxy-blackhole/gbh-web-frontend",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "type": "module",
+  "exports": {
+    "./dist/*": "./dist/*",
+    "./package.json": "./package.json"
+  },
+  "gbh": {
+    "provenance": {
+      "stock": "@deepseek-ai/dsh-web-frontend",
+      "version": "0.2.1-alpha.4",
+      "sha": "bc421708e253439a7063e63fad47707519dfe7ed6276f9b7c9cbb5e9786a9cb3"
+    },
+    "draft": "GÓI TÀI NGUYÊN TĨNH (task-207): stock CHỈ có dist/ (5.3 MB) + LICENSE, KHÔNG có lib/ và KHÔNG có row nào trong dump/parity (grep 0) ⇒ KHÔNG khai gbh.row; chép NGUYÊN VĂN dist/ để đối chiếu asset. `row id giữ như stock` không áp dụng vì stock không có row.",
+    "tests": [
+      "tests/host/web-frontend.test.ts"
+    ]
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "head": [
+    "import { Service } from \"@deepseek-ai/cordis\";",
+    "import { RemoteError, isRemoteJsonValue, isRemoteUplinkItem, isTypertOwnedValue, remoteErrorOf } from \"@deepseek-ai/dsh-typert-protocol\";",
+    "import { Deque } from \"@deepseek-ai/dsh-deque\";"
+  ],
+  "tail": [
+    "export { RemoteJournalStream, RemoteSnapshotStream, RemoteStream, RemoteStreamCarrierError, apply, cancelledFailure, carrierFailure, inject, isRemoteFailure };",
+    "",
+    "//# sourceMappingURL=client.node.js.map"
+  ],
+  "parts": [
+    "part-00.ts",
+    "part-01.ts",
+    "part-02.ts",
+    "part-03.ts",
+    "part-04.ts",
+    "part-05.ts",
+    "part-06.ts",
+    "part-07.ts"
+  ]
+}

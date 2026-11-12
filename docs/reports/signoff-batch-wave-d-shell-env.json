@@ -1,0 +1,18 @@
+{
+  "dev": "tm-assets",
+  "owner": "tm-assets",
+  "evidence": [
+    "reviewer tm-reviewer do doc lap tren artifact build lai: ca 11 goi client id ta=**1** / id goc=**0** · tap slot ta = goc (plan 5=5 · skill 2=2 · sidebar-files 2=2 · deliverables 3=3 · reference 1=1 · documentpreview 5=5 · sidebar-right 5=5 · subagent 5=5 · workspace 6=6 · resources 0=0 · modules 0=0)",
+    "reviewer tu chay bun test 12 tep (11 client + shell-env): **171 pass / 0 fail / 1763 expect**",
+    "scheme 2 chieu (task-29): `dsh-resource://` trong src **48 -> 22 dong** (toan bo la NOI NHAN/verbatim: scheme.ts hang so legacy · pattern 2 scheme · legacyPrefix · verbatim slice ui-chat part-01); noi PHAT dung helper `resourceAddress` -> **54 cho `gbh-resource://`**; scheme la bi TU CHOI",
+    "boot global (task-31): `BOOT_GLOBAL = \"__GBH_BOOT__\"` + `BOOT_GLOBAL_LEGACY = \"__DSH_BOOT__\"` (alias compat); app that HTML: __GBH_BOOT__ x2 · __DSH_BOOT__ x1 (alias) => DAT",
+    "shell-env (task-31): GBH_HOME la TEN CHINH, DSH_HOME la DUONG LUI tuong thich (registry.ts:25-37); export 5=5 (Config · ShellEnvRegistry · apply · inject · name)",
+    "app that `check:app` = **11/11 DAT** (reviewer tu chay): (1) 110.362 B · (3) 131 entry · (5) 0 · (6) 56 goi · (8) #root 49.579 / 46 slot / 0 loi console / 0 pageerror · (9) 0/80 · (10) 198 file khop · (11) HMR OK"
+  ],
+  "packages": [
+    {
+      "dsh": "@deepseek-ai/dsh-shell-env",
+      "gbh": "gbh-shell-env"
+    }
+  ]
+}

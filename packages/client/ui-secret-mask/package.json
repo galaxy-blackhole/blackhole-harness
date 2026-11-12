@@ -1,0 +1,47 @@
+{
+  "name": "@galaxy-blackhole/gbh-client-ui-secret-mask",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "type": "module",
+  "main": "lib/index.js",
+  "description": "Bản viết lại của Galaxy Blackhole cho row ui-secret-mask của DSH (@deepseek-ai/dsh-client-ui-secret-mask).",
+  "exports": {
+    "./locale/*.json": "./locale/*.json",
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./client": "./lib/client.js"
+  },
+  "scripts": {
+    "build": "bun run build.ts"
+  },
+  "gbh": {
+    "row": {
+      "id": "ui-secret-mask",
+      "moduleIds": [
+        "@galaxy-blackhole/gbh-client-ui-secret-mask"
+      ],
+      "tests": [
+        "tests/client/ui-secret-mask.test.ts"
+      ],
+      "aliases": [
+        "@deepseek-ai/dsh-client-ui-secret-mask"
+      ]
+    },
+    "provenance": {
+      "stock": "@deepseek-ai/dsh-client-ui-secret-mask"
+    }
+  },
+  "dsh": {
+    "client": {
+      "inject": [
+        "@deepseek-ai/dsh-client-locale",
+        "@deepseek-ai/dsh-client-ui-conversation",
+        "@deepseek-ai/dsh-client-ui-renderer"
+      ],
+      "platform": "web"
+    }
+  },
+  "types": "lib/types/index.d.ts"
+}

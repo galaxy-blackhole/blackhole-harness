@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "authorization",
+    "description": "Điểm nối trừu tượng cho uỷ quyền (ctx.authorization): các luồng do plugin sở hữu, lấy thông tin xác thực qua hội thoại với người dùng."
+  }
+}

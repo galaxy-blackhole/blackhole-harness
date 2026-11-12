@@ -1,0 +1,59 @@
+{
+  "name": "@galaxy-blackhole/gbh-user-questions",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "type": "module",
+  "main": "lib/index.js",
+  "description": "Bản viết lại của Galaxy Blackhole cho row user-questions của DSH (@deepseek-ai/dsh-user-questions): seam hỏi người dùng ctx.userQuestions (vòng đua người trả lời theo phạm vi agent + chiếu phiên userQuestions).",
+  "scripts": {
+    "build": "bun run build.ts"
+  },
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./package.json": "./package.json",
+    "./src/*": "./src/*",
+    "./locale/*.json": "./locale/*.json"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2",
+    "@deepseek-ai/schemastery": "~3.18.5-alpha.2",
+    "@deepseek-ai/dsh-typert-protocol": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-scope": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-llm": "0.2.1-alpha.4"
+  },
+  "devDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2",
+    "@deepseek-ai/schemastery": "~3.18.5-alpha.2",
+    "@deepseek-ai/dsh-typert-protocol": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-scope": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-llm": "0.2.1-alpha.4"
+  },
+  "dependencies": {
+    "zod": "^4.6.7"
+  },
+  "gbh": {
+    "draft": "CHUA KHAI gbh.row — be mat host-only da xong nhung CHUA co luot boot lab/mount cua Lead (xem README.md muc 5).",
+    "tests": [
+      "tests/host/user-questions.test.ts"
+    ],
+    "peers": [
+      "@deepseek-ai/dsh-typert-protocol",
+      "@deepseek-ai/dsh-scope",
+      "@deepseek-ai/dsh-llm"
+    ],
+    "row": {
+      "id": "user-questions",
+      "aliases": [],
+      "tests": [
+        "tests/host/user-questions.test.ts"
+      ]
+    },
+    "provenance": {
+      "stock": "@deepseek-ai/dsh-user-questions"
+    }
+  },
+  "types": "lib/types/index.d.ts"
+}

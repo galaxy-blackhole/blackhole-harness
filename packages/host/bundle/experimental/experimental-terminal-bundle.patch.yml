@@ -1,0 +1,25 @@
+# author Bùi Trọng Hiếu
+# email kevinbui210191@gmail.com
+# create date 15/10/2026
+# modify date 21/10/2026
+# desc PATCH SINH TU DONG tu @deepseek-ai/dsh-experimental-terminal-bundle/./cordis.patch.yml (task-191) — chi doi dong name theo provenance.
+
+- insert:
+    - id: optional-persistent-terminals
+      name: cordis:group
+      group: true
+      isolate:
+        terminals: true
+      config:
+        - id: optional-terminal-registry
+          name: '@galaxy-blackhole/gbh-terminal'
+        - id: optional-terminal-bash
+          name: '@galaxy-blackhole/gbh-terminal-bash'
+          disabled: !!js process.platform === 'win32'
+        - id: optional-terminal-pwsh
+          name: '@galaxy-blackhole/gbh-terminal-bash'
+          disabled: !!js process.platform !== 'win32'
+          config:
+            shellDialect: pwsh
+        - id: optional-tool-terminal
+          name: '@galaxy-blackhole/gbh-tool-terminal'

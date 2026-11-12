@@ -1,0 +1,16 @@
+{
+  "dev": "tm-client-ui-b",
+  "owner": "tm-client-ui-b",
+  "evidence": [
+    "signed, MOUNTED — check:app 3 luot: (3) 151 entry · (5) 0 · #root/#root slot OK · (10) con 2 BAN MOUNT CU cua gbh-session-log-export (goi DA PARK, khong nam trong batch nay) — app LANH",
+    "CO CHE: row TOP-LEVEL id `cot-translation` (patch disabled + insert ours) · 0 id stock · 3 Bun.build tach roi theo Lead",
+    "test **27 pass / 0 fail / 199 expect** khớp Lead · index 7.950 B `96059b7050` · client.js 40.407 B `638bf76d6a` · client.bundle.js 36.798 B `9009da35cf`",
+    "rollback san"
+  ],
+  "packages": [
+    {
+      "dsh": "@deepseek-ai/dsh-experimental-client-ui-cot-translation",
+      "gbh": "gbh-client-ui-cot-translation"
+    }
+  ]
+}

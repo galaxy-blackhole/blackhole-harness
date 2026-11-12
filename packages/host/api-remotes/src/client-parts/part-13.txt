@@ -1,0 +1,1000 @@
+							"type": "object",
+							"properties": {
+								"ok": {
+									"type": "boolean",
+									"const": false
+								},
+								"error": { "oneOf": [{
+									"type": "object",
+									"properties": {
+										"code": {
+											"type": "string",
+											"const": "session-not-found"
+										},
+										"sessionId": { "type": "string" }
+									},
+									"required": ["code", "sessionId"],
+									"additionalProperties": true
+								}, {
+									"type": "object",
+									"properties": {
+										"code": {
+											"type": "string",
+											"const": "version-conflict"
+										},
+										"current": {
+											"oneOf": [{
+												"type": "null",
+												"const": null
+											}, {
+												"type": "object",
+												"properties": {
+													"messageId": {
+														"type": "string",
+														"description": "Stable identity of the assistant message inside the owning Session."
+													},
+													"rating": {
+														"type": "string",
+														"enum": ["positive", "negative"],
+														"description": "Overall positive or negative judgment."
+													},
+													"note": {
+														"type": "string",
+														"description": "Optional explanation, preserved verbatim after validation."
+													},
+													"category": {
+														"type": "string",
+														"enum": [
+															"other",
+															"task-result",
+															"instruction-following",
+															"product-interaction",
+															"service-stability",
+															"resource-cost",
+															"security-privacy-permission"
+														],
+														"description": "Category the human filed the judgment under."
+													},
+													"version": {
+														"type": "string",
+														"description": "Equality-only token replaced by every material create or update."
+													},
+													"createdAt": {
+														"type": "number",
+														"description": "Host-assigned creation time in Unix epoch milliseconds."
+													},
+													"updatedAt": {
+														"type": "number",
+														"description": "Host-assigned time of the most recent material update."
+													}
+												},
+												"required": [
+													"messageId",
+													"rating",
+													"version",
+													"createdAt",
+													"updatedAt"
+												],
+												"additionalProperties": true
+											}],
+											"description": "Authoritative current item, or `null` when it does not exist."
+										}
+									},
+									"required": ["code", "current"],
+									"additionalProperties": true
+								}] }
+							},
+							"required": ["ok", "error"],
+							"additionalProperties": true
+						}] }
+					},
+					sourceLocation: {
+						"file": "packages/feedback/message-feedback/src/index.ts",
+						"line": 207,
+						"column": 3
+					}
+				},
+				"messageFeedback/list": {
+					service: "messageFeedback",
+					description: "Read current feedback from the canonical log.",
+					invocation: { kind: "direct" },
+					parameters: [{
+						name: "request",
+						description: "Session to inspect.",
+						source: "json",
+						codec: {
+							mode: "strict",
+							typeSymbol: "@deepseek-ai/dsh-message-feedback/types#MessageFeedbackListRequest",
+							create: _deepseek_ai_dsh_message_feedback_messageFeedback_list_parameter_0$schema,
+							jsonSchema: {
+								"type": "object",
+								"properties": { "sessionId": {
+									"type": "string",
+									"description": "Session whose feedback events should be read."
+								} },
+								"required": ["sessionId"],
+								"additionalProperties": true
+							}
+						},
+						strictCodec: {
+							mode: "strict",
+							typeSymbol: "@deepseek-ai/dsh-message-feedback/types#MessageFeedbackListRequest",
+							create: _deepseek_ai_dsh_message_feedback_messageFeedback_list_parameter_0_strict$schema,
+							jsonSchema: {
+								"type": "object",
+								"properties": { "sessionId": {
+									"type": "string",
+									"description": "Session whose feedback events should be read."
+								} },
+								"required": ["sessionId"],
+								"additionalProperties": false
+							}
+						}
+					}],
+					result: {
+						mode: "strict",
+						typeSymbol: "@deepseek-ai/dsh-message-feedback/types#MessageFeedbackListResult",
+						create: _deepseek_ai_dsh_message_feedback_messageFeedback_list_result$schema,
+						description: "immutable items or a definite persistence miss.",
+						jsonSchema: { "oneOf": [{
+							"type": "object",
+							"properties": {
+								"ok": {
+									"type": "boolean",
+									"const": true
+								},
+								"value": {
+									"type": "object",
+									"properties": { "items": {
+										"type": "array",
+										"items": {
+											"type": "object",
+											"properties": {
+												"messageId": {
+													"type": "string",
+													"description": "Stable identity of the assistant message inside the owning Session."
+												},
+												"rating": {
+													"type": "string",
+													"enum": ["positive", "negative"],
+													"description": "Overall positive or negative judgment."
+												},
+												"note": {
+													"type": "string",
+													"description": "Optional explanation, preserved verbatim after validation."
+												},
+												"category": {
+													"type": "string",
+													"enum": [
+														"other",
+														"task-result",
+														"instruction-following",
+														"product-interaction",
+														"service-stability",
+														"resource-cost",
+														"security-privacy-permission"
+													],
+													"description": "Category the human filed the judgment under."
+												},
+												"version": {
+													"type": "string",
+													"description": "Equality-only token replaced by every material create or update."
+												},
+												"createdAt": {
+													"type": "number",
+													"description": "Host-assigned creation time in Unix epoch milliseconds."
+												},
+												"updatedAt": {
+													"type": "number",
+													"description": "Host-assigned time of the most recent material update."
+												}
+											},
+											"required": [
+												"messageId",
+												"rating",
+												"version",
+												"createdAt",
+												"updatedAt"
+											],
+											"additionalProperties": true
+										},
+										"description": "Fresh immutable item snapshots."
+									} },
+									"required": ["items"],
+									"additionalProperties": true
+								}
+							},
+							"required": ["ok", "value"],
+							"additionalProperties": true
+						}, {
+							"type": "object",
+							"properties": {
+								"ok": {
+									"type": "boolean",
+									"const": false
+								},
+								"error": {
+									"type": "object",
+									"properties": {
+										"code": {
+											"type": "string",
+											"const": "session-not-found"
+										},
+										"sessionId": { "type": "string" }
+									},
+									"required": ["code", "sessionId"],
+									"additionalProperties": true
+								}
+							},
+							"required": ["ok", "error"],
+							"additionalProperties": true
+						}] }
+					},
+					sourceLocation: {
+						"file": "packages/feedback/message-feedback/src/index.ts",
+						"line": 155,
+						"column": 3
+					}
+				},
+				"messageFeedback/put": {
+					service: "messageFeedback",
+					description: "Create or replace feedback after checking its current version. Matching no-ops retain the version and append no event.",
+					invocation: { kind: "direct" },
+					parameters: [{
+						name: "request",
+						description: "Target, desired value, and observed item version.",
+						source: "json",
+						codec: {
+							mode: "strict",
+							typeSymbol: "@deepseek-ai/dsh-message-feedback/types#MessageFeedbackPutRequest",
+							create: _deepseek_ai_dsh_message_feedback_messageFeedback_put_parameter_0$schema,
+							jsonSchema: {
+								"type": "object",
+								"properties": {
+									"sessionId": {
+										"type": "string",
+										"description": "Persisted Session that owns the target message."
+									},
+									"messageId": {
+										"type": "string",
+										"description": "Target assistant-message identity."
+									},
+									"rating": {
+										"type": "string",
+										"enum": ["positive", "negative"],
+										"description": "Desired overall judgment."
+									},
+									"note": {
+										"type": "string",
+										"description": "Optional non-blank explanation."
+									},
+									"category": {
+										"type": "string",
+										"enum": [
+											"other",
+											"task-result",
+											"instruction-following",
+											"product-interaction",
+											"service-stability",
+											"resource-cost",
+											"security-privacy-permission"
+										],
+										"description": "Optional category; absent keeps the item uncategorized."
+									},
+									"ifVersion": {
+										"oneOf": [{
+											"type": "null",
+											"const": null
+										}, { "type": "string" }],
+										"description": "Observed item version, or `null` to require that no item exists."
+									}
+								},
+								"required": [
+									"sessionId",
+									"messageId",
+									"rating",
+									"ifVersion"
+								],
+								"additionalProperties": true
+							}
+						},
+						strictCodec: {
+							mode: "strict",
+							typeSymbol: "@deepseek-ai/dsh-message-feedback/types#MessageFeedbackPutRequest",
+							create: _deepseek_ai_dsh_message_feedback_messageFeedback_put_parameter_0_strict$schema,
+							jsonSchema: {
+								"type": "object",
+								"properties": {
+									"sessionId": {
+										"type": "string",
+										"description": "Persisted Session that owns the target message."
+									},
+									"messageId": {
+										"type": "string",
+										"description": "Target assistant-message identity."
+									},
+									"rating": {
+										"type": "string",
+										"enum": ["positive", "negative"],
+										"description": "Desired overall judgment."
+									},
+									"note": {
+										"type": "string",
+										"description": "Optional non-blank explanation."
+									},
+									"category": {
+										"type": "string",
+										"enum": [
+											"other",
+											"task-result",
+											"instruction-following",
+											"product-interaction",
+											"service-stability",
+											"resource-cost",
+											"security-privacy-permission"
+										],
+										"description": "Optional category; absent keeps the item uncategorized."
+									},
+									"ifVersion": {
+										"oneOf": [{
+											"type": "null",
+											"const": null
+										}, { "type": "string" }],
+										"description": "Observed item version, or `null` to require that no item exists."
+									}
+								},
+								"required": [
+									"sessionId",
+									"messageId",
+									"rating",
+									"ifVersion"
+								],
+								"additionalProperties": false
+							}
+						}
+					}],
+					result: {
+						mode: "strict",
+						typeSymbol: "@deepseek-ai/dsh-message-feedback/types#MessageFeedbackPutResult",
+						create: _deepseek_ai_dsh_message_feedback_messageFeedback_put_result$schema,
+						description: "the durable item or an explicit business failure.",
+						jsonSchema: { "oneOf": [{
+							"type": "object",
+							"properties": {
+								"ok": {
+									"type": "boolean",
+									"const": true
+								},
+								"value": {
+									"type": "object",
+									"properties": {
+										"messageId": {
+											"type": "string",
+											"description": "Stable identity of the assistant message inside the owning Session."
+										},
+										"rating": {
+											"type": "string",
+											"enum": ["positive", "negative"],
+											"description": "Overall positive or negative judgment."
+										},
+										"note": {
+											"type": "string",
+											"description": "Optional explanation, preserved verbatim after validation."
+										},
+										"category": {
+											"type": "string",
+											"enum": [
+												"other",
+												"task-result",
+												"instruction-following",
+												"product-interaction",
+												"service-stability",
+												"resource-cost",
+												"security-privacy-permission"
+											],
+											"description": "Category the human filed the judgment under."
+										},
+										"version": {
+											"type": "string",
+											"description": "Equality-only token replaced by every material create or update."
+										},
+										"createdAt": {
+											"type": "number",
+											"description": "Host-assigned creation time in Unix epoch milliseconds."
+										},
+										"updatedAt": {
+											"type": "number",
+											"description": "Host-assigned time of the most recent material update."
+										}
+									},
+									"required": [
+										"messageId",
+										"rating",
+										"version",
+										"createdAt",
+										"updatedAt"
+									],
+									"additionalProperties": true
+								}
+							},
+							"required": ["ok", "value"],
+							"additionalProperties": true
+						}, {
+							"type": "object",
+							"properties": {
+								"ok": {
+									"type": "boolean",
+									"const": false
+								},
+								"error": { "oneOf": [
+									{
+										"type": "object",
+										"properties": {
+											"code": {
+												"type": "string",
+												"const": "session-not-found"
+											},
+											"sessionId": { "type": "string" }
+										},
+										"required": ["code", "sessionId"],
+										"additionalProperties": true
+									},
+									{
+										"type": "object",
+										"properties": {
+											"code": {
+												"type": "string",
+												"const": "target-not-found"
+											},
+											"sessionId": { "type": "string" },
+											"messageId": { "type": "string" }
+										},
+										"required": [
+											"code",
+											"sessionId",
+											"messageId"
+										],
+										"additionalProperties": true
+									},
+									{
+										"type": "object",
+										"properties": {
+											"code": {
+												"type": "string",
+												"const": "version-conflict"
+											},
+											"current": {
+												"oneOf": [{
+													"type": "null",
+													"const": null
+												}, {
+													"type": "object",
+													"properties": {
+														"messageId": {
+															"type": "string",
+															"description": "Stable identity of the assistant message inside the owning Session."
+														},
+														"rating": {
+															"type": "string",
+															"enum": ["positive", "negative"],
+															"description": "Overall positive or negative judgment."
+														},
+														"note": {
+															"type": "string",
+															"description": "Optional explanation, preserved verbatim after validation."
+														},
+														"category": {
+															"type": "string",
+															"enum": [
+																"other",
+																"task-result",
+																"instruction-following",
+																"product-interaction",
+																"service-stability",
+																"resource-cost",
+																"security-privacy-permission"
+															],
+															"description": "Category the human filed the judgment under."
+														},
+														"version": {
+															"type": "string",
+															"description": "Equality-only token replaced by every material create or update."
+														},
+														"createdAt": {
+															"type": "number",
+															"description": "Host-assigned creation time in Unix epoch milliseconds."
+														},
+														"updatedAt": {
+															"type": "number",
+															"description": "Host-assigned time of the most recent material update."
+														}
+													},
+													"required": [
+														"messageId",
+														"rating",
+														"version",
+														"createdAt",
+														"updatedAt"
+													],
+													"additionalProperties": true
+												}],
+												"description": "Authoritative current item, or `null` when it does not exist."
+											}
+										},
+										"required": ["code", "current"],
+										"additionalProperties": true
+									},
+									{
+										"type": "object",
+										"properties": { "code": {
+											"type": "string",
+											"const": "note-blank"
+										} },
+										"required": ["code"],
+										"additionalProperties": true
+									},
+									{
+										"type": "object",
+										"properties": {
+											"code": {
+												"type": "string",
+												"const": "note-too-large"
+											},
+											"maxBytes": { "type": "number" },
+											"actualBytes": { "type": "number" }
+										},
+										"required": [
+											"code",
+											"maxBytes",
+											"actualBytes"
+										],
+										"additionalProperties": true
+									}
+								] }
+							},
+							"required": ["ok", "error"],
+							"additionalProperties": true
+						}] }
+					},
+					sourceLocation: {
+						"file": "packages/feedback/message-feedback/src/index.ts",
+						"line": 167,
+						"column": 3
+					}
+				}
+			}
+		}, zod.z);
+		//#endregion
+		//#region ../../interaction/permission-presets/lib/typert.remote-client.js
+		let _deepseek_ai_dsh_permission_presets_permissionPresets_catalog_result$schema$value;
+		const _deepseek_ai_dsh_permission_presets_permissionPresets_catalog_result$schema = () => _deepseek_ai_dsh_permission_presets_permissionPresets_catalog_result$schema$value ??= zod.z.object({
+			"options": zod.z.array(zod.z.object({
+				"value": zod.z.string().describe("Stable option value: a configured preset key, live `auto`, or derived `custom`."),
+				"name": zod.z.string().describe("The display label."),
+				"description": zod.z.string().optional().describe("One user-facing sentence on what the value means; omitted when not configured.")
+			})).describe("Every currently selectable preset, in contribution order."),
+			"defaultOptions": zod.z.array(zod.z.object({
+				"value": zod.z.string().describe("Stable option value: a configured preset key, live `auto`, or derived `custom`."),
+				"name": zod.z.string().describe("The display label."),
+				"description": zod.z.string().optional().describe("One user-facing sentence on what the value means; omitted when not configured.")
+			})).describe("Configured presets eligible as defaults for future sessions."),
+			"defaultPreset": zod.z.string().describe("Effective default when the Config field is omitted.")
+		});
+		const TYPERT_REMOTE$9 = createTypertRemoteInfo({
+			package: "@deepseek-ai/dsh-permission-presets",
+			methods: { "permissionPresets/catalog": {
+				service: "permissionPresets",
+				description: "Read the complete process-level catalog exposed to current-session UI.",
+				invocation: { kind: "direct" },
+				parameters: [],
+				result: {
+					mode: "strict",
+					typeSymbol: "@deepseek-ai/dsh-permission-presets/client#PermissionCatalog",
+					create: _deepseek_ai_dsh_permission_presets_permissionPresets_catalog_result$schema,
+					description: "every currently selectable preset in contribution order.",
+					jsonSchema: {
+						"type": "object",
+						"properties": {
+							"options": {
+								"type": "array",
+								"items": {
+									"type": "object",
+									"properties": {
+										"value": {
+											"type": "string",
+											"description": "Stable option value: a configured preset key, live `auto`, or derived `custom`."
+										},
+										"name": {
+											"type": "string",
+											"description": "The display label."
+										},
+										"description": {
+											"type": "string",
+											"description": "One user-facing sentence on what the value means; omitted when not configured."
+										}
+									},
+									"required": ["value", "name"],
+									"additionalProperties": true
+								},
+								"description": "Every currently selectable preset, in contribution order."
+							},
+							"defaultOptions": {
+								"type": "array",
+								"items": {
+									"type": "object",
+									"properties": {
+										"value": {
+											"type": "string",
+											"description": "Stable option value: a configured preset key, live `auto`, or derived `custom`."
+										},
+										"name": {
+											"type": "string",
+											"description": "The display label."
+										},
+										"description": {
+											"type": "string",
+											"description": "One user-facing sentence on what the value means; omitted when not configured."
+										}
+									},
+									"required": ["value", "name"],
+									"additionalProperties": true
+								},
+								"description": "Configured presets eligible as defaults for future sessions."
+							},
+							"defaultPreset": {
+								"type": "string",
+								"description": "Effective default when the Config field is omitted."
+							}
+						},
+						"required": [
+							"options",
+							"defaultOptions",
+							"defaultPreset"
+						],
+						"additionalProperties": true
+					}
+				},
+				sourceLocation: {
+					"file": "packages/interaction/permission-presets/src/index.ts",
+					"line": 293,
+					"column": 3
+				}
+			} }
+		}, zod.z);
+		//#endregion
+		//#region ../../feedback/command-feedback/lib/typert.remote-client.js
+		let _deepseek_ai_dsh_command_feedback_sessionFeedback_record_parameter_0$schema$value;
+		const _deepseek_ai_dsh_command_feedback_sessionFeedback_record_parameter_0$schema = () => _deepseek_ai_dsh_command_feedback_sessionFeedback_record_parameter_0$schema$value ??= zod.z.object({
+			"sessionId": zod.z.string().readonly().describe("Live Session the remark describes."),
+			"text": zod.z.string().readonly().optional().describe("Free-text remark; blank text is recorded as absent."),
+			"category": zod.z.union([
+				zod.z.literal("other"),
+				zod.z.literal("task-result"),
+				zod.z.literal("instruction-following"),
+				zod.z.literal("product-interaction"),
+				zod.z.literal("service-stability"),
+				zod.z.literal("resource-cost"),
+				zod.z.literal("security-privacy-permission")
+			]).readonly().optional().describe("Category the human filed the remark under.")
+		});
+		let _deepseek_ai_dsh_command_feedback_sessionFeedback_record_result$schema$value;
+		const _deepseek_ai_dsh_command_feedback_sessionFeedback_record_result$schema = () => _deepseek_ai_dsh_command_feedback_sessionFeedback_record_result$schema$value ??= zod.z.union([zod.z.object({
+			"ok": zod.z.literal(true).readonly(),
+			"value": zod.z.object({ "recorded": zod.z.literal(true).readonly().describe("The remark is appended to the Session log; flushing follows the Session's own schedule.") }).readonly()
+		}), zod.z.object({
+			"ok": zod.z.literal(false).readonly(),
+			"error": zod.z.object({
+				"code": zod.z.literal("session-not-found").readonly(),
+				"sessionId": zod.z.string().readonly()
+			}).readonly()
+		})]);
+		let _deepseek_ai_dsh_command_feedback_sessionFeedback_record_parameter_0_strict$schema$value;
+		const _deepseek_ai_dsh_command_feedback_sessionFeedback_record_parameter_0_strict$schema = () => _deepseek_ai_dsh_command_feedback_sessionFeedback_record_parameter_0_strict$schema$value ??= zod.z.strictObject({
+			"sessionId": zod.z.string().readonly().describe("Live Session the remark describes."),
+			"text": zod.z.string().readonly().optional().describe("Free-text remark; blank text is recorded as absent."),
+			"category": zod.z.union([
+				zod.z.literal("other"),
+				zod.z.literal("task-result"),
+				zod.z.literal("instruction-following"),
+				zod.z.literal("product-interaction"),
+				zod.z.literal("service-stability"),
+				zod.z.literal("resource-cost"),
+				zod.z.literal("security-privacy-permission")
+			]).readonly().optional().describe("Category the human filed the remark under.")
+		});
+		const TYPERT_REMOTE$8 = createTypertRemoteInfo({
+			package: "@deepseek-ai/dsh-command-feedback",
+			methods: { "sessionFeedback/record": {
+				service: "sessionFeedback",
+				description: "Record one remark on a live Session.",
+				invocation: { kind: "direct" },
+				parameters: [{
+					name: "request",
+					description: "target Session plus the optional text and category.",
+					source: "json",
+					codec: {
+						mode: "strict",
+						typeSymbol: "@deepseek-ai/dsh-command-feedback/types#SessionFeedbackRecordRequest",
+						create: _deepseek_ai_dsh_command_feedback_sessionFeedback_record_parameter_0$schema,
+						jsonSchema: {
+							"type": "object",
+							"properties": {
+								"sessionId": {
+									"type": "string",
+									"description": "Live Session the remark describes."
+								},
+								"text": {
+									"type": "string",
+									"description": "Free-text remark; blank text is recorded as absent."
+								},
+								"category": {
+									"type": "string",
+									"enum": [
+										"other",
+										"task-result",
+										"instruction-following",
+										"product-interaction",
+										"service-stability",
+										"resource-cost",
+										"security-privacy-permission"
+									],
+									"description": "Category the human filed the remark under."
+								}
+							},
+							"required": ["sessionId"],
+							"additionalProperties": true
+						}
+					},
+					strictCodec: {
+						mode: "strict",
+						typeSymbol: "@deepseek-ai/dsh-command-feedback/types#SessionFeedbackRecordRequest",
+						create: _deepseek_ai_dsh_command_feedback_sessionFeedback_record_parameter_0_strict$schema,
+						jsonSchema: {
+							"type": "object",
+							"properties": {
+								"sessionId": {
+									"type": "string",
+									"description": "Live Session the remark describes."
+								},
+								"text": {
+									"type": "string",
+									"description": "Free-text remark; blank text is recorded as absent."
+								},
+								"category": {
+									"type": "string",
+									"enum": [
+										"other",
+										"task-result",
+										"instruction-following",
+										"product-interaction",
+										"service-stability",
+										"resource-cost",
+										"security-privacy-permission"
+									],
+									"description": "Category the human filed the remark under."
+								}
+							},
+							"required": ["sessionId"],
+							"additionalProperties": false
+						}
+					}
+				}],
+				result: {
+					mode: "strict",
+					typeSymbol: "@deepseek-ai/dsh-command-feedback/types#SessionFeedbackRecordResult",
+					create: _deepseek_ai_dsh_command_feedback_sessionFeedback_record_result$schema,
+					description: "the recorded postcondition, or `session-not-found` when no live Session carries the id.",
+					jsonSchema: { "oneOf": [{
+						"type": "object",
+						"properties": {
+							"ok": {
+								"type": "boolean",
+								"const": true
+							},
+							"value": {
+								"type": "object",
+								"properties": { "recorded": {
+									"type": "boolean",
+									"const": true,
+									"description": "The remark is appended to the Session log; flushing follows the Session's own schedule."
+								} },
+								"required": ["recorded"],
+								"additionalProperties": true
+							}
+						},
+						"required": ["ok", "value"],
+						"additionalProperties": true
+					}, {
+						"type": "object",
+						"properties": {
+							"ok": {
+								"type": "boolean",
+								"const": false
+							},
+							"error": {
+								"type": "object",
+								"properties": {
+									"code": {
+										"type": "string",
+										"const": "session-not-found"
+									},
+									"sessionId": { "type": "string" }
+								},
+								"required": ["code", "sessionId"],
+								"additionalProperties": true
+							}
+						},
+						"required": ["ok", "error"],
+						"additionalProperties": true
+					}] }
+				},
+				sourceLocation: {
+					"file": "packages/feedback/command-feedback/src/index.ts",
+					"line": 102,
+					"column": 3
+				}
+			} }
+		}, zod.z);
+		//#endregion
+		//#region ../../client/file-upload/lib/typert.remote-client.js
+		let _deepseek_ai_dsh_client_file_upload_fileUploads_upload_parameter_0$schema$value;
+		const _deepseek_ai_dsh_client_file_upload_fileUploads_upload_parameter_0$schema = () => _deepseek_ai_dsh_client_file_upload_fileUploads_upload_parameter_0$schema$value ??= zod.z.string();
+		let _deepseek_ai_dsh_client_file_upload_fileUploads_upload_parameter_1$schema$value;
+		const _deepseek_ai_dsh_client_file_upload_fileUploads_upload_parameter_1$schema = () => _deepseek_ai_dsh_client_file_upload_fileUploads_upload_parameter_1$schema$value ??= zod.z.object({
+			"data": zod.z.string().readonly().describe("Canonical base64 encoding of the exact file bytes."),
+			"name": zod.z.string().readonly().optional().describe("Optional display name; the Host sanitizes it into the stored leaf name.")
+		});
+		let _deepseek_ai_dsh_client_file_upload_fileUploads_upload_result$schema$value;
+		const _deepseek_ai_dsh_client_file_upload_fileUploads_upload_result$schema = () => _deepseek_ai_dsh_client_file_upload_fileUploads_upload_result$schema$value ??= zod.z.object({
+			"receiptId": zod.z.string().readonly().describe("Per-upload authority accepted only inside the receiving Agent scope."),
+			"file": zod.z.object({
+				"attachmentId": zod.z.string().describe("Opaque content-addressed storage identifier; never a filesystem path or bearer URL."),
+				"name": zod.z.string().describe("Sanitized display filename, also the stored object's leaf name."),
+				"bytes": zod.z.number().describe("Exact byte length.")
+			}).readonly()
+		});
+		let _deepseek_ai_dsh_client_file_upload_fileUploads_upload_parameter_0_strict$schema$value;
+		const _deepseek_ai_dsh_client_file_upload_fileUploads_upload_parameter_0_strict$schema = () => _deepseek_ai_dsh_client_file_upload_fileUploads_upload_parameter_0_strict$schema$value ??= zod.z.string();
+		let _deepseek_ai_dsh_client_file_upload_fileUploads_upload_parameter_1_strict$schema$value;
+		const _deepseek_ai_dsh_client_file_upload_fileUploads_upload_parameter_1_strict$schema = () => _deepseek_ai_dsh_client_file_upload_fileUploads_upload_parameter_1_strict$schema$value ??= zod.z.strictObject({
+			"data": zod.z.string().readonly().describe("Canonical base64 encoding of the exact file bytes."),
+			"name": zod.z.string().readonly().optional().describe("Optional display name; the Host sanitizes it into the stored leaf name.")
+		});
+		const TYPERT_REMOTE$7 = createTypertRemoteInfo({
+			package: "@deepseek-ai/dsh-client-file-upload",
+			methods: { "fileUploads/upload": {
+				service: "fileUploads",
+				description: "Persist one encoded upload and stage it under the Agent receiver selected by Typert.",
+				invocation: { kind: "direct" },
+				scope: {
+					context: "agent",
+					wire: "agentId"
+				},
+				parameters: [{
+					name: "agent",
+					wire: "agentId",
+					description: "receiving Agent resolved from the Remote Agent scope.",
+					source: "lookup",
+					lookup: "agent",
+					codec: {
+						mode: "strict",
+						typeSymbol: "@deepseek-ai/dsh-session/types#SessionId",
+						create: _deepseek_ai_dsh_client_file_upload_fileUploads_upload_parameter_0$schema,
+						jsonSchema: { "type": "string" }
+					},
+					strictCodec: {
+						mode: "strict",
+						typeSymbol: "@deepseek-ai/dsh-session/types#SessionId",
+						create: _deepseek_ai_dsh_client_file_upload_fileUploads_upload_parameter_0_strict$schema,
+						jsonSchema: { "type": "string" }
+					}
+				}, {
+					name: "request",
+					description: "canonical base64 bytes and optional display name.",
+					source: "json",
+					codec: {
+						mode: "strict",
+						typeSymbol: "@deepseek-ai/dsh-client-file-upload/types#EncodedFileUploadRequest",
+						create: _deepseek_ai_dsh_client_file_upload_fileUploads_upload_parameter_1$schema,
+						jsonSchema: {
+							"type": "object",
+							"properties": {
+								"data": {
+									"type": "string",
+									"description": "Canonical base64 encoding of the exact file bytes."
+								},
+								"name": {
+									"type": "string",
+									"description": "Optional display name; the Host sanitizes it into the stored leaf name."
+								}
+							},
+							"required": ["data"],
+							"additionalProperties": true
+						}
+					},
+					strictCodec: {
+						mode: "strict",
+						typeSymbol: "@deepseek-ai/dsh-client-file-upload/types#EncodedFileUploadRequest",
+						create: _deepseek_ai_dsh_client_file_upload_fileUploads_upload_parameter_1_strict$schema,
+						jsonSchema: {
+							"type": "object",
+							"properties": {
+								"data": {
+									"type": "string",
+									"description": "Canonical base64 encoding of the exact file bytes."
+								},
+								"name": {
+									"type": "string",
+									"description": "Optional display name; the Host sanitizes it into the stored leaf name."
+								}
+							},
+							"required": ["data"],
+							"additionalProperties": false
+						}
+					}
+				}],
+				cancellation: { parameter: "signal" },
+				result: {
+					mode: "strict",
+					typeSymbol: "@deepseek-ai/dsh-client-file-upload/types#FileUploadValue",
+					create: _deepseek_ai_dsh_client_file_upload_fileUploads_upload_result$schema,
+					description: "the staged receipt and durable file reference.",
+					jsonSchema: {
+						"type": "object",
+						"properties": {
+							"receiptId": {
+								"type": "string",
+								"description": "Per-upload authority accepted only inside the receiving Agent scope."
+							},
+							"file": {
+								"type": "object",
+								"properties": {
+									"attachmentId": {
+										"type": "string",
+										"description": "Opaque content-addressed storage identifier; never a filesystem path or bearer URL."
+									},
+									"name": {
+										"type": "string",
+										"description": "Sanitized display filename, also the stored object's leaf name."
+									},
+									"bytes": {
+										"type": "number",
+										"description": "Exact byte length."
+									}
+								},
+								"required": [
+									"attachmentId",
+									"name",
+									"bytes"
+								],
+								"additionalProperties": true
+							}
+						},
+						"required": ["receiptId", "file"],
+						"additionalProperties": true
+					}
+				},
+				sourceLocation: {
+					"file": "packages/client/file-upload/src/index.ts",
+					"line": 105,
+					"column": 3
+				}
+			} }
+		}, zod.z);
+		//#endregion
+		//#region ../../context/session-reference/lib/typert.remote-client.js
+		let _deepseek_ai_dsh_session_reference_sessionReferenceResolver_candidates_parameter_0$schema$value;
+		const _deepseek_ai_dsh_session_reference_sessionReferenceResolver_candidates_parameter_0$schema = () => _deepseek_ai_dsh_session_reference_sessionReferenceResolver_candidates_parameter_0$schema$value ??= zod.z.string();
+		let _deepseek_ai_dsh_session_reference_sessionReferenceResolver_candidates_parameter_1$schema$value;
+		const _deepseek_ai_dsh_session_reference_sessionReferenceResolver_candidates_parameter_1$schema = () => _deepseek_ai_dsh_session_reference_sessionReferenceResolver_candidates_parameter_1$schema$value ??= zod.z.string();
+		let _deepseek_ai_dsh_session_reference_sessionReferenceResolver_candidates_result$schema$value;
+		const _deepseek_ai_dsh_session_reference_sessionReferenceResolver_candidates_result$schema = () => _deepseek_ai_dsh_session_reference_sessionReferenceResolver_candidates_result$schema$value ??= zod.z.array(zod.z.object({
+			"mention": zod.z.string().describe("Canonical `@[label](dsh-session:…)` mention serialized into the prompt draft."),
+			"sessionId": zod.z.string().describe("Opaque source session identity."),
+			"label": zod.z.string().describe("Latest log-backed title, falling back to the opaque session id."),
+			"displayTitle": zod.z.string().optional().describe("Display and canonical-mention text, preferring a subagent's durable creation label over {@link label}."),
+			"cwd": zod.z.string().optional().describe("Source session working directory, when recorded."),
+			"sameWorkspace": zod.z.boolean().describe("True when {@link SessionReferenceCandidate.cwd} is recorded and equals the requesting agent's. Hosts that only surface a distinguishing location read this instead of comparing paths they never received."),
+			"createdAt": zod.z.number().describe("Source session creation time in Unix epoch milliseconds.")
+		}));
+		let _deepseek_ai_dsh_session_reference_sessionReferenceResolver_candidates_parameter_0_strict$schema$value;

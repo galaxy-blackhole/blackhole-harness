@@ -1,0 +1,20 @@
+{
+  "dev": "tm-host-core",
+  "owner": "tm-host-core",
+  "evidence": [
+    "signed, MOUNTED — check:app 11/11 BA LUOT LIEN TIEP, lab 0 did-not-activate, boot-smoke DAT",
+    "reviewer tm-reviewer TU DO: `gbh.row {id:'session', moduleIds:[gbh-session], aliases:[@deepseek-ai/dsh-session], tests:[4 tệp]}` · patch `app.patch.yml:1197-1203` (`session disabled: true` + insert `session-ours` aliases) · dump MOI **354 entry** co `session-ours` ENABLED",
+    "**3 luot check:app lien tiep DAT 11/11** — (3) **137 entry** · (5) **0** · (8) #root **47.181** / **46 slot** / **0 console** / **0 pageerror** · (9) **0/80** · (10) **251 file khop repo** (phuc vu ban build MOI) · (11) HMR",
+    "artifact build lai exit 0 · **lib/index.js 1.617 dòng** · **export 30 = 30** voi stock (missing 0/extra 0) · **`default === SessionStore`** (artifact dong 1599 `SessionStore as default`)",
+    "reviewer tu chay 4 tep test: **27 pass / 0 fail / 290 expect** — (chu goi ghi 292 expect; theo nguyen tac so do truc tiep thang, batch nay ghi **290**; de nghi chu goi doi chieu lai bao cao)",
+    "seam dung nhu canh bao: `commitPluginRecord` la **live binding** (`src/session.ts:51` khai `export let`, gan dong 333; `src/events.ts:15` import) va **MOT `attachments` WeakMap dung chung** (`src/events.ts:467`) — khong nhan ban ⇒ khong mat `session/event`",
+    "replay du lieu THAT 11/11 phien + A/B `Session.fromRestore`/`create` + alias kernel: theo bang chung chu goi; reviewer xac nhan cau truc test va khong co `instanceof Session/SessionStore` trong src cac goi ta (0 cho)",
+    "`check:rows` theo chu goi 149 goi dat; rollback san (`gbh.row` -> `gbh.row_unmounted_ly_do`)"
+  ],
+  "packages": [
+    {
+      "dsh": "@deepseek-ai/dsh-session",
+      "gbh": "gbh-session"
+    }
+  ]
+}

@@ -1,0 +1,48 @@
+{
+  "name": "@galaxy-blackhole/gbh-session-format-v2-to-v3",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "type": "module",
+  "main": "lib/index.js",
+  "description": "Streaming system-prompt, canonical-envelope and PTC migration into V3",
+  "scripts": {
+    "build": "bun run build.ts"
+  },
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2",
+    "@deepseek-ai/dsh-session-format": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-session-format-v0-to-v1": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-session-format-v1-to-v2": "0.2.1-alpha.4"
+  },
+  "devDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2",
+    "@deepseek-ai/dsh-session-format": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-session-format-v0-to-v1": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-session-format-v1-to-v2": "0.2.1-alpha.4"
+  },
+  "license": "MIT",
+  "gbh": {
+    "provenance": {
+      "stock": "@deepseek-ai/dsh-session-format-v2-to-v3",
+      "version": "0.2.1-alpha.4",
+      "sha": "0dc56fb447e9046fc25995bcd08dbac26e832eba6e9eb583ef49d26467c27cd7"
+    },
+    "draft": "19/10/2026 — GÓI THƯ VIỆN: KHÔNG có row trong dump .parity/dumps/2026-10-18T01-31-57 (0 dòng name: '@deepseek-ai/dsh-session-format-v2-to-v3') và KHÔNG có dòng trong docs/PARITY-MATRIX.md ⇒ consumer inline; không khai gbh.row/gbh.nested.",
+    "tests": [
+      "tests/host/session-format-cluster.test.ts"
+    ],
+    "peers": [
+      "@deepseek-ai/cordis",
+      "@deepseek-ai/dsh-session-format",
+      "@deepseek-ai/dsh-session-format-v0-to-v1",
+      "@deepseek-ai/dsh-session-format-v1-to-v2"
+    ]
+  }
+}

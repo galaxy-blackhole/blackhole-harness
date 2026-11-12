@@ -1,0 +1,82 @@
+{
+  "name": "@galaxy-blackhole/gbh-host-tool-jobs",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "type": "module",
+  "main": "lib/index.js",
+  "description": "Model-facing background job control tools (job_output, job_list, job_kill) over the ctx.jobs registry",
+  "scripts": {
+    "build": "bun run build.ts"
+  },
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./package.json": "./package.json",
+    "./locale/*.json": "./locale/*.json"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2",
+    "@deepseek-ai/dsh-agent": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-jobs": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-tools": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-fs": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-credentials": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-launch-environment": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-timeout": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-llm": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-output-retention": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-system-prompt": "0.2.1-alpha.4"
+  },
+  "gbh": {
+    "tests": [
+      "tests/host/tool-jobs.test.ts",
+      "tests/host/tool-jobs-manifest.test.ts"
+    ],
+    "provenance": {
+      "stock": "@deepseek-ai/dsh-tool-jobs",
+      "version": "0.2.1-alpha.4",
+      "sha": "de5707b43480ba37c8e141e6f67674978f3a46d87d58390c18eb1659bb17ec2f"
+    },
+    "row": {
+      "id": "tool-jobs",
+      "moduleIds": [
+        "@galaxy-blackhole/gbh-tool-jobs"
+      ],
+      "aliases": [
+        "@deepseek-ai/dsh-tool-jobs"
+      ],
+      "hostAliases": [
+        "@deepseek-ai/dsh-tool-jobs"
+      ],
+      "tests": [
+        "tests/host/tool-jobs.test.ts",
+        "tests/host/tool-jobs-manifest.test.ts"
+      ]
+    },
+    "nested": {
+      "kind": "preset",
+      "pluginId": "tool-jobs",
+      "stockId": "@deepseek-ai/dsh-tool-jobs",
+      "presets": [
+        "preset-standard",
+        "preset-ptc",
+        "preset-cordis"
+      ]
+    }
+  },
+  "dependencies": {
+    "@deepseek-ai/schemastery": "~3.18.5-alpha.2"
+  },
+  "devDependencies": {
+    "@deepseek-ai/dsh-agent": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-jobs": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-tools": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-fs": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-credentials": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-launch-environment": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-timeout": "0.2.1-alpha.4"
+  },
+  "types": "lib/types/index.d.ts"
+}

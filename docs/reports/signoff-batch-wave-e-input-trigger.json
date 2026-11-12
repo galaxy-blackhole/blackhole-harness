@@ -1,0 +1,16 @@
+{
+  "dev": "tm-client-ui-a",
+  "owner": "tm-client-ui-a",
+  "evidence": [
+    "reviewer tm-reviewer doc lap: build artifact exit 0 · export host tap = ban goc (apply 1=1, thieu 0 thua 0) · KHONG co lib/client.js (chi nua host — dung thiet ke CONVERSION-RUNBOOK §4d)",
+    "package signed, not mounted (chưa đủ nửa client / seam)",
+    "ly do khong mount (draft): 'CHI NUA HOST — KHONG khai gbh.row. Ban goc HAI MAT, toan bo hanh vi nam o nua CLIENT (lib/client.js 1.950 dong, dang ky qua __ModuleLoader__.load); nua host chi 11 dong, apply RONG'",
+    "reviewer tu chay bun test tests/client/ui-input-trigger.test.ts: 4 pass / 0 fail / 19 expect"
+  ],
+  "packages": [
+    {
+      "dsh": "@deepseek-ai/dsh-client-ui-input-trigger",
+      "gbh": "gbh-client-ui-input-trigger"
+    }
+  ]
+}

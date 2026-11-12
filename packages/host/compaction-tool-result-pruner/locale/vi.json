@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "compaction-tool-result-pruner",
+    "description": "Khi ngữ cảnh căng, cắt gọn kết quả công cụ quá dài theo kiểu đầu/giữa/cuối mà không gọi model và vẫn an toàn khi replay."
+  }
+}

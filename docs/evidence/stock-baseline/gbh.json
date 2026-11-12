@@ -1,0 +1,167 @@
+{
+  "app": "gbh",
+  "url": "http://127.0.0.1:5439/?token=***",
+  "capturedAt": "2026-10-21T04:24:51.055Z",
+  "steps": {
+    "aSession": {
+      "observations": [],
+      "data": {
+        "tabCount": 0,
+        "tabs": []
+      }
+    },
+    "bGeneral": {
+      "observations": [],
+      "data": {
+        "menu": [],
+        "nav": [
+          "General",
+          "Model",
+          "Plugin",
+          "Preset agent",
+          "Thông tin"
+        ],
+        "rowTitles": [
+          "General",
+          "Model",
+          "Plugin",
+          "Preset agent",
+          "Thông tin",
+          "Close",
+          "Permission",
+          "Ngôn ngữ",
+          "Giao diện",
+          "Cỡ chữ",
+          "Chi tiết công việc",
+          "Khi nào thu gọn chi tiết công việc",
+          "Show coding view",
+          "Phím tắt bàn phím",
+          "Send behavior while busy",
+          "Hiệu năng & sử dụng"
+        ],
+        "hasPermissionRow": true,
+        "textSample": "Settings\nGeneral\nModel\nPlugin\nPreset agent\nThông tin\nOpen configuration file\nClose\nPermission\nChoose the default permission mode for new sessions\nWorkspace Write\nNgôn ngữ\nTiếng Việt\nGiao diện\nSáng\nTối\nTheo hệ thống\nCỡ chữ\nChỉ ảnh hưởng nội dung hội thoại\n14\npx\nChi tiết công việc\nChọn mức chi tiết hiển thị cho lệnh gọi tool\nChi tiết\nKhi nào thu gọn chi tiết công việc\nChọn khi nào tự động thu gọn chi tiết công việc\nKhi xong\nShow coding view\nShows trajectory, code diffs, and all Agent presets\nPhím tắt bàn phím\n\nXem và sửa phím tắt cùng các hành động nhập liệu\n\nSửa phím tắt\nSend behavior while busy\nWhat Enter and the Send button do while the agent is running; Cmd/Ctrl+Enter uses the other behavior\nQueue\nHiệu năng & sử dụng\nChọn mức thông tin hiệu năng và sử dụng cần hiện\nChi tiết\nCurrent version: 0.2.1-alpha.4"
+      }
+    },
+    "cCodingView": {
+      "observations": [],
+      "data": {
+        "found": true,
+        "before": "true",
+        "shortlyAfter": "false",
+        "after": "false",
+        "afterReload": "false",
+        "saveError": false
+      }
+    },
+    "dPreset": {
+      "observations": [
+        "không thấy mục Agent presets"
+      ],
+      "data": {
+        "badges": [],
+        "pairs": [],
+        "presetErrors": [],
+        "presetNames": [
+          "Settings",
+          "General",
+          "Model",
+          "Plugin",
+          "Preset agent",
+          "Thông tin",
+          "Open configuration file",
+          "Close",
+          "Permission",
+          "Choose the default permission mode for new sessions",
+          "Workspace Write",
+          "Ngôn ngữ",
+          "Tiếng Việt",
+          "Giao diện",
+          "Sáng",
+          "Tối",
+          "Theo hệ thống",
+          "Cỡ chữ",
+          "Chỉ ảnh hưởng nội dung hội thoại",
+          "14",
+          "px",
+          "Chi tiết công việc",
+          "Chọn mức chi tiết hiển thị cho lệnh gọi tool",
+          "Chi tiết",
+          "Khi nào thu gọn chi tiết công việc",
+          "Chọn khi nào tự động thu gọn chi tiết công việc",
+          "Khi xong",
+          "Show coding view",
+          "Shows trajectory, code diffs, and all Agent presets",
+          "Phím tắt bàn phím",
+          "Xem và sửa phím tắt cùng các hành động nhập liệu",
+          "Sửa phím tắt",
+          "Send behavior while busy",
+          "What Enter and the Send button do while the agent is running; Cmd/Ctrl+Enter uses the other behavior",
+          "Queue",
+          "Hiệu năng & sử dụng",
+          "Chọn mức thông tin hiệu năng và sử dụng cần hiện",
+          "Chi tiết",
+          "Current version: 0.2.1-alpha.4"
+        ],
+        "textSample": "Settings\nGeneral\nModel\nPlugin\nPreset agent\nThông tin\nOpen configuration file\nClose\nPermission\nChoose the default permission mode for new sessions\nWorkspace Write\nNgôn ngữ\nTiếng Việt\nGiao diện\nSáng\nTối\nTheo hệ thống\nCỡ chữ\nChỉ ảnh hưởng nội dung hội thoại\n14\npx\nChi tiết công việc\nChọn mức chi tiết hiển thị cho lệnh gọi tool\nChi tiết\nKhi nào thu gọn chi tiết công việc\nChọn khi nào tự động thu gọn chi tiết công việc\nKhi xong\nShow coding view\nShows trajectory, code diffs, and all Agent presets\nPhím tắt bàn phím\n\nXem và sửa phím tắt cùng các hành động nhập liệu\n\nSửa phím tắt\nSend behavior while busy\nWhat Enter and the Send button do while the agent is running; Cmd/Ctrl+Enter uses the other behavior\nQueue\nHiệu năng & sử dụng\nChọn mức thông tin hiệu năng và sử dụng cần hiện\nChi tiết\nCurrent version: 0.2.1-alpha.4"
+      }
+    },
+    "eChat": {
+      "observations": [],
+      "data": {
+        "testids": [],
+        "rects": [
+          {
+            "tag": "header",
+            "testid": null,
+            "x": 280,
+            "y": 0,
+            "w": 1160,
+            "h": 40,
+            "pageWidth": 1440
+          },
+          {
+            "tag": "div",
+            "testid": null,
+            "x": 280,
+            "y": 380,
+            "w": 1153,
+            "h": 240,
+            "pageWidth": 1440
+          },
+          {
+            "tag": "div",
+            "testid": null,
+            "x": 453,
+            "y": 380,
+            "w": 806,
+            "h": 240,
+            "pageWidth": 1440
+          },
+          {
+            "tag": "div",
+            "testid": null,
+            "x": 469,
+            "y": 482,
+            "w": 770,
+            "h": 52,
+            "pageWidth": 1440
+          }
+        ],
+        "textSample": "Galaxy Blackhole\nPhiên mới\n⌥\n⌘\nN\nPlugins\nTác vụ tự động\nWorkspaces\nWorkspace mặc định\nNew Session\nSay OK Only\n3d\nRequest to Say OK\n3d\nSay OK Only\n3d\nSay OK Only\n3d\nMore\nInto the Unknown\nPreview\nWorkspace mặc định\nChế độ Standard\nDescribe what you want to build, / commands, @ files or sessions\nWorkspace Write\nAuto\nMặc định"
+      }
+    }
+  },
+  "screenshots": [
+    "docs/evidence/stock-baseline/gbh-a-home.png",
+    "docs/evidence/stock-baseline/gbh-a-session.png",
+    "docs/evidence/stock-baseline/gbh-b-general.png",
+    "docs/evidence/stock-baseline/gbh-c-toggle.png",
+    "docs/evidence/stock-baseline/gbh-c-reload.png",
+    "docs/evidence/stock-baseline/gbh-d-preset.png",
+    "docs/evidence/stock-baseline/gbh-e-chat.png"
+  ],
+  "pageErrors": [],
+  "notes": [],
+  "reproduce": "bun run tools/check/stock-baseline.ts   # boot stock ở 5466 (hoặc --reuse)\nGBH_URL=$(cat ~/.galaxy/blackhole/ready-url.txt) STOCK_URL=$(cat /tmp/stock-home/ready-url.txt) bun run tools/check/journeys.ts"
+}

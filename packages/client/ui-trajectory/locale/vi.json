@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "ui-trajectory",
+    "description": "Sổ sự kiện trajectory kèm tổng quan thời gian tương tác; plugin chỉ tiêu thụ, đăng ký vào ViewMap của hội thoại, không cung cấp service."
+  }
+}

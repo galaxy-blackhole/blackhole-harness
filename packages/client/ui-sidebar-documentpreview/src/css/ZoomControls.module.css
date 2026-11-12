@@ -1,0 +1,8 @@
+/*
+ * author Bùi Trọng Hiếu
+ * email kevinbui210191@gmail.com
+ * create date 15/10/2026
+ * modify date 18/10/2026
+ * desc CSS nguyen van tung byte cua ZoomControls.module.css — giu nguyen hash lop goc
+ */
+.lyqg2a_panel{z-index:2;inset-inline-start:50%;box-sizing:border-box;border:.5px solid var(--dsw-alias-border-l3);border-radius:var(--dsw-radius-lg);color:var(--dsw-alias-label-primary);background:var(--dsw-alias-bg-layer-1);opacity:0;pointer-events:none;will-change:opacity, transform;align-items:center;gap:2px;padding:4px 6px;font-size:12px;line-height:18px;transition:opacity .16s ease-in,transform .16s cubic-bezier(.4,0,1,1);display:flex;position:absolute;bottom:14px;transform:translate(-50%,16px)scale(.98);box-shadow:0 8px 24px light-dark(#0000001a,#00000060),0 2px 5px light-dark(#00000009,#00000035)}.lyqg2a_visible{opacity:1;pointer-events:auto;transition:opacity .14s ease-out,transform .18s cubic-bezier(.22,1,.36,1);transform:translate(-50%)scale(1)}.lyqg2a_controlAnchor{display:flex}.lyqg2a_zoomButton{flex:none;width:28px;padding:0}.lyqg2a_percent{font-variant-numeric:tabular-nums;justify-content:center;align-items:center;gap:2px;min-width:58px;padding-inline:6px;display:inline-flex}.lyqg2a_zoomMenu{min-width:112px}@media (hover:none),(pointer:coarse){.lyqg2a_panel{opacity:1;pointer-events:auto;transform:translate(-50%)scale(1)}}@media (prefers-reduced-motion:reduce){.lyqg2a_panel,.lyqg2a_visible{transition-duration:.01ms}}

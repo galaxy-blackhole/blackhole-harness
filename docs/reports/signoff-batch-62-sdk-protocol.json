@@ -1,0 +1,30 @@
+{
+  "dev": "tm-host-core",
+  "owner": "tm-host-core",
+  "evidence": [
+    "signed, MOUNTED — app 11/11 (152 entry · (5) 0 · entry goc **0**); test + artifact REVIEWER TU DO theo gbh.tests",
+    "- ptc-runtime-node: stock `@deepseek-ai/dsh-ptc-runtime-node` · **49 pass / 0 fail / 463 expect** · test `tests/host/ptc-runtime-node.test.ts`",
+    "- sdk-jsonrpc-server: stock `@deepseek-ai/dsh-sdk-jsonrpc-server` · **8 pass / 0 fail / 14 expect** · test `tests/host/sdk-jsonrpc-server.test.ts`",
+    "- sdk-protocol: stock `@deepseek-ai/dsh-sdk-protocol` · **8 pass / 0 fail / 15 expect** · test `tests/host/sdk-protocol.test.ts`",
+    "- typert-protocol: stock `@deepseek-ai/dsh-typert-protocol` · **8 pass / 0 fail / 24 expect** · test `tests/host/typert-protocol.test.ts`",
+    "rollback san (gbh.row -> gbh.row_unmounted_ly_do)"
+  ],
+  "packages": [
+    {
+      "dsh": "@deepseek-ai/dsh-ptc-runtime-node",
+      "gbh": "gbh-ptc-runtime-node"
+    },
+    {
+      "dsh": "@deepseek-ai/dsh-sdk-jsonrpc-server",
+      "gbh": "gbh-sdk-jsonrpc-server"
+    },
+    {
+      "dsh": "@deepseek-ai/dsh-sdk-protocol",
+      "gbh": "gbh-sdk-protocol"
+    },
+    {
+      "dsh": "@deepseek-ai/dsh-typert-protocol",
+      "gbh": "gbh-typert-protocol"
+    }
+  ]
+}

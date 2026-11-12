@@ -1,0 +1,18 @@
+{
+  "dev": "tm-host-session",
+  "owner": "tm-host-session",
+  "evidence": [
+    "signed, MOUNTED — check:app 11/11 BA LUOT LIEN TIEP, (10) 255 file khop repo",
+    "`gbh.row {id:'session-persistence-jsonl', config:{root:{js:\"dshHomePath('sessions')\"}}, tests:[...]}` · patch `app.patch.yml:1262-1269` (`disabled: true` + insert `session-persistence-jsonl-ours` config `root: !!js dshHomePath('sessions')`) · dump MOI **358 entry** `session-persistence-jsonl-ours` ENABLED",
+    "artifact build lai in '10 lat · byte-identical (@galaxy-blackhole/gbh-session-persistence-jsonl)' — **byte-identical** voi bundle goc",
+    "reviewer tu chay bun test tests/host/session-persistence-jsonl.test.ts: **4 pass / 0 fail / 7 expect**",
+    "**3 luot check:app lien tiep DAT 11/11** — (3) 137 entry · (5) **0** · #root 47.181 / 46 slot / 0 console / 0 pageerror · (9) 0/80 · (10) **255 file** · (11) HMR",
+    "dev/owner tam ghi tm-host-session (chua co entry cu) — Lead sua neu khac; rollback san"
+  ],
+  "packages": [
+    {
+      "dsh": "@deepseek-ai/dsh-session-persistence-jsonl",
+      "gbh": "gbh-session-persistence-jsonl"
+    }
+  ]
+}

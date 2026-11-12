@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "ui-input-trigger",
+    "description": "Đường ống kích hoạt ô nhập: phát hiện '/' và '@', menu gợi ý và định tuyến lựa chọn tới nguồn đã đăng ký."
+  }
+}

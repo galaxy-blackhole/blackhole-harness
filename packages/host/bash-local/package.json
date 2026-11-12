@@ -1,0 +1,52 @@
+{
+  "name": "@galaxy-blackhole/gbh-bash-local",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "type": "module",
+  "main": "lib/index.js",
+  "description": "Local-subprocess implementation of the Galaxy Blackhole bash executor seam",
+  "scripts": {
+    "build": "bun run build.ts"
+  },
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/dsh-shell": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-subprocess": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-timeout": "0.2.1-alpha.4",
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2",
+    "@deepseek-ai/schemastery": "~3.18.5-alpha.2"
+  },
+  "devDependencies": {
+    "@deepseek-ai/dsh-shell": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-subprocess": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-timeout": "0.2.1-alpha.4",
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2",
+    "@deepseek-ai/schemastery": "~3.18.5-alpha.2"
+  },
+  "license": "MIT",
+  "gbh": {
+    "provenance": {
+      "stock": "@deepseek-ai/dsh-bash-local",
+      "version": "0.2.1-alpha.4",
+      "sha": "6d9b4426b8455198b79de398f57c0f5693e7292411059b66d5ac5eba608b59cb"
+    },
+    "tests": [
+      "tests/host/host-utils-cluster.test.ts",
+      "tests/host/sandbox-seam-ab.test.ts"
+    ],
+    "peers": [
+      "@deepseek-ai/dsh-shell",
+      "@deepseek-ai/dsh-subprocess",
+      "@deepseek-ai/dsh-timeout",
+      "@deepseek-ai/cordis",
+      "@deepseek-ai/schemastery"
+    ],
+    "draft": "19/10/2026 — GÓI THƯ VIỆN (0 dòng name trong dump 2026-10-18T01-31-57; matrix: khong co dong) ⇒ consumer inline, không khai gbh.row/gbh.nested."
+  }
+}

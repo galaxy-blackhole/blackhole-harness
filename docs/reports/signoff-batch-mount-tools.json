@@ -1,0 +1,21 @@
+{
+  "dev": "tm-host-core",
+  "owner": "tm-host-core",
+  "evidence": [
+    "signed, MOUNTED — check:app 11/11 BA LUOT LIEN TIEP, (10) 255 file khop repo",
+    "LAN DAU dung co che `hostAliases` cho goi chia se SYMBOL: reviewer tu chay `readlink ~/.galaxy/blackhole/profiles/node_modules/@deepseek-ai/dsh-tools` = **/Users/buitronghieu/.galaxy/blackhole/profiles/node_modules/@galaxy-blackhole/gbh-host-tools** (CUA TA) — dung",
+    "`gbh.row {id:'tools', moduleIds:[gbh-host-tools], aliases:[@deepseek-ai/dsh-tools], hostAliases:[@deepseek-ai/dsh-tools], tests:[tools.test.ts]}` · patch `app.patch.yml:1025-1031` (`tools disabled: true` + insert `tools-ours` aliases) · dump MOI **358 entry** `tools-ours` ENABLED",
+    "build lai exit 0 — **3 artefact** (index.js · types.js · presentation.js) · **export 23 = 23** BANG TEN (`ToolRuntime as default` · `ToolRuntime` · `defineTool` · `TOOL_RUNTIME_SCHEDULER` · `TOOL_ABORTED` · `TOOL_ABORTED_BEFORE_DISPATCH` · `RUN_CODE_NAME` · `JsonSchemaError` · `CodeRunFailedError` · …)",
+    "reviewer tu chay: `tests/host/tools.test.ts` **40 pass / 0 fail / 291 expect** (990 dong, da dong bang) · `tests/cli/host-alias.test.ts` **4 pass / 7 expect**",
+    "**3 luot check:app lien tiep DAT 11/11** — (3) 137 entry · (5) **0** · #root 47.181 / 46 slot / 0 console / 0 pageerror · (9) 0/80 · (10) **255 file** · (11) HMR",
+    "`TOOL_RUNTIME_SCHEDULER` identity = **TRUE** tu consumer `gbh-host-agent-loop` (symbol chi con MOT) theo bang chung Lead; ADR 0010 da co; `lab:row tools` DAT (hostDidNotActivate 0) theo chu goi",
+    "NO GHI RO: `tools` THAY `dsh-tools` ⇒ moi consumer kernel PHAI di qua alias (hostAliases); goi nao require truc tiep `@deepseek-ai/dsh-tools` trong node_modules se nhan ban stock — can theo doi khi port tiep",
+    "rollback san (`gbh.row` -> `gbh.row_unmounted_ly_do`)"
+  ],
+  "packages": [
+    {
+      "dsh": "@deepseek-ai/dsh-tools",
+      "gbh": "gbh-host-tools"
+    }
+  ]
+}

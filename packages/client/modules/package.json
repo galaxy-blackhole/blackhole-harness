@@ -1,0 +1,55 @@
+{
+  "name": "@galaxy-blackhole/gbh-client-modules",
+  "private": true,
+  "version": "0.2.1-alpha.4",
+  "description": "Ban viet lai cua Galaxy Blackhole cho @deepseek-ai/dsh-client-modules (M5): nua node quet cay plugin dung do thi __GBH_BOOT__ va phuc vu bundle /plugins, nua browser la bang lazy-CJS",
+  "type": "module",
+  "main": "lib/index.js",
+  "types": "lib/types/index.d.ts",
+  "exports": {
+    "./locale/*.json": "./locale/*.json",
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./client": {
+      "types": "./lib/types/client/index.d.ts",
+      "default": "./lib/client.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2"
+  },
+  "devDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2"
+  },
+  "scripts": {
+    "build": "bun run build.ts"
+  },
+  "license": "MIT",
+  "dsh": {
+    "client": {
+      "platform": "web",
+      "inject": [],
+      "immediately": true
+    }
+  },
+  "gbh": {
+    "row": {
+      "id": "modules",
+      "tests": [
+        "tests/client/client-modules.test.ts"
+      ],
+      "moduleIds": [
+        "@galaxy-blackhole/gbh-client-modules"
+      ],
+      "aliases": [
+        "@deepseek-ai/dsh-client-modules"
+      ]
+    },
+    "provenance": {
+      "stock": "@deepseek-ai/dsh-client-modules"
+    }
+  }
+}

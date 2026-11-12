@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "hmr",
+    "description": "Đồng bộ đồ thị client web và truyền tải nạp lại bundle khi có bản dựng mới."
+  }
+}

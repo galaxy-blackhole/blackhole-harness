@@ -1,0 +1,253 @@
+/*
+ * author Bùi Trọng Hiếu
+ * email kevinbui210191@gmail.com
+ * create date 15/10/2026
+ * modify date 18/10/2026
+ * desc CSS cua TeamAction — CHÉP NGUYÊN VĂN chuỗi css của bundle gốc
+ *      (@deepseek-ai/dsh-experimental-client-ui-agent-team/lib/client.js dòng 12, 4.666 ký tự, 43 rule);
+ *      chỉ xuống dòng/thụt lề, KHÔNG đổi một khai báo nào (test so sau khi bỏ mọi khoảng trắng).
+ */
+.VoX2oq_root {
+  position:relative
+}
+.VoX2oq_trigger {
+  min-height:28px;
+  color:var(--dsw-alias-label-tertiary);
+  cursor:pointer;
+  background:0 0;
+  border:0;
+  border-radius:6px;
+  align-items:center;
+  gap:5px;
+  padding:3px 7px;
+  font-size:12px;
+  display:inline-flex
+}
+.VoX2oq_trigger:hover,.VoX2oq_trigger:focus-visible {
+  color:var(--dsw-alias-label-primary)
+}
+@container (width<=480px) {
+  .VoX2oq_triggerLabel {
+    display:none
+  }
+}
+.VoX2oq_count {
+  color:var(--dsw-alias-label-caption);
+  font-variant-numeric:tabular-nums;
+  font-size:12px;
+  font-weight:400;
+  line-height:16px
+}
+.VoX2oq_panel {
+  --dsh-scrollbar-thumb:var(--dsw-alias-scrollbar-bg-l2);
+  --dsh-scrollbar-thumb-hover:var(--dsw-alias-scrollbar-hover-l2);
+  z-index:100;
+  box-sizing:border-box;
+  --dsw-elevation-stroke-color:var(--dsw-alias-border-l1);
+  width:min(500px,100vw - 32px);
+  max-height:min(680px,100vh - 32px);
+  box-shadow:var(--dsw-elevation-prominent);
+  border:0;
+  border-radius:12px;
+  flex-direction:column;
+  padding:8px 2px 0;
+  display:flex;
+  position:fixed;
+  overflow:hidden
+}
+.VoX2oq_panel:before {
+  content:"";
+  z-index:-1;
+  background:var(--dsw-specific-menu);
+  backdrop-filter:var(--dsw-menu-backdrop-filter);
+  border-radius:12px;
+  position:absolute;
+  inset:0
+}
+.VoX2oq_panelCompact {
+  width:min(320px,100vw - 32px)
+}
+.VoX2oq_panelCompact .VoX2oq_roster {
+  grid-template-columns:minmax(0,1fr)
+}
+.VoX2oq_body {
+  --dsh-scrollbar-track-margin:8px;
+  scrollbar-gutter:stable;
+  flex:auto;
+  min-height:0;
+  padding:0 9px 16px 14px;
+  overflow-y:auto
+}
+.VoX2oq_taskTitle {
+  align-items:center;
+  gap:8px;
+  display:flex
+}
+.VoX2oq_taskTitle strong {
+  font-size:13px;
+  font-weight:500
+}
+.VoX2oq_panel h3 {
+  color:var(--dsw-alias-label-primary);
+  align-items:center;
+  gap:8px;
+  margin:16px 0 8px 4px;
+  font-size:13px;
+  font-weight:500;
+  display:flex
+}
+.VoX2oq_body section:first-of-type h3 {
+  margin-top:8px
+}
+.VoX2oq_roster {
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:8px;
+  display:grid
+}
+.VoX2oq_member {
+  --dsw-elevation-stroke-color:var(--dsw-alias-border-l2);
+  min-width:0;
+  box-shadow:var(--dsw-elevation-stroke);
+  background:var(--dsw-alias-bg-layer-2);
+  color:var(--dsw-alias-label-primary);
+  text-align:left;
+  cursor:pointer;
+  border:0;
+  border-radius:8px;
+  align-items:flex-start;
+  gap:8px;
+  padding:10px 12px;
+  display:flex
+}
+.VoX2oq_member:disabled {
+  cursor:default
+}
+.VoX2oq_memberCurrent {
+  --dsw-elevation-stroke-color:color-mix(in srgb, var(--dsw-alias-state-business-primary) 40%, transparent);
+  box-shadow:var(--dsw-elevation-stroke), inset 0 0 0 1px color-mix(in srgb, var(--dsw-alias-state-business-primary) 40%, transparent)
+}
+.VoX2oq_member:not(:disabled):hover,.VoX2oq_member:not(:disabled):focus-visible {
+  --dsw-elevation-stroke-color:var(--dsw-alias-border-l3);
+  box-shadow:var(--dsw-elevation-panel)
+}
+.VoX2oq_memberDot {
+  flex:none;
+  align-items:center;
+  height:1lh;
+  display:inline-flex
+}
+.VoX2oq_inactiveIcon {
+  color:var(--dsw-alias-label-tertiary)
+}
+.VoX2oq_memberText {
+  flex-direction:column;
+  min-width:0;
+  display:flex
+}
+.VoX2oq_memberName {
+  align-items:center;
+  gap:5px;
+  min-width:0;
+  display:inline-flex
+}
+.VoX2oq_memberNameText,.VoX2oq_memberText small {
+  white-space:nowrap;
+  text-overflow:ellipsis;
+  overflow:hidden
+}
+.VoX2oq_memberModel {
+  display:none
+}
+.VoX2oq_member:hover .VoX2oq_memberModel,.VoX2oq_member:focus-visible .VoX2oq_memberModel {
+  display:inline
+}
+.VoX2oq_currentTag {
+  text-overflow:ellipsis;
+  flex:0 999 auto;
+  min-width:0;
+  padding:0 4px;
+  font-size:10px;
+  line-height:15px;
+  display:inline-block;
+  overflow:hidden
+}
+.VoX2oq_memberText small,.VoX2oq_meta {
+  color:var(--dsw-alias-label-tertiary);
+  font-size:11px
+}
+.VoX2oq_diagnostic,.VoX2oq_error,.VoX2oq_warning {
+  color:var(--dsw-alias-state-error-primary)
+}
+.VoX2oq_tasks {
+  flex-direction:column;
+  gap:7px;
+  display:flex
+}
+.VoX2oq_emptyNotice {
+  color:var(--dsw-alias-label-tertiary);
+  margin:16px 0 0 4px;
+  font-size:12px
+}
+.VoX2oq_task {
+  border:.5px solid var(--dsw-alias-border-l2);
+  background:var(--dsw-alias-bg-layer-2);
+  border-radius:9px;
+  padding:11px 13px
+}
+.VoX2oq_taskState {
+  color:var(--dsw-alias-label-tertiary);
+  align-items:center;
+  gap:6px;
+  margin-left:auto;
+  font-size:11px;
+  display:inline-flex
+}
+.VoX2oq_task p {
+  color:var(--dsw-alias-label-secondary);
+  white-space:pre-wrap;
+  margin:5px 0;
+  font-size:12px;
+  line-height:18px
+}
+.VoX2oq_clampedDescription {
+  -webkit-line-clamp:2;
+  -webkit-box-orient:vertical;
+  display:-webkit-box;
+  overflow:hidden
+}
+.VoX2oq_expandToggle {
+  float:right;
+  color:var(--dsw-alias-label-tertiary);
+  cursor:pointer;
+  background:0 0;
+  border:0;
+  align-items:center;
+  gap:2px;
+  margin-left:10px;
+  padding:0;
+  font-size:11px;
+  line-height:20px;
+  display:inline-flex
+}
+.VoX2oq_expandToggle:hover,.VoX2oq_expandToggle:focus-visible {
+  color:var(--dsw-alias-label-primary)
+}
+.VoX2oq_expandToggle svg {
+  transition:transform .12s
+}
+.VoX2oq_expandToggleOpen {
+  transform:rotate(180deg)
+}
+.VoX2oq_meta {
+  line-height:20px
+}
+.VoX2oq_meta>span {
+  margin-right:10px
+}
+.VoX2oq_notice,.VoX2oq_error {
+  align-items:center;
+  gap:6px;
+  padding:9px;
+  font-size:12px;
+  display:flex
+}

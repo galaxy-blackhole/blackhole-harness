@@ -1,0 +1,17 @@
+{
+  "dev": "tm-host-session",
+  "owner": "tm-host-session",
+  "evidence": [
+    "package signed, not mounted (library, inlined by consumer)",
+    "reviewer tm-reviewer doc lap: build exit 0 · goi LA **zero-dependency** (dependencies rỗng) · KHONG khai gbh.row (`row_unmounted_ly_do`: 'thu vien thuan ham, consumer inline')",
+    "export **2 = 2** BANG TEN voi `@deepseek-ai/dsh-atomic-write` (`withFileLock` · `writeFileAtomic`) — dung sau khi bo 8 export thua ma phep A/B bat duoc (10 ≠ 2); artifact 4.402 B",
+    "reviewer tu chay bun test tests/host/atomic-write.test.ts: **13 pass / 0 fail / 38 expect** — A/B THAT tren dia (bit quyen, symlink, don .tmp khi loi, ban giao khoa chu da chet, tranh chap khoa cheo giua HAI ban)",
+    "typecheck toan repo: reviewer tu chay gate --only typecheck = **XANH 1.880 file · 0 vi pham**"
+  ],
+  "packages": [
+    {
+      "dsh": "@deepseek-ai/dsh-atomic-write",
+      "gbh": "gbh-atomic-write"
+    }
+  ]
+}

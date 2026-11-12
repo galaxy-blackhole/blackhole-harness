@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "compaction-basic",
+    "description": "Backend nén ngữ cảnh: chính sách dựa trên đồng hồ token, khi ngữ cảnh chạm ngưỡng thì gọi model tóm tắt phần lịch sử."
+  }
+}

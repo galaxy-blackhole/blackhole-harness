@@ -1,0 +1,163 @@
+{
+  "dev": "tm-host-session",
+  "owner": "tm-host-session",
+  "evidence": [
+    "signed, MOUNTED — app 11/11 (152 entry · (5) 0 · entry goc 0); test REVIEWER TU DO theo gbh.tests (tep GOP that)",
+    "3 tep gop reviewer tu chay: `session-format-cluster.test.ts` + `host-utils-cluster.test.ts` + `sandbox-seam-ab.test.ts` = **278 pass / 0 fail / 901 expect** (khop bao cao chu goi)",
+    "BANG CHUNG TUNG GOI (loc `-t \"<dir> ·\"` tren tep gop, pass>0 that):",
+    "- anonymous-user-id: **9 pass / 0 fail / 18 expect** · test `tests/host/host-utils-cluster.test.ts`",
+    "- attachment: **9 pass / 0 fail / 38 expect** · test `tests/host/host-utils-cluster.test.ts`",
+    "- bash-local: **11 pass / 0 fail / 29 expect** · test `tests/host/host-utils-cluster.test.ts, tests/host/sandbox-seam-ab.test.ts`",
+    "- cmdline: **9 pass / 0 fail / 18 expect** · test `tests/host/host-utils-cluster.test.ts`",
+    "- command-feedback: **9 pass / 0 fail / 34 expect** · test `tests/host/host-utils-cluster.test.ts`",
+    "- compaction: **9 pass / 0 fail / 33 expect** · test `tests/host/session-format-cluster.test.ts`",
+    "- credentials: **9 pass / 0 fail / 30 expect** · test `tests/host/host-utils-cluster.test.ts`",
+    "- file-reference: **9 pass / 0 fail / 26 expect** · test `tests/host/host-utils-cluster.test.ts`",
+    "- fs-local: **11 pass / 0 fail / 28 expect** · test `tests/host/host-utils-cluster.test.ts, tests/host/sandbox-seam-ab.test.ts`",
+    "- fs: **10 pass / 0 fail / 27 expect** · test `tests/host/host-utils-cluster.test.ts, tests/host/sandbox-seam-ab.test.ts`",
+    "- home-paths: **9 pass / 0 fail / 30 expect** · test `tests/host/host-utils-cluster.test.ts`",
+    "- jobs: **9 pass / 0 fail / 28 expect** · test `tests/host/host-utils-cluster.test.ts`",
+    "- launch-environment: **9 pass / 0 fail / 18 expect** · test `tests/host/host-utils-cluster.test.ts`",
+    "- native-command: **9 pass / 0 fail / 41 expect** · test `tests/host/host-utils-cluster.test.ts`",
+    "- output-retention: **9 pass / 0 fail / 19 expect** · test `tests/host/session-format-cluster.test.ts`",
+    "- pwsh-local: **11 pass / 0 fail / 33 expect** · test `tests/host/host-utils-cluster.test.ts, tests/host/sandbox-seam-ab.test.ts`",
+    "- scope: **9 pass / 0 fail / 28 expect** · test `tests/host/session-format-cluster.test.ts`",
+    "- session-format-v0-to-v1: **9 pass / 0 fail / 40 expect** · test `tests/host/session-format-cluster.test.ts`",
+    "- session-format-v1-to-v2: **9 pass / 0 fail / 32 expect** · test `tests/host/session-format-cluster.test.ts`",
+    "- session-format-v2-to-v3: **9 pass / 0 fail / 32 expect** · test `tests/host/session-format-cluster.test.ts`",
+    "- session-format-v3-to-v4: **9 pass / 0 fail / 44 expect** · test `tests/host/session-format-cluster.test.ts`",
+    "- session-format: **9 pass / 0 fail / 38 expect** · test `tests/host/session-format-cluster.test.ts`",
+    "- session-persistence: **9 pass / 0 fail / 42 expect** · test `tests/host/session-format-cluster.test.ts`",
+    "- session-query: **9 pass / 0 fail / 52 expect** · test `tests/host/session-format-cluster.test.ts`",
+    "- session-telemetry: **9 pass / 0 fail / 21 expect** · test `tests/host/session-format-cluster.test.ts`",
+    "- spill: **9 pass / 0 fail / 20 expect** · test `tests/host/host-utils-cluster.test.ts`",
+    "- timeout: **9 pass / 0 fail / 20 expect** · test `tests/host/host-utils-cluster.test.ts`",
+    "- tmux-context: **9 pass / 0 fail / 22 expect** · test `tests/host/host-utils-cluster.test.ts`",
+    "- util-values: **9 pass / 0 fail / 22 expect** · test `tests/host/host-utils-cluster.test.ts`",
+    "- util-workspace-path: **9 pass / 0 fail / 26 expect** · test `tests/host/host-utils-cluster.test.ts`",
+    "30 goi truoc do khai tep test KHONG TON TAI da duoc chu goi tro ve tep GOP that; command-feedback (co gbh.row) da cap nhat ca gbh.row.tests",
+    "rollback san (gbh.row -> gbh.row_unmounted_ly_do)"
+  ],
+  "packages": [
+    {
+      "dsh": "@deepseek-ai/dsh-anonymous-user-id",
+      "gbh": "gbh-anonymous-user-id"
+    },
+    {
+      "dsh": "@deepseek-ai/dsh-attachment",
+      "gbh": "gbh-attachment"
+    },
+    {
+      "dsh": "@deepseek-ai/dsh-bash-local",
+      "gbh": "gbh-bash-local"
+    },
+    {
+      "dsh": "@deepseek-ai/dsh-cmdline",
+      "gbh": "gbh-cmdline"
+    },
+    {
+      "dsh": "@deepseek-ai/dsh-command-feedback",
+      "gbh": "gbh-command-feedback"
+    },
+    {
+      "dsh": "@deepseek-ai/dsh-compaction",
+      "gbh": "gbh-compaction"
+    },
+    {
+      "dsh": "@deepseek-ai/dsh-credentials",
+      "gbh": "gbh-credentials"
+    },
+    {
+      "dsh": "@deepseek-ai/dsh-file-reference",
+      "gbh": "gbh-file-reference"
+    },
+    {
+      "dsh": "@deepseek-ai/dsh-fs-local",
+      "gbh": "gbh-fs-local"
+    },
+    {
+      "dsh": "@deepseek-ai/dsh-fs",
+      "gbh": "gbh-fs"
+    },
+    {
+      "dsh": "@deepseek-ai/dsh-home-paths",
+      "gbh": "gbh-home-paths"
+    },
+    {
+      "dsh": "@deepseek-ai/dsh-jobs",
+      "gbh": "gbh-jobs"
+    },
+    {
+      "dsh": "@deepseek-ai/dsh-launch-environment",
+      "gbh": "gbh-launch-environment"
+    },
+    {
+      "dsh": "@deepseek-ai/dsh-native-command",
+      "gbh": "gbh-native-command"
+    },
+    {
+      "dsh": "@deepseek-ai/dsh-output-retention",
+      "gbh": "gbh-output-retention"
+    },
+    {
+      "dsh": "@deepseek-ai/dsh-pwsh-local",
+      "gbh": "gbh-pwsh-local"
+    },
+    {
+      "dsh": "@deepseek-ai/dsh-scope",
+      "gbh": "gbh-scope"
+    },
+    {
+      "dsh": "@deepseek-ai/dsh-session-format-v0-to-v1",
+      "gbh": "gbh-session-format-v0-to-v1"
+    },
+    {
+      "dsh": "@deepseek-ai/dsh-session-format-v1-to-v2",
+      "gbh": "gbh-session-format-v1-to-v2"
+    },
+    {
+      "dsh": "@deepseek-ai/dsh-session-format-v2-to-v3",
+      "gbh": "gbh-session-format-v2-to-v3"
+    },
+    {
+      "dsh": "@deepseek-ai/dsh-session-format-v3-to-v4",
+      "gbh": "gbh-session-format-v3-to-v4"
+    },
+    {
+      "dsh": "@deepseek-ai/dsh-session-format",
+      "gbh": "gbh-session-format"
+    },
+    {
+      "dsh": "@deepseek-ai/dsh-session-persistence",
+      "gbh": "gbh-session-persistence"
+    },
+    {
+      "dsh": "@deepseek-ai/dsh-session-query",
+      "gbh": "gbh-session-query"
+    },
+    {
+      "dsh": "@deepseek-ai/dsh-session-telemetry",
+      "gbh": "gbh-session-telemetry"
+    },
+    {
+      "dsh": "@deepseek-ai/dsh-spill",
+      "gbh": "gbh-spill"
+    },
+    {
+      "dsh": "@deepseek-ai/dsh-timeout",
+      "gbh": "gbh-timeout"
+    },
+    {
+      "dsh": "@deepseek-ai/dsh-tmux-context",
+      "gbh": "gbh-tmux-context"
+    },
+    {
+      "dsh": "@deepseek-ai/dsh-util-values",
+      "gbh": "gbh-util-values"
+    },
+    {
+      "dsh": "@deepseek-ai/dsh-util-workspace-path",
+      "gbh": "gbh-util-workspace-path"
+    }
+  ]
+}

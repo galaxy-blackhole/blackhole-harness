@@ -1,0 +1,18 @@
+{
+  "dev": "phien-truoc (git log)",
+  "owner": "lead",
+  "evidence": [
+    "signed, MOUNTED (bo sung vao batch mech da ky) — check:app 11/11 BA LUOT LIEN TIEP (140 entry · (5) 0 · #root 47.584 · 46 slot · 0 console/0 pageerror · (9) 0/80 · (10) 288 file)",
+    "CO CHE MOUNT: **row LONG trong GROUP** — `gbh.nested {kind:'group', pluginId:'command-compact', stockId:'@deepseek-ai/dsh-command-compact', presets:[preset-standard,preset-ptc,preset-minimal,preset-cordis]}`; chay qua co che redirect row long (log host `redirect row long` theo Lead), KHONG mount top-level",
+    "REVIEWER TU DO (2 so toi thieu theo yeu cau Lead): build exit 0 → `index.js` **3.506 B** · **delta 0** · sha256 `ee8b2519449ad549db3c2d81d652b2b0827492b3ae1d809e8c01df3f79b6ad94` = `apps/host/node_modules/@deepseek-ai/dsh-command-compact/lib/index.js`",
+    "reviewer tu chay bun test tests/host/command-compact.test.ts: **16 pass / 0 fail / 122 expect**",
+    "GHI CHU OWNER: owner suy ra tu git log, KHONG phai tu khai (chua co entry cu; Lead xac nhan gói ten khong bat dau bang 'compaction' nen de sot). Lead sua 2 dong neu biet owner that",
+    "rollback san"
+  ],
+  "packages": [
+    {
+      "dsh": "@deepseek-ai/dsh-command-compact",
+      "gbh": "gbh-command-compact"
+    }
+  ]
+}

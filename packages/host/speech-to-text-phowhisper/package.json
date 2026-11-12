@@ -1,0 +1,37 @@
+{
+  "name": "@galaxy-blackhole/gbh-speech-to-text-phowhisper",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "type": "module",
+  "description": "Provider nhận dạng giọng nói tiếng Việt bằng PhoWhisper (VinAI) qua runtime Python.",
+  "main": "lib/index.js",
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "dependencies": {
+    "@deepseek-ai/schemastery": "~3.18.5-alpha.2"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2"
+  },
+  "license": "MIT",
+  "gbh": {
+    "peers": [
+      "@deepseek-ai/cordis",
+      "@deepseek-ai/schemastery"
+    ],
+    "row": {
+      "id": "speech-to-text-phowhisper",
+      "insertOnly": true,
+      "insertAs": "speech-to-text-phowhisper",
+      "tests": [
+        "tests/host/speech-to-text-phowhisper.test.ts"
+      ]
+    }
+  },
+  "types": "src/index.ts"
+}

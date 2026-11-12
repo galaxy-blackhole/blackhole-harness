@@ -1,0 +1,62 @@
+{
+  "name": "@galaxy-blackhole/gbh-client-ui-user-questions",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "type": "module",
+  "main": "lib/index.js",
+  "description": "Web ask_user_question composer takeover and plan-review presentation UI",
+  "scripts": {
+    "build": "bun run build.ts"
+  },
+  "exports": {
+    "./locale/*.json": "./locale/*.json",
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./client": "./lib/client.js",
+    "./package.json": "./package.json"
+  },
+  "dsh": {
+    "client": {
+      "inject": [
+        "@galaxy-blackhole/gbh-api-remotes",
+        "@galaxy-blackhole/gbh-api-session-controller",
+        "@galaxy-blackhole/gbh-client-locale",
+        "@galaxy-blackhole/gbh-client-ui-conversation",
+        "@galaxy-blackhole/gbh-client-ui-renderer",
+        "@galaxy-blackhole/gbh-client-ui-session",
+        "@galaxy-blackhole/gbh-client-ui-chat"
+      ],
+      "platform": "web"
+    }
+  },
+  "gbh": {
+    "draft": "Port 1:1 CA HAI NUA (host rong + client 1.942 dong) nhung CHUA khai gbh.row: cho Lead boot-smoke + --dump-config doi chieu row id 'ui-user-questions' roi moi khai. dsh.client (inject 7 phan tu + platform 'web') va exports './client' da khop ban goc.",
+    "tests": [
+      "tests/client/ui-user-questions.test.ts"
+    ],
+    "row": {
+      "id": "ui-user-questions",
+      "moduleIds": [
+        "@galaxy-blackhole/gbh-client-ui-user-questions"
+      ],
+      "aliases": [
+        "@deepseek-ai/dsh-client-ui-user-questions"
+      ],
+      "tests": [
+        "tests/client/ui-user-questions.test.ts"
+      ]
+    },
+    "provenance": {
+      "stock": "@deepseek-ai/dsh-client-ui-user-questions",
+      "version": "0.2.1-alpha.4",
+      "sha": "78e1ae223b1577acf121de4fc336bce664175b63d7ca3820c46a16d0c6b931c6",
+      "shaFile": "lib/client.js"
+    }
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2"
+  },
+  "types": "lib/types/index.d.ts"
+}

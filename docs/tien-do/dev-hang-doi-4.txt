@@ -1,0 +1,11 @@
+host/subagent-fork-in-process
+host/subagent-model-selection-settings
+host/subprocess-local
+host/system-prompt
+host/terminal
+host/timeout
+host/timeout-policy
+host/tmux-context
+host/tool-bash
+host/tool-bash-persistent
+host/tool-schedule

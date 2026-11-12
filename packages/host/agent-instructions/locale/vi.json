@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "agent-instructions",
+    "description": "Bộ nạp ngữ cảnh workspace từ các tệp chỉ dẫn AGENTS.md/CLAUDE.md."
+  }
+}

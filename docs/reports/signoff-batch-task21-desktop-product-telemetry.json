@@ -1,0 +1,16 @@
+{
+  "dev": "tm-host-session",
+  "owner": "tm-host-session",
+  "evidence": [
+    "reviewer tm-reviewer do doc lap tren artifact: build exit 0 · export **2 = 2** (Config + default) · locale sha256 khop ban goc (zh e14550e4d6ae · en b40f439f3efe)",
+    "MIRROR do tren --dump-config moi (329 entry): stock `- id: desktop-product-telemetry` `disabled: true` + `- id: desktop-product-telemetry-ours` `disabled: !!js ctx.get('profileContext')?.name !== 'desktop'` + config chep nguyen van (serviceName deepseek-harness-desktop, serviceVersion !!js process.env.DSH_CLIENT_VERSION)",
+    "reviewer tu chay bun test tests/host/desktop-product-telemetry.test.ts: **14 pass / 0 fail / 115 expect** (co ca canh nguoc: row BAT tren profile desktop, TAT tren blackhole/web/lab)",
+    "tren profile 'blackhole' cua app: stock TAT + insert cua ta TAT ⇒ khong gui telemetry, boot log khong co loi goi nay; (5)=0 o lan boot sach"
+  ],
+  "packages": [
+    {
+      "dsh": "@deepseek-ai/dsh-host-product-telemetry-otel",
+      "gbh": "gbh-desktop-product-telemetry"
+    }
+  ]
+}

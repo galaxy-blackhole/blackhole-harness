@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "tool-jobs",
+    "description": "Bộ tool điều khiển job chạy nền dành cho model (job_output, job_list, job_kill) trên registry ctx.jobs: xem job, đọc đầu ra và dừng job."
+  }
+}

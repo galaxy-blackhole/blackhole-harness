@@ -1,0 +1,19 @@
+{
+  "dev": "tm-client-ui-b",
+  "owner": "tm-client-ui-b",
+  "evidence": [
+    "signed, MOUNTED — check:app 11/11 ba lượt liên tiếp, lab 0 did-not-activate",
+    "reviewer tm-reviewer TU DO: patch + dump (344 entry) co `ui-plugin-manager-ours` ENABLED, stock `disabled: true` · build lai exit 0 (index.js + client.js)",
+    "**3 lượt check:app lien tiep DAT 11/11** — (3) 136 entry khi do (sau khi Lead park settings con 135) · (5) **0** · (8) #root 47.181 / 46 slot / 0 console / 0 pageerror · (9) **0/80** · (10) **224-225 file** khop repo · (11) HMR OK",
+    "lab:row home CACH LY (artifact MOI): #root **22.204** · 0 console · 0 pageerror · 0 overlay · **0 did-not-activate**",
+    "reviewer tu chay 3 tep declared (ui-plugin-manager + ab-host + ab-client): **167 pass / 0 fail / 658 expect** (Lead ghi 659 — lech 1, toi ghi so do that)",
+    "**noticeText inject DA BO** (verify src hien tai): `grep 'noticeText: toastNoticeText'` = **0** o src VA lib/client.js; khoi inject `shell.overlay` chi con `{ hooks: { pluginManager }, dismissNotice }` (plugin.ts ~401-412, co comment 19/10/2026 cua Lead); 12 dong noticeText con lai la ham presentation (presentation.ts:181) + page dung (page.ts:511) + toast goi truc tiep (refresh-toast.ts:49) — map 1:1 voi bundle goc dong 707/3878/4277 ⇒ KHONG phai khac biet parity",
+    "rollback san: doi `gbh.row` -> `gbh.row_unmounted_ly_do`"
+  ],
+  "packages": [
+    {
+      "dsh": "@deepseek-ai/dsh-client-ui-plugin-manager",
+      "gbh": "gbh-client-ui-plugin-manager"
+    }
+  ]
+}

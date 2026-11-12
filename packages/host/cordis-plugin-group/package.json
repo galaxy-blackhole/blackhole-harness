@@ -1,0 +1,38 @@
+{
+  "name": "@galaxy-blackhole/gbh-cordis-plugin-group",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "type": "module",
+  "main": "lib/index.js",
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis-plugin-loader": "~1.0.6",
+    "@deepseek-ai/cordis": "~4.0.5"
+  },
+  "dependencies": {},
+  "gbh": {
+    "peers": [
+      "@deepseek-ai/cordis-plugin-loader",
+      "@deepseek-ai/cordis"
+    ],
+    "tests": [
+      "tests/host/cordis-plugin-group.test.ts"
+    ],
+    "provenance": {
+      "stock": "@deepseek-ai/cordis-plugin-group",
+      "version": "1.0.5",
+      "sha": "68f178f2836fafb52b3959aa71ae90aecd321c3f9a189d9f686233fcb000e419"
+    },
+    "draft": "thư viện helper nhóm cordis (5 dòng, không phải row)"
+  },
+  "description": "Nested plugin group for cordis",
+  "devDependencies": {
+    "@deepseek-ai/cordis-plugin-loader": "~1.0.6"
+  }
+}

@@ -1,0 +1,59 @@
+{
+  "name": "@galaxy-blackhole/gbh-compaction",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "type": "module",
+  "main": "lib/index.js",
+  "description": "Abstract compaction service seam (ctx.compaction) for the Galaxy Blackhole",
+  "scripts": {
+    "build": "bun run build.ts"
+  },
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./types": {
+      "types": "./lib/types/types.d.ts",
+      "default": "./lib/types/types.js"
+    },
+    "./checkpoint": {
+      "types": "./lib/types/checkpoint.d.ts",
+      "default": "./lib/types/checkpoint.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/dsh-brand": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-commands": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-llm": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-session": "0.2.1-alpha.4",
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2"
+  },
+  "devDependencies": {
+    "@deepseek-ai/dsh-brand": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-commands": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-llm": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-session": "0.2.1-alpha.4",
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2"
+  },
+  "license": "MIT",
+  "gbh": {
+    "provenance": {
+      "stock": "@deepseek-ai/dsh-compaction",
+      "version": "0.2.1-alpha.4",
+      "sha": "9db5200bd40b7d046e52308c7cbf209fd95946b22c0a7d10b0a082a992b04533"
+    },
+    "draft": "19/10/2026 — GÓI THƯ VIỆN: KHÔNG có row trong dump .parity/dumps/2026-10-18T01-31-57 (0 dòng name: '@deepseek-ai/dsh-compaction') và KHÔNG có dòng trong docs/PARITY-MATRIX.md ⇒ consumer inline; không khai gbh.row/gbh.nested.",
+    "tests": [
+      "tests/host/session-format-cluster.test.ts"
+    ],
+    "peers": [
+      "@deepseek-ai/dsh-brand",
+      "@deepseek-ai/dsh-commands",
+      "@deepseek-ai/dsh-llm",
+      "@deepseek-ai/dsh-session",
+      "@deepseek-ai/cordis"
+    ]
+  }
+}

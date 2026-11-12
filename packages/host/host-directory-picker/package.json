@@ -1,0 +1,38 @@
+{
+  "name": "@galaxy-blackhole/gbh-host-directory-picker",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "type": "module",
+  "main": "lib/index.js",
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./types": {
+      "types": "./lib/types/types.d.ts",
+      "default": "./lib/types/types.js"
+    },
+    "./src/*": "./src/*",
+    "./package.json": "./package.json"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2"
+  },
+  "gbh": {
+    "draft": "Port 1:1 `@deepseek-ai/dsh-host-directory-picker` (44 dòng) — gói THƯ VIỆN BASE/LEGACY: bản được mount thật là `-auto` (đã port ở packages/host/directory-picker-auto, row `directory-picker`). Gói này KHÔNG có row trong dump oracle ⇒ KHÔNG khai gbh.row.",
+    "tests": [
+      "tests/host/host-directory-picker.test.ts"
+    ],
+    "peers": [
+      "@deepseek-ai/cordis"
+    ],
+    "provenance": {
+      "stock": "@deepseek-ai/dsh-host-directory-picker",
+      "version": "0.2.1-alpha.4",
+      "sha": "a02b64f588a546c5278ba35ae4aca9825baf43c5f7a105c864698cb4805c3dd9"
+    }
+  },
+  "description": "Abstract workspace-directory picking seam (ctx.directoryPicker) for the Galaxy Blackhole web GUI host",
+  "types": "lib/types/index.d.ts"
+}

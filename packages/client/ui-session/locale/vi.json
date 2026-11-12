@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "ui-session",
+    "description": "Bộ chuyển tiếp Session Controller cho React và các slot theo phạm vi phiên."
+  }
+}

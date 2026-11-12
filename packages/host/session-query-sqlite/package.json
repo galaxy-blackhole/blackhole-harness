@@ -1,0 +1,72 @@
+{
+  "name": "@galaxy-blackhole/gbh-session-query-sqlite",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "type": "module",
+  "main": "lib/index.js",
+  "description": "Concrete ctx.sessionQuery backend with SQLite FTS5 search",
+  "scripts": {
+    "build": "bun run build.ts"
+  },
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./package.json": "./package.json",
+    "./src/*": "./src/*",
+    "./locale/*.json": "./locale/*.json"
+  },
+  "dependencies": {
+    "@deepseek-ai/schemastery": "~3.18.5-alpha.2"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2",
+    "@deepseek-ai/dsh-session": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-session-persistence": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-session-query": "0.2.1-alpha.4"
+  },
+  "devDependencies": {
+    "@deepseek-ai/schemastery": "~3.18.5-alpha.2",
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2",
+    "@deepseek-ai/dsh-session": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-session-persistence": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-session-query": "0.2.1-alpha.4"
+  },
+  "license": "MIT",
+  "gbh": {
+    "draft": "MỘT MẶT (chỉ lib/index.js 1.155 dòng; không lib/client.js; manifest gốc không dsh.client) ⇒ đủ điều kiện khai gbh.row SAU khi lab:row + boot-smoke ĐẠT (kỷ luật Lead). Row stock: '- id: session-query-sqlite' TOP-LEVEL trong dump (dòng 144) ⇒ thay được; còn một bản LỒNG 'optional-session-query-sqlite' trong group 'optional-session-search' (muốn thay bản lồng phải overlay tầng NHÓM — task riêng). DB: bundle dùng node:sqlite (builtin), test phải dùng DB TẠM, không đụng DB thật.",
+    "tests": [
+      "tests/host/session-query-sqlite.test.ts"
+    ],
+    "peers": [
+      "@deepseek-ai/cordis",
+      "@deepseek-ai/dsh-session",
+      "@deepseek-ai/dsh-session-persistence",
+      "@deepseek-ai/dsh-session-query"
+    ],
+    "reference": "apps/host/node_modules/@deepseek-ai/dsh-session-query-sqlite (CHỈ ĐỌC — nguồn đối chiếu byte)",
+    "row": {
+      "id": "session-query-sqlite",
+      "aliases": [
+        "@deepseek-ai/dsh-session-query-sqlite"
+      ],
+      "moduleIds": [
+        "@galaxy-blackhole/gbh-session-query-sqlite"
+      ],
+      "config": {
+        "path": ":memory:",
+        "openAt": "never"
+      },
+      "tests": [
+        "tests/host/session-query-sqlite.test.ts"
+      ]
+    },
+    "provenance": {
+      "stock": "@deepseek-ai/dsh-session-query-sqlite",
+      "version": "0.2.1-alpha.4",
+      "sha": "dbecf83320e10d93d735b3d01384ab817a0b90102ccecb0a22c013c71dfe70a0"
+    }
+  },
+  "types": "lib/types/index.d.ts"
+}

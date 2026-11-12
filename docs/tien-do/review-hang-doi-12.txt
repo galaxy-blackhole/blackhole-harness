@@ -1,0 +1,13 @@
+host/lazy-require
+host/plugin-manager
+host/plugin-market
+host/ptc-runtime-node
+host/schedule
+host/session-inspector
+host/session-log-deepseek
+host/session-log-export
+host/tool-ask-user
+host/tool-present
+host/translator
+host/util-values
+host/util-workspace-path

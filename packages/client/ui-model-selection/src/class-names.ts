@@ -1,0 +1,40 @@
+/**
+ * author Bùi Trọng Hiếu
+ * email kevinbui210191@gmail.com
+ * create date 15/10/2026
+ * modify date 19/10/2026
+ * desc Bang ten lop CSS da bam cua ModelSelect.module.css — NGUYEN VAN ban goc, de cay render trung tung lop
+ */
+
+/** Ten lop da bam cua ModelSelect.module.css — nguyen van tu bundle goc (tien to _7KE1Ra_). */
+export const MODEL_SELECT_CLASS = {
+  "cell": "_7KE1Ra_cell",
+  "cellChevron": "_7KE1Ra_cellChevron",
+  "cellLabel": "_7KE1Ra_cellLabel",
+  "cellValue": "_7KE1Ra_cellValue",
+  "check": "_7KE1Ra_check",
+  "chevron": "_7KE1Ra_chevron",
+  "chevronOpen": "_7KE1Ra_chevronOpen",
+  "empty": "_7KE1Ra_empty",
+  "error": "_7KE1Ra_error",
+  "groups": "_7KE1Ra_groups",
+  "menu": "_7KE1Ra_menu",
+  "modelName": "_7KE1Ra_modelName",
+  "modelOption": "_7KE1Ra_modelOption",
+  "option": "_7KE1Ra_option",
+  "optionActive": "_7KE1Ra_optionActive",
+  "optionCopy": "_7KE1Ra_optionCopy",
+  "retry": "_7KE1Ra_retry",
+  "root": "_7KE1Ra_root",
+  "search": "_7KE1Ra_search",
+  "searchClear": "_7KE1Ra_searchClear",
+  "searchRow": "_7KE1Ra_searchRow",
+  "searchWithQuery": "_7KE1Ra_searchWithQuery",
+  "selected": "_7KE1Ra_selected",
+  "status": "_7KE1Ra_status",
+  "trigger": "_7KE1Ra_trigger",
+  "triggerEffort": "_7KE1Ra_triggerEffort",
+  "triggerIcon": "_7KE1Ra_triggerIcon",
+  "triggerLabel": "_7KE1Ra_triggerLabel",
+  "warning": "_7KE1Ra_warning",
+} as const;

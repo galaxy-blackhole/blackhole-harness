@@ -1,0 +1,37 @@
+/**
+ * author Bùi Trọng Hiếu
+ * email kevinbui210191@gmail.com
+ * create date 15/10/2026
+ * modify date 05/11/2026
+ * desc CSS panel duyệt kế hoạch — KHÔI PHỤC từ bundle lib/client.js sau sự cố mất tệp (05/11/2026).
+ */
+
+.frame{padding:6px calc(var(--gbh-composer-side-clearance) + 16px) 10px;justify-content:center;display:flex}
+
+.card{width:100%;max-width:var(--gbh-chat-content-width);--dsw-elevation-stroke-color:var(--dsw-alias-border-l2);border-radius:var(--dsw-radius-xl);background:var(--dsw-specific-input-major);box-shadow:var(--dsw-elevation-panel);color:var(--dsw-alias-label-primary);border:0;flex-direction:column;display:flex;overflow:hidden}
+
+.card,.card *{box-sizing:border-box}
+
+.strip{background:var(--dsw-alias-state-warn-tertiary);color:var(--dsw-alias-state-warn-primary);flex-shrink:0;align-items:center;gap:8px;padding:12px 16px;font-size:14px;line-height:20px;display:flex}
+
+.footer{flex-shrink:0;justify-content:space-between;align-items:center;gap:12px;padding:8px 16px 12px;display:flex}
+
+.feedback{min-height:16px;color:var(--dsw-alias-state-error-primary);font-size:11px;line-height:16px}
+
+.actions{flex-shrink:0;align-items:center;gap:8px;display:flex}
+
+.summary{min-width:0;padding:14px 16px 12px}
+
+.title{text-overflow:ellipsis;white-space:nowrap;margin:0;font-size:15px;font-weight:500;line-height:22px;overflow:hidden}
+
+.description{-webkit-line-clamp:2;color:var(--dsw-alias-label-secondary);-webkit-box-orient:vertical;margin:8px 0 0;font-size:14px;line-height:24px;display:-webkit-box;overflow:hidden}
+
+.discuss{gap:6px}
+
+@media (width<=720px){.card{border-radius:var(--dsw-radius-xl)}
+
+.footer{align-items:flex-end;padding:8px 12px 10px}
+
+}
+
+.previewActions{align-items:center;margin-left:auto;display:flex}

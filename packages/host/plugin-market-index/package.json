@@ -1,0 +1,38 @@
+{
+  "name": "@galaxy-blackhole/gbh-plugin-market-index",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "type": "module",
+  "main": "lib/index.js",
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2"
+  },
+  "dependencies": {
+    "@deepseek-ai/dsh-package-manifest": "0.2.1-alpha.4",
+    "semver": "^7.8.5"
+  },
+  "gbh": {
+    "peers": [
+      "@deepseek-ai/cordis",
+      "@deepseek-ai/dsh-package-manifest",
+      "semver"
+    ],
+    "tests": [
+      "tests/host/plugin-market-index.test.ts"
+    ],
+    "provenance": {
+      "stock": "@deepseek-ai/dsh-plugin-market-index",
+      "version": "0.2.1-alpha.4",
+      "sha": "14bccdf32d0d5ff7300e7e99562f3ea24e4cddeb6b21ad7662f7813ede4b72a1"
+    },
+    "draft": "thư viện dsh-plugin-market-index — không phải row trong dump (grep 0 match), port để đóng bộ SDK/protocol"
+  },
+  "description": "Plugin market index format 1: JSON validation, relative icon resolution, and pinned install arguments"
+}

@@ -1,0 +1,15 @@
+/*
+ author Bùi Trọng Hiếu
+ email kevinbui210191@gmail.com
+ create date 15/10/2026
+ modify date 17/10/2026
+ desc CSS SubagentLimitsFields cua row ui-settings-subagent — NGUYEN VAN ban goc (newline chi o ranh gioi cap 0)
+*/
+
+.hF0LTq_limits{grid-template-columns:repeat(auto-fit,minmax(min(220px,100%),1fr));gap:16px;display:grid}
+.hF0LTq_limit{min-width:0}
+.hF0LTq_limit input{font-variant-numeric:tabular-nums;min-width:0}
+.hF0LTq_depthTable{border-collapse:collapse;border-block:.5px solid var(--dsw-alias-border-l2);width:100%;font:inherit;text-align:left;margin:8px 0}
+.hF0LTq_depthTable th,.hF0LTq_depthTable td{vertical-align:top;padding:6px 0}
+.hF0LTq_depthTable th{font-variant-numeric:tabular-nums;width:24px;color:var(--dsw-alias-label-primary);padding-right:8px;font-weight:500}
+.hF0LTq_depthTable tr+tr{border-top:.5px solid var(--dsw-alias-border-l2)}

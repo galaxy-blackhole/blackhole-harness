@@ -1,0 +1,16 @@
+{
+  "dev": "tm-client-debundle",
+  "owner": "tm-client-debundle",
+  "evidence": [
+    "reviewer tm-reviewer doc lap: build exit 0 · export **4 = 4** voi bundle goc (Config · apply · inject · name) · thieu 0 · thua 0",
+    "RALPH_SCRIPT: trich xuat tu bundle goc va tu src — **GIONG HET TUNG BYTE** (4091 ky tu / 4093 byte UTF-8), khong phai chi cung do dai",
+    "khong khai gbh.row la DUNG: ban goc khong phai row top-level ma la bundle @deepseek-ai/dsh-experimental-ralph-bundle/cordis.patch.yml (16 dong / 419 B) chen row NHOM `optional-ralph` (2 con: optional-ralph-workflow + tool-ralph, isolate.workflowEngine: true)",
+    "reviewer tu chay bun test tests/host/tool-ralph.test.ts: **19 pass / 0 fail / 145 expect**"
+  ],
+  "packages": [
+    {
+      "dsh": "@deepseek-ai/dsh-tool-ralph",
+      "gbh": "gbh-tool-ralph"
+    }
+  ]
+}

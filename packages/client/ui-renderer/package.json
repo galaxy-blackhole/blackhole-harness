@@ -1,0 +1,40 @@
+{
+  "name": "@galaxy-blackhole/gbh-client-ui-renderer",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "type": "module",
+  "main": "lib/index.js",
+  "description": "Ban viet lai cua Galaxy Blackhole cho row ui-renderer cua DSH (@deepseek-ai/dsh-client-ui-renderer).",
+  "scripts": {
+    "build": "bun run build.ts"
+  },
+  "gbh": {
+    "draft": "CHUA KHAI gbh.row — xem comment ngay tren va cong thuc muc 7",
+    "tests": [
+      "tests/client/ui-renderer.test.ts"
+    ],
+    "provenance": {
+      "stock": "@deepseek-ai/dsh-client-ui-renderer"
+    }
+  },
+  "dsh": {
+    "client": {
+      "platform": "web",
+      "immediately": true
+    }
+  },
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./client": {
+      "types": "./lib/types/client/index.d.ts",
+      "default": "./lib/client.js"
+    },
+    "./src/*": "./src/*",
+    "./package.json": "./package.json",
+    "./locale/*.json": "./locale/*.json"
+  },
+  "types": "lib/types/index.d.ts"
+}

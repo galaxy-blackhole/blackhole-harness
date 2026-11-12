@@ -1,0 +1,28 @@
+{
+  "dev": "tm-client-ui-a",
+  "owner": "tm-client-ui-a",
+  "evidence": [
+    "**LIBRARY — KHONG MOUNT** (dung quyet dinh cua Lead: 4 goi nay la thu vien, khong co row)",
+    "Test reviewer tu chay: client-ui-directory-picker-native **19/245** · client-ui-directory-picker-browse **16/201** · host-directory-picker **19/164** · host-frontend-static **28/296** ⇒ tong **82 pass / 0 fail / 906 expect** khop Lead",
+    "xac nhan `gbh.row` VANG o ca 4 (chi co `gbh.draft` + tests), khong co patch block tuong ung",
+    "rollback: khong can (khong mount)"
+  ],
+  "packages": [
+    {
+      "dsh": "@deepseek-ai/dsh-client-ui-directory-picker-native",
+      "gbh": "gbh-client-ui-directory-picker-native"
+    },
+    {
+      "dsh": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
+      "gbh": "gbh-client-ui-directory-picker-browse"
+    },
+    {
+      "dsh": "@deepseek-ai/dsh-host-directory-picker",
+      "gbh": "gbh-host-directory-picker"
+    },
+    {
+      "dsh": "@deepseek-ai/dsh-host-frontend-static",
+      "gbh": "gbh-host-frontend-static"
+    }
+  ]
+}

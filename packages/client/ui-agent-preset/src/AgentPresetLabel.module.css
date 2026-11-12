@@ -1,0 +1,9 @@
+/*
+ author Bùi Trọng Hiếu
+ email kevinbui210191@gmail.com
+ create date 15/10/2026
+ modify date 18/10/2026
+ desc CSS AgentPresetLabel.module.css cua row ui-agent-preset — NGUYEN VAN ban goc (tien to hash giu nguyen)
+*/
+
+.SVAs4q_label{border-radius:var(--dsw-radius-xs);background:var(--dsw-alias-fill-tsp-secondary);max-width:180px;height:22px;color:var(--dsw-alias-label-tertiary);white-space:nowrap;text-overflow:ellipsis;align-items:center;gap:4px;padding:0 2px 0 0;font-size:12px;line-height:22px;display:inline-flex;overflow:hidden}.SVAs4q_icon{opacity:.7;flex:none}@container (width<=540px){.SVAs4q_label{display:none}}

@@ -1,0 +1,30 @@
+{
+  "meta": {
+    "title": "client-ui-plugin-manager",
+    "description": "Quản lý plugin cho client web GBH: panel Plugins ở sidebar để cài, bật, tắt và cấu hình plugin."
+  },
+  "partsLabel": "Thành phần",
+  "sourceTitle": "Nguồn",
+  "sourceSpec": "Mã nguồn",
+  "sourceBuiltIn": "Có sẵn",
+  "sourceVersion": "Phiên bản hiện tại",
+  "partsCountTotal": "{count} tổng",
+  "partsCountRunning": "{count} đang chạy",
+  "partsCountOff": "{count} tắt",
+  "rowPhaseActive": "Đang chạy",
+  "rowPhasePending": "Chờ phụ thuộc",
+  "rowPhaseLoading": "Đang tải",
+  "rowPhaseFailed": "Lỗi",
+  "bundlesTitle": "Plugin đã cài",
+  "basicTitle": "Cài đặt plugin có sẵn",
+  "extensionsTitle": "Plugin thử nghiệm",
+  "moreTitle": "Plugin thử nghiệm",
+  "moreAction": "Thêm",
+  "installedTab": "Đã cài",
+  "statusBeta": "Thử nghiệm",
+  "addPlugin": "Thêm plugin",
+  "retry": "Thử lại",
+  "refresh": "Làm mới",
+  "empty": "Chưa cài plugin nào.",
+  "partsEmpty": "Gói plugin này không có thành phần nào."
+}

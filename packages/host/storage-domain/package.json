@@ -1,0 +1,53 @@
+{
+  "name": "@galaxy-blackhole/gbh-storage-domain",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "type": "module",
+  "main": "lib/index.js",
+  "description": "Domain data form (ctx.storage.domain): schema-validated, event-emitting KV domains over storage backends for the Galaxy Blackhole",
+  "scripts": {
+    "build": "bun run build.ts"
+  },
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./package.json": "./package.json",
+    "./src/*": "./src/*",
+    "./locale/*.json": "./locale/*.json"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2",
+    "@deepseek-ai/schemastery": "~3.18.5-alpha.2",
+    "@deepseek-ai/dsh-storage-domain": "0.2.1-alpha.4"
+  },
+  "devDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2",
+    "@deepseek-ai/schemastery": "~3.18.5-alpha.2",
+    "@deepseek-ai/dsh-storage-domain": "0.2.1-alpha.4"
+  },
+  "license": "MIT",
+  "gbh": {
+    "peers": [
+      "@deepseek-ai/cordis",
+      "@deepseek-ai/dsh-storage-domain",
+      "@deepseek-ai/schemastery"
+    ],
+    "row": {
+      "id": "storage-domain",
+      "config": {
+        "backend": "json"
+      },
+      "tests": [
+        "tests/host/storage-domain.test.ts"
+      ]
+    },
+    "provenance": {
+      "stock": "@deepseek-ai/dsh-storage-domain",
+      "version": "0.2.1-alpha.4",
+      "sha": "a54f7664d2f64fe04a08c7058ca5bff4fc69ed6a0d30c2bc11561b620698ef16"
+    }
+  },
+  "types": "lib/types/index.d.ts"
+}

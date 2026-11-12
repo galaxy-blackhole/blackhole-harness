@@ -1,0 +1,59 @@
+{
+  "name": "@galaxy-blackhole/gbh-session-title-llm",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "type": "module",
+  "main": "lib/index.js",
+  "description": "Shared LLM generation policy for Galaxy Blackhole session-title providers",
+  "scripts": {
+    "build": "bun run build.ts"
+  },
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./package.json": "./package.json",
+    "./src/*": "./src/*"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2",
+    "@deepseek-ai/dsh-llm": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-timeout": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-util-values": "0.2.1-alpha.4",
+    "@deepseek-ai/schemastery": "~3.18.5-alpha.2",
+    "@deepseek-ai/dsh-session": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-session-title": "0.2.1-alpha.4"
+  },
+  "devDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2",
+    "@deepseek-ai/dsh-llm": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-timeout": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-util-values": "0.2.1-alpha.4",
+    "@deepseek-ai/schemastery": "~3.18.5-alpha.2",
+    "@deepseek-ai/dsh-session": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-session-title": "0.2.1-alpha.4"
+  },
+  "license": "MIT",
+  "gbh": {
+    "draft": "GÓI THƯ VIỆN, KHÔNG PHẢI ROW: bản gốc @deepseek-ai/dsh-session-title-llm có 5 export hàm/schema và KHÔNG có hàm apply ⇒ không có row nào trong cây plugin để thay. Đo được: grep tên gói trong .parity/dumps/2026-10-18T01-31-57/ours.yml = 0; row id 'session-title-llm' lại trỏ @deepseek-ai/dsh-session-title-first-prompt-llm (việc của task-12). Vì vậy gói KHÔNG khai gbh.row (tiền lệ: packages/host/subprocess · agent-preset · workflow). Consumer chuyển sang gói này là task riêng (task-13 của Lead).",
+    "tests": [
+      "tests/host/session-title-llm.test.ts"
+    ],
+    "peers": [
+      "@deepseek-ai/cordis",
+      "@deepseek-ai/dsh-llm",
+      "@deepseek-ai/dsh-timeout",
+      "@deepseek-ai/dsh-util-values",
+      "@deepseek-ai/schemastery",
+      "@deepseek-ai/dsh-session",
+      "@deepseek-ai/dsh-session-title"
+    ],
+    "provenance": {
+      "stock": "@deepseek-ai/dsh-session-title-llm",
+      "version": "0.2.1-alpha.4",
+      "sha": "5a4b2862aa53a16b9ff6cd02a833667b13eb970a74c6acefc758451c1b248b2d"
+    }
+  },
+  "types": "lib/types/index.d.ts"
+}

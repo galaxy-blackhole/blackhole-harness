@@ -1,0 +1,71 @@
+{
+  "name": "@galaxy-blackhole/gbh-terminal-bash",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "type": "module",
+  "description": "Persistent shell PTY backend over the Galaxy Blackhole subprocess terminal primitive",
+  "main": "lib/index.js",
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./locale/*.json": "./locale/*.json",
+    "./package.json": "./package.json"
+  },
+  "scripts": {
+    "build": "bun run build.ts"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/dsh-agent": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-terminal": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-sandbox": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-sandbox-policy": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-session": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-subprocess": "0.2.1-alpha.4",
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2",
+    "@deepseek-ai/dsh-session-projection": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-working-directory": "0.2.1-alpha.4"
+  },
+  "dependencies": {
+    "@deepseek-ai/dsh-lazy-require": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-pwsh-local": "0.2.1-alpha.4",
+    "@deepseek-ai/schemastery": "~3.18.5-alpha.2",
+    "@xterm/headless": "^6.0.0"
+  },
+  "license": "MIT",
+  "gbh": {
+    "peers": [
+      "@deepseek-ai/dsh-agent",
+      "@deepseek-ai/dsh-terminal",
+      "@deepseek-ai/dsh-sandbox",
+      "@deepseek-ai/dsh-sandbox-policy",
+      "@deepseek-ai/dsh-session",
+      "@deepseek-ai/dsh-subprocess",
+      "@deepseek-ai/cordis",
+      "@deepseek-ai/dsh-session-projection",
+      "@deepseek-ai/dsh-working-directory",
+      "@deepseek-ai/dsh-lazy-require",
+      "@deepseek-ai/dsh-pwsh-local",
+      "@deepseek-ai/schemastery",
+      "@xterm/headless"
+    ],
+    "tests": [
+      "tests/host/terminal-bash.test.ts"
+    ],
+    "nested": {
+      "kind": "group",
+      "pluginId": "terminal-bash",
+      "stockId": "@deepseek-ai/dsh-terminal-bash",
+      "presets": [
+        "persistent-shell",
+        "optional-persistent-terminals"
+      ]
+    },
+    "provenance": {
+      "stock": "@deepseek-ai/dsh-terminal-bash",
+      "version": "0.2.1-alpha.4",
+      "sha": "388ce251b94a919edcfb9c13f6ffc49bcd1f4caf9ee493c65b46b454786c8c8b"
+    }
+  }
+}

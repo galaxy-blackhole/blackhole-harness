@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ author Bùi Trọng Hiếu
+ email kevinbui210191@gmail.com
+ create date 15/10/2026
+ modify date 11/11/2026
+ desc Ghi de ten hien thi cua bundle macOS + cau giai thich quyen truy cap thu muc cua nguoi dung
+      11/11/2026: ban dev doi ten hien thi sang Preview de khong lan voi ban that "Galaxy Blackhole"; CFBundleName giu nguyen
+      11/11/2026: them NS*FolderUsageDescription — do that: host chay trong .app cham ~/Desktop (workspace cua
+      nguoi dung) nen macOS hien hop thoai TCC "would like to access files in your Desktop folder" va CHAN boot
+      cho toi khi nguoi dung bam Allow; cau mo ta tieng Viet giup hop thoai noi ro vi sao
+-->
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CFBundleDisplayName</key>
+	<string>Galaxy Blackhole (Preview)</string>
+	<key>CFBundleName</key>
+	<string>Galaxy Blackhole</string>
+	<key>NSDesktopFolderUsageDescription</key>
+	<string>Galaxy Blackhole cần đọc thư mục Desktop để mở workspace và phiên làm việc của bạn.</string>
+	<key>NSDocumentsFolderUsageDescription</key>
+	<string>Galaxy Blackhole cần đọc thư mục Documents khi workspace của bạn nằm ở đó.</string>
+	<key>NSDownloadsFolderUsageDescription</key>
+	<string>Galaxy Blackhole cần đọc thư mục Downloads khi workspace của bạn nằm ở đó.</string>
+</dict>
+</plist>

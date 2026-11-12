@@ -1,0 +1,42 @@
+{
+  "name": "@galaxy-blackhole/gbh-image-offload",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "type": "module",
+  "main": "lib/index.js",
+  "description": "Bản viết lại của Galaxy Blackhole cho row image-offload của DSH (@deepseek-ai/dsh-compaction-image-offload): đẩy ảnh ra khỏi ngữ cảnh khi nén — ghi một quyết định image/offload cho các ảnh đầu vào cũ nhất rồi thử lại qua waterfall lỗi của agent hoặc bộ tóm tắt.",
+  "scripts": {
+    "build": "bun run build.ts"
+  },
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "default": "./lib/index.js"
+    },
+    "./package.json": "./package.json",
+    "./projection": "./lib/projection.js",
+    "./locale/*.json": "./locale/*.json"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/dsh-llm": "0.2.1-alpha.4"
+  },
+  "devDependencies": {
+    "@deepseek-ai/dsh-llm": "0.2.1-alpha.4"
+  },
+  "license": "MIT",
+  "gbh": {
+    "peers": [
+      "@deepseek-ai/dsh-llm"
+    ],
+    "row": {
+      "id": "image-offload",
+      "tests": [
+        "tests/host/image-offload.test.ts"
+      ]
+    },
+    "provenance": {
+      "stock": "@deepseek-ai/dsh-compaction-image-offload"
+    }
+  },
+  "types": "src/index.ts"
+}

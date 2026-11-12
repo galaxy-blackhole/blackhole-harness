@@ -1,0 +1,151 @@
+{
+  "name": "@galaxy-blackhole/gbh-sdk-minimal",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "type": "module",
+  "description": "The standalone minimal SDK profile bundle: JSON-RPC, one DeepSeek adapter, persistent shell, and JSONL sessions",
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./cordis.patch.yml": "./cordis.patch.yml",
+    "./package.json": "./package.json"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    }
+  },
+  "license": "MIT",
+  "gbh": {
+    "provenance": {
+      "stock": "@deepseek-ai/dsh-sdk-minimal",
+      "stockVersion": "0.2.1-alpha.4",
+      "patch": "./cordis.patch.yml",
+      "patchLines": 172,
+      "replacements": [
+        {
+          "stock": "@deepseek-ai/dsh-llm",
+          "ours": "@galaxy-blackhole/gbh-llm",
+          "count": 1
+        },
+        {
+          "stock": "@deepseek-ai/dsh-agent",
+          "ours": "@galaxy-blackhole/gbh-agent",
+          "count": 1
+        },
+        {
+          "stock": "@deepseek-ai/dsh-session",
+          "ours": "@galaxy-blackhole/gbh-session",
+          "count": 1
+        },
+        {
+          "stock": "@deepseek-ai/dsh-llm-retry",
+          "ours": "@galaxy-blackhole/gbh-llm-retry",
+          "count": 1
+        },
+        {
+          "stock": "@deepseek-ai/dsh-jobs-local",
+          "ours": "@galaxy-blackhole/gbh-jobs-local",
+          "count": 1
+        },
+        {
+          "stock": "@deepseek-ai/dsh-tools",
+          "ours": "@galaxy-blackhole/gbh-host-tools",
+          "count": 1
+        },
+        {
+          "stock": "@deepseek-ai/dsh-session-log-deepseek",
+          "ours": "@galaxy-blackhole/gbh-session-log",
+          "count": 1
+        },
+        {
+          "stock": "@deepseek-ai/dsh-token-meter",
+          "ours": "@galaxy-blackhole/gbh-token-meter",
+          "count": 1
+        },
+        {
+          "stock": "@deepseek-ai/dsh-session-title",
+          "ours": "@galaxy-blackhole/gbh-session-title",
+          "count": 1
+        },
+        {
+          "stock": "@deepseek-ai/dsh-system-prompt",
+          "ours": "@galaxy-blackhole/gbh-system-prompt",
+          "count": 1
+        },
+        {
+          "stock": "@deepseek-ai/dsh-mcp-resources",
+          "ours": "@galaxy-blackhole/gbh-mcp-resources",
+          "count": 1
+        },
+        {
+          "stock": "@deepseek-ai/dsh-sandbox-policy",
+          "ours": "@galaxy-blackhole/gbh-sandbox-policy",
+          "count": 1
+        },
+        {
+          "stock": "@deepseek-ai/dsh-agent-loop",
+          "ours": "@galaxy-blackhole/gbh-host-agent-loop",
+          "count": 1
+        },
+        {
+          "stock": "@deepseek-ai/dsh-attachment-local",
+          "ours": "@galaxy-blackhole/gbh-attachment-local",
+          "count": 1
+        },
+        {
+          "stock": "@deepseek-ai/dsh-subprocess-local",
+          "ours": "@galaxy-blackhole/gbh-subprocess-local",
+          "count": 1
+        },
+        {
+          "stock": "@deepseek-ai/dsh-working-directory",
+          "ours": "@galaxy-blackhole/gbh-working-directory",
+          "count": 1
+        },
+        {
+          "stock": "@deepseek-ai/dsh-session-projection",
+          "ours": "@galaxy-blackhole/gbh-session-projection",
+          "count": 1
+        },
+        {
+          "stock": "@deepseek-ai/dsh-llm-deepseek-api-key",
+          "ours": "@galaxy-blackhole/gbh-llm-deepseek-api-key",
+          "count": 1
+        },
+        {
+          "stock": "@deepseek-ai/dsh-tool-working-directory",
+          "ours": "@galaxy-blackhole/gbh-tool-working-directory",
+          "count": 1
+        },
+        {
+          "stock": "@deepseek-ai/dsh-session-persistence-jsonl",
+          "ours": "@galaxy-blackhole/gbh-session-persistence-jsonl",
+          "count": 1
+        },
+        {
+          "stock": "@deepseek-ai/dsh-deepseek-llm-api-extensions",
+          "ours": "@galaxy-blackhole/gbh-deepseek-llm-api-extensions",
+          "count": 1
+        },
+        {
+          "stock": "@deepseek-ai/dsh-plugin-package-inventory-deepseek",
+          "ours": "@galaxy-blackhole/gbh-plugin-package-inventory-deepseek",
+          "count": 1
+        }
+      ],
+      "headerLines": 6,
+      "sha": "8e609bb71c20b858c77f0e9f90bb1319db8477b13f9f965f1a1e18524bf50881",
+      "shaFile": "lib/index.js",
+      "version": "0.2.1-alpha.4"
+    },
+    "tests": [
+      "tests/host/bundle-profile-patches.test.ts"
+    ]
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2"
+  }
+}

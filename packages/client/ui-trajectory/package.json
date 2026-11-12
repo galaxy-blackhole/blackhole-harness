@@ -1,0 +1,49 @@
+{
+  "name": "@galaxy-blackhole/gbh-client-ui-trajectory",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "type": "module",
+  "main": "lib/index.js",
+  "description": "Ban viet lai cua Galaxy Blackhole cho row ui-trajectory cua DSH (@deepseek-ai/dsh-client-ui-trajectory).",
+  "scripts": {
+    "build": "bun run build.ts"
+  },
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./client": "./lib/client.js",
+    "./package.json": "./package.json"
+  },
+  "dsh": {
+    "client": {
+      "inject": [
+        "@deepseek-ai/dsh-api-session-controller",
+        "@deepseek-ai/dsh-client-locale",
+        "@deepseek-ai/dsh-client-ui-conversation",
+        "@deepseek-ai/dsh-client-ui-renderer",
+        "@deepseek-ai/dsh-client-ui-session"
+      ],
+      "platform": "web"
+    }
+  },
+  "gbh": {
+    "row": {
+      "id": "ui-trajectory",
+      "moduleIds": [
+        "@galaxy-blackhole/gbh-client-ui-trajectory"
+      ],
+      "aliases": [
+        "@deepseek-ai/dsh-client-ui-trajectory"
+      ],
+      "tests": [
+        "tests/client/ui-trajectory.test.ts"
+      ]
+    },
+    "provenance": {
+      "stock": "@deepseek-ai/dsh-client-ui-trajectory"
+    }
+  },
+  "types": "lib/types/index.d.ts"
+}

@@ -1,0 +1,45 @@
+/*
+ * author Bùi Trọng Hiếu
+ * email kevinbui210191@gmail.com
+ * create date 15/10/2026
+ * modify date 23/10/2026
+ * desc CSS RIÊNG của hàng toolview cho tool BỔ SUNG set_team_limits (ADR 0013) — KHÔNG nằm trong
+ *      TeamAction.module.css (tệp đó là bản chép nguyên văn của gói gốc, có cổng byte).
+ *      Số đo LẤY TỪ row ui-tool (`.o3BgMG_sep` · `.o3BgMG_summary` · `.o3BgMG_title`) để hàng của ta
+ *      đứng CÙNG nhịp với `List subagents` ngay cạnh nó: dot 2×2px · summary 13px/24px.
+ */
+.GbhLimits_row {
+  align-items:center;
+  gap:6px;
+  padding:3px 7px;
+  font-size:var(--dsh-content-font-size-secondary,13px);
+  line-height:calc(24px + var(--dsh-content-font-delta,0px));
+  display:flex
+}
+.GbhLimits_icon {
+  color:var(--dsw-alias-label-caption);
+  flex:none;
+  display:inline-flex;
+  align-items:center
+}
+.GbhLimits_title {
+  color:var(--dsw-alias-label-primary);
+  font-weight:400;
+  white-space:nowrap
+}
+.GbhLimits_sep {
+  background:var(--dsw-alias-label-caption);
+  border-radius:1px;
+  flex:none;
+  width:2px;
+  height:2px;
+  margin:0 8px
+}
+.GbhLimits_summary {
+  color:var(--dsw-alias-label-caption);
+  text-overflow:ellipsis;
+  white-space:nowrap;
+  min-width:0;
+  flex:auto;
+  overflow:hidden
+}

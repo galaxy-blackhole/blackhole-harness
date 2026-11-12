@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "bash-sandbox",
+    "description": "Bản triển khai dùng sandbox cho điểm nối bash executor của Galaxy Blackhole: bọc mọi lệnh qua ctx.sandbox và báo lại sự thật về việc bị từ chối cùng mức cưỡng chế."
+  }
+}

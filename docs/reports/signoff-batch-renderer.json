@@ -1,0 +1,20 @@
+{
+  "dev": "tm-client-ui-b (dev; runtime maxDepth=1 nên không có subagent)",
+  "owner": "tm-client-ui-b",
+  "evidence": [
+    "artifact (reviewer tm-reviewer, build /tmp/rev/ur): id goc=0 · id ta=1 (`window.__ModuleLoader__.load({ id: \"@galaxy-blackhole/gbh-client-ui-renderer\" })` dong 1672) · build.ts argv[2]=1 · 0 dong ESM",
+    "tap slot 0=0 (stock cung khong dang ky slot; renderer cap `ctx.slots` qua SlotRegistry); plugin surface { name, apply, inject: [] } = stock `const inject = []`; host export [apply] = stock",
+    "cong idem: `var rendererInstalled = false` pham vi module (artifact dong 1587) · apply: kiem co -> applyInner (install SlotRegistry + provide uiRenderer) -> bat co · test ca 9 (lan hai NO-OP) / ca 10 (lan dau nem thi lan hai van dang ky) / ca 13 (install hai lan nem)",
+    "reviewer tu chay bun test tests/client/ui-renderer.test.ts: **28 pass / 0 fail / 61 expect**",
+    "BOOT SMOKE APP THAT (Lead do): check:app **11/11 DAT** — (1) 110.822 B · (3) 132 entry · (5) 0 · (6) **57 goi ta (co gbh-client-ui-renderer)** · (8) #root 47.181 / 46 slot / 0 console / 0 pageerror · (9) 0/80 · (10) 198 file khop · (11) HMR OK; dump co `ui-renderer-ours` ENABLED",
+    "boot-smoke --real-home truoc khi mount (Lead): HTML 110.249 B · facade __ModuleLoader__ CO · #root 24.602 · 0 loi · 0 did-not-activate",
+    "lab per-row doc lap cua reviewer (home rieng, renderer dang mount): #root 22.204 · 0 console · 0 pageerror · 0 overlay · **0 did-not-activate**",
+    "ngu canh sua: dedupe bundle-key · owner+alias cung URL sau HMR · ui ownership ve ui-theme"
+  ],
+  "packages": [
+    {
+      "dsh": "@deepseek-ai/dsh-client-ui-renderer",
+      "gbh": "gbh-client-ui-renderer"
+    }
+  ]
+}

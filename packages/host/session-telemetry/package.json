@@ -1,0 +1,45 @@
+{
+  "name": "@galaxy-blackhole/gbh-session-telemetry",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "type": "module",
+  "main": "lib/index.js",
+  "description": "SessionTelemetryBackend seam for the Galaxy Blackhole: session-event capture, projection, redaction, and handoff to a reporting backend",
+  "scripts": {
+    "build": "bun run build.ts"
+  },
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/dsh-agent": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-session": "0.2.1-alpha.4",
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2"
+  },
+  "devDependencies": {
+    "@deepseek-ai/dsh-agent": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-session": "0.2.1-alpha.4",
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2"
+  },
+  "license": "MIT",
+  "gbh": {
+    "provenance": {
+      "stock": "@deepseek-ai/dsh-session-telemetry",
+      "version": "0.2.1-alpha.4",
+      "sha": "796144d50a36bf4e9480dfee62e79de46cd830e2f8fc5d6f28f081d79803546e"
+    },
+    "draft": "19/10/2026 — GÓI THƯ VIỆN: KHÔNG có row trong dump .parity/dumps/2026-10-18T01-31-57 (0 dòng name: '@deepseek-ai/dsh-session-telemetry') và KHÔNG có dòng trong docs/PARITY-MATRIX.md ⇒ consumer inline; không khai gbh.row/gbh.nested.",
+    "tests": [
+      "tests/host/session-format-cluster.test.ts"
+    ],
+    "peers": [
+      "@deepseek-ai/dsh-agent",
+      "@deepseek-ai/dsh-session",
+      "@deepseek-ai/cordis"
+    ]
+  }
+}

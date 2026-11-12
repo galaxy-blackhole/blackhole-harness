@@ -1,0 +1,18 @@
+{
+  "dev": "tm-client-ui-a",
+  "owner": "tm-client-ui-a",
+  "evidence": [
+    "signed, MOUNTED — check:app 11/11 BA LUOT LIEN TIEP; artifact + test do REVIEWER TU DO (build trong thu muc goi, exit 0)",
+    "**3 luot check:app lien tiep DAT 11/11** — (3) **149 entry** · (5) **0** · #root 47.584 / 46 slot / 0 console / 0 pageerror · (9) 0/80 · (10) **349 file khop repo** · (11) HMR",
+    "CO CHE: row TOP-LEVEL `webserver` (inject ['webStartup'], config 6 khoa giu `!!js`) — goi GIU HTTP server; da boot-smoke RIENG LE + theo doi app 3 luot (ghi ro theo yeu cau Lead)",
+    "index **21.436 B** sha `0890728580` (byte-identical voi `@deepseek-ai/dsh-host-webserver`) · index-entry **13.903 B** `2621249f1b`",
+    "test DO DU 2 TEP (row.tests da khai du): **46 pass / 0 fail / 297 expect** (17 + 29) — dung so reviewer",
+    "rollback san"
+  ],
+  "packages": [
+    {
+      "dsh": "@deepseek-ai/dsh-host-webserver",
+      "gbh": "gbh-host-webserver"
+    }
+  ]
+}

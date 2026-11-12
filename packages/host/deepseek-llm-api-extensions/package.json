@@ -1,0 +1,43 @@
+{
+  "name": "@galaxy-blackhole/gbh-deepseek-llm-api-extensions",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "type": "module",
+  "main": "lib/index.js",
+  "description": "Bản viết lại của Galaxy Blackhole cho row deepseek-llm-api-extensions của DSH (@deepseek-ai/dsh-deepseek-llm-api-extensions): sổ đăng ký trường yêu cầu MỞ RỘNG top-level cho adapter LLM DeepSeek chính thức — mỗi plugin sở hữu MỘT trường độc lập, adapter chạy MỘT giao dịch chuẩn bị + chấp nhận chung.",
+  "scripts": {
+    "build": "bun run build.ts"
+  },
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "default": "./lib/index.js"
+    },
+    "./package.json": "./package.json",
+    "./src/*": "./src/*",
+    "./locale/*.json": "./locale/*.json"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2"
+  },
+  "devDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2"
+  },
+  "license": "MIT",
+  "gbh": {
+    "peers": [
+      "@deepseek-ai/cordis"
+    ],
+    "draft": "CHUA KHAI gbh.row — be mat host-only da xong nhung CHUA co luot boot lab/mount cua Lead (xem README.md muc 5).",
+    "row": {
+      "id": "deepseek-llm-api-extensions",
+      "tests": [
+        "tests/host/deepseek-llm-api-extensions.test.ts"
+      ]
+    },
+    "provenance": {
+      "stock": "@deepseek-ai/dsh-deepseek-llm-api-extensions"
+    }
+  },
+  "types": "lib/types/index.d.ts"
+}

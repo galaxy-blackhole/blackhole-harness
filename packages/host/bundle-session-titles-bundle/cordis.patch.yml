@@ -1,0 +1,19 @@
+# author Bùi Trọng Hiếu
+# email kevinbui210191@gmail.com
+# create date 15/10/2026
+# modify date 10/11/2026 — row trỏ ĐÚNG gói sở hữu row của ta (gbh-optional-session-title-all-prompts,
+#      có gbh.row.ownedByBundle) thay cho bản sao 1:1: công tắc tắt bundle phải gỡ được row này.
+# desc Bản sao 1:1 cordis.patch.yml của bundle gốc — THÂN patch giữ nguyên văn, chỉ thay id theo bản đồ gói ta
+
+- id: session-title-llm
+  disabled: true
+
+- insert:
+    - id: optional-session-title-all-prompts
+      name: '@galaxy-blackhole/gbh-optional-session-title-all-prompts'
+      config:
+        targetWords: 5
+        targetCjkCharacters: 10
+        maxInputBytes: 4096
+        maxOutputTokens: 64
+        timeoutMs: 60000

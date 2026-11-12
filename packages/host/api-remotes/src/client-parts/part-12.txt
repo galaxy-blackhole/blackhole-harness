@@ -1,0 +1,1000 @@
+							typeSymbol: "@deepseek-ai/dsh-plugin-manager#pluginManager/setBundleEnabled:enabled",
+							create: _deepseek_ai_dsh_plugin_manager_pluginManager_setBundleEnabled_parameter_1_strict$schema,
+							jsonSchema: { "type": "boolean" }
+						}
+					}],
+					result: {
+						mode: "strict",
+						typeSymbol: "@deepseek-ai/dsh-plugin-manager/types#ChangeResult",
+						create: _deepseek_ai_dsh_plugin_manager_pluginManager_setBundleEnabled_result$schema,
+						description: "Persisted and runtime outcomes.",
+						jsonSchemaError: "typert tool schema: selected dictionaries require string keys and unconstrained JSON values"
+					},
+					sourceLocation: {
+						"file": "packages/boot/plugin-manager/src/index.ts",
+						"line": 510,
+						"column": 3
+					}
+				},
+				"pluginManager/setPluginEnabled": {
+					service: "pluginManager",
+					description: "Persist a plugin entry's desired enablement and apply it on live profiles.",
+					invocation: { kind: "direct" },
+					parameters: [{
+						name: "id",
+						description: "Loader entry identity returned by listPlugins.",
+						source: "json",
+						codec: {
+							mode: "strict",
+							typeSymbol: "@deepseek-ai/dsh-host-plugin-inventory/types#PluginEntryId",
+							create: _deepseek_ai_dsh_plugin_manager_pluginManager_setPluginEnabled_parameter_0$schema,
+							jsonSchema: { "type": "string" }
+						},
+						strictCodec: {
+							mode: "strict",
+							typeSymbol: "@deepseek-ai/dsh-host-plugin-inventory/types#PluginEntryId",
+							create: _deepseek_ai_dsh_plugin_manager_pluginManager_setPluginEnabled_parameter_0_strict$schema,
+							jsonSchema: { "type": "string" }
+						}
+					}, {
+						name: "enabled",
+						description: "Whether the plugin should run.",
+						source: "json",
+						codec: {
+							mode: "strict",
+							typeSymbol: "@deepseek-ai/dsh-plugin-manager#pluginManager/setPluginEnabled:enabled",
+							create: _deepseek_ai_dsh_plugin_manager_pluginManager_setPluginEnabled_parameter_1$schema,
+							jsonSchema: { "type": "boolean" }
+						},
+						strictCodec: {
+							mode: "strict",
+							typeSymbol: "@deepseek-ai/dsh-plugin-manager#pluginManager/setPluginEnabled:enabled",
+							create: _deepseek_ai_dsh_plugin_manager_pluginManager_setPluginEnabled_parameter_1_strict$schema,
+							jsonSchema: { "type": "boolean" }
+						}
+					}],
+					result: {
+						mode: "strict",
+						typeSymbol: "@deepseek-ai/dsh-plugin-manager/types#ChangeResult",
+						create: _deepseek_ai_dsh_plugin_manager_pluginManager_setPluginEnabled_result$schema,
+						description: "Saved and runtime outcomes, including higher-priority overrides.",
+						jsonSchemaError: "typert tool schema: selected dictionaries require string keys and unconstrained JSON values"
+					},
+					sourceLocation: {
+						"file": "packages/boot/plugin-manager/src/index.ts",
+						"line": 492,
+						"column": 3
+					}
+				},
+				"pluginManager/setVersionExemption": {
+					service: "pluginManager",
+					description: "Grant or revoke one exact plugin/runtime exemption and reevaluate live plugins.",
+					invocation: { kind: "direct" },
+					parameters: [
+						{
+							name: "packageVersion",
+							description: "Exact manifest package name followed by @ and its version; never an installation spec or alias.",
+							source: "json",
+							codec: {
+								mode: "strict",
+								typeSymbol: "@deepseek-ai/dsh-plugin-manager#pluginManager/setVersionExemption:packageVersion",
+								create: _deepseek_ai_dsh_plugin_manager_pluginManager_setVersionExemption_parameter_0$schema,
+								jsonSchema: { "type": "string" }
+							},
+							strictCodec: {
+								mode: "strict",
+								typeSymbol: "@deepseek-ai/dsh-plugin-manager#pluginManager/setVersionExemption:packageVersion",
+								create: _deepseek_ai_dsh_plugin_manager_pluginManager_setVersionExemption_parameter_0_strict$schema,
+								jsonSchema: { "type": "string" }
+							}
+						},
+						{
+							name: "runtimeVersion",
+							description: "Exact current DSH version for grants; revocation may name a previous runtime.",
+							source: "json",
+							codec: {
+								mode: "strict",
+								typeSymbol: "@deepseek-ai/dsh-plugin-manager#pluginManager/setVersionExemption:runtimeVersion",
+								create: _deepseek_ai_dsh_plugin_manager_pluginManager_setVersionExemption_parameter_1$schema,
+								jsonSchema: { "type": "string" }
+							},
+							strictCodec: {
+								mode: "strict",
+								typeSymbol: "@deepseek-ai/dsh-plugin-manager#pluginManager/setVersionExemption:runtimeVersion",
+								create: _deepseek_ai_dsh_plugin_manager_pluginManager_setVersionExemption_parameter_1_strict$schema,
+								jsonSchema: { "type": "string" }
+							}
+						},
+						{
+							name: "enabled",
+							description: "Whether to grant rather than revoke the exemption.",
+							source: "json",
+							codec: {
+								mode: "strict",
+								typeSymbol: "@deepseek-ai/dsh-plugin-manager#pluginManager/setVersionExemption:enabled",
+								create: _deepseek_ai_dsh_plugin_manager_pluginManager_setVersionExemption_parameter_2$schema,
+								jsonSchema: { "type": "boolean" }
+							},
+							strictCodec: {
+								mode: "strict",
+								typeSymbol: "@deepseek-ai/dsh-plugin-manager#pluginManager/setVersionExemption:enabled",
+								create: _deepseek_ai_dsh_plugin_manager_pluginManager_setVersionExemption_parameter_2_strict$schema,
+								jsonSchema: { "type": "boolean" }
+							}
+						},
+						{
+							name: "acceptRisk",
+							description: "Required true for grants after the user accepts possible crashes and data loss.",
+							source: "json",
+							acceptsUndefined: true,
+							codec: {
+								mode: "strict",
+								typeSymbol: "@deepseek-ai/dsh-plugin-manager#pluginManager/setVersionExemption:acceptRisk",
+								create: _deepseek_ai_dsh_plugin_manager_pluginManager_setVersionExemption_parameter_3$schema,
+								jsonSchema: {
+									"type": "boolean",
+									"enum": [false, true]
+								}
+							},
+							strictCodec: {
+								mode: "strict",
+								typeSymbol: "@deepseek-ai/dsh-plugin-manager#pluginManager/setVersionExemption:acceptRisk",
+								create: _deepseek_ai_dsh_plugin_manager_pluginManager_setVersionExemption_parameter_3_strict$schema,
+								jsonSchema: {
+									"type": "boolean",
+									"enum": [false, true]
+								}
+							}
+						}
+					],
+					result: {
+						mode: "strict",
+						typeSymbol: "@deepseek-ai/dsh-plugin-manager/types#ChangeResult",
+						create: _deepseek_ai_dsh_plugin_manager_pluginManager_setVersionExemption_result$schema,
+						description: "Saved and runtime outcomes. Startup-only profiles require restart.",
+						jsonSchemaError: "typert tool schema: selected dictionaries require string keys and unconstrained JSON values"
+					},
+					sourceLocation: {
+						"file": "packages/boot/plugin-manager/src/index.ts",
+						"line": 281,
+						"column": 3
+					}
+				},
+				"pluginManager/waitForInstall": {
+					service: "pluginManager",
+					description: "Recover the result of an active installation without cancelling it.",
+					invocation: { kind: "direct" },
+					parameters: [{
+						name: "requestId",
+						description: "The id supplied when installation started.",
+						source: "json",
+						codec: {
+							mode: "strict",
+							typeSymbol: "@deepseek-ai/dsh-plugin-manager/types#PluginInstallRequestId",
+							create: _deepseek_ai_dsh_plugin_manager_pluginManager_waitForInstall_parameter_0$schema,
+							jsonSchema: { "type": "string" }
+						},
+						strictCodec: {
+							mode: "strict",
+							typeSymbol: "@deepseek-ai/dsh-plugin-manager/types#PluginInstallRequestId",
+							create: _deepseek_ai_dsh_plugin_manager_pluginManager_waitForInstall_parameter_0_strict$schema,
+							jsonSchema: { "type": "string" }
+						}
+					}],
+					result: {
+						mode: "strict",
+						typeSymbol: "@deepseek-ai/dsh-plugin-manager#pluginManager/waitForInstall:result",
+						create: _deepseek_ai_dsh_plugin_manager_pluginManager_waitForInstall_result$schema,
+						description: "The installation's outcome after it settles, or null if no active request has that id. Completed results are not retained; null establishes neither success nor cancellation.",
+						jsonSchemaError: "typert tool schema: selected dictionaries require string keys and unconstrained JSON values"
+					},
+					sourceLocation: {
+						"file": "packages/boot/plugin-manager/src/index.ts",
+						"line": 659,
+						"column": 9
+					}
+				}
+			}
+		}, zod.z);
+		//#endregion
+		//#region ../../client/ui-plugin-manager/lib/typert.remote-client.js
+		let _deepseek_ai_dsh_client_ui_plugin_manager_pluginRegistryProbe_fastest_result$schema$value;
+		const _deepseek_ai_dsh_client_ui_plugin_manager_pluginRegistryProbe_fastest_result$schema = () => _deepseek_ai_dsh_client_ui_plugin_manager_pluginRegistryProbe_fastest_result$schema$value ??= zod.z.union([zod.z.literal(null), zod.z.string()]);
+		const TYPERT_REMOTE$13 = createTypertRemoteInfo({
+			package: "@deepseek-ai/dsh-client-ui-plugin-manager",
+			methods: { "pluginRegistryProbe/fastest": {
+				service: "pluginRegistryProbe",
+				description: "Race npm and npmmirror HTTPS ping responses through the Host's fetch proxy. Concurrent readers share a probe; a winner cancels and awaits the other request.",
+				invocation: { kind: "direct" },
+				parameters: [],
+				result: {
+					mode: "strict",
+					typeSymbol: "@deepseek-ai/dsh-client-ui-plugin-manager#pluginRegistryProbe/fastest:result",
+					create: _deepseek_ai_dsh_client_ui_plugin_manager_pluginRegistryProbe_fastest_result$schema,
+					description: "the first registry with a successful response, or null when disabled or neither responds successfully; results are cached.",
+					jsonSchema: { "oneOf": [{
+						"type": "null",
+						"const": null
+					}, { "type": "string" }] }
+				},
+				sourceLocation: {
+					"file": "packages/client/ui-plugin-manager/src/index.ts",
+					"line": 51,
+					"column": 9
+				}
+			} }
+		}, zod.z);
+		//#endregion
+		//#region ../../boot/plugin-market/lib/typert.remote-client.js
+		let _deepseek_ai_dsh_plugin_market_pluginMarket_listIndexes_result$schema$value;
+		const _deepseek_ai_dsh_plugin_market_pluginMarket_listIndexes_result$schema = () => _deepseek_ai_dsh_plugin_market_pluginMarket_listIndexes_result$schema$value ??= zod.z.array(zod.z.object({
+			"url": zod.z.string().readonly(),
+			"title": zod.z.union([zod.z.string(), zod.z.intersection(zod.z.object({ "en": zod.z.string().readonly() }), zod.z.record(zod.z.string(), zod.z.string()).readonly())]).readonly().optional().describe("Market title from the last successful read."),
+			"description": zod.z.union([zod.z.string(), zod.z.intersection(zod.z.object({ "en": zod.z.string().readonly() }), zod.z.record(zod.z.string(), zod.z.string()).readonly())]).readonly().optional(),
+			"error": zod.z.string().readonly().optional().describe("Failure message of the last read when it failed.")
+		}));
+		let _deepseek_ai_dsh_plugin_market_pluginMarket_search_parameter_0$schema$value;
+		const _deepseek_ai_dsh_plugin_market_pluginMarket_search_parameter_0$schema = () => _deepseek_ai_dsh_plugin_market_pluginMarket_search_parameter_0$schema$value ??= zod.z.string();
+		let _deepseek_ai_dsh_plugin_market_pluginMarket_search_parameter_1$schema$value;
+		const _deepseek_ai_dsh_plugin_market_pluginMarket_search_parameter_1$schema = () => _deepseek_ai_dsh_plugin_market_pluginMarket_search_parameter_1$schema$value ??= zod.z.object({
+			"text": zod.z.string().readonly().optional().describe("Fuzzy text matched against the package name, author, keywords, and every language of the title, description, and category and label titles. Every word must match a word in some field, as a prefix or within an edit distance of at most 2. Text without letters or digits matches every plugin."),
+			"category": zod.z.string().readonly().optional().describe("Category id the plugin must have."),
+			"labels": zod.z.array(zod.z.string()).readonly().optional().describe("Label ids the plugin must all have."),
+			"sort": zod.z.union([
+				zod.z.object({ "kind": zod.z.literal("index").readonly() }),
+				zod.z.object({ "kind": zod.z.literal("relevance").readonly() }),
+				zod.z.object({
+					"kind": zod.z.literal("published").readonly(),
+					"direction": zod.z.union([zod.z.literal("asc"), zod.z.literal("desc")]).readonly()
+				}),
+				zod.z.object({
+					"kind": zod.z.literal("key").readonly(),
+					"id": zod.z.string().readonly(),
+					"direction": zod.z.union([zod.z.literal("asc"), zod.z.literal("desc")]).readonly()
+				})
+			]).readonly(),
+			"offset": zod.z.number().readonly().describe("Number of matching plugins to skip; a non-negative integer."),
+			"limit": zod.z.number().readonly().describe("Largest number of plugins returned; an integer from 1 to 100."),
+			"refresh": zod.z.boolean().readonly().optional().describe("Fetch again instead of using a cached document."),
+			"fetchedAt": zod.z.number().readonly().optional().describe("`fetchedAt` of an earlier page: answer from that document while it is still cached, even after `cacheTtlMs`, so later pages continue the same results. Without `refresh`, a replaced document is answered as without this field.")
+		});
+		let _deepseek_ai_dsh_plugin_market_pluginMarket_search_result$schema$value;
+		const _deepseek_ai_dsh_plugin_market_pluginMarket_search_result$schema = () => _deepseek_ai_dsh_plugin_market_pluginMarket_search_result$schema$value ??= zod.z.object({
+			"url": zod.z.string().readonly(),
+			"title": zod.z.union([zod.z.string(), zod.z.intersection(zod.z.object({ "en": zod.z.string().readonly() }), zod.z.record(zod.z.string(), zod.z.string()).readonly())]).readonly(),
+			"description": zod.z.union([zod.z.string(), zod.z.intersection(zod.z.object({ "en": zod.z.string().readonly() }), zod.z.record(zod.z.string(), zod.z.string()).readonly())]).readonly().optional(),
+			"metadata": zod.z.object({
+				"categories": zod.z.record(zod.z.string(), zod.z.object({ "title": zod.z.union([zod.z.string(), zod.z.intersection(zod.z.object({ "en": zod.z.string().readonly() }), zod.z.record(zod.z.string(), zod.z.string()).readonly())]).readonly() })).readonly().readonly(),
+				"labels": zod.z.record(zod.z.string(), zod.z.object({ "title": zod.z.union([zod.z.string(), zod.z.intersection(zod.z.object({ "en": zod.z.string().readonly() }), zod.z.record(zod.z.string(), zod.z.string()).readonly())]).readonly() })).readonly().readonly(),
+				"sortKeys": zod.z.record(zod.z.string(), zod.z.object({
+					"title": zod.z.union([zod.z.string(), zod.z.intersection(zod.z.object({ "en": zod.z.string().readonly() }), zod.z.record(zod.z.string(), zod.z.string()).readonly())]).readonly(),
+					"order": zod.z.union([zod.z.literal("asc"), zod.z.literal("desc")]).readonly()
+				})).readonly().readonly()
+			}).readonly(),
+			"fetchedAt": zod.z.number().readonly().describe("Fetch time of the document answering this page, in Unix milliseconds; a different value means a different document."),
+			"entries": zod.z.array(zod.z.object({
+				"versions": zod.z.array(zod.z.object({
+					"install": zod.z.object({
+						"spec": zod.z.string().readonly().describe("Install spec accepted by `pnpm add`."),
+						"registry": zod.z.string().readonly().optional().describe("Registry to ask first; absent means the installing client's configured registry.")
+					}).readonly(),
+					"compatibility": zod.z.union([zod.z.object({ "compatible": zod.z.literal(true).readonly() }), zod.z.object({
+						"compatible": zod.z.literal(false).readonly(),
+						"runtimeVersion": zod.z.string().readonly(),
+						"requirements": zod.z.record(zod.z.string(), zod.z.string()).readonly().readonly().describe("The unmet requirement, keyed `engines.dsh`."),
+						"exempted": zod.z.boolean().readonly().describe("Whether the profile holds a version exemption for this exact package and runtime version.")
+					})]).readonly(),
+					"version": zod.z.string().readonly().describe("Exact SemVer version, unique within its plugin."),
+					"publishTimestamp": zod.z.number().readonly().describe("Publish time of `version` in Unix seconds."),
+					"source": zod.z.union([zod.z.object({
+						"type": zod.z.literal("npm").readonly(),
+						"registry": zod.z.string().readonly().optional().describe("http(s) registry URL; absent means the installing client's configured registry.")
+					}), zod.z.object({
+						"type": zod.z.literal("git").readonly(),
+						"url": zod.z.string().readonly().describe("Canonical https repository URL without credentials, query, or fragment."),
+						"commit": zod.z.string().readonly().describe("Lowercase 40-hex-digit commit SHA."),
+						"path": zod.z.string().readonly().optional().describe("Relative POSIX package directory; absent means the repository root.")
+					})]).readonly(),
+					"engines": zod.z.object({ "dsh": zod.z.string().readonly().optional().describe("SemVer range of DSH versions the version runs on; absent means any DSH version.") }).readonly()
+				})).readonly().describe("Non-empty, in descending SemVer precedence."),
+				"defaultVersion": zod.z.string().readonly().optional().describe("The version installed by default: the highest compatible version without a prerelease tag, or the highest compatible prerelease when the plugin lists no version without one. Absent when no such version is compatible."),
+				"installation": zod.z.object({
+					"status": zod.z.union([
+						zod.z.literal("not-installed"),
+						zod.z.literal("installed"),
+						zod.z.literal("update-available"),
+						zod.z.literal("different-version"),
+						zod.z.literal("provided")
+					]).readonly(),
+					"installedVersion": zod.z.string().readonly().optional()
+				}).readonly(),
+				"title": zod.z.union([zod.z.string(), zod.z.intersection(zod.z.object({ "en": zod.z.string().readonly() }), zod.z.record(zod.z.string(), zod.z.string()).readonly())]).readonly().optional(),
+				"name": zod.z.string().readonly().describe("npm package name, unique within its index."),
+				"description": zod.z.union([zod.z.string(), zod.z.intersection(zod.z.object({ "en": zod.z.string().readonly() }), zod.z.record(zod.z.string(), zod.z.string()).readonly())]).readonly().optional(),
+				"icon": zod.z.string().readonly().optional().describe("Base64 `data:` URL or absolute URL; a relative index reference is already resolved against the index URL."),
+				"author": zod.z.string().readonly().optional(),
+				"homepage": zod.z.string().readonly().optional().describe("Absolute http(s) URL of a page about the plugin."),
+				"repository": zod.z.object({
+					"url": zod.z.string().readonly().describe("Absolute http(s) URL of the repository's web page, without credentials, query, or fragment."),
+					"directory": zod.z.string().readonly().optional().describe("Relative POSIX directory of the package inside the repository; absent means the repository root.")
+				}).readonly().optional().describe("Web page of the plugin's source repository and its package directory; display only."),
+				"metadata": zod.z.object({
+					"category": zod.z.string().readonly().optional(),
+					"keywords": zod.z.array(zod.z.string()).readonly().describe("Free-form strings, conventionally from package keywords; absent input becomes an empty array."),
+					"labels": zod.z.array(zod.z.string()).readonly(),
+					"sortKeys": zod.z.record(zod.z.string(), zod.z.number()).readonly().readonly()
+				}).readonly()
+			})).readonly().describe("Matching plugins of this page, in result order."),
+			"total": zod.z.number().readonly().describe("Number of matching plugins across all pages."),
+			"nextOffset": zod.z.union([zod.z.literal(null), zod.z.number()]).readonly().describe("`offset` of the next page, or null after the last.")
+		});
+		let _deepseek_ai_dsh_plugin_market_pluginMarket_setIndexes_parameter_0$schema$value;
+		const _deepseek_ai_dsh_plugin_market_pluginMarket_setIndexes_parameter_0$schema = () => _deepseek_ai_dsh_plugin_market_pluginMarket_setIndexes_parameter_0$schema$value ??= zod.z.array(zod.z.string());
+		let _deepseek_ai_dsh_plugin_market_pluginMarket_setIndexes_result$schema$value;
+		const _deepseek_ai_dsh_plugin_market_pluginMarket_setIndexes_result$schema = () => _deepseek_ai_dsh_plugin_market_pluginMarket_setIndexes_result$schema$value ??= zod.z.void();
+		let _deepseek_ai_dsh_plugin_market_pluginMarket_search_parameter_0_strict$schema$value;
+		const _deepseek_ai_dsh_plugin_market_pluginMarket_search_parameter_0_strict$schema = () => _deepseek_ai_dsh_plugin_market_pluginMarket_search_parameter_0_strict$schema$value ??= zod.z.string();
+		let _deepseek_ai_dsh_plugin_market_pluginMarket_search_parameter_1_strict$schema$value;
+		const _deepseek_ai_dsh_plugin_market_pluginMarket_search_parameter_1_strict$schema = () => _deepseek_ai_dsh_plugin_market_pluginMarket_search_parameter_1_strict$schema$value ??= zod.z.strictObject({
+			"text": zod.z.string().readonly().optional().describe("Fuzzy text matched against the package name, author, keywords, and every language of the title, description, and category and label titles. Every word must match a word in some field, as a prefix or within an edit distance of at most 2. Text without letters or digits matches every plugin."),
+			"category": zod.z.string().readonly().optional().describe("Category id the plugin must have."),
+			"labels": zod.z.array(zod.z.string()).readonly().optional().describe("Label ids the plugin must all have."),
+			"sort": zod.z.union([
+				zod.z.strictObject({ "kind": zod.z.literal("index").readonly() }),
+				zod.z.strictObject({ "kind": zod.z.literal("relevance").readonly() }),
+				zod.z.strictObject({
+					"kind": zod.z.literal("published").readonly(),
+					"direction": zod.z.union([zod.z.literal("asc"), zod.z.literal("desc")]).readonly()
+				}),
+				zod.z.strictObject({
+					"kind": zod.z.literal("key").readonly(),
+					"id": zod.z.string().readonly(),
+					"direction": zod.z.union([zod.z.literal("asc"), zod.z.literal("desc")]).readonly()
+				})
+			]).readonly(),
+			"offset": zod.z.number().readonly().describe("Number of matching plugins to skip; a non-negative integer."),
+			"limit": zod.z.number().readonly().describe("Largest number of plugins returned; an integer from 1 to 100."),
+			"refresh": zod.z.boolean().readonly().optional().describe("Fetch again instead of using a cached document."),
+			"fetchedAt": zod.z.number().readonly().optional().describe("`fetchedAt` of an earlier page: answer from that document while it is still cached, even after `cacheTtlMs`, so later pages continue the same results. Without `refresh`, a replaced document is answered as without this field.")
+		});
+		let _deepseek_ai_dsh_plugin_market_pluginMarket_setIndexes_parameter_0_strict$schema$value;
+		const _deepseek_ai_dsh_plugin_market_pluginMarket_setIndexes_parameter_0_strict$schema = () => _deepseek_ai_dsh_plugin_market_pluginMarket_setIndexes_parameter_0_strict$schema$value ??= zod.z.array(zod.z.string());
+		const TYPERT_REMOTE$12 = createTypertRemoteInfo({
+			package: "@deepseek-ai/dsh-plugin-market",
+			methods: {
+				"pluginMarket/listIndexes": {
+					service: "pluginMarket",
+					description: "List the configured index sources without fetching them.",
+					invocation: { kind: "direct" },
+					parameters: [],
+					result: {
+						mode: "strict",
+						typeSymbol: "@deepseek-ai/dsh-plugin-market#pluginMarket/listIndexes:result",
+						create: _deepseek_ai_dsh_plugin_market_pluginMarket_listIndexes_result$schema,
+						description: "every source in order, with the title of its last successful read and, when the last read failed, its error.",
+						jsonSchemaError: "typert tool schema: selected dictionaries require string keys and unconstrained JSON values"
+					},
+					sourceLocation: {
+						"file": "packages/boot/plugin-market/src/index.ts",
+						"line": 115,
+						"column": 3
+					}
+				},
+				"pluginMarket/search": {
+					service: "pluginMarket",
+					description: "Return one page of the plugins of a configured index that match a query. Concurrent reads of a URL share one fetch; a successful document is reused for `cacheTtlMs` unless `refresh` is set. Matching and ordering read only the document; installation status and compatibility are computed for the returned page on every call.",
+					invocation: { kind: "direct" },
+					parameters: [{
+						name: "url",
+						description: "a configured index URL.",
+						source: "json",
+						codec: {
+							mode: "strict",
+							typeSymbol: "@deepseek-ai/dsh-plugin-market#pluginMarket/search:url",
+							create: _deepseek_ai_dsh_plugin_market_pluginMarket_search_parameter_0$schema,
+							jsonSchema: { "type": "string" }
+						},
+						strictCodec: {
+							mode: "strict",
+							typeSymbol: "@deepseek-ai/dsh-plugin-market#pluginMarket/search:url",
+							create: _deepseek_ai_dsh_plugin_market_pluginMarket_search_parameter_0_strict$schema,
+							jsonSchema: { "type": "string" }
+						}
+					}, {
+						name: "query",
+						description: "text, filters, order, page, and whether to bypass the cached document.",
+						source: "json",
+						codec: {
+							mode: "strict",
+							typeSymbol: "@deepseek-ai/dsh-plugin-market/types#MarketQuery",
+							create: _deepseek_ai_dsh_plugin_market_pluginMarket_search_parameter_1$schema,
+							jsonSchema: {
+								"type": "object",
+								"properties": {
+									"text": {
+										"type": "string",
+										"description": "Fuzzy text matched against the package name, author, keywords, and every language of the title, description, and category and label titles. Every word must match a word in some field, as a prefix or within an edit distance of at most 2. Text without letters or digits matches every plugin."
+									},
+									"category": {
+										"type": "string",
+										"description": "Category id the plugin must have."
+									},
+									"labels": {
+										"type": "array",
+										"items": { "type": "string" },
+										"description": "Label ids the plugin must all have."
+									},
+									"sort": { "oneOf": [
+										{
+											"type": "object",
+											"properties": { "kind": {
+												"type": "string",
+												"const": "index"
+											} },
+											"required": ["kind"],
+											"additionalProperties": true
+										},
+										{
+											"type": "object",
+											"properties": { "kind": {
+												"type": "string",
+												"const": "relevance"
+											} },
+											"required": ["kind"],
+											"additionalProperties": true
+										},
+										{
+											"type": "object",
+											"properties": {
+												"kind": {
+													"type": "string",
+													"const": "published"
+												},
+												"direction": {
+													"type": "string",
+													"enum": ["asc", "desc"]
+												}
+											},
+											"required": ["kind", "direction"],
+											"additionalProperties": true
+										},
+										{
+											"type": "object",
+											"properties": {
+												"kind": {
+													"type": "string",
+													"const": "key"
+												},
+												"id": { "type": "string" },
+												"direction": {
+													"type": "string",
+													"enum": ["asc", "desc"]
+												}
+											},
+											"required": [
+												"kind",
+												"id",
+												"direction"
+											],
+											"additionalProperties": true
+										}
+									] },
+									"offset": {
+										"type": "number",
+										"description": "Number of matching plugins to skip; a non-negative integer."
+									},
+									"limit": {
+										"type": "number",
+										"description": "Largest number of plugins returned; an integer from 1 to 100."
+									},
+									"refresh": {
+										"type": "boolean",
+										"description": "Fetch again instead of using a cached document."
+									},
+									"fetchedAt": {
+										"type": "number",
+										"description": "`fetchedAt` of an earlier page: answer from that document while it is still cached, even after `cacheTtlMs`, so later pages continue the same results. Without `refresh`, a replaced document is answered as without this field."
+									}
+								},
+								"required": [
+									"sort",
+									"offset",
+									"limit"
+								],
+								"additionalProperties": true
+							}
+						},
+						strictCodec: {
+							mode: "strict",
+							typeSymbol: "@deepseek-ai/dsh-plugin-market/types#MarketQuery",
+							create: _deepseek_ai_dsh_plugin_market_pluginMarket_search_parameter_1_strict$schema,
+							jsonSchema: {
+								"type": "object",
+								"properties": {
+									"text": {
+										"type": "string",
+										"description": "Fuzzy text matched against the package name, author, keywords, and every language of the title, description, and category and label titles. Every word must match a word in some field, as a prefix or within an edit distance of at most 2. Text without letters or digits matches every plugin."
+									},
+									"category": {
+										"type": "string",
+										"description": "Category id the plugin must have."
+									},
+									"labels": {
+										"type": "array",
+										"items": { "type": "string" },
+										"description": "Label ids the plugin must all have."
+									},
+									"sort": { "oneOf": [
+										{
+											"type": "object",
+											"properties": { "kind": {
+												"type": "string",
+												"const": "index"
+											} },
+											"required": ["kind"],
+											"additionalProperties": false
+										},
+										{
+											"type": "object",
+											"properties": { "kind": {
+												"type": "string",
+												"const": "relevance"
+											} },
+											"required": ["kind"],
+											"additionalProperties": false
+										},
+										{
+											"type": "object",
+											"properties": {
+												"kind": {
+													"type": "string",
+													"const": "published"
+												},
+												"direction": {
+													"type": "string",
+													"enum": ["asc", "desc"]
+												}
+											},
+											"required": ["kind", "direction"],
+											"additionalProperties": false
+										},
+										{
+											"type": "object",
+											"properties": {
+												"kind": {
+													"type": "string",
+													"const": "key"
+												},
+												"id": { "type": "string" },
+												"direction": {
+													"type": "string",
+													"enum": ["asc", "desc"]
+												}
+											},
+											"required": [
+												"kind",
+												"id",
+												"direction"
+											],
+											"additionalProperties": false
+										}
+									] },
+									"offset": {
+										"type": "number",
+										"description": "Number of matching plugins to skip; a non-negative integer."
+									},
+									"limit": {
+										"type": "number",
+										"description": "Largest number of plugins returned; an integer from 1 to 100."
+									},
+									"refresh": {
+										"type": "boolean",
+										"description": "Fetch again instead of using a cached document."
+									},
+									"fetchedAt": {
+										"type": "number",
+										"description": "`fetchedAt` of an earlier page: answer from that document while it is still cached, even after `cacheTtlMs`, so later pages continue the same results. Without `refresh`, a replaced document is answered as without this field."
+									}
+								},
+								"required": [
+									"sort",
+									"offset",
+									"limit"
+								],
+								"additionalProperties": false
+							}
+						}
+					}],
+					result: {
+						mode: "strict",
+						typeSymbol: "@deepseek-ai/dsh-plugin-market/types#MarketSearchResult",
+						create: _deepseek_ai_dsh_plugin_market_pluginMarket_search_result$schema,
+						description: "the index header, the page's plugins with each plugin's default version and installation status and each version's compatibility and install arguments, the number of matches, and the next page's offset.",
+						jsonSchemaError: "typert tool schema: selected dictionaries require string keys and unconstrained JSON values"
+					},
+					sourceLocation: {
+						"file": "packages/boot/plugin-market/src/index.ts",
+						"line": 164,
+						"column": 9
+					}
+				},
+				"pluginMarket/setIndexes": {
+					service: "pluginMarket",
+					description: "Replace the configured index sources through Settings, without remounting this service. `plugin-market/changed` announces the committed list. A URL already configured is kept as written, so a client can add or remove sources beside one that `listIndexes` reports as unusable.",
+					invocation: { kind: "direct" },
+					parameters: [{
+						name: "urls",
+						description: "index URLs in display order.",
+						source: "json",
+						codec: {
+							mode: "strict",
+							typeSymbol: "@deepseek-ai/dsh-plugin-market#pluginMarket/setIndexes:urls",
+							create: _deepseek_ai_dsh_plugin_market_pluginMarket_setIndexes_parameter_0$schema,
+							jsonSchema: {
+								"type": "array",
+								"items": { "type": "string" }
+							}
+						},
+						strictCodec: {
+							mode: "strict",
+							typeSymbol: "@deepseek-ai/dsh-plugin-market#pluginMarket/setIndexes:urls",
+							create: _deepseek_ai_dsh_plugin_market_pluginMarket_setIndexes_parameter_0_strict$schema,
+							jsonSchema: {
+								"type": "array",
+								"items": { "type": "string" }
+							}
+						}
+					}],
+					result: {
+						mode: "strict",
+						typeSymbol: "@deepseek-ai/dsh-plugin-market#pluginMarket/setIndexes:result",
+						create: _deepseek_ai_dsh_plugin_market_pluginMarket_setIndexes_result$schema,
+						jsonSchemaError: "typert tool schema: unsupported void value"
+					},
+					sourceLocation: {
+						"file": "packages/boot/plugin-market/src/index.ts",
+						"line": 136,
+						"column": 9
+					}
+				}
+			}
+		}, zod.z);
+		//#endregion
+		//#region ../../host/plugin-inventory/lib/typert.remote-client.js
+		let _deepseek_ai_dsh_host_plugin_inventory_pluginInventory_list_result$schema$value;
+		const _deepseek_ai_dsh_host_plugin_inventory_pluginInventory_list_result$schema = () => _deepseek_ai_dsh_host_plugin_inventory_pluginInventory_list_result$schema$value ??= zod.z.object({
+			"managementAvailable": zod.z.boolean().readonly().optional().describe("Whether this Host exposes persistent current-profile management."),
+			"entries": zod.z.array(zod.z.object({
+				"entryId": zod.z.string().readonly(),
+				"moduleName": zod.z.string().readonly().describe("Exact module specifier imported by the Loader entry."),
+				"meta": zod.z.object({
+					"title": zod.z.union([zod.z.string(), zod.z.intersection(zod.z.object({ "en": zod.z.string().readonly() }), zod.z.record(zod.z.string(), zod.z.string()).readonly())]).readonly().optional().describe("Display title; omission preserves the consumer's technical-name fallback."),
+					"description": zod.z.union([zod.z.string(), zod.z.intersection(zod.z.object({ "en": zod.z.string().readonly() }), zod.z.record(zod.z.string(), zod.z.string()).readonly())]).readonly().optional().describe("Display introduction after locale and package-field fallback."),
+					"icon": zod.z.string().readonly().optional().describe("Base64 image data URL from a package root's manifest icon or an exported `<specifier>/icon`; render as an image, not inline markup."),
+					"error": zod.z.string().readonly().optional().describe("Unmodified local metadata diagnostic; the plugin remains manageable.")
+				}).readonly().optional().describe("Local package display metadata, independent of whether the entry is enabled."),
+				"enabled": zod.z.boolean().readonly().describe("Effective Loader enablement, including disabled ancestor groups."),
+				"fiberPhase": zod.z.union([
+					zod.z.literal(null),
+					zod.z.literal("failed"),
+					zod.z.literal("pending"),
+					zod.z.literal("active"),
+					zod.z.literal("loading"),
+					zod.z.literal("unloading")
+				]).readonly()
+			})).readonly(),
+			"agentPresets": zod.z.array(zod.z.object({
+				"id": zod.z.string().readonly().describe("Stable preset id."),
+				"name": zod.z.string().readonly().optional().describe("Display name the preset published; a reader falls back to the id."),
+				"isDefault": zod.z.boolean().readonly().describe("Whether a session naming no preset composes this one."),
+				"broken": zod.z.string().readonly().optional().describe("Why this preset's composition cannot be read; absent when rows answer."),
+				"rows": zod.z.array(zod.z.object({
+					"entryId": zod.z.union([zod.z.literal(null), zod.z.string()]).readonly().describe("Composition row id, or null when the row declares none."),
+					"moduleName": zod.z.string().readonly().describe("Module specifier the row names."),
+					"meta": zod.z.object({
+						"title": zod.z.union([zod.z.string(), zod.z.intersection(zod.z.object({ "en": zod.z.string().readonly() }), zod.z.record(zod.z.string(), zod.z.string()).readonly())]).readonly().optional().describe("Display title; omission preserves the consumer's technical-name fallback."),
+						"description": zod.z.union([zod.z.string(), zod.z.intersection(zod.z.object({ "en": zod.z.string().readonly() }), zod.z.record(zod.z.string(), zod.z.string()).readonly())]).readonly().optional().describe("Display introduction after locale and package-field fallback."),
+						"icon": zod.z.string().readonly().optional().describe("Base64 image data URL from a package root's manifest icon or an exported `<specifier>/icon`; render as an image, not inline markup."),
+						"error": zod.z.string().readonly().optional().describe("Unmodified local metadata diagnostic; the plugin remains manageable.")
+					}).readonly().optional().describe("Local package display metadata, independent of whether the preset is mounted."),
+					"enabled": zod.z.union([
+						zod.z.literal(false),
+						zod.z.literal(true),
+						zod.z.literal("conditional")
+					]).readonly().describe("Effective enablement, including disabled ancestor groups. `'conditional'` marks a `!!js` disabled expression on a composition no session has mounted, which only a Loader context can decide."),
+					"condition": zod.z.string().readonly().optional().describe("The row's own `!!js` disabled expression, when it carries one."),
+					"fiberPhase": zod.z.union([
+						zod.z.literal(null),
+						zod.z.literal("failed"),
+						zod.z.literal("pending"),
+						zod.z.literal("active"),
+						zod.z.literal("loading"),
+						zod.z.literal("unloading")
+					]).readonly().describe("Root-fiber phase when the composition is live; null otherwise.")
+				})).readonly().describe("Plugin rows in composition order; empty when the preset is broken.")
+			})).readonly().optional().describe("Per-preset compositions, present only when an agent-preset roster is composed in this deployment.")
+		});
+		const TYPERT_REMOTE$11 = createTypertRemoteInfo({
+			package: "@deepseek-ai/dsh-host-plugin-inventory",
+			methods: { "pluginInventory/list": {
+				service: "pluginInventory",
+				description: "Read the Loader directly on every call. Cordis's internal plugin/status events already maintain Entry.fiber and Fiber.state, so a second cache would only add another lifecycle truth to keep synchronized. When an agent-preset roster is composed, the snapshot also carries each preset's composition rows, because those rows — not the Loader's own entries — are where a deployment that mounts the roster runs its model-facing plugins.",
+				invocation: { kind: "direct" },
+				parameters: [],
+				result: {
+					mode: "strict",
+					typeSymbol: "@deepseek-ai/dsh-host-plugin-inventory/types#PluginInventorySnapshot",
+					create: _deepseek_ai_dsh_host_plugin_inventory_pluginInventory_list_result$schema,
+					description: "Current non-group Loader entries in Loader order, with optional display metadata and per-preset compositions when a roster is composed.",
+					jsonSchemaError: "typert tool schema: selected dictionaries require string keys and unconstrained JSON values"
+				},
+				sourceLocation: {
+					"file": "packages/host/plugin-inventory/src/index.ts",
+					"line": 71,
+					"column": 9
+				}
+			} }
+		}, zod.z);
+		//#endregion
+		//#region ../../feedback/message-feedback/lib/typert.remote-client.js
+		let _deepseek_ai_dsh_message_feedback_messageFeedback_delete_parameter_0$schema$value;
+		const _deepseek_ai_dsh_message_feedback_messageFeedback_delete_parameter_0$schema = () => _deepseek_ai_dsh_message_feedback_messageFeedback_delete_parameter_0$schema$value ??= zod.z.object({
+			"sessionId": zod.z.string().readonly().describe("Session that owns the feedback."),
+			"messageId": zod.z.string().readonly().describe("Message whose feedback should be absent after this operation."),
+			"ifVersion": zod.z.string().readonly().describe("Observed item version; ignored when the item is already absent.")
+		});
+		let _deepseek_ai_dsh_message_feedback_messageFeedback_delete_result$schema$value;
+		const _deepseek_ai_dsh_message_feedback_messageFeedback_delete_result$schema = () => _deepseek_ai_dsh_message_feedback_messageFeedback_delete_result$schema$value ??= zod.z.union([zod.z.object({
+			"ok": zod.z.literal(true).readonly(),
+			"value": zod.z.object({ "absent": zod.z.literal(true).readonly().describe("Stable postcondition shared by the first deletion and every retry.") }).readonly()
+		}), zod.z.object({
+			"ok": zod.z.literal(false).readonly(),
+			"error": zod.z.union([zod.z.object({
+				"code": zod.z.literal("session-not-found").readonly(),
+				"sessionId": zod.z.string().readonly()
+			}), zod.z.object({
+				"code": zod.z.literal("version-conflict").readonly(),
+				"current": zod.z.union([zod.z.literal(null), zod.z.object({
+					"messageId": zod.z.string().readonly().describe("Stable identity of the assistant message inside the owning Session."),
+					"rating": zod.z.union([zod.z.literal("positive"), zod.z.literal("negative")]).readonly().describe("Overall positive or negative judgment."),
+					"note": zod.z.string().readonly().optional().describe("Optional explanation, preserved verbatim after validation."),
+					"category": zod.z.union([
+						zod.z.literal("other"),
+						zod.z.literal("task-result"),
+						zod.z.literal("instruction-following"),
+						zod.z.literal("product-interaction"),
+						zod.z.literal("service-stability"),
+						zod.z.literal("resource-cost"),
+						zod.z.literal("security-privacy-permission")
+					]).readonly().optional().describe("Category the human filed the judgment under."),
+					"version": zod.z.string().readonly().describe("Equality-only token replaced by every material create or update."),
+					"createdAt": zod.z.number().readonly().describe("Host-assigned creation time in Unix epoch milliseconds."),
+					"updatedAt": zod.z.number().readonly().describe("Host-assigned time of the most recent material update.")
+				})]).readonly().describe("Authoritative current item, or `null` when it does not exist.")
+			})]).readonly()
+		})]);
+		let _deepseek_ai_dsh_message_feedback_messageFeedback_list_parameter_0$schema$value;
+		const _deepseek_ai_dsh_message_feedback_messageFeedback_list_parameter_0$schema = () => _deepseek_ai_dsh_message_feedback_messageFeedback_list_parameter_0$schema$value ??= zod.z.object({ "sessionId": zod.z.string().readonly().describe("Session whose feedback events should be read.") });
+		let _deepseek_ai_dsh_message_feedback_messageFeedback_list_result$schema$value;
+		const _deepseek_ai_dsh_message_feedback_messageFeedback_list_result$schema = () => _deepseek_ai_dsh_message_feedback_messageFeedback_list_result$schema$value ??= zod.z.union([zod.z.object({
+			"ok": zod.z.literal(true).readonly(),
+			"value": zod.z.object({ "items": zod.z.array(zod.z.object({
+				"messageId": zod.z.string().readonly().describe("Stable identity of the assistant message inside the owning Session."),
+				"rating": zod.z.union([zod.z.literal("positive"), zod.z.literal("negative")]).readonly().describe("Overall positive or negative judgment."),
+				"note": zod.z.string().readonly().optional().describe("Optional explanation, preserved verbatim after validation."),
+				"category": zod.z.union([
+					zod.z.literal("other"),
+					zod.z.literal("task-result"),
+					zod.z.literal("instruction-following"),
+					zod.z.literal("product-interaction"),
+					zod.z.literal("service-stability"),
+					zod.z.literal("resource-cost"),
+					zod.z.literal("security-privacy-permission")
+				]).readonly().optional().describe("Category the human filed the judgment under."),
+				"version": zod.z.string().readonly().describe("Equality-only token replaced by every material create or update."),
+				"createdAt": zod.z.number().readonly().describe("Host-assigned creation time in Unix epoch milliseconds."),
+				"updatedAt": zod.z.number().readonly().describe("Host-assigned time of the most recent material update.")
+			})).readonly().describe("Fresh immutable item snapshots.") }).readonly()
+		}), zod.z.object({
+			"ok": zod.z.literal(false).readonly(),
+			"error": zod.z.object({
+				"code": zod.z.literal("session-not-found").readonly(),
+				"sessionId": zod.z.string().readonly()
+			}).readonly()
+		})]);
+		let _deepseek_ai_dsh_message_feedback_messageFeedback_put_parameter_0$schema$value;
+		const _deepseek_ai_dsh_message_feedback_messageFeedback_put_parameter_0$schema = () => _deepseek_ai_dsh_message_feedback_messageFeedback_put_parameter_0$schema$value ??= zod.z.object({
+			"sessionId": zod.z.string().readonly().describe("Persisted Session that owns the target message."),
+			"messageId": zod.z.string().readonly().describe("Target assistant-message identity."),
+			"rating": zod.z.union([zod.z.literal("positive"), zod.z.literal("negative")]).readonly().describe("Desired overall judgment."),
+			"note": zod.z.string().readonly().optional().describe("Optional non-blank explanation."),
+			"category": zod.z.union([
+				zod.z.literal("other"),
+				zod.z.literal("task-result"),
+				zod.z.literal("instruction-following"),
+				zod.z.literal("product-interaction"),
+				zod.z.literal("service-stability"),
+				zod.z.literal("resource-cost"),
+				zod.z.literal("security-privacy-permission")
+			]).readonly().optional().describe("Optional category; absent keeps the item uncategorized."),
+			"ifVersion": zod.z.union([zod.z.literal(null), zod.z.string()]).readonly().describe("Observed item version, or `null` to require that no item exists.")
+		});
+		let _deepseek_ai_dsh_message_feedback_messageFeedback_put_result$schema$value;
+		const _deepseek_ai_dsh_message_feedback_messageFeedback_put_result$schema = () => _deepseek_ai_dsh_message_feedback_messageFeedback_put_result$schema$value ??= zod.z.union([zod.z.object({
+			"ok": zod.z.literal(true).readonly(),
+			"value": zod.z.object({
+				"messageId": zod.z.string().readonly().describe("Stable identity of the assistant message inside the owning Session."),
+				"rating": zod.z.union([zod.z.literal("positive"), zod.z.literal("negative")]).readonly().describe("Overall positive or negative judgment."),
+				"note": zod.z.string().readonly().optional().describe("Optional explanation, preserved verbatim after validation."),
+				"category": zod.z.union([
+					zod.z.literal("other"),
+					zod.z.literal("task-result"),
+					zod.z.literal("instruction-following"),
+					zod.z.literal("product-interaction"),
+					zod.z.literal("service-stability"),
+					zod.z.literal("resource-cost"),
+					zod.z.literal("security-privacy-permission")
+				]).readonly().optional().describe("Category the human filed the judgment under."),
+				"version": zod.z.string().readonly().describe("Equality-only token replaced by every material create or update."),
+				"createdAt": zod.z.number().readonly().describe("Host-assigned creation time in Unix epoch milliseconds."),
+				"updatedAt": zod.z.number().readonly().describe("Host-assigned time of the most recent material update.")
+			}).readonly()
+		}), zod.z.object({
+			"ok": zod.z.literal(false).readonly(),
+			"error": zod.z.union([
+				zod.z.object({
+					"code": zod.z.literal("session-not-found").readonly(),
+					"sessionId": zod.z.string().readonly()
+				}),
+				zod.z.object({
+					"code": zod.z.literal("target-not-found").readonly(),
+					"sessionId": zod.z.string().readonly(),
+					"messageId": zod.z.string().readonly()
+				}),
+				zod.z.object({
+					"code": zod.z.literal("version-conflict").readonly(),
+					"current": zod.z.union([zod.z.literal(null), zod.z.object({
+						"messageId": zod.z.string().readonly().describe("Stable identity of the assistant message inside the owning Session."),
+						"rating": zod.z.union([zod.z.literal("positive"), zod.z.literal("negative")]).readonly().describe("Overall positive or negative judgment."),
+						"note": zod.z.string().readonly().optional().describe("Optional explanation, preserved verbatim after validation."),
+						"category": zod.z.union([
+							zod.z.literal("other"),
+							zod.z.literal("task-result"),
+							zod.z.literal("instruction-following"),
+							zod.z.literal("product-interaction"),
+							zod.z.literal("service-stability"),
+							zod.z.literal("resource-cost"),
+							zod.z.literal("security-privacy-permission")
+						]).readonly().optional().describe("Category the human filed the judgment under."),
+						"version": zod.z.string().readonly().describe("Equality-only token replaced by every material create or update."),
+						"createdAt": zod.z.number().readonly().describe("Host-assigned creation time in Unix epoch milliseconds."),
+						"updatedAt": zod.z.number().readonly().describe("Host-assigned time of the most recent material update.")
+					})]).readonly().describe("Authoritative current item, or `null` when it does not exist.")
+				}),
+				zod.z.object({ "code": zod.z.literal("note-blank").readonly() }),
+				zod.z.object({
+					"code": zod.z.literal("note-too-large").readonly(),
+					"maxBytes": zod.z.number().readonly(),
+					"actualBytes": zod.z.number().readonly()
+				})
+			]).readonly()
+		})]);
+		let _deepseek_ai_dsh_message_feedback_messageFeedback_delete_parameter_0_strict$schema$value;
+		const _deepseek_ai_dsh_message_feedback_messageFeedback_delete_parameter_0_strict$schema = () => _deepseek_ai_dsh_message_feedback_messageFeedback_delete_parameter_0_strict$schema$value ??= zod.z.strictObject({
+			"sessionId": zod.z.string().readonly().describe("Session that owns the feedback."),
+			"messageId": zod.z.string().readonly().describe("Message whose feedback should be absent after this operation."),
+			"ifVersion": zod.z.string().readonly().describe("Observed item version; ignored when the item is already absent.")
+		});
+		let _deepseek_ai_dsh_message_feedback_messageFeedback_list_parameter_0_strict$schema$value;
+		const _deepseek_ai_dsh_message_feedback_messageFeedback_list_parameter_0_strict$schema = () => _deepseek_ai_dsh_message_feedback_messageFeedback_list_parameter_0_strict$schema$value ??= zod.z.strictObject({ "sessionId": zod.z.string().readonly().describe("Session whose feedback events should be read.") });
+		let _deepseek_ai_dsh_message_feedback_messageFeedback_put_parameter_0_strict$schema$value;
+		const _deepseek_ai_dsh_message_feedback_messageFeedback_put_parameter_0_strict$schema = () => _deepseek_ai_dsh_message_feedback_messageFeedback_put_parameter_0_strict$schema$value ??= zod.z.strictObject({
+			"sessionId": zod.z.string().readonly().describe("Persisted Session that owns the target message."),
+			"messageId": zod.z.string().readonly().describe("Target assistant-message identity."),
+			"rating": zod.z.union([zod.z.literal("positive"), zod.z.literal("negative")]).readonly().describe("Desired overall judgment."),
+			"note": zod.z.string().readonly().optional().describe("Optional non-blank explanation."),
+			"category": zod.z.union([
+				zod.z.literal("other"),
+				zod.z.literal("task-result"),
+				zod.z.literal("instruction-following"),
+				zod.z.literal("product-interaction"),
+				zod.z.literal("service-stability"),
+				zod.z.literal("resource-cost"),
+				zod.z.literal("security-privacy-permission")
+			]).readonly().optional().describe("Optional category; absent keeps the item uncategorized."),
+			"ifVersion": zod.z.union([zod.z.literal(null), zod.z.string()]).readonly().describe("Observed item version, or `null` to require that no item exists.")
+		});
+		const TYPERT_REMOTE$10 = createTypertRemoteInfo({
+			package: "@deepseek-ai/dsh-message-feedback",
+			methods: {
+				"messageFeedback/delete": {
+					service: "messageFeedback",
+					description: "Delete one item after checking its version; absence succeeds without an event.",
+					invocation: { kind: "direct" },
+					parameters: [{
+						name: "request",
+						description: "Session, message, and observed item version.",
+						source: "json",
+						codec: {
+							mode: "strict",
+							typeSymbol: "@deepseek-ai/dsh-message-feedback/types#MessageFeedbackDeleteRequest",
+							create: _deepseek_ai_dsh_message_feedback_messageFeedback_delete_parameter_0$schema,
+							jsonSchema: {
+								"type": "object",
+								"properties": {
+									"sessionId": {
+										"type": "string",
+										"description": "Session that owns the feedback."
+									},
+									"messageId": {
+										"type": "string",
+										"description": "Message whose feedback should be absent after this operation."
+									},
+									"ifVersion": {
+										"type": "string",
+										"description": "Observed item version; ignored when the item is already absent."
+									}
+								},
+								"required": [
+									"sessionId",
+									"messageId",
+									"ifVersion"
+								],
+								"additionalProperties": true
+							}
+						},
+						strictCodec: {
+							mode: "strict",
+							typeSymbol: "@deepseek-ai/dsh-message-feedback/types#MessageFeedbackDeleteRequest",
+							create: _deepseek_ai_dsh_message_feedback_messageFeedback_delete_parameter_0_strict$schema,
+							jsonSchema: {
+								"type": "object",
+								"properties": {
+									"sessionId": {
+										"type": "string",
+										"description": "Session that owns the feedback."
+									},
+									"messageId": {
+										"type": "string",
+										"description": "Message whose feedback should be absent after this operation."
+									},
+									"ifVersion": {
+										"type": "string",
+										"description": "Observed item version; ignored when the item is already absent."
+									}
+								},
+								"required": [
+									"sessionId",
+									"messageId",
+									"ifVersion"
+								],
+								"additionalProperties": false
+							}
+						}
+					}],
+					result: {
+						mode: "strict",
+						typeSymbol: "@deepseek-ai/dsh-message-feedback/types#MessageFeedbackDeleteResult",
+						create: _deepseek_ai_dsh_message_feedback_messageFeedback_delete_result$schema,
+						description: "the stable absent postcondition or an explicit failure.",
+						jsonSchema: { "oneOf": [{
+							"type": "object",
+							"properties": {
+								"ok": {
+									"type": "boolean",
+									"const": true
+								},
+								"value": {
+									"type": "object",
+									"properties": { "absent": {
+										"type": "boolean",
+										"const": true,
+										"description": "Stable postcondition shared by the first deletion and every retry."
+									} },
+									"required": ["absent"],
+									"additionalProperties": true
+								}
+							},
+							"required": ["ok", "value"],
+							"additionalProperties": true
+						}, {

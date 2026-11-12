@@ -1,0 +1,73 @@
+{
+  "name": "@galaxy-blackhole/gbh-experimental-client-ui-voice-input",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "type": "module",
+  "main": "lib/index.js",
+  "description": "Record speech and insert editable text into the conversation draft",
+  "scripts": {
+    "build": "bun run build.ts"
+  },
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./client": "./lib/client.js",
+    "./locale/*.json": "./locale/*.json",
+    "./package.json": "./package.json"
+  },
+  "dsh": {
+    "client": {
+      "inject": [
+        "@galaxy-blackhole/gbh-api-remotes",
+        "@galaxy-blackhole/gbh-api-session-controller",
+        "@galaxy-blackhole/gbh-client-locale",
+        "@galaxy-blackhole/gbh-client-ui-conversation",
+        "@galaxy-blackhole/gbh-client-ui-primitives",
+        "@galaxy-blackhole/gbh-api-gateway",
+        "@galaxy-blackhole/gbh-client-ui-plugin-manager"
+      ],
+      "platform": "web",
+      "external": [
+        "@deepseek-ai/dsh-api-gateway/client"
+      ]
+    }
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2"
+  },
+  "devDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2"
+  },
+  "license": "MIT",
+  "gbh": {
+    "peers": [
+      "@deepseek-ai/cordis"
+    ],
+    "tests": [
+      "tests/host/experimental-client-ui-voice-input.test.ts"
+    ],
+    "draft": "KHÔNG có gbh.row: row thật nằm trong bundle patch dsh-experimental-voice-input-bundle (dump-now2 dòng 1565-1566: id ui-voice-input, name '@deepseek-ai/dsh-experimental-client-ui-voice-input', KHÔNG config/inject/disabled), không phải top-level của .parity/dumps/2026-10-18T01-31-57 (top-level grep voice/speech/stt/audio = 0). dsh.client của stock (NGUYÊN VĂN, package.json @0.2.1-alpha.4): {\"inject\":[\"@deepseek-ai/dsh-api-remotes\",\"@deepseek-ai/dsh-api-session-controller\",\"@deepseek-ai/dsh-client-locale\",\"@deepseek-ai/dsh-client-ui-conversation\",\"@galaxy-blackhole/gbh-client-ui-primitives\",\"@deepseek-ai/dsh-api-gateway\",\"@deepseek-ai/dsh-client-ui-plugin-manager\"],\"platform\":\"web\",\"external\":[\"@deepseek-ai/dsh-api-gateway/client\"]} — brief ghi '10 gói', ĐO ĐƯỢC 7 mục inject + 1 external; ghi số đo, nêu lệch để Lead đối chiếu. Vì row tồn tại trong bundle patch nên KHÔNG dùng insertOnly; vẫn CHUA mount/flip: chỉ flip sau khi (a) nửa client + 7 inject + test UI xanh, (b) khai gbh.row { id: 'ui-voice-input', moduleIds, aliases, tests }, (c) lab:row + boot-smoke + reviewer ký.",
+    "row": {
+      "id": "ui-voice-input",
+      "moduleIds": [
+        "@galaxy-blackhole/gbh-experimental-client-ui-voice-input"
+      ],
+      "aliases": [
+        "@deepseek-ai/dsh-experimental-client-ui-voice-input"
+      ],
+      "tests": [
+        "tests/host/experimental-client-ui-voice-input.test.ts"
+      ],
+      "ownedByBundle": true
+    },
+    "provenance": {
+      "stock": "@deepseek-ai/dsh-experimental-client-ui-voice-input",
+      "version": "0.2.1-alpha.4",
+      "sha": "00b2b3334e01588489b0183cad54ab07ee716bcaccb2e8cdaf1159e61863f2a1",
+      "shaFile": "lib/client.js"
+    }
+  },
+  "types": "lib/types/index.d.ts"
+}

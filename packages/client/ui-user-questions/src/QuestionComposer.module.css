@@ -1,0 +1,59 @@
+/**
+ * author Bùi Trọng Hiếu
+ * email kevinbui210191@gmail.com
+ * create date 15/10/2026
+ * modify date 05/11/2026
+ * desc CSS khung soạn câu trả lời — KHÔI PHỤC từ bundle lib/client.js sau sự cố mất tệp (05/11/2026).
+ */
+
+.row{flex-direction:column;justify-content:flex-end;align-items:flex-end;gap:6px;padding:4px 0;display:flex}
+
+.bubble{border-radius:var(--dsw-radius-xl);background:var(--dsw-specific-bubble);max-width:72%;color:var(--dsw-alias-label-primary);cursor:pointer;font-size:var(--gbh-content-font-size,14px);line-height:calc(22px + var(--gbh-content-font-delta,0px));text-align:left;overflow-wrap:anywhere;white-space:pre-wrap;padding:10px 16px}
+
+.toggle{width:100%;color:inherit;cursor:pointer;font:inherit;text-align:left;background:0 0;border:0;padding:0}
+
+.toggle:focus-visible{outline:2px solid var(--dsw-focus-ring-color,var(--dsw-alias-state-business-primary));outline-offset:2px}
+
+.bubble:has(.toggle:focus-visible){box-shadow:0 0 0 2px var(--dsw-focus-ring-color,var(--dsw-alias-state-business-primary))}
+
+.labelRow{align-items:center;gap:3px;display:flex}
+
+.caret{color:var(--dsw-alias-label-secondary);display:inline-flex}
+
+.caret svg{width:12px;height:12px}
+
+.label{color:var(--dsw-alias-label-secondary);font-size:var(--gbh-content-font-size-secondary,13px);line-height:calc(18px + var(--gbh-content-font-delta-secondary,0px));display:block}
+
+.summary{color:var(--dsw-alias-label-primary);font-size:var(--gbh-content-font-size,14px);margin-top:3px;display:block}
+
+.text{margin:8px 0 0}
+
+.details{border-top:1px solid color-mix(in srgb, var(--dsw-alias-label-secondary) 24%, transparent);margin:8px 0 0;padding-top:8px}
+
+.details>div+div{margin-top:12px}
+
+.details dt{color:var(--dsw-alias-label-secondary);font-size:12px}
+
+.question{gap:3px;display:grid}
+
+.header,.detail,.options{color:var(--dsw-alias-label-secondary);font-size:11px}
+
+.questionText{color:var(--dsw-alias-label-primary)}
+
+.options{margin:0;padding-left:16px}
+
+.details dd{margin:4px 0 0}
+
+.answer{font-size:14px}
+
+.answerLabel{color:var(--dsw-alias-label-secondary);margin-right:4px;font-size:12px}
+
+.actions{height:28px;color:var(--dsw-alias-label-tertiary);align-items:center;gap:8px;padding-right:4px;display:flex}
+
+.time{white-space:nowrap;padding-right:4px;font-size:13px;line-height:24px}
+
+.action{border-radius:var(--dsw-radius-sm);width:28px;height:28px;color:inherit;cursor:pointer;background:0 0;border:none;justify-content:center;align-items:center;padding:6px;display:inline-flex}
+
+.action svg{width:15px;height:15px}
+
+.action:hover{background:var(--dsw-alias-interactive-bg-hover);color:var(--dsw-alias-label-secondary)}

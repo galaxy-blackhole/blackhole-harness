@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "api-settings-controller",
+    "description": "Đảm nhận phía Remote cho các bề mặt cấu hình, dựa trên các seam của miền settings."
+  }
+}

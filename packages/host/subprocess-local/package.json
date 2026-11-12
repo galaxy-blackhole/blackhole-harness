@@ -1,0 +1,77 @@
+{
+  "name": "@galaxy-blackhole/gbh-subprocess-local",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "type": "module",
+  "main": "lib/index.js",
+  "description": "Local-subprocess implementation of the Galaxy Blackhole subprocess seam",
+  "scripts": {
+    "build": "bun run build.ts"
+  },
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./runner": {
+      "types": "./lib/types/bin.d.ts",
+      "default": "./lib/runner.js"
+    },
+    "./output": {
+      "types": "./lib/types/output.d.ts",
+      "default": "./lib/output.js"
+    },
+    "./package.json": "./package.json",
+    "./src/*": "./src/*",
+    "./locale/*.json": "./locale/*.json"
+  },
+  "dependencies": {
+    "@deepseek-ai/dsh-lazy-require": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-win32-process": "0.2.1-alpha.4",
+    "koffi": "3.1.1",
+    "node-pty": "1.2.0-beta.15"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2",
+    "@deepseek-ai/dsh-subprocess": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-timeout": "0.2.1-alpha.4"
+  },
+  "devDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2",
+    "@deepseek-ai/dsh-subprocess": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-timeout": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-win32-process": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-lazy-require": "0.2.1-alpha.4"
+  },
+  "license": "MIT",
+  "gbh": {
+    "tests": [
+      "tests/host/subprocess-local.test.ts"
+    ],
+    "peers": [
+      "@deepseek-ai/cordis",
+      "@deepseek-ai/dsh-subprocess",
+      "@deepseek-ai/dsh-timeout",
+      "@deepseek-ai/dsh-win32-process",
+      "@deepseek-ai/dsh-lazy-require"
+    ],
+    "reference": "apps/host/node_modules/@deepseek-ai/dsh-subprocess-local (CHỈ ĐỌC — nguồn đối chiếu byte)",
+    "row": {
+      "id": "subprocess",
+      "aliases": [
+        "@deepseek-ai/dsh-subprocess-local"
+      ],
+      "moduleIds": [
+        "@galaxy-blackhole/gbh-subprocess-local"
+      ],
+      "tests": [
+        "tests/host/subprocess-local.test.ts"
+      ]
+    },
+    "provenance": {
+      "stock": "@deepseek-ai/dsh-subprocess-local",
+      "version": "0.2.1-alpha.4",
+      "sha": "2964d94d6aa735f79e5cd5f54035a9d73b371e8060dda7e3bf666593428c04f4"
+    }
+  }
+}

@@ -1,0 +1,53 @@
+{
+  "name": "@galaxy-blackhole/gbh-client-ui-conversation",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "type": "module",
+  "main": "lib/index.js",
+  "description": "Ban viet lai cua Galaxy Blackhole cho row ui-conversation cua DSH (@deepseek-ai/dsh-client-ui-conversation).",
+  "scripts": {
+    "build": "bun run build.ts",
+    "extract": "bun run tools/extract.ts"
+  },
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./client": "./lib/client.js",
+    "./package.json": "./package.json"
+  },
+  "dsh": {
+    "client": {
+      "inject": [
+        "@deepseek-ai/dsh-api-session-controller",
+        "@deepseek-ai/dsh-client-file-upload",
+        "@deepseek-ai/dsh-client-locale",
+        "@deepseek-ai/dsh-client-ui-layout",
+        "@deepseek-ai/dsh-client-ui-renderer",
+        "@deepseek-ai/dsh-client-ui-session",
+        "@deepseek-ai/dsh-client-ui-settings",
+        "@deepseek-ai/dsh-client-ui-workspace"
+      ],
+      "platform": "web"
+    }
+  },
+  "gbh": {
+    "row": {
+      "id": "ui-conversation",
+      "moduleIds": [
+        "@galaxy-blackhole/gbh-client-ui-conversation"
+      ],
+      "aliases": [
+        "@deepseek-ai/dsh-client-ui-conversation"
+      ],
+      "tests": [
+        "tests/client/ui-conversation.test.ts"
+      ]
+    },
+    "provenance": {
+      "stock": "@deepseek-ai/dsh-client-ui-conversation"
+    }
+  },
+  "types": "lib/types/index.d.ts"
+}

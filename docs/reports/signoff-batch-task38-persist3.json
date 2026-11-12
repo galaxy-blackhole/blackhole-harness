@@ -1,0 +1,25 @@
+{
+  "dev": "tm-evidence",
+  "owner": "tm-evidence",
+  "evidence": [
+    "reviewer tm-reviewer doc lap tren artifact build lai: 3 goi build exit 0 · export host tap = goc (apply 1=1) · la row DANG MOUNT (co gbh.row + aliases)",
+    "reviewer tu chay bun test (task-38 persist migration dsh.* -> gbh.*):",
+    "- tests/client/persist-migration-d2.test.ts: 16 pass / 0 fail / 45 expect",
+    "- ui-open-in-app 6 pass / 31 expect · ui-sidebar-browser 11 pass / 83 expect · ui-sidebar-right 13 pass / 158 expect — TAT CA 0 fail",
+    "LUU Y: gbh-client-shortcuts (goi thu 4 cua task-38) CHUA KY — 2 assertion CU trong tests/client/shortcuts-service.test.ts (mtime 17/10, chua cap nhat theo task-38) con do: ca 5 doc key cu `dsh.keybindings.v1` (nay la `gbh.keybindings.v1`) va ca cong chan 1 bat warn theo hinh dang cu. Da bao Lead + chu task-38."
+  ],
+  "packages": [
+    {
+      "dsh": "@deepseek-ai/dsh-client-ui-open-in-app",
+      "gbh": "gbh-client-ui-open-in-app"
+    },
+    {
+      "dsh": "@deepseek-ai/dsh-client-ui-sidebar-browser",
+      "gbh": "gbh-client-ui-sidebar-browser"
+    },
+    {
+      "dsh": "@deepseek-ai/dsh-client-ui-sidebar-right",
+      "gbh": "gbh-client-ui-sidebar-right"
+    }
+  ]
+}

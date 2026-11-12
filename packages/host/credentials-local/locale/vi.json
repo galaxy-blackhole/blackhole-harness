@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "credentials-local",
+    "description": "Provider thông tin xác thực dựa trên tệp cho Galaxy Blackhole: môi trường của tiến trình đang chạy được ưu tiên trước $GBH_HOME/.env."
+  }
+}

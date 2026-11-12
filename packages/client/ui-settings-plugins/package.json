@@ -1,0 +1,52 @@
+{
+  "name": "@galaxy-blackhole/gbh-client-ui-settings-plugins",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "type": "module",
+  "main": "lib/index.js",
+  "description": "Ban viet lai cua Galaxy Blackhole cho row ui-settings-plugins cua DSH (@deepseek-ai/dsh-client-ui-settings-plugins): muc Built-in plugins trong Settings.",
+  "exports": {
+    "./locale/*.json": "./locale/*.json",
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./client": {
+      "default": "./lib/client.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "scripts": {
+    "build": "bun run build.ts"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2"
+  },
+  "dsh": {
+    "client": {
+      "platform": "web",
+      "inject": [
+        "@deepseek-ai/dsh-client-locale",
+        "@deepseek-ai/dsh-client-ui-settings"
+      ]
+    }
+  },
+  "gbh": {
+    "row": {
+      "id": "ui-settings-plugins",
+      "moduleIds": [
+        "@galaxy-blackhole/gbh-client-ui-settings-plugins"
+      ],
+      "aliases": [
+        "@deepseek-ai/dsh-client-ui-settings-plugins"
+      ],
+      "tests": [
+        "tests/client/ui-settings-plugins.test.ts"
+      ]
+    },
+    "provenance": {
+      "stock": "@deepseek-ai/dsh-client-ui-settings-plugins"
+    }
+  },
+  "types": "lib/types/index.d.ts"
+}

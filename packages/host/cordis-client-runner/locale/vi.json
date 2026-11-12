@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "cordis-client-runner",
+    "description": "Nửa trình duyệt của gói plugin động hai nửa: đăng ký sự kiện, đánh giá closure, facade bảo vệ và các entry nạp plugin."
+  }
+}

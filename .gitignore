@@ -1,0 +1,18 @@
+node_modules/
+dist/
+target/
+.parity/
+*.log
+.DS_Store
+vendor/dsh-reference/
+apps/desktop/src-tauri/gen/
+
+# Ban build chi nam trong profile cua app (bh host build vao <appHome>/profiles/node_modules)
+packages/*/*/lib/
+
+# Thu muc nhap cua cong nhan (khong phai ma nguon)
+.scratch/
+
+# Staging sinh boi npm-package/prepare.mjs (ban LEAN de publish len npm — khong phai ma nguon)
+npm-package/
+packages/host/gbh-libreoffice-kit-darwin-x64/

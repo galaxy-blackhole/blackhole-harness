@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "session-stats",
+    "description": "Tổng hợp số lượt tương tác và thời gian xử lý của phiên."
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "dev": "tm-host-core",
+  "owner": "tm-host-core",
+  "evidence": [
+    "reviewer tm-reviewer doc lap tren artifact build lai: exit 0 · export **3 = 3** voi goc (`API_REMOTE_FORWARDED_EVENTS` · `apply` · `inject`), thieu 0 thua 0 · KHONG co lib/client.js (goi goc HAI MAT: nua browser 23.698 dong ghep TYPERT_REMOTE cua 10+ contract)",
+    "khong khai gbh.row la DUNG: (i) chua co nua client (23.698 dong); (ii) goi `gbh-typert-gateway` con thieu `registerRemoteEvents` ⇒ chua the mount, mount se lam mat nua client (bai hoc bootstrap facade)",
+    "reviewer tu chay bun test tests/host/api-remotes.test.ts: **19 pass / 0 fail / 57 expect**",
+    "package signed, not mounted (chưa đủ nửa client / seam)"
+  ],
+  "packages": [
+    {
+      "dsh": "@deepseek-ai/dsh-api-remotes",
+      "gbh": "gbh-api-remotes"
+    }
+  ]
+}

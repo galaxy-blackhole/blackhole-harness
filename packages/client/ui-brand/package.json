@@ -1,0 +1,46 @@
+{
+  "name": "@galaxy-blackhole/gbh-client-ui-brand",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "type": "module",
+  "main": "lib/index.js",
+  "description": "Gói brand của Galaxy Blackhole KHÔNG thay row stock: cấp dấu hố đen cho slot HERO (conversation.hero.brand.mark) — slot đó trong bundle ui-conversation chỉ có fallback CÁ GBH. Hai slot sidebar do row ui-brand-official của ta giữ (slot `single` chỉ một chủ).",
+  "scripts": {
+    "build": "bun run build.ts"
+  },
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "default": "./lib/index.js"
+    },
+    "./client": "./lib/client.js",
+    "./package.json": "./package.json"
+  },
+  "dsh": {
+    "client": {
+      "inject": [
+        "@galaxy-blackhole/gbh-client-ui-renderer",
+        "@galaxy-blackhole/gbh-client-ui-conversation",
+        "@galaxy-blackhole/gbh-client-locale"
+      ],
+      "platform": "web"
+    }
+  },
+  "gbh": {
+    "row": {
+      "id": "ui-brand",
+      "insertAs": "ui-brand",
+      "disabled": false,
+      "moduleIds": [
+        "@galaxy-blackhole/gbh-client-ui-brand"
+      ],
+      "tests": [
+        "tests/client/ui-brand.test.ts"
+      ]
+    },
+    "rollback": {
+      "cachGo": "Go khoi gbh.row trong package.json roi rebuild: bun run build.ts trong packages/client/ui-brand; sau do xoa dong ui-brand trong preset cua profile va restart host."
+    }
+  },
+  "types": "src/index.ts"
+}

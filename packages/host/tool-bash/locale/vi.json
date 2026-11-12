@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "tool-bash",
+    "description": "Công cụ bash cho mô hình, có hỗ trợ job nền và nâng quyền hộp cát khi cần."
+  }
+}

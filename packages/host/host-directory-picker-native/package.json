@@ -1,0 +1,52 @@
+{
+  "name": "@galaxy-blackhole/gbh-host-directory-picker-native",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "type": "module",
+  "main": "lib/index.js",
+  "description": "Native-OS-chooser backend of the directory-picker seam for the Galaxy Blackhole web GUI host",
+  "scripts": {
+    "build": "bun run build.ts"
+  },
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./worker": "./lib/worker.cjs",
+    "./package.json": "./package.json",
+    "./src/*": "./src/*",
+    "./locale/*.json": "./locale/*.json"
+  },
+  "license": "MIT",
+  "gbh": {
+    "tests": [
+      "tests/host/host-directory-picker-native.test.ts"
+    ],
+    "provenance": {
+      "stock": "@deepseek-ai/dsh-host-directory-picker-native",
+      "stockVersion": "0.2.1-alpha.4",
+      "stockLines": 340,
+      "workerLines": 253,
+      "workerSha256": "434946b4a825fb5c510757fffc14ac4103130f92174903bb83ad2376cfb61ba1",
+      "localeBytes": {
+        "en.json": 59,
+        "zh.json": 128
+      },
+      "exports": [
+        ".",
+        "./worker",
+        "./package.json",
+        "./src/*",
+        "./locale/*.json"
+      ],
+      "seam": "interface hẹp cục bộ (không import tĩnh @deepseek-ai/*) — xem README",
+      "workerFileSha256": "a542d29d6fabb6d2c5aa304e2f3e5b83f35dc34fcb007aff26dc9c14f0237ba7",
+      "workerHeaderLines": 7
+    }
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2"
+  },
+  "types": "lib/types/index.d.ts"
+}

@@ -1,0 +1,48 @@
+{
+  "name": "@galaxy-blackhole/gbh-jobs-local",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "type": "module",
+  "main": "lib/index.js",
+  "description": "Bản viết lại của Galaxy Blackhole cho row jobs của DSH (@deepseek-ai/dsh-jobs-local): sổ đăng ký job nền cục bộ trong tiến trình, phục vụ seam ctx.jobs.",
+  "scripts": {
+    "build": "bun run build.ts"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2",
+    "@deepseek-ai/schemastery": "~3.18.5-alpha.2",
+    "@deepseek-ai/dsh-jobs": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-scope": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-timeout": "0.2.1-alpha.4"
+  },
+  "devDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2",
+    "@deepseek-ai/schemastery": "~3.18.5-alpha.2"
+  },
+  "gbh": {
+    "peers": [
+      "@deepseek-ai/dsh-jobs",
+      "@deepseek-ai/dsh-scope",
+      "@deepseek-ai/dsh-timeout"
+    ],
+    "row": {
+      "id": "jobs",
+      "tests": [
+        "tests/host/jobs-local.test.ts"
+      ]
+    },
+    "provenance": {
+      "stock": "@deepseek-ai/dsh-jobs-local"
+    }
+  },
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "default": "./lib/index.js"
+    },
+    "./package.json": "./package.json",
+    "./src/*": "./src/*",
+    "./locale/*.json": "./locale/*.json"
+  },
+  "types": "src/index.ts"
+}

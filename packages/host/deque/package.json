@@ -1,0 +1,41 @@
+{
+  "name": "@galaxy-blackhole/gbh-deque",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "type": "module",
+  "main": "lib/index.js",
+  "description": "Zero-dependency circular deque with amortized constant-time end operations and bounded vacant storage",
+  "scripts": {
+    "build": "bun run build.ts"
+  },
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./package.json": "./package.json",
+    "./src/*": "./src/*"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2"
+  },
+  "devDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2"
+  },
+  "license": "MIT",
+  "gbh": {
+    "draft": "19/10/2026 — GÓI THƯ VIỆN, KHÔNG PHẢI ROW: bản gốc 86 dòng, 1 export (class Deque), zero-dep, không có apply ⇒ không có row để thay. Không khai gbh.row (tiền lệ atomic-write/util-crypto/brand/util-time).",
+    "peers": [
+      "@deepseek-ai/cordis"
+    ],
+    "tests": [
+      "tests/host/deque.test.ts"
+    ],
+    "provenance": {
+      "stock": "@deepseek-ai/dsh-deque",
+      "version": "0.2.1-alpha.4",
+      "sha": "2408939cfecf325c42b1f03fef1f2ab8b964feff8418fb49a28c6f25b4a5f765"
+    }
+  },
+  "types": "lib/types/index.d.ts"
+}

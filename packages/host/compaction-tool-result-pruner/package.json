@@ -1,0 +1,60 @@
+{
+  "name": "@galaxy-blackhole/gbh-compaction-tool-result-pruner",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "type": "module",
+  "main": "lib/index.js",
+  "description": "Replay-safe model-free head/middle/tail pruning for tool-result surface nodes",
+  "scripts": {
+    "build": "bun run build.ts"
+  },
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./locale/*.json": "./locale/*.json",
+    "./package.json": "./package.json"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2",
+    "@deepseek-ai/dsh-compaction": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-llm": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-session": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-token-meter": "0.2.1-alpha.4"
+  },
+  "dependencies": {
+    "@deepseek-ai/dsh-util-values": "0.2.1-alpha.4",
+    "@deepseek-ai/schemastery": "~3.18.5-alpha.2"
+  },
+  "license": "MIT",
+  "gbh": {
+    "peers": [
+      "@deepseek-ai/cordis",
+      "@deepseek-ai/dsh-compaction",
+      "@deepseek-ai/dsh-llm",
+      "@deepseek-ai/dsh-session",
+      "@deepseek-ai/dsh-token-meter",
+      "@deepseek-ai/dsh-util-values",
+      "@deepseek-ai/schemastery"
+    ],
+    "tests": [
+      "tests/host/compaction-tool-result-pruner.test.ts"
+    ],
+    "nested": {
+      "kind": "group",
+      "pluginId": "tool-result-pruner",
+      "stockId": "@deepseek-ai/dsh-compaction-tool-result-pruner",
+      "presets": [
+        "preset-standard",
+        "preset-ptc",
+        "preset-cordis"
+      ]
+    },
+    "provenance": {
+      "stock": "@deepseek-ai/dsh-compaction-tool-result-pruner",
+      "version": "0.2.1-alpha.4",
+      "sha": "e86442e9a2403c392482b9035916e5610c251d62f3581892866404d69c064254"
+    }
+  }
+}

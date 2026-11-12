@@ -1,0 +1,61 @@
+{
+  "name": "@galaxy-blackhole/gbh-tool-bash-persistent",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "type": "module",
+  "main": "lib/index.js",
+  "description": "Model-facing owner-scoped persistent Bash tool backed by the Harness PTY service",
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./locale/*.json": "./locale/*.json",
+    "./package.json": "./package.json"
+  },
+  "scripts": {
+    "build": "bun run build.ts"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/dsh-agent": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-output-retention": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-terminal": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-timeout": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-tools": "0.2.1-alpha.4",
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2",
+    "@deepseek-ai/dsh-working-directory": "0.2.1-alpha.4"
+  },
+  "dependencies": {
+    "@deepseek-ai/schemastery": "~3.18.5-alpha.2"
+  },
+  "license": "MIT",
+  "gbh": {
+    "draft": "CHƯA mount/flip — đo 19/10/2026 từ /tmp/dump-now2.txt (dump mới nhất, 2.297 dòng). KHÔNG khai gbh.row và KHÔNG khai gbh.row_unmounted_ly_do: stock KHÔNG có row TOP-LEVEL nào (không có dòng `- id: tool-bash-persistent`/`- id: persistent-bash` ở thụt lề 0; top-level chỉ có `tool-bash`, `tool-pwsh`, `optional-persistent-terminals`). `@deepseek-ai/dsh-tool-bash-persistent` xuất hiện ĐÚNG MỘT lần trong dump: entry LỒNG `- id: persistent-bash` (dòng 1211, depth 2, thụt lề 10) trong NHÓM `cordis:group` `persistent-shell` (dòng 1198, depth 1, `isolate.terminals: true`) của preset `preset-minimal` (dòng 1169, depth 0; config.id `minimal`, order 3 — nhóm nằm trong patch preset stock `@deepseek-ai/dsh-web-app/presets/minimal.patch.yml:34-51`). Entry đo được: `name: '@deepseek-ai/dsh-tool-bash-persistent'` (dòng 1212); `disabled: !!js process.platform === 'win32'` (dòng 1213) ⇒ chỉ tắt trên win32, các nền tảng khác BẬT; `config: { timeoutMs: 300000, description: <chuỗi nhiều dòng bắt đầu 'Run commands in a bash shell'> }` (dòng 1214-1235); KHÔNG có `inject`. Ba preset còn lại (preset-standard · preset-ptc · preset-cordis) KHÔNG chứa entry; nhóm TOP-LEVEL `optional-persistent-terminals` (dòng 1463, `disabled: true`) cũng KHÔNG chứa nó (chỉ có `optional-tool-terminal`). ⇒ Vì là entry LỒNG TRONG PRESET, khai `gbh.nested` kind 'preset' (agent-preset-registry thay `name` lúc chạy, giữ nguyên id/config/disabled/group ở mọi độ sâu), KHÔNG khai row (tầng mount row không thay được row lồng). Dump cũ `.parity/dumps/2026-10-18T01-31-57/ours.yml` cho CÙNG cấu trúc: dòng 1137 `preset-minimal` · 1166 `persistent-shell` · 1179 `persistent-bash`. Ngoài phạm vi dump: cùng stock id còn ở `packages/host/bundle-sdk-minimal/cordis.patch.yml:147` (bản sao `@deepseek-ai/dsh-sdk-minimal/cordis.patch.yml:140`, insert top-level của bundle SDK-minimal — bundle KHÔNG có trong dump-now2); khai kind 'group' khiến profile.ts chỉ thấy ĐÚNG site này (không có nhóm cha) ⇒ fail-soft 'khong thay row cha' ở dump-now2 dòng 16, nên kind đã đổi thành 'preset' cho đúng site app (preset-minimal).",
+    "tests": [
+      "tests/host/tool-bash-persistent.test.ts"
+    ],
+    "peers": [
+      "@deepseek-ai/dsh-agent",
+      "@deepseek-ai/dsh-output-retention",
+      "@deepseek-ai/dsh-terminal",
+      "@deepseek-ai/dsh-timeout",
+      "@deepseek-ai/dsh-tools",
+      "@deepseek-ai/cordis",
+      "@deepseek-ai/dsh-working-directory",
+      "@deepseek-ai/schemastery"
+    ],
+    "nested": {
+      "kind": "preset",
+      "pluginId": "persistent-bash",
+      "stockId": "@deepseek-ai/dsh-tool-bash-persistent",
+      "presets": [
+        "preset-minimal"
+      ]
+    },
+    "provenance": {
+      "stock": "@deepseek-ai/dsh-tool-bash-persistent",
+      "version": "0.2.1-alpha.4",
+      "sha": "e5da0d699ca999f7372cc67ae913b1b881362b3232f5b01b003709e76390bc82"
+    }
+  }
+}

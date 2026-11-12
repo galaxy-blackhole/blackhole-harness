@@ -1,0 +1,21 @@
+{
+  "dev": "lead",
+  "owner": "lead",
+  "evidence": [
+    "package signed, not mounted (library, inlined by consumer)",
+    "2 goi LA zero-dependency (dependencies rong), KHONG khai gbh.row (`row_unmounted_ly_do`: thu vien thuan ham, consumer inline); reviewer build lai ca 2 = exit 0",
+    "gbh-deque (dsh-deque, 86 dong, export **1 = 1** class `Deque`): test **5 pass / 0 fail / 6.270 expect** — A/B mo hinh ngau nhien co hat giong (mulberry32, 5.000 thao tac) cung chuoi tren BA ben (ta · bundle goc · mang tham chieu), so `popFront` + `size` sau MOI buoc; ca bien rong/16/17 + ca CO BO DEM (256 → xoa 200 → 56 phan tu con dung thu tu)",
+    "gbh-util-code-language (dsh-util-code-language, port VERBATIM 269 dong, export **3 = 3**: `CODE_HIGHLIGHT_EXTENSIONS` · `languageForPath` · `readLangHintForPath`): test **6 pass / 0 fail / 497 expect** — bang extensions bang TUNG PHAN TU va dung thu tu; moi duoi trong bang phan giai duoc va hai ban cung ma; ~40 duong dan (hai dau phan cach, chu HOA, .env⇒dotenv, dotfile la⇒undefined, khong duoi⇒undefined, üñï.ts); an toan prototype (foo.constructor/__proto__/toString/hasOwnProperty ⇒ undefined o CA HAI)",
+    "typecheck toan repo (reviewer tu chay gate --only typecheck): XANH 1.880 file · 0 vi pham; header/file-length/jsdoc/hygiene XANH theo chu goi"
+  ],
+  "packages": [
+    {
+      "dsh": "@deepseek-ai/dsh-deque",
+      "gbh": "gbh-deque"
+    },
+    {
+      "dsh": "@deepseek-ai/dsh-util-code-language",
+      "gbh": "gbh-util-code-language"
+    }
+  ]
+}

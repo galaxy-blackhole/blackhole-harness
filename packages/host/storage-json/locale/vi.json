@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "storage-json",
+    "description": "Lưu dữ liệu khoá-giá trị thành tệp JSON cục bộ."
+  }
+}

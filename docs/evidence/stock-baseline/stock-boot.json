@@ -1,0 +1,24 @@
+{
+  "url": "http://127.0.0.1:5466/?token=1q-yHv9v4yK5CFPSZGzO090RombM6OXBqXcePVWFGhE",
+  "port": 5466,
+  "pid": 93385,
+  "node": "/Users/buitronghieu/.nvm/versions/node/v26.9.0/bin/node",
+  "nodeVersion": "v26.9.0",
+  "startedAt": "2026-10-21T04:06:29.073Z",
+  "bundles": [
+    "@deepseek-ai/dsh-base",
+    "@deepseek-ai/dsh-web-app",
+    "@deepseek-ai/dsh-experimental-plugin-market-bundle",
+    "@deepseek-ai/dsh-experimental-agent-team-profile",
+    "@deepseek-ai/dsh-experimental-terminal-bundle",
+    "@deepseek-ai/dsh-experimental-session-search",
+    "@deepseek-ai/dsh-experimental-inspector-profile",
+    "@deepseek-ai/dsh-experimental-auto-review",
+    "@deepseek-ai/dsh-experimental-tool-worktree",
+    "@deepseek-ai/dsh-experimental-cot-translation-bundle",
+    "@deepseek-ai/dsh-experimental-ralph-bundle",
+    "@deepseek-ai/dsh-experimental-session-titles-bundle",
+    "@deepseek-ai/dsh-experimental-voice-input-bundle"
+  ],
+  "logPath": "/Users/buitronghieu/Desktop/Project/galaxy/galaxy-blackhole/blackhole-tauri/docs/evidence/stock-baseline/stock-boot.log"
+}

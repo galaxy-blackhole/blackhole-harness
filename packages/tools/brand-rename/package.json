@@ -1,0 +1,19 @@
+{
+  "name": "@galaxy-blackhole/gbh-brand-rename",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "type": "module",
+  "main": "src/index.ts",
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./src/index.ts"
+    },
+    "./src/*": "./src/*",
+    "./package.json": "./package.json"
+  },
+  "gbh": {
+    "draft": "Gói THƯ VIỆN nội bộ (không row): bản đồ đổi tên DSH→GBH dùng chung ở build time cho cả producer + consumer, kèm cổng replaceAll ngược (task-146)."
+  },
+  "types": "src/index.ts"
+}

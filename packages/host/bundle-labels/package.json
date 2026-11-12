@@ -1,0 +1,19 @@
+{
+  "name": "@galaxy-blackhole/gbh-host-bundle-labels",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "type": "module",
+  "main": "lib/index.js",
+  "description": "Nguon su that duy nhat cho nhan tieng Viet + icon that cua cac bundle GBH (dung chung cho host packages)",
+  "scripts": {
+    "build": "bun run build.ts"
+  },
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "default": "./lib/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "license": "MIT"
+}

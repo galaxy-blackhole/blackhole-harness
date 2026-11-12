@@ -1,0 +1,20 @@
+# author Bùi Trọng Hiếu
+# email kevinbui210191@gmail.com
+# create date 15/10/2026
+# modify date 21/10/2026
+# desc PATCH SINH TU DONG tu @deepseek-ai/dsh-experimental-session-search/./cordis.patch.yml (task-191) — chi doi dong name theo provenance.
+
+- insert:
+    - id: optional-session-search
+      name: cordis:group
+      group: true
+      isolate:
+        sessionQuery: true
+      config:
+        - id: optional-session-query-sqlite
+          name: '@galaxy-blackhole/gbh-session-query-sqlite'
+          config:
+            path: ':memory:'
+            openAt: first-search
+        - id: optional-tool-session-query
+          name: '@galaxy-blackhole/gbh-tool-session-query'

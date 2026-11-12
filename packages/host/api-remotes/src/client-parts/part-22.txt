@@ -1,0 +1,1000 @@
+											"path",
+											"hidden"
+										],
+										"additionalProperties": true
+									},
+									"description": "Ancestor chain from the filesystem root to the listed directory inclusive; every crumb is a jump target (crumb `hidden` is always false)."
+								},
+								"entries": {
+									"type": "array",
+									"items": {
+										"type": "object",
+										"properties": {
+											"name": {
+												"type": "string",
+												"description": "Base name shown in a browser row (a root crumb carries its full path)."
+											},
+											"path": {
+												"type": "string",
+												"description": "Absolute host path — clients never join path segments themselves."
+											},
+											"hidden": {
+												"type": "boolean",
+												"description": "Hidden by the host platform's convention (dot-prefixed on POSIX); the client owns whether to show it."
+											}
+										},
+										"required": [
+											"name",
+											"path",
+											"hidden"
+										],
+										"additionalProperties": true
+									},
+									"description": "Direct child directories, name-sorted; symlinks to directories included."
+								},
+								"truncated": {
+									"type": "boolean",
+									"description": "True when the backend cut `entries` at its complete-result bound: the level has more child directories than reported, and the missing rows are the name-sorted tail (hidden rows count toward the bound)."
+								}
+							},
+							"required": [
+								"path",
+								"home",
+								"crumbs",
+								"entries",
+								"truncated"
+							],
+							"additionalProperties": true
+						}
+					},
+					sourceLocation: {
+						"file": "packages/api/workspace-controller/src/directory-picker.ts",
+						"line": 72,
+						"column": 9
+					}
+				},
+				"directoryPicker/pick": {
+					service: "directoryPickerController",
+					description: "Open the host's OS chooser for a Remote caller.",
+					invocation: { kind: "direct" },
+					parameters: [],
+					cancellation: { parameter: "signal" },
+					result: {
+						mode: "strict",
+						typeSymbol: "@deepseek-ai/dsh-api-workspace-controller#directoryPicker/pick:result",
+						create: _deepseek_ai_dsh_api_workspace_controller_directoryPicker_pick_result$schema,
+						description: "the chosen absolute path, or null when the operator cancels.",
+						jsonSchema: { "oneOf": [{
+							"type": "null",
+							"const": null
+						}, { "type": "string" }] }
+					},
+					sourceLocation: {
+						"file": "packages/api/workspace-controller/src/directory-picker.ts",
+						"line": 55,
+						"column": 9
+					}
+				},
+				"workspace/archiveSession": {
+					service: "workspaceController",
+					description: "Hide one known Session from Workspace grouping surfaces.",
+					invocation: { kind: "direct" },
+					parameters: [{
+						name: "request",
+						description: "Session identity to archive.",
+						source: "json",
+						codec: {
+							mode: "strict",
+							typeSymbol: "@deepseek-ai/dsh-api-workspace-controller/types#WorkspaceArchiveSessionRequest",
+							create: _deepseek_ai_dsh_api_workspace_controller_workspace_archiveSession_parameter_0$schema,
+							jsonSchema: {
+								"type": "object",
+								"properties": {
+									"sessionId": { "type": "string" },
+									"stopActivity": {
+										"type": "boolean",
+										"description": "Stop the Session's running work — its turn, subagent descendants, owned background jobs, and active schedules — instead of refusing the archive as `workspace/session-active`. The stops are requested before the archive write and are not awaited; the response arrives once the archive set is durable."
+									}
+								},
+								"required": ["sessionId"],
+								"additionalProperties": true
+							}
+						},
+						strictCodec: {
+							mode: "strict",
+							typeSymbol: "@deepseek-ai/dsh-api-workspace-controller/types#WorkspaceArchiveSessionRequest",
+							create: _deepseek_ai_dsh_api_workspace_controller_workspace_archiveSession_parameter_0_strict$schema,
+							jsonSchema: {
+								"type": "object",
+								"properties": {
+									"sessionId": { "type": "string" },
+									"stopActivity": {
+										"type": "boolean",
+										"description": "Stop the Session's running work — its turn, subagent descendants, owned background jobs, and active schedules — instead of refusing the archive as `workspace/session-active`. The stops are requested before the archive write and are not awaited; the response arrives once the archive set is durable."
+									}
+								},
+								"required": ["sessionId"],
+								"additionalProperties": false
+							}
+						}
+					}],
+					result: {
+						mode: "strict",
+						typeSymbol: "@deepseek-ai/dsh-api-workspace-controller/types#WorkspaceArchiveValue",
+						create: _deepseek_ai_dsh_api_workspace_controller_workspace_archiveSession_result$schema,
+						description: "the complete resulting archive set.",
+						jsonSchema: {
+							"type": "object",
+							"properties": { "archivedSessionIds": {
+								"type": "array",
+								"items": { "type": "string" }
+							} },
+							"required": ["archivedSessionIds"],
+							"additionalProperties": true
+						}
+					},
+					sourceLocation: {
+						"file": "packages/api/workspace-controller/src/index.ts",
+						"line": 160,
+						"column": 3
+					}
+				},
+				"workspace/create": {
+					service: "workspaceController",
+					description: "Create or idempotently resolve one Workspace over an existing directory.",
+					invocation: { kind: "direct" },
+					parameters: [{
+						name: "request",
+						description: "directory path to register.",
+						source: "json",
+						codec: {
+							mode: "strict",
+							typeSymbol: "@deepseek-ai/dsh-api-workspace-controller/types#WorkspaceCreateRequest",
+							create: _deepseek_ai_dsh_api_workspace_controller_workspace_create_parameter_0$schema,
+							jsonSchema: {
+								"type": "object",
+								"properties": { "path": { "type": "string" } },
+								"required": ["path"],
+								"additionalProperties": true
+							}
+						},
+						strictCodec: {
+							mode: "strict",
+							typeSymbol: "@deepseek-ai/dsh-api-workspace-controller/types#WorkspaceCreateRequest",
+							create: _deepseek_ai_dsh_api_workspace_controller_workspace_create_parameter_0_strict$schema,
+							jsonSchema: {
+								"type": "object",
+								"properties": { "path": { "type": "string" } },
+								"required": ["path"],
+								"additionalProperties": false
+							}
+						}
+					}],
+					result: {
+						mode: "strict",
+						typeSymbol: "@deepseek-ai/dsh-api-workspace-controller/types#WorkspaceCreateValue",
+						create: _deepseek_ai_dsh_api_workspace_controller_workspace_create_result$schema,
+						description: "the Workspace and whether this call created it.",
+						jsonSchema: {
+							"type": "object",
+							"properties": {
+								"workspace": {
+									"type": "object",
+									"properties": {
+										"workspaceId": { "type": "string" },
+										"path": {
+											"type": "string",
+											"description": "Canonical host directory path."
+										},
+										"title": {
+											"type": "string",
+											"description": "User-visible title."
+										},
+										"sessionIds": {
+											"type": "array",
+											"items": { "type": "string" },
+											"description": "Sessions accounted to this Workspace in manual order."
+										},
+										"createdAt": {
+											"type": "string",
+											"description": "ISO-8601 creation instant."
+										},
+										"updatedAt": {
+											"type": "string",
+											"description": "ISO-8601 last-mutation instant."
+										}
+									},
+									"required": [
+										"workspaceId",
+										"path",
+										"title",
+										"sessionIds",
+										"createdAt",
+										"updatedAt"
+									],
+									"additionalProperties": true
+								},
+								"created": { "type": "boolean" }
+							},
+							"required": ["workspace", "created"],
+							"additionalProperties": true
+						}
+					},
+					sourceLocation: {
+						"file": "packages/api/workspace-controller/src/index.ts",
+						"line": 91,
+						"column": 3
+					}
+				},
+				"workspace/delete": {
+					service: "workspaceController",
+					description: "Remove one Workspace registration while retaining files and Sessions.",
+					invocation: { kind: "direct" },
+					parameters: [{
+						name: "request",
+						description: "Workspace identity to remove.",
+						source: "json",
+						codec: {
+							mode: "strict",
+							typeSymbol: "@deepseek-ai/dsh-api-workspace-controller/types#WorkspaceDeleteRequest",
+							create: _deepseek_ai_dsh_api_workspace_controller_workspace_delete_parameter_0$schema,
+							jsonSchema: {
+								"type": "object",
+								"properties": { "workspaceId": { "type": "string" } },
+								"required": ["workspaceId"],
+								"additionalProperties": true
+							}
+						},
+						strictCodec: {
+							mode: "strict",
+							typeSymbol: "@deepseek-ai/dsh-api-workspace-controller/types#WorkspaceDeleteRequest",
+							create: _deepseek_ai_dsh_api_workspace_controller_workspace_delete_parameter_0_strict$schema,
+							jsonSchema: {
+								"type": "object",
+								"properties": { "workspaceId": { "type": "string" } },
+								"required": ["workspaceId"],
+								"additionalProperties": false
+							}
+						}
+					}],
+					result: {
+						mode: "strict",
+						typeSymbol: "@deepseek-ai/dsh-api-workspace-controller/types#WorkspaceDeleteValue",
+						create: _deepseek_ai_dsh_api_workspace_controller_workspace_delete_result$schema,
+						description: "deletion confirmation.",
+						jsonSchema: {
+							"type": "object",
+							"properties": { "deleted": {
+								"type": "boolean",
+								"const": true
+							} },
+							"required": ["deleted"],
+							"additionalProperties": true
+						}
+					},
+					sourceLocation: {
+						"file": "packages/api/workspace-controller/src/index.ts",
+						"line": 130,
+						"column": 3
+					}
+				},
+				"workspace/follow": {
+					service: "workspaceController",
+					description: "Stream a complete Workspace baseline followed by ordered increments. A non-owner receives only the Workspaces and Sessions `allows()` admits. When a delivered Workspace is no longer admitted at its next change or the next order change, the stream sends a `replace` frame with the complete filtered state instead of a `remove`, because a Client never resurrects a removed Workspace; a `remove` frame reports a deletion and reaches only a Client that received that Workspace.",
+					mode: "stream",
+					invocation: { kind: "direct" },
+					parameters: [],
+					cancellation: { parameter: "signal" },
+					result: {
+						mode: "strict",
+						typeSymbol: "@deepseek-ai/dsh-api-workspace-controller/types#WorkspaceFollowFrame",
+						create: _deepseek_ai_dsh_api_workspace_controller_workspace_follow_result$schema,
+						description: "baseline followed by ordered Workspace increments.",
+						jsonSchema: { "oneOf": [
+							{
+								"type": "object",
+								"properties": {
+									"type": {
+										"type": "string",
+										"const": "baseline"
+									},
+									"value": {
+										"type": "object",
+										"properties": {
+											"items": {
+												"type": "array",
+												"items": {
+													"type": "object",
+													"properties": {
+														"workspaceId": { "type": "string" },
+														"path": {
+															"type": "string",
+															"description": "Canonical host directory path."
+														},
+														"title": {
+															"type": "string",
+															"description": "User-visible title."
+														},
+														"sessionIds": {
+															"type": "array",
+															"items": { "type": "string" },
+															"description": "Sessions accounted to this Workspace in manual order."
+														},
+														"createdAt": {
+															"type": "string",
+															"description": "ISO-8601 creation instant."
+														},
+														"updatedAt": {
+															"type": "string",
+															"description": "ISO-8601 last-mutation instant."
+														}
+													},
+													"required": [
+														"workspaceId",
+														"path",
+														"title",
+														"sessionIds",
+														"createdAt",
+														"updatedAt"
+													],
+													"additionalProperties": true
+												}
+											},
+											"archivedSessionIds": {
+												"type": "array",
+												"items": { "type": "string" }
+											},
+											"pinnedSessionIds": {
+												"type": "array",
+												"items": { "type": "string" },
+												"description": "Registry-global pin set, most recently pinned first."
+											}
+										},
+										"required": [
+											"items",
+											"archivedSessionIds",
+											"pinnedSessionIds"
+										],
+										"additionalProperties": true
+									}
+								},
+								"required": ["type", "value"],
+								"additionalProperties": true
+							},
+							{
+								"type": "object",
+								"properties": {
+									"type": {
+										"type": "string",
+										"const": "replace"
+									},
+									"value": {
+										"type": "object",
+										"properties": {
+											"items": {
+												"type": "array",
+												"items": {
+													"type": "object",
+													"properties": {
+														"workspaceId": { "type": "string" },
+														"path": {
+															"type": "string",
+															"description": "Canonical host directory path."
+														},
+														"title": {
+															"type": "string",
+															"description": "User-visible title."
+														},
+														"sessionIds": {
+															"type": "array",
+															"items": { "type": "string" },
+															"description": "Sessions accounted to this Workspace in manual order."
+														},
+														"createdAt": {
+															"type": "string",
+															"description": "ISO-8601 creation instant."
+														},
+														"updatedAt": {
+															"type": "string",
+															"description": "ISO-8601 last-mutation instant."
+														}
+													},
+													"required": [
+														"workspaceId",
+														"path",
+														"title",
+														"sessionIds",
+														"createdAt",
+														"updatedAt"
+													],
+													"additionalProperties": true
+												}
+											},
+											"archivedSessionIds": {
+												"type": "array",
+												"items": { "type": "string" }
+											},
+											"pinnedSessionIds": {
+												"type": "array",
+												"items": { "type": "string" },
+												"description": "Registry-global pin set, most recently pinned first."
+											}
+										},
+										"required": [
+											"items",
+											"archivedSessionIds",
+											"pinnedSessionIds"
+										],
+										"additionalProperties": true
+									}
+								},
+								"required": ["type", "value"],
+								"additionalProperties": true
+							},
+							{
+								"type": "object",
+								"properties": {
+									"type": {
+										"type": "string",
+										"const": "upsert"
+									},
+									"workspace": {
+										"type": "object",
+										"properties": {
+											"workspaceId": { "type": "string" },
+											"path": {
+												"type": "string",
+												"description": "Canonical host directory path."
+											},
+											"title": {
+												"type": "string",
+												"description": "User-visible title."
+											},
+											"sessionIds": {
+												"type": "array",
+												"items": { "type": "string" },
+												"description": "Sessions accounted to this Workspace in manual order."
+											},
+											"createdAt": {
+												"type": "string",
+												"description": "ISO-8601 creation instant."
+											},
+											"updatedAt": {
+												"type": "string",
+												"description": "ISO-8601 last-mutation instant."
+											}
+										},
+										"required": [
+											"workspaceId",
+											"path",
+											"title",
+											"sessionIds",
+											"createdAt",
+											"updatedAt"
+										],
+										"additionalProperties": true
+									}
+								},
+								"required": ["type", "workspace"],
+								"additionalProperties": true
+							},
+							{
+								"type": "object",
+								"properties": {
+									"type": {
+										"type": "string",
+										"const": "remove"
+									},
+									"workspaceId": { "type": "string" }
+								},
+								"required": ["type", "workspaceId"],
+								"additionalProperties": true
+							},
+							{
+								"type": "object",
+								"properties": {
+									"type": {
+										"type": "string",
+										"const": "order"
+									},
+									"workspaceIds": {
+										"type": "array",
+										"items": { "type": "string" }
+									}
+								},
+								"required": ["type", "workspaceIds"],
+								"additionalProperties": true
+							},
+							{
+								"type": "object",
+								"properties": {
+									"type": {
+										"type": "string",
+										"const": "archived"
+									},
+									"archivedSessionIds": {
+										"type": "array",
+										"items": { "type": "string" }
+									}
+								},
+								"required": ["type", "archivedSessionIds"],
+								"additionalProperties": true
+							},
+							{
+								"type": "object",
+								"properties": {
+									"type": {
+										"type": "string",
+										"const": "pinned"
+									},
+									"pinnedSessionIds": {
+										"type": "array",
+										"items": { "type": "string" }
+									}
+								},
+								"required": ["type", "pinnedSessionIds"],
+								"additionalProperties": true
+							}
+						] }
+					},
+					sourceLocation: {
+						"file": "packages/api/workspace-controller/src/index.ts",
+						"line": 206,
+						"column": 10
+					}
+				},
+				"workspace/initializeDefault": {
+					service: "workspaceController",
+					description: "Initialize or reuse the default Workspace during first-use startup. The directory name is fixed, so the Host never renames or relocates an existing default; its initial title is that same name, which browser consumers label in the reader's language.",
+					invocation: { kind: "direct" },
+					parameters: [],
+					cancellation: { parameter: "signal" },
+					result: {
+						mode: "strict",
+						typeSymbol: "@deepseek-ai/dsh-api-workspace-controller#workspace/initializeDefault:result",
+						create: _deepseek_ai_dsh_api_workspace_controller_workspace_initializeDefault_result$schema,
+						description: "the durable Workspace, or undefined when first-use initialization is ineligible; creates no Session or message.",
+						jsonSchemaError: "typert tool schema: unsupported undefined value"
+					},
+					sourceLocation: {
+						"file": "packages/api/workspace-controller/src/index.ts",
+						"line": 104,
+						"column": 9
+					}
+				},
+				"workspace/insertBefore": {
+					service: "workspaceController",
+					description: "Move one Workspace within the registry display order.",
+					invocation: { kind: "direct" },
+					parameters: [{
+						name: "request",
+						description: "moved Workspace and optional anchor.",
+						source: "json",
+						codec: {
+							mode: "strict",
+							typeSymbol: "@deepseek-ai/dsh-api-workspace-controller/types#WorkspaceInsertBeforeRequest",
+							create: _deepseek_ai_dsh_api_workspace_controller_workspace_insertBefore_parameter_0$schema,
+							jsonSchema: {
+								"type": "object",
+								"properties": {
+									"workspaceId": { "type": "string" },
+									"beforeWorkspaceId": { "type": "string" }
+								},
+								"required": ["workspaceId"],
+								"additionalProperties": true
+							}
+						},
+						strictCodec: {
+							mode: "strict",
+							typeSymbol: "@deepseek-ai/dsh-api-workspace-controller/types#WorkspaceInsertBeforeRequest",
+							create: _deepseek_ai_dsh_api_workspace_controller_workspace_insertBefore_parameter_0_strict$schema,
+							jsonSchema: {
+								"type": "object",
+								"properties": {
+									"workspaceId": { "type": "string" },
+									"beforeWorkspaceId": { "type": "string" }
+								},
+								"required": ["workspaceId"],
+								"additionalProperties": false
+							}
+						}
+					}],
+					result: {
+						mode: "strict",
+						typeSymbol: "@deepseek-ai/dsh-api-workspace-controller/types#WorkspaceOrderValue",
+						create: _deepseek_ai_dsh_api_workspace_controller_workspace_insertBefore_result$schema,
+						description: "the complete resulting Workspace order.",
+						jsonSchema: {
+							"type": "object",
+							"properties": { "workspaceIds": {
+								"type": "array",
+								"items": { "type": "string" }
+							} },
+							"required": ["workspaceIds"],
+							"additionalProperties": true
+						}
+					},
+					sourceLocation: {
+						"file": "packages/api/workspace-controller/src/index.ts",
+						"line": 140,
+						"column": 3
+					}
+				},
+				"workspace/insertSessionBefore": {
+					service: "workspaceController",
+					description: "Move one accounted Session within a Workspace.",
+					invocation: { kind: "direct" },
+					parameters: [{
+						name: "request",
+						description: "Workspace, Session, and optional anchor identities.",
+						source: "json",
+						codec: {
+							mode: "strict",
+							typeSymbol: "@deepseek-ai/dsh-api-workspace-controller/types#WorkspaceInsertSessionBeforeRequest",
+							create: _deepseek_ai_dsh_api_workspace_controller_workspace_insertSessionBefore_parameter_0$schema,
+							jsonSchema: {
+								"type": "object",
+								"properties": {
+									"workspaceId": { "type": "string" },
+									"sessionId": { "type": "string" },
+									"beforeSessionId": { "type": "string" }
+								},
+								"required": ["workspaceId", "sessionId"],
+								"additionalProperties": true
+							}
+						},
+						strictCodec: {
+							mode: "strict",
+							typeSymbol: "@deepseek-ai/dsh-api-workspace-controller/types#WorkspaceInsertSessionBeforeRequest",
+							create: _deepseek_ai_dsh_api_workspace_controller_workspace_insertSessionBefore_parameter_0_strict$schema,
+							jsonSchema: {
+								"type": "object",
+								"properties": {
+									"workspaceId": { "type": "string" },
+									"sessionId": { "type": "string" },
+									"beforeSessionId": { "type": "string" }
+								},
+								"required": ["workspaceId", "sessionId"],
+								"additionalProperties": false
+							}
+						}
+					}],
+					result: {
+						mode: "strict",
+						typeSymbol: "@deepseek-ai/dsh-api-workspace-controller/types#WorkspaceValue",
+						create: _deepseek_ai_dsh_api_workspace_controller_workspace_insertSessionBefore_result$schema,
+						description: "the updated Workspace projection.",
+						jsonSchema: {
+							"type": "object",
+							"properties": { "workspace": {
+								"type": "object",
+								"properties": {
+									"workspaceId": { "type": "string" },
+									"path": {
+										"type": "string",
+										"description": "Canonical host directory path."
+									},
+									"title": {
+										"type": "string",
+										"description": "User-visible title."
+									},
+									"sessionIds": {
+										"type": "array",
+										"items": { "type": "string" },
+										"description": "Sessions accounted to this Workspace in manual order."
+									},
+									"createdAt": {
+										"type": "string",
+										"description": "ISO-8601 creation instant."
+									},
+									"updatedAt": {
+										"type": "string",
+										"description": "ISO-8601 last-mutation instant."
+									}
+								},
+								"required": [
+									"workspaceId",
+									"path",
+									"title",
+									"sessionIds",
+									"createdAt",
+									"updatedAt"
+								],
+								"additionalProperties": true
+							} },
+							"required": ["workspace"],
+							"additionalProperties": true
+						}
+					},
+					sourceLocation: {
+						"file": "packages/api/workspace-controller/src/index.ts",
+						"line": 150,
+						"column": 3
+					}
+				},
+				"workspace/pinSession": {
+					service: "workspaceController",
+					description: "Surface one known unarchived Session ahead of unpinned Sessions.",
+					invocation: { kind: "direct" },
+					parameters: [{
+						name: "request",
+						description: "Session identity to pin.",
+						source: "json",
+						codec: {
+							mode: "strict",
+							typeSymbol: "@deepseek-ai/dsh-api-workspace-controller/types#WorkspacePinSessionRequest",
+							create: _deepseek_ai_dsh_api_workspace_controller_workspace_pinSession_parameter_0$schema,
+							jsonSchema: {
+								"type": "object",
+								"properties": { "sessionId": { "type": "string" } },
+								"required": ["sessionId"],
+								"additionalProperties": true
+							}
+						},
+						strictCodec: {
+							mode: "strict",
+							typeSymbol: "@deepseek-ai/dsh-api-workspace-controller/types#WorkspacePinSessionRequest",
+							create: _deepseek_ai_dsh_api_workspace_controller_workspace_pinSession_parameter_0_strict$schema,
+							jsonSchema: {
+								"type": "object",
+								"properties": { "sessionId": { "type": "string" } },
+								"required": ["sessionId"],
+								"additionalProperties": false
+							}
+						}
+					}],
+					result: {
+						mode: "strict",
+						typeSymbol: "@deepseek-ai/dsh-api-workspace-controller/types#WorkspacePinValue",
+						create: _deepseek_ai_dsh_api_workspace_controller_workspace_pinSession_result$schema,
+						description: "the complete resulting pin set, most recently pinned first.",
+						jsonSchema: {
+							"type": "object",
+							"properties": { "pinnedSessionIds": {
+								"type": "array",
+								"items": { "type": "string" }
+							} },
+							"required": ["pinnedSessionIds"],
+							"additionalProperties": true
+						}
+					},
+					sourceLocation: {
+						"file": "packages/api/workspace-controller/src/index.ts",
+						"line": 180,
+						"column": 3
+					}
+				},
+				"workspace/rename": {
+					service: "workspaceController",
+					description: "Rename one Workspace to a unique non-blank title.",
+					invocation: { kind: "direct" },
+					parameters: [{
+						name: "request",
+						description: "Workspace identity and proposed title.",
+						source: "json",
+						codec: {
+							mode: "strict",
+							typeSymbol: "@deepseek-ai/dsh-api-workspace-controller/types#WorkspaceRenameRequest",
+							create: _deepseek_ai_dsh_api_workspace_controller_workspace_rename_parameter_0$schema,
+							jsonSchema: {
+								"type": "object",
+								"properties": {
+									"workspaceId": { "type": "string" },
+									"title": { "type": "string" }
+								},
+								"required": ["workspaceId", "title"],
+								"additionalProperties": true
+							}
+						},
+						strictCodec: {
+							mode: "strict",
+							typeSymbol: "@deepseek-ai/dsh-api-workspace-controller/types#WorkspaceRenameRequest",
+							create: _deepseek_ai_dsh_api_workspace_controller_workspace_rename_parameter_0_strict$schema,
+							jsonSchema: {
+								"type": "object",
+								"properties": {
+									"workspaceId": { "type": "string" },
+									"title": { "type": "string" }
+								},
+								"required": ["workspaceId", "title"],
+								"additionalProperties": false
+							}
+						}
+					}],
+					result: {
+						mode: "strict",
+						typeSymbol: "@deepseek-ai/dsh-api-workspace-controller/types#WorkspaceValue",
+						create: _deepseek_ai_dsh_api_workspace_controller_workspace_rename_result$schema,
+						description: "the updated Workspace projection.",
+						jsonSchema: {
+							"type": "object",
+							"properties": { "workspace": {
+								"type": "object",
+								"properties": {
+									"workspaceId": { "type": "string" },
+									"path": {
+										"type": "string",
+										"description": "Canonical host directory path."
+									},
+									"title": {
+										"type": "string",
+										"description": "User-visible title."
+									},
+									"sessionIds": {
+										"type": "array",
+										"items": { "type": "string" },
+										"description": "Sessions accounted to this Workspace in manual order."
+									},
+									"createdAt": {
+										"type": "string",
+										"description": "ISO-8601 creation instant."
+									},
+									"updatedAt": {
+										"type": "string",
+										"description": "ISO-8601 last-mutation instant."
+									}
+								},
+								"required": [
+									"workspaceId",
+									"path",
+									"title",
+									"sessionIds",
+									"createdAt",
+									"updatedAt"
+								],
+								"additionalProperties": true
+							} },
+							"required": ["workspace"],
+							"additionalProperties": true
+						}
+					},
+					sourceLocation: {
+						"file": "packages/api/workspace-controller/src/index.ts",
+						"line": 120,
+						"column": 3
+					}
+				},
+				"workspace/unarchiveSession": {
+					service: "workspaceController",
+					description: "Restore one archived Session to Workspace grouping surfaces.",
+					invocation: { kind: "direct" },
+					parameters: [{
+						name: "request",
+						description: "Session identity to unarchive.",
+						source: "json",
+						codec: {
+							mode: "strict",
+							typeSymbol: "@deepseek-ai/dsh-api-workspace-controller/types#WorkspaceUnarchiveSessionRequest",
+							create: _deepseek_ai_dsh_api_workspace_controller_workspace_unarchiveSession_parameter_0$schema,
+							jsonSchema: {
+								"type": "object",
+								"properties": { "sessionId": { "type": "string" } },
+								"required": ["sessionId"],
+								"additionalProperties": true
+							}
+						},
+						strictCodec: {
+							mode: "strict",
+							typeSymbol: "@deepseek-ai/dsh-api-workspace-controller/types#WorkspaceUnarchiveSessionRequest",
+							create: _deepseek_ai_dsh_api_workspace_controller_workspace_unarchiveSession_parameter_0_strict$schema,
+							jsonSchema: {
+								"type": "object",
+								"properties": { "sessionId": { "type": "string" } },
+								"required": ["sessionId"],
+								"additionalProperties": false
+							}
+						}
+					}],
+					result: {
+						mode: "strict",
+						typeSymbol: "@deepseek-ai/dsh-api-workspace-controller/types#WorkspaceArchiveValue",
+						create: _deepseek_ai_dsh_api_workspace_controller_workspace_unarchiveSession_result$schema,
+						description: "the complete resulting archive set.",
+						jsonSchema: {
+							"type": "object",
+							"properties": { "archivedSessionIds": {
+								"type": "array",
+								"items": { "type": "string" }
+							} },
+							"required": ["archivedSessionIds"],
+							"additionalProperties": true
+						}
+					},
+					sourceLocation: {
+						"file": "packages/api/workspace-controller/src/index.ts",
+						"line": 170,
+						"column": 3
+					}
+				},
+				"workspace/unpinSession": {
+					service: "workspaceController",
+					description: "Remove one Session's pin without changing its saved Session order.",
+					invocation: { kind: "direct" },
+					parameters: [{
+						name: "request",
+						description: "Session identity to unpin.",
+						source: "json",
+						codec: {
+							mode: "strict",
+							typeSymbol: "@deepseek-ai/dsh-api-workspace-controller/types#WorkspaceUnpinSessionRequest",
+							create: _deepseek_ai_dsh_api_workspace_controller_workspace_unpinSession_parameter_0$schema,
+							jsonSchema: {
+								"type": "object",
+								"properties": { "sessionId": { "type": "string" } },
+								"required": ["sessionId"],
+								"additionalProperties": true
+							}
+						},
+						strictCodec: {
+							mode: "strict",
+							typeSymbol: "@deepseek-ai/dsh-api-workspace-controller/types#WorkspaceUnpinSessionRequest",
+							create: _deepseek_ai_dsh_api_workspace_controller_workspace_unpinSession_parameter_0_strict$schema,
+							jsonSchema: {
+								"type": "object",
+								"properties": { "sessionId": { "type": "string" } },
+								"required": ["sessionId"],
+								"additionalProperties": false
+							}
+						}
+					}],
+					result: {
+						mode: "strict",
+						typeSymbol: "@deepseek-ai/dsh-api-workspace-controller/types#WorkspacePinValue",
+						create: _deepseek_ai_dsh_api_workspace_controller_workspace_unpinSession_result$schema,
+						description: "the complete resulting pin set, most recently pinned first.",
+						jsonSchema: {
+							"type": "object",
+							"properties": { "pinnedSessionIds": {
+								"type": "array",
+								"items": { "type": "string" }
+							} },
+							"required": ["pinnedSessionIds"],
+							"additionalProperties": true
+						}
+					},
+					sourceLocation: {
+						"file": "packages/api/workspace-controller/src/index.ts",
+						"line": 190,
+						"column": 3
+					}
+				}
+			}
+		}, zod.z);
+		//#endregion
+		//#region ../terminal-controller/lib/typert.remote-client.js
+		let _deepseek_ai_dsh_api_terminal_controller_terminal_attach_parameter_0$schema$value;
+		const _deepseek_ai_dsh_api_terminal_controller_terminal_attach_parameter_0$schema = () => _deepseek_ai_dsh_api_terminal_controller_terminal_attach_parameter_0$schema$value ??= zod.z.string();
+		let _deepseek_ai_dsh_api_terminal_controller_terminal_attach_parameter_1$schema$value;
+		const _deepseek_ai_dsh_api_terminal_controller_terminal_attach_parameter_1$schema = () => _deepseek_ai_dsh_api_terminal_controller_terminal_attach_parameter_1$schema$value ??= zod.z.string();
+		let _deepseek_ai_dsh_api_terminal_controller_terminal_attach_uplink$schema$value;
+		const _deepseek_ai_dsh_api_terminal_controller_terminal_attach_uplink$schema = () => _deepseek_ai_dsh_api_terminal_controller_terminal_attach_uplink$schema$value ??= zod.z.union([zod.z.object({
+			"type": zod.z.literal("write").readonly(),
+			"sequence": zod.z.number().readonly(),
+			"data": zod.z.string().readonly()
+		}), zod.z.object({
+			"type": zod.z.literal("resize").readonly(),
+			"sequence": zod.z.number().readonly(),
+			"cols": zod.z.number().readonly(),
+			"rows": zod.z.number().readonly()
+		})]);
+		let _deepseek_ai_dsh_api_terminal_controller_terminal_attach_result$schema$value;
+		const _deepseek_ai_dsh_api_terminal_controller_terminal_attach_result$schema = () => _deepseek_ai_dsh_api_terminal_controller_terminal_attach_result$schema$value ??= zod.z.union([
+			zod.z.object({
+				"type": zod.z.literal("snapshot").readonly(),
+				"sequence": zod.z.number().readonly(),
+				"screen": zod.z.string().readonly(),
+				"info": zod.z.object({
+					"id": zod.z.string().readonly(),
+					"title": zod.z.string().readonly(),
+					"shell": zod.z.object({
+						"path": zod.z.string().readonly(),
+						"args": zod.z.array(zod.z.string()).readonly(),
+						"name": zod.z.string().readonly()
+					}).readonly(),
+					"cwd": zod.z.string().readonly().describe("Initial working directory; shell directory changes do not update this field."),
+					"cols": zod.z.number().readonly(),
+					"rows": zod.z.number().readonly(),
+					"state": zod.z.union([
+						zod.z.literal("failed"),
+						zod.z.literal("running"),
+						zod.z.literal("exited")

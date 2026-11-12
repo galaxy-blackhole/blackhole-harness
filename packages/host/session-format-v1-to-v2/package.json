@@ -1,0 +1,49 @@
+{
+  "name": "@galaxy-blackhole/gbh-session-format-v1-to-v2",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "type": "module",
+  "main": "lib/index.js",
+  "description": "Frozen released-v1 Session codec and assistant-stream migration to v2",
+  "scripts": {
+    "build": "bun run build.ts"
+  },
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2",
+    "@deepseek-ai/dsh-llm": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-session-format": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-session-format-v0-to-v1": "0.2.1-alpha.4"
+  },
+  "devDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2",
+    "@deepseek-ai/dsh-llm": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-session-format": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-session-format-v0-to-v1": "0.2.1-alpha.4"
+  },
+  "license": "MIT",
+  "gbh": {
+    "provenance": {
+      "stock": "@deepseek-ai/dsh-session-format-v1-to-v2",
+      "version": "0.2.1-alpha.4",
+      "sha": "b2b401d880bb000017ba8663c4448b501427b23a1cd2f9fdb04cb7ec9d763eff"
+    },
+    "draft": "19/10/2026 — GÓI THƯ VIỆN: KHÔNG có row trong dump .parity/dumps/2026-10-18T01-31-57 (0 dòng name: '@deepseek-ai/dsh-session-format-v1-to-v2') và KHÔNG có dòng trong docs/PARITY-MATRIX.md ⇒ consumer inline; không khai gbh.row/gbh.nested.",
+    "tests": [
+      "tests/host/session-format-cluster.test.ts"
+    ],
+    "peers": [
+      "@deepseek-ai/cordis",
+      "@deepseek-ai/dsh-llm",
+      "@deepseek-ai/dsh-session-format",
+      "@deepseek-ai/dsh-session-format-v0-to-v1",
+      "@deepseek-ai/dsh-util-values"
+    ]
+  }
+}

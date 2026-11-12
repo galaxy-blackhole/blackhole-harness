@@ -1,0 +1,16 @@
+{
+  "dev": "tm-client-debundle",
+  "owner": "tm-client-debundle",
+  "evidence": [
+    "reviewer tm-reviewer do doc lap tren artifact: build exit 0 · export **14 = 14 BANG TUNG TEN** voi bundle goc (Config · DEFAULT_SESSION_LOG_COMPRESSION_LEVEL · SESSION_LOG_EXPORT_PATH · SESSION_LOG_FILENAME · apply · flushLiveSessionLog · inject · name · readSessionLogText · serializeSessionLog · sessionLogExportDeps · sessionLogZipEntries · sessionLogZipFilename · streamSessionLogZip) · thieu 0 · thua 0",
+    "locale sha256 khop tung byte voi ban goc: zh.json b6a0c790a081 = stock · en.json 03ddccbb8abf = stock",
+    "reviewer tu chay bun test tests/host/session-log-export.test.ts: **29 pass / 0 fail / 167 expect** (gồm ca ZIP/JSONL đối chứng từng byte, ca trùng tên service, Config schema String(Config) trùng ký tự)",
+    "goi CO Y KHONG khai gbh.row — gbh.row_unmounted_ly_do ghi ro: nua client (bang tai + hop thoai) chua port, khai row se mat nua client am tham"
+  ],
+  "packages": [
+    {
+      "dsh": "@deepseek-ai/dsh-session-log-export",
+      "gbh": "gbh-session-log-export"
+    }
+  ]
+}

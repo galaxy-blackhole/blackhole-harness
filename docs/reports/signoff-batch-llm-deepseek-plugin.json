@@ -1,0 +1,17 @@
+{
+  "dev": "phien-truoc (git log)",
+  "owner": "lead",
+  "evidence": [
+    "ky lai theo mapping da sua cua Lead: `dsh-llm-deepseek` -> gbh-llm-deepseek-adapter (da ky), `dsh-llm-deepseek-api-key` -> gbh-llm-deepseek (batch nay) — reviewer da build doi chieu: gbh-llm-deepseek vs `dsh-llm-deepseek-api-key` = **6 = 6** export (`Config` · `apply` · `inject` · `name` · `plainOptions` · `resolveAdapterOptions`), thieu 0/thua 0; vs `dsh-llm-deepseek` (41 export) thi khong phai cap (da tach task-45 adapter)",
+    "khong khai gbh.row la DUNG va co chu dich (README §0): 'Goi CHUA khai gbh.row — theo chi dao cua Lead (boot do Lead thuc hien)'; row stock `llm-deepseek` dang **TAT CO CHU DICH** trong `profiles/blackhole/app.patch.yml:80-81` (san pham chi dung route Galaxy) ⇒ goi co 0 anh huong app 5439",
+    "reviewer tu chay bun test tests/host/llm-deepseek.test.ts: **24 pass / 0 fail / 89 expect**",
+    "khong trung provider: goi khai route `deepseek-official` (src/index.ts) — route nay KHONG do goi nao khac dang ky; `llm-deepseek-account` dung `deepseek-account`; artifact khong co lib/client.js",
+    "package signed, not mounted (row stock disabled: true trong patch; goi chua khai gbh.row — cho chi dao mount cua Lead)"
+  ],
+  "packages": [
+    {
+      "dsh": "@deepseek-ai/dsh-llm-deepseek-api-key",
+      "gbh": "gbh-llm-deepseek"
+    }
+  ]
+}

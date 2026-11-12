@@ -1,0 +1,97 @@
+{
+  "name": "@galaxy-blackhole/gbh-api-job-controller",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "type": "module",
+  "main": "lib/index.js",
+  "description": "Job Remote observation stream and the reference-counted client job-output service",
+  "scripts": {
+    "build": "bun run build.ts"
+  },
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./types": {
+      "types": "./lib/types/types.d.ts",
+      "default": "./lib/types/types.js"
+    },
+    "./client": {
+      "types": "./lib/types/client/index.d.ts",
+      "default": "./lib/client.js"
+    },
+    "./typert": {
+      "types": "./lib/typert.host.d.ts",
+      "default": "./lib/typert.host.js"
+    },
+    "./remote": {
+      "types": "./lib/typert.remote-client.d.ts",
+      "default": "./lib/typert.remote-client.js"
+    },
+    "./package.json": "./package.json",
+    "./src/*": "./src/*",
+    "./locale/*.json": "./locale/*.json"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2",
+    "@deepseek-ai/dsh-jobs": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-session": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-typert-protocol": "0.2.1-alpha.4",
+    "@deepseek-ai/schemastery": "~3.18.5-alpha.2"
+  },
+  "devDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2",
+    "@deepseek-ai/dsh-jobs": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-session": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-typert-protocol": "0.2.1-alpha.4",
+    "@deepseek-ai/schemastery": "~3.18.5-alpha.2"
+  },
+  "license": "MIT",
+  "gbh": {
+    "draft": "DA de-bundle lai theo khuon api-session-controller (19/10/2026): 4 artefact — host byte-identical (6 lat) + client (4 lat, CHI doi dong 2 = loader; 3 lan id stock con lai la JSDoc @module, giu nguyen) + typert.host (1 lat) + typert.remote-client (1 lat). Ban viet tay cu giu trong src-handwritten/. Row CHUA khai: cho boot-smoke + dong README §4 cua Lead.",
+    "tests": [
+      "tests/host/api-job-controller.test.ts",
+      "tests/host/api-job-controller-halves.test.ts"
+    ],
+    "peers": [
+      "@deepseek-ai/cordis",
+      "@deepseek-ai/dsh-jobs",
+      "@deepseek-ai/dsh-session",
+      "@deepseek-ai/dsh-typert-protocol",
+      "@deepseek-ai/schemastery"
+    ],
+    "row": {
+      "id": "job-controller",
+      "aliases": [
+        "@deepseek-ai/dsh-api-job-controller"
+      ],
+      "moduleIds": [
+        "@galaxy-blackhole/gbh-api-job-controller"
+      ],
+      "tests": [
+        "tests/host/api-job-controller.test.ts"
+      ],
+      "stockId": "@deepseek-ai/dsh-api-job-controller"
+    },
+    "provenance": {
+      "stock": "@deepseek-ai/dsh-api-job-controller",
+      "version": "0.2.1-alpha.4",
+      "sha": "f3e718cacc81fedbfb3e55c022f1ca891798fef845b51e03f965656e41e88ece",
+      "shaFile": "lib/client.js"
+    }
+  },
+  "dsh": {
+    "client": {
+      "external": [
+        "@galaxy-blackhole/gbh-host-typert-gateway/client"
+      ],
+      "inject": [
+        "@galaxy-blackhole/gbh-host-typert-gateway",
+        "@galaxy-blackhole/gbh-client-connection"
+      ],
+      "platform": "web"
+    }
+  },
+  "types": "lib/types/index.d.ts"
+}

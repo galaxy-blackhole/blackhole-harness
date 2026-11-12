@@ -1,0 +1,34 @@
+{
+  "name": "@galaxy-blackhole/gbh-host-shell-identity",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "type": "module",
+  "main": "lib/index.js",
+  "description": "Lớp vỏ L3 của Galaxy Blackhole: đè /favicon.svg + /favicon-dark.svg + /manifest.webmanifest bằng asset GBH và tapIndex đổi <title> thành 'Galaxy Blackhole' — KHÔNG chạm bootstrap/module-loader.",
+  "scripts": {
+    "build": "bun run build.ts"
+  },
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "gbh": {
+    "row": {
+      "id": "shell-identity",
+      "insertAs": "shell-identity",
+      "disabled": false,
+      "tests": [
+        "tests/host/shell-identity.test.ts"
+      ],
+      "insertOnly": true
+    },
+    "rollback": {
+      "lyDo": "lop vo chi doi title/favicon/manifest; neu boot xau thi go khoi insert lai la du",
+      "cachGo": "xoa khoi '- id: shell-identity' + '- insert: id: shell-identity' trong <home>/app.patch.yml roi boot lai; KHONG can sua package"
+    }
+  },
+  "types": "src/index.ts"
+}

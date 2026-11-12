@@ -1,0 +1,51 @@
+{
+  "name": "@galaxy-blackhole/gbh-tool-str-replace-editor",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "type": "module",
+  "main": "lib/index.js",
+  "description": "Model-facing view, create, literal replace, and line insert tool over the Galaxy Blackhole filesystem service",
+  "scripts": {
+    "build": "bun run build.ts"
+  },
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "license": "MIT",
+  "peerDependencies": {
+    "@deepseek-ai/dsh-fs": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-output-retention": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-sandbox": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-sandbox-policy": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-tools": "0.2.1-alpha.4",
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2"
+  },
+  "dependencies": {
+    "@deepseek-ai/schemastery": "~3.18.5-alpha.2"
+  },
+  "gbh": {
+    "peers": [
+      "@deepseek-ai/dsh-fs",
+      "@deepseek-ai/dsh-output-retention",
+      "@deepseek-ai/dsh-sandbox",
+      "@deepseek-ai/dsh-sandbox-policy",
+      "@deepseek-ai/dsh-tools",
+      "@deepseek-ai/cordis",
+      "@deepseek-ai/schemastery"
+    ],
+    "tests": [
+      "tests/host/tool-str-replace-editor.test.ts"
+    ],
+    "provenance": {
+      "stock": "@deepseek-ai/dsh-tool-str-replace-editor",
+      "version": "0.2.1-alpha.4",
+      "sha": "14a7380c94b53150ec5545dfb8fcf28bb26c99b6deef9b27bb9cf4ff6fabb616"
+    },
+    "draft": "Thư viện công cụ (KHÔNG có row trong dump 19/10/2026): stock 346 dòng lib/index.js, exports ['.', './package.json'], không có dsh.client ⇒ không có nửa client. Chỉ provenance + tests, KHÔNG khai gbh.row/row_unmounted_ly_do."
+  },
+  "types": "lib/types/index.d.ts"
+}

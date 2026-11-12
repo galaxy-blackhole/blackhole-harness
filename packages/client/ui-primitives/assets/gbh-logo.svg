@@ -1,0 +1,20 @@
+<svg width="128" height="128" viewBox="0 0 128 128" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Galaxy Blackhole">
+  <defs>
+    <radialGradient id="ring" cx="50%" cy="50%" r="50%">
+      <stop offset="55%" stop-color="#8b7bff" stop-opacity="0.05"/>
+      <stop offset="78%" stop-color="#8b7bff" stop-opacity="0.85"/>
+      <stop offset="92%" stop-color="#6ee7f0" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#6ee7f0" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="arc" x1="18" y1="30" x2="110" y2="98" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#a99bff"/>
+      <stop offset="1" stop-color="#6ee7f0"/>
+    </linearGradient>
+  </defs>
+  <circle cx="64" cy="64" r="62" fill="#0b0a14"/>
+  <circle cx="64" cy="64" r="46" fill="url(#ring)"/>
+  <circle cx="64" cy="64" r="22" fill="#05040a"/>
+  <circle cx="64" cy="64" r="22" stroke="#a99bff" stroke-opacity="0.55" stroke-width="1.5"/>
+  <ellipse cx="64" cy="64" rx="52" ry="18" stroke="url(#arc)" stroke-width="3" stroke-linecap="round" transform="rotate(-18 64 64)"/>
+  <ellipse cx="64" cy="64" rx="40" ry="12" stroke="#6ee7f0" stroke-opacity="0.45" stroke-width="1.5" transform="rotate(-18 64 64)"/>
+</svg>

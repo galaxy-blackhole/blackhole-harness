@@ -1,0 +1,20 @@
+{
+  "dev": "tm-client-ui-a",
+  "owner": "tm-client-ui-a",
+  "evidence": [
+    "HOST HALF PORTED (byte-identical) — not mounted (gói HAI MẶT: client 1.051 dòng + typert.host 1.368 + remote-client 604 CHƯA port — luật §4f)",
+    "reviewer tm-reviewer TU DO: build lai exit 0 va in '(byte-identical voi bundle goc)' · artifact `index.js` **1.037 dòng** · sha256 **0cefb34efc0cae1da14dfbcdcad6c899422e052add9238d0442a97d71ed98cdf** = bundle gốc (diff 0 byte)",
+    "7 lát de-bundle: part-00-head 16 · part-01-shells 73 · part-02-stream 102 · part-03-retention 162 · part-04-terminal 276 · part-05-index 473 · part-06-tail 13 (mọi lát ≤ 473) + assemble 66 + manifest 42",
+    "24 tệp types: `diff -rq` artifact/types vs stock lib/types = **0 khác biệt** (24 vs 24 tệp IDENTICAL)",
+    "reviewer tu chay bun test tests/host/api-terminal-controller.test.ts: **24 pass / 0 fail / 125 expect**",
+    "gate subset (reviewer tu chay): header 2.307 file · file-length 2.307 · jsdoc 2.307 (0 vi phạm, 11 cảnh báo) · dep-guard 2.834 file — **XANH 4/4**; typecheck toan repo co 8 vi phạm ở file KHÁC (api-workspace-controller · authorization · storage-domain · storage · experimental-translator) — **0 vi phạm thuộc gói này**",
+    "KHONG co lib/client.js (nửa client chưa port) · KHONG khai gbh.row (đúng §4f) · `gbh.tests` trỏ tests/host/api-terminal-controller.test.ts",
+    "no con lai ghi trong draft: nửa client 1.051 dòng + dsh.client inject + typert.host 1.368 + typert.remote-client 604"
+  ],
+  "packages": [
+    {
+      "dsh": "@deepseek-ai/dsh-api-terminal-controller",
+      "gbh": "gbh-api-terminal-controller"
+    }
+  ]
+}

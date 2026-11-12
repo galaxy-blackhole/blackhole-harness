@@ -1,0 +1,66 @@
+{
+  "name": "@galaxy-blackhole/gbh-host-llm-pi-ai",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "type": "module",
+  "main": "lib/index.js",
+  "description": "LLM provider backed by pi-ai: adapters, catalog, replay, auth, discovery and login, registered on the llm service.",
+  "scripts": {
+    "build": "bun run build.ts"
+  },
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./package.json": "./package.json",
+    "./locale/*.json": "./locale/*.json"
+  },
+  "dependencies": {
+    "@deepseek-ai/dsh-brand": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-util-values": "0.2.1-alpha.4",
+    "@deepseek-ai/schemastery": "~3.18.5-alpha.2",
+    "@earendil-works/pi-ai": "^1.1.0"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2",
+    "@deepseek-ai/dsh-attachment": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-authorization": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-credentials": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-fs": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-launch-environment": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-llm": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-timeout": "0.2.1-alpha.4",
+    "@deepseek-ai/cordis-plugin-loader": "~1.0.6-alpha.2"
+  },
+  "gbh": {
+    "peers": [
+      "@earendil-works/pi-ai"
+    ],
+    "row": {
+      "id": "llm-pi-ai",
+      "moduleIds": [
+        "@galaxy-blackhole/gbh-host-llm-pi-ai"
+      ],
+      "tests": [
+        "tests/host/llm-pi-ai.test.ts"
+      ]
+    },
+    "provenance": {
+      "stock": "@deepseek-ai/dsh-llm-pi-ai",
+      "version": "0.2.1-alpha.4",
+      "sha": "99b5c20830a52f69641df8a18a39206079b0c725201958cce2c4a934f1d4f7cd"
+    }
+  },
+  "devDependencies": {
+    "@deepseek-ai/dsh-attachment": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-authorization": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-credentials": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-fs": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-launch-environment": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-llm": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-timeout": "0.2.1-alpha.4",
+    "@deepseek-ai/cordis-plugin-loader": "~1.0.6-alpha.2"
+  },
+  "types": "lib/types/index.d.ts"
+}

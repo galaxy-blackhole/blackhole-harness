@@ -1,0 +1,58 @@
+{
+  "name": "@galaxy-blackhole/gbh-client-ui-skill",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "type": "module",
+  "main": "lib/index.js",
+  "description": "Ban viet lai cua Galaxy Blackhole cho row ui-skill cua DSH (@deepseek-ai/dsh-client-ui-skill).",
+  "scripts": {
+    "build": "bun run build.ts"
+  },
+  "dsh": {
+    "client": {
+      "platform": "web",
+      "inject": [
+        "@deepseek-ai/dsh-api-session-controller",
+        "@deepseek-ai/dsh-client-locale",
+        "@deepseek-ai/dsh-client-ui-conversation",
+        "@deepseek-ai/dsh-client-ui-renderer",
+        "@deepseek-ai/dsh-client-ui-tool",
+        "@deepseek-ai/dsh-client-ui-input-trigger",
+        "@deepseek-ai/dsh-api-remotes",
+        "@deepseek-ai/dsh-client-ui-sidebar-right"
+      ]
+    }
+  },
+  "exports": {
+    "./locale/*.json": "./locale/*.json",
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./client": {
+      "default": "./lib/client.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2"
+  },
+  "gbh": {
+    "row": {
+      "id": "ui-skill",
+      "tests": [
+        "tests/client/ui-skill.test.ts"
+      ],
+      "aliases": [
+        "@deepseek-ai/dsh-client-ui-skill"
+      ],
+      "moduleIds": [
+        "@galaxy-blackhole/gbh-client-ui-skill"
+      ]
+    },
+    "provenance": {
+      "stock": "@deepseek-ai/dsh-client-ui-skill"
+    }
+  },
+  "types": "lib/types/index.d.ts"
+}

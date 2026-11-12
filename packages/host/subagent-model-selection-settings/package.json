@@ -1,0 +1,43 @@
+{
+  "name": "@galaxy-blackhole/gbh-subagent-model-selection-settings",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "type": "module",
+  "main": "lib/index.js",
+  "description": "Bản viết lại của Galaxy Blackhole cho row subagent-model-selection-settings (@deepseek-ai/dsh-tool-subagent/model-selection-settings): dịch vụ subagentModelSelection đọc lựa chọn model của tool subagent từ hai tham chiếu Config SỐNG và trả bản TÁCH RỜI mỗi lượt gọi (M6).",
+  "scripts": {
+    "build": "bun run build.ts"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2",
+    "@deepseek-ai/schemastery": "~3.18.5-alpha.2",
+    "@deepseek-ai/dsh-llm": "0.2.1-alpha.4"
+  },
+  "devDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2",
+    "@deepseek-ai/schemastery": "~3.18.5-alpha.2",
+    "@deepseek-ai/dsh-llm": "0.2.1-alpha.4"
+  },
+  "gbh": {
+    "peers": [
+      "@deepseek-ai/dsh-llm"
+    ],
+    "row": {
+      "id": "subagent-model-selection-settings",
+      "tests": [
+        "tests/host/subagent-model-selection-settings.test.ts"
+      ],
+      "ownedByBundle": true
+    }
+  },
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "default": "./lib/index.js"
+    },
+    "./package.json": "./package.json",
+    "./src/*": "./src/*",
+    "./locale/*.json": "./locale/*.json"
+  },
+  "types": "src/index.ts"
+}

@@ -1,0 +1,85 @@
+{
+  "dev": "tm-host-session",
+  "owner": "tm-host-session",
+  "evidence": [
+    "signed, MOUNTED — app 11/11 (152 entry · (5) 0 · entry goc **0**); test + artifact REVIEWER TU DO theo gbh.tests",
+    "- command-goal: stock `@deepseek-ai/dsh-command-goal` · **18 pass / 0 fail / 178 expect** · test `tests/host/command-goal.test.ts`",
+    "- cordis-plugin-group: stock `@deepseek-ai/cordis-plugin-group` · **7 pass / 0 fail / 15 expect** · test `tests/host/cordis-plugin-group.test.ts`",
+    "- experimental-agent-team: stock `@deepseek-ai/dsh-experimental-agent-team` · **20 pass / 0 fail / 61 expect** · test `tests/host/experimental-agent-team.test.ts`",
+    "- http-proxy: stock `@deepseek-ai/dsh-http-proxy` · **8 pass / 0 fail / 15 expect** · test `tests/host/http-proxy.test.ts`",
+    "- llm: stock `@deepseek-ai/dsh-llm` · **31 pass / 0 fail / 151 expect** · test `tests/host/llm.test.ts, tests/host/llm-typert.test.ts`",
+    "- office-to-pdf: stock `@deepseek-ai/dsh-office-to-pdf` · **18 pass / 0 fail / 62 expect** · test `tests/host/office-to-pdf.test.ts`",
+    "- plan-mode: stock `@deepseek-ai/dsh-plan-mode` · **18 pass / 0 fail / 238 expect** · test `tests/host/plan-mode.test.ts`",
+    "- plugin-market-index: stock `@deepseek-ai/dsh-plugin-market-index` · **8 pass / 0 fail / 14 expect** · test `tests/host/plugin-market-index.test.ts`",
+    "- schedule: stock `@deepseek-ai/dsh-schedule` · **28 pass / 0 fail / 495 expect** · test `tests/host/schedule.test.ts`",
+    "- session-reference: stock `@deepseek-ai/dsh-session-reference` · **38 pass / 0 fail / 498 expect** · test `tests/host/session-reference.test.ts, tests/host/session-reference-typert.test.ts`",
+    "- shell: stock `@deepseek-ai/dsh-shell` · **17 pass / 0 fail / 170 expect** · test `tests/host/shell.test.ts`",
+    "- skill-filesystem: stock `@deepseek-ai/dsh-skill-filesystem` · **24 pass / 0 fail / 99 expect** · test `tests/host/skill-filesystem.test.ts`",
+    "- terminal-bash: stock `@deepseek-ai/dsh-terminal-bash` · **18 pass / 0 fail / 133 expect** · test `tests/host/terminal-bash.test.ts`",
+    "- terminal: stock `@deepseek-ai/dsh-terminal` · **17 pass / 0 fail / 157 expect** · test `tests/host/terminal.test.ts`",
+    "- workflow-ptc: stock `@deepseek-ai/dsh-workflow-ptc` · **22 pass / 1 fail / 309 expect** · test `tests/host/workflow-ptc.test.ts`",
+    "rollback san (gbh.row -> gbh.row_unmounted_ly_do)"
+  ],
+  "packages": [
+    {
+      "dsh": "@deepseek-ai/dsh-command-goal",
+      "gbh": "gbh-command-goal"
+    },
+    {
+      "dsh": "@deepseek-ai/cordis-plugin-group",
+      "gbh": "gbh-cordis-plugin-group"
+    },
+    {
+      "dsh": "@deepseek-ai/dsh-experimental-agent-team",
+      "gbh": "gbh-experimental-agent-team"
+    },
+    {
+      "dsh": "@deepseek-ai/dsh-http-proxy",
+      "gbh": "gbh-http-proxy"
+    },
+    {
+      "dsh": "@deepseek-ai/dsh-llm",
+      "gbh": "gbh-llm"
+    },
+    {
+      "dsh": "@deepseek-ai/dsh-office-to-pdf",
+      "gbh": "gbh-office-to-pdf"
+    },
+    {
+      "dsh": "@deepseek-ai/dsh-plan-mode",
+      "gbh": "gbh-plan-mode"
+    },
+    {
+      "dsh": "@deepseek-ai/dsh-plugin-market-index",
+      "gbh": "gbh-plugin-market-index"
+    },
+    {
+      "dsh": "@deepseek-ai/dsh-schedule",
+      "gbh": "gbh-schedule"
+    },
+    {
+      "dsh": "@deepseek-ai/dsh-session-reference",
+      "gbh": "gbh-session-reference"
+    },
+    {
+      "dsh": "@deepseek-ai/dsh-shell",
+      "gbh": "gbh-shell"
+    },
+    {
+      "dsh": "@deepseek-ai/dsh-skill-filesystem",
+      "gbh": "gbh-host-skill-filesystem"
+    },
+    {
+      "dsh": "@deepseek-ai/dsh-terminal-bash",
+      "gbh": "gbh-terminal-bash"
+    },
+    {
+      "dsh": "@deepseek-ai/dsh-terminal",
+      "gbh": "gbh-terminal"
+    },
+    {
+      "dsh": "@deepseek-ai/dsh-workflow-ptc",
+      "gbh": "gbh-workflow-ptc"
+    }
+  ]
+}

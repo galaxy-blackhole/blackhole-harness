@@ -1,0 +1,302 @@
+/**
+ * author Bùi Trọng Hiếu
+ * email kevinbui210191@gmail.com
+ * create date 15/10/2026
+ * modify date 19/10/2026
+ * desc LAT NGUYEN VAN cua bundle goc @deepseek-ai/dsh-tool-session-query — sinh boi tools/split-stock-bundle.ts, khong sua tay
+ */
+// @ts-nocheck
+
+//#region lib/types/input.js
+/**
+* Model argument schemas, normalization, and filter construction.
+*
+* @module @deepseek-ai/dsh-tool-session-query/input
+*/
+const sessionSearchParameters = {
+	query: {
+		type: "string",
+		required: true,
+		description: "Literal full-text query over prior session history."
+	},
+	session_ids: {
+		type: "array",
+		items: { type: "string" },
+		description: "Optional session ids to include."
+	},
+	created_at_from: {
+		type: "string",
+		description: "Inclusive timezone-qualified ISO 8601 creation-time lower bound."
+	},
+	created_at_to: {
+		type: "string",
+		description: "Inclusive timezone-qualified ISO 8601 creation-time upper bound."
+	},
+	parent_session_ids: {
+		type: "array",
+		items: { type: "string" },
+		description: "Optional direct parent session ids."
+	},
+	include_root_sessions: {
+		type: "boolean",
+		description: "Include sessions with no parent in the parent filter."
+	},
+	availability: {
+		type: "array",
+		items: {
+			type: "string",
+			enum: ["live", "persisted"]
+		},
+		description: "Require at least one selected source availability."
+	},
+	event_seq_from: {
+		type: "integer",
+		description: "Inclusive event sequence lower bound."
+	},
+	event_seq_to: {
+		type: "integer",
+		description: "Inclusive event sequence upper bound."
+	},
+	event_time_from: {
+		type: "string",
+		description: "Inclusive timezone-qualified ISO 8601 event-time lower bound."
+	},
+	event_time_to: {
+		type: "string",
+		description: "Inclusive timezone-qualified ISO 8601 event-time upper bound."
+	},
+	event_types: {
+		type: "array",
+		items: { type: "string" },
+		description: "Event types to include."
+	},
+	event_surfaces: {
+		type: "array",
+		items: {
+			type: "string",
+			enum: [
+				"current",
+				"shadowed",
+				"log-only"
+			]
+		},
+		description: "Event surfaces to include."
+	}
+};
+const eventSearchParameters = {
+	session_id: {
+		type: "string",
+		description: "Target session id. Omit for the current session."
+	},
+	query: {
+		type: "string",
+		required: true,
+		description: "Literal full-text query over the target session."
+	},
+	seq_from: {
+		type: "integer",
+		description: "Inclusive event sequence lower bound."
+	},
+	seq_to: {
+		type: "integer",
+		description: "Inclusive event sequence upper bound."
+	},
+	time_from: {
+		type: "string",
+		description: "Inclusive timezone-qualified ISO 8601 event-time lower bound."
+	},
+	time_to: {
+		type: "string",
+		description: "Inclusive timezone-qualified ISO 8601 event-time upper bound."
+	},
+	event_types: {
+		type: "array",
+		items: { type: "string" },
+		description: "Event types to include."
+	},
+	surfaces: {
+		type: "array",
+		items: {
+			type: "string",
+			enum: [
+				"current",
+				"shadowed",
+				"log-only"
+			]
+		},
+		description: "Event surfaces to include."
+	}
+};
+const targetSessionParameter = { session_id: {
+	type: "string",
+	description: "Target session id. Omit for the current session."
+} };
+function buildSessionFilters(args) {
+	const filters = [];
+	if (args.session_ids !== void 0) {
+		assertNonEmptyArray("session_ids", args.session_ids);
+		filters.push({
+			kind: "id",
+			values: args.session_ids.map((value) => brandString(value))
+		});
+	}
+	const created = timestampRange("created_at", args.created_at_from, args.created_at_to);
+	if (created !== void 0) filters.push({
+		kind: "created-at",
+		...created
+	});
+	if (args.availability !== void 0) {
+		assertNonEmptyArray("availability", args.availability);
+		filters.push({
+			kind: "availability",
+			values: args.availability
+		});
+	}
+	return filters;
+}
+function materializeParentSessionIds(values) {
+	if (values === void 0) return void 0;
+	assertNonEmptyArray("parent_session_ids", values);
+	return [...new Set(values.map((value) => brandString(value)))];
+}
+function buildEventFilters(input) {
+	const filters = [];
+	const seq = sequenceRange(input.seqFrom, input.seqTo);
+	if (seq.from !== void 0 || seq.to !== void 0) filters.push({
+		kind: "seq",
+		...seq
+	});
+	const time = timestampRange("time", input.timeFrom, input.timeTo);
+	if (time !== void 0) filters.push({
+		kind: "time",
+		...time
+	});
+	if (input.eventTypes !== void 0) {
+		assertNonEmptyArray("event_types", input.eventTypes);
+		filters.push({
+			kind: "type",
+			values: input.eventTypes
+		});
+	}
+	if (input.surfaces !== void 0) {
+		assertNonEmptyArray("surfaces", input.surfaces);
+		filters.push({
+			kind: "surface",
+			values: input.surfaces
+		});
+	}
+	return filters;
+}
+function normalizeQuery(value) {
+	const query = value.trim().replace(/\s+/gu, " ");
+	if (query.length === 0) throw new SessionQueryError("session-search query must contain non-whitespace text", "SESSION_QUERY_INVALID_QUERY");
+	if (query.includes("\0")) throw new SessionQueryError("session-search query must not contain NUL", "SESSION_QUERY_INVALID_QUERY");
+	return query;
+}
+function sequenceRange(from, to) {
+	if (from !== void 0) assertNonNegativeSafeInteger("sequence lower bound", from);
+	if (to !== void 0) assertNonNegativeSafeInteger("sequence upper bound", to);
+	if (from !== void 0 && to !== void 0 && from > to) throw invalidRange("sequence", "from must be less than or equal to to");
+	return {
+		...from === void 0 ? {} : { from },
+		...to === void 0 ? {} : { to }
+	};
+}
+function timestampRange(name, from, to) {
+	if (from === void 0 && to === void 0) return void 0;
+	const fromTimestamp = from === void 0 ? void 0 : parseIsoTimestamp(`${name}_from`, from);
+	const toTimestamp = to === void 0 ? void 0 : parseIsoTimestamp(`${name}_to`, to);
+	if (fromTimestamp !== void 0 && toTimestamp !== void 0 && compareTimestamps(fromTimestamp, toTimestamp) > 0) throw invalidRange(name, "from must be less than or equal to to");
+	return {
+		...fromTimestamp === void 0 ? {} : { from: timestampLowerBound(fromTimestamp) },
+		...toTimestamp === void 0 ? {} : { to: timestampUpperBound(toTimestamp) }
+	};
+}
+const ISO_TIMESTAMP = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2})(?::(\d{2})(?:\.(\d+))?)?(Z|([+-])(\d{2}):(\d{2}))$/;
+function parseIsoTimestamp(name, value) {
+	const match = ISO_TIMESTAMP.exec(value);
+	if (match === null) throw invalidRange(name, "must be an ISO 8601 timestamp with Z or a numeric offset");
+	const year = Number(match[1]);
+	const month = Number(match[2]);
+	const day = Number(match[3]);
+	const hour = Number(match[4]);
+	const minute = Number(match[5]);
+	const second = Number(match[6] ?? 0);
+	const offsetHour = Number(match[10] ?? 0);
+	const offsetMinute = Number(match[11] ?? 0);
+	if (month < 1 || month > 12 || day < 1 || day > daysInMonth(year, month) || hour > 23 || minute > 59 || second > 59 || offsetHour > 23 || offsetMinute > 59) throw invalidRange(name, "must be a valid ISO 8601 timestamp");
+	const fraction = match[7] ?? "";
+	const millisecondDigits = fraction.slice(0, 3).padEnd(3, "0");
+	const normalized = `${match[1]}-${match[2]}-${match[3]}T${match[4]}:${match[5]}:${match[6] ?? "00"}.${millisecondDigits}${match[8]}`;
+	const timestamp = Date.parse(normalized);
+	if (!Number.isSafeInteger(timestamp)) throw invalidRange(name, "must be a valid ISO 8601 timestamp");
+	return {
+		millisecond: timestamp,
+		remainder: fraction.slice(3).replace(/0+$/u, "")
+	};
+}
+function compareTimestamps(left, right) {
+	if (left.millisecond !== right.millisecond) return left.millisecond < right.millisecond ? -1 : 1;
+	const length = Math.max(left.remainder.length, right.remainder.length);
+	for (let index = 0; index < length; index += 1) {
+		const leftDigit = left.remainder[index] ?? "0";
+		const rightDigit = right.remainder[index] ?? "0";
+		if (leftDigit !== rightDigit) return leftDigit < rightDigit ? -1 : 1;
+	}
+	return 0;
+}
+function timestampLowerBound(timestamp) {
+	return timestamp.remainder.length === 0 ? timestamp.millisecond : nextUpFinite(timestamp.millisecond);
+}
+function timestampUpperBound(timestamp) {
+	return timestamp.remainder.length === 0 ? timestamp.millisecond : nextDownFinite(timestamp.millisecond + 1);
+}
+function nextUpFinite(value) {
+	if (value === 0) return Number.MIN_VALUE;
+	const view = /* @__PURE__ */ new DataView(/* @__PURE__ */ new ArrayBuffer(8));
+	view.setFloat64(0, value);
+	const bits = view.getBigUint64(0);
+	view.setBigUint64(0, value > 0 ? bits + 1n : bits - 1n);
+	return view.getFloat64(0);
+}
+function nextDownFinite(value) {
+	if (value === 0) return -Number.MIN_VALUE;
+	const view = /* @__PURE__ */ new DataView(/* @__PURE__ */ new ArrayBuffer(8));
+	view.setFloat64(0, value);
+	const bits = view.getBigUint64(0);
+	view.setBigUint64(0, value > 0 ? bits - 1n : bits + 1n);
+	return view.getFloat64(0);
+}
+function daysInMonth(year, month) {
+	if (month === 2) return year % 4 === 0 && (year % 100 !== 0 || year % 400 === 0) ? 29 : 28;
+	return [
+		4,
+		6,
+		9,
+		11
+	].includes(month) ? 30 : 31;
+}
+function invalidRange(name, detail) {
+	return new SessionQueryError(`session ${name} range ${detail}`, "SESSION_QUERY_INVALID_FILTER");
+}
+function assertNonNegativeSafeInteger(name, value) {
+	if (!Number.isSafeInteger(value) || value < 0) throw new SessionQueryError(`${name} must be a non-negative safe integer`, "SESSION_QUERY_INVALID_FILTER");
+}
+function assertNonEmptyArray(name, values) {
+	if (values.length === 0) throw new SessionQueryError(`${name} must contain at least one value when supplied`, "SESSION_QUERY_INVALID_FILTER");
+}
+/** Model schemas and model-owned value normalization shared by tool operations. */
+const toolInput = {
+	sessionSearchParameters,
+	eventSearchParameters,
+	targetSessionParameter,
+	buildSessionFilters,
+	materializeParentSessionIds,
+	buildEventFilters,
+	normalizeQuery,
+	sequenceRange,
+	assertNonNegativeSafeInteger
+};
+//#endregion
+
+export {};

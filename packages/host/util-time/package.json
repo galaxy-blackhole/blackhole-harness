@@ -1,0 +1,41 @@
+{
+  "name": "@galaxy-blackhole/gbh-util-time",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "type": "module",
+  "main": "lib/index.js",
+  "description": "Zero-dependency time vocabulary shared by wire boundaries: canonicalClientTimeZone (IANA zone validation and canonicalization only, no formatting)",
+  "scripts": {
+    "build": "bun run build.ts"
+  },
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./package.json": "./package.json",
+    "./src/*": "./src/*"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2"
+  },
+  "devDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2"
+  },
+  "license": "MIT",
+  "gbh": {
+    "draft": "19/10/2026 — GÓI THƯ VIỆN, KHÔNG PHẢI ROW: bản gốc 31 dòng, 1 hàm thuần (canonicalClientTimeZone), không có apply ⇒ không có row nào để thay. Không khai gbh.row (tiền lệ atomic-write/util-crypto).",
+    "peers": [
+      "@deepseek-ai/cordis"
+    ],
+    "tests": [
+      "tests/host/util-time.test.ts"
+    ],
+    "provenance": {
+      "stock": "@deepseek-ai/dsh-util-time",
+      "version": "0.2.1-alpha.4",
+      "sha": "9730c7bc2fe11c1f8a5b1a558e3872039fe6f5ab4fbb279c63de70a8d476b18a"
+    }
+  },
+  "types": "lib/types/index.d.ts"
+}

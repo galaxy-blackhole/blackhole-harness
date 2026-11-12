@@ -1,0 +1,17 @@
+{
+  "dev": "tm-client-ui-a (dev; runtime maxDepth=1 nên không có subagent)",
+  "owner": "tm-client-ui-a",
+  "evidence": [
+    "reviewer tm-reviewer doc lap: host half export `Config = schema.object({...})` (schemaschemastery, đúng hợp đồng cordis resolveConfig) — build /tmp/rev/dp2 dòng 4; trước khi sửa là function Config ⇒ TypeError 'reading validate' khi boot",
+    "client artifact: id goc=0 / id ta=1; gbh.row khai lai du id + moduleIds + aliases + tests",
+    "reviewer tu chay bun test tests/client/ui-sidebar-documentpreview.test.ts: 17 pass / 0 fail / 127 expect",
+    "lab per-row (home rieng, sau khi regression brand duoc go): #root 24.602 · 0 loi console · 0 pageerror · 0 overlay",
+    "--dump-config sau sua: ui-sidebar-documentpreview disabled:true + ui-sidebar-documentpreview-ours + aliases ⇒ MOUNT"
+  ],
+  "packages": [
+    {
+      "dsh": "@deepseek-ai/dsh-client-ui-sidebar-documentpreview",
+      "gbh": "gbh-client-ui-sidebar-documentpreview"
+    }
+  ]
+}

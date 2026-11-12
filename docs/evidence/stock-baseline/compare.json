@@ -1,0 +1,96 @@
+{
+  "generatedAt": "2026-10-21T04:25:20.916Z",
+  "reproduce": "bun run tools/check/journeys.ts",
+  "rows": [
+    {
+      "metric": "(a) số [role=tab]",
+      "stock": "0",
+      "ours": "0",
+      "verdict": "KHỚP"
+    },
+    {
+      "metric": "(a) nhãn tab",
+      "stock": "[]",
+      "ours": "[]",
+      "verdict": "KHỚP"
+    },
+    {
+      "metric": "(b) mục nav Settings",
+      "stock": "[\"General\",\"Models\",\"Built-in plugins\",\"Agent presets\"]",
+      "ours": "[\"General\",\"Model\",\"Plugin\",\"Preset agent\",\"Thông tin\"]",
+      "verdict": "LỆCH"
+    },
+    {
+      "metric": "(b) tiêu đề dòng",
+      "stock": "[\"General\",\"Models\",\"Built-in plugins\",\"Agent presets\",\"Close\",\"Permission\",\"Language\",\"Appearance\",\"Font size\",\"Work details\",\"When to Collapse Work Details\",\"Show coding view\",\"Keyboard shortcuts\",\"Send behavior whi...",
+      "ours": "[\"General\",\"Model\",\"Plugin\",\"Preset agent\",\"Thông tin\",\"Close\",\"Permission\",\"Ngôn ngữ\",\"Giao diện\",\"Cỡ chữ\",\"Chi tiết công việc\",\"Khi nào thu gọn chi tiết công việc\",\"Show coding view\",\"Phím tắt bàn phím\",\"Send behavi...",
+      "verdict": "LỆCH"
+    },
+    {
+      "metric": "(b) có dòng Permission",
+      "stock": "true",
+      "ours": "true",
+      "verdict": "KHỚP"
+    },
+    {
+      "metric": "(c) aria-checked trước",
+      "stock": "\"true\"",
+      "ours": "\"true\"",
+      "verdict": "KHỚP"
+    },
+    {
+      "metric": "(c) aria-checked sau 3s",
+      "stock": "\"false\"",
+      "ours": "\"false\"",
+      "verdict": "KHỚP"
+    },
+    {
+      "metric": "(c) lỗi 'Could not save'",
+      "stock": "false",
+      "ours": "false",
+      "verdict": "KHỚP"
+    },
+    {
+      "metric": "(c) persist sau reload",
+      "stock": "\"false\"",
+      "ours": "\"false\"",
+      "verdict": "KHỚP"
+    },
+    {
+      "metric": "(d) badge preset",
+      "stock": "[\"BUILT-IN\",\"New task default\",\"Built-in\",\"CUSTOM\"]",
+      "ours": "[]",
+      "verdict": "LỆCH"
+    },
+    {
+      "metric": "(d) cặp badge + tên preset",
+      "stock": "[{\"status\":\"BUILT-IN\",\"name\":\"Standard mode\"},{\"status\":\"New task default\",\"name\":\"standard\"},{\"status\":\"Built-in\",\"name\":\"cordis\"},{\"status\":\"CUSTOM\",\"name\":\"Let the agent help me create a preset\"}]",
+      "ours": "[]",
+      "verdict": "LỆCH"
+    },
+    {
+      "metric": "(d) lỗi hiển thị trong pane preset",
+      "stock": "[]",
+      "ours": "[]",
+      "verdict": "KHỚP"
+    },
+    {
+      "metric": "(e) data-testid",
+      "stock": "[]",
+      "ours": "[]",
+      "verdict": "KHỚP"
+    },
+    {
+      "metric": "(e) block lớn (±4px, bỏ khối 0×0)",
+      "stock": "[{\"tag\":\"header\",\"testid\":null,\"x\":280,\"y\":0,\"w\":1160,\"h\":40,\"pageWidth\":1440},{\"tag\":\"div\",\"testid\":null,\"x\":280,\"y\":381,\"w\":1153,\"h\":238,\"pageWidth\":1440},{\"tag\":\"div\",\"testid\":null,\"x\":453,\"y\":381,\"w\":806,\"h\":238,\"pageWidth\":1440},{\"tag\":\"div\",\"testid\":null,\"x\":469,\"y\":481,\"w\":770,\"h\":52,\"pageWidth\":1440}]",
+      "ours": "[{\"tag\":\"header\",\"testid\":null,\"x\":280,\"y\":0,\"w\":1160,\"h\":40,\"pageWidth\":1440},{\"tag\":\"div\",\"testid\":null,\"x\":280,\"y\":380,\"w\":1153,\"h\":240,\"pageWidth\":1440},{\"tag\":\"div\",\"testid\":null,\"x\":453,\"y\":380,\"w\":806,\"h\":240,\"pageWidth\":1440},{\"tag\":\"div\",\"testid\":null,\"x\":469,\"y\":482,\"w\":770,\"h\":52,\"pageWidth\":1440}]",
+      "verdict": "KHỚP"
+    },
+    {
+      "metric": "pageerror",
+      "stock": "[]",
+      "ours": "[]",
+      "verdict": "KHỚP"
+    }
+  ]
+}

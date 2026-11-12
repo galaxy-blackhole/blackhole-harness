@@ -1,0 +1,20 @@
+{
+  "dev": "tm-evidence",
+  "owner": "tm-evidence",
+  "evidence": [
+    "signed, MOUNTED — app xac nhan khi ky: (3) **152 entry** · (5) **0** · (10) **366 file khop repo** · entry goc **0** — LANH; test REVIEWER TU DO (gbh.tests)",
+    "**tool-workflow**: stock `@deepseek-ai/dsh-tool-workflow` · test `tests/host/tool-workflow.test.ts` = **23 pass / 0 fail / 227 expect** (stale guard da sua: gbh co them `provenance`)",
+    "**workflow-ptc**: stock `@deepseek-ai/dsh-workflow-ptc` · test `tests/host/workflow-ptc.test.ts` = **23 pass / 0 fail / 311 expect** (cung nguyen nhan)",
+    "rollback san"
+  ],
+  "packages": [
+    {
+      "dsh": "@deepseek-ai/dsh-tool-workflow",
+      "gbh": "gbh-tool-workflow"
+    },
+    {
+      "dsh": "@deepseek-ai/dsh-workflow-ptc",
+      "gbh": "gbh-workflow-ptc"
+    }
+  ]
+}

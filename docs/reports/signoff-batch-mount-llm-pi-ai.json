@@ -1,0 +1,16 @@
+{
+  "dev": "tm-assets",
+  "owner": "tm-assets",
+  "evidence": [
+    "**3 luot check:app lien tiep DAT 11/11** — (3) **138 entry** · (5) **0** · (8) #root **47.097** / 46 slot / 0 console / 0 pageerror · (9) 0/80 · (10) **267 file khop repo** · (11) HMR",
+    "reviewer tm-reviewer TU DO: build lai exit 0 (index.js) · **export 7 = 7** · test **36 pass / 0 fail / 307 expect** · dump MOI **361 entry** co `llm-pi-ai-ours` ENABLED (patch row `llm-pi-ai` disabled + insert ours) · boot-smoke DAT theo Lead",
+    "RUI RO GHI RO: provider pi-ai nay do adapter cua ta cap ⇒ **CHUA chung minh 1 luot chat that voi model pi-ai** (can mang + credential that); cac bang chung khac (catalog 41 provider id + thu tu + khong trung, stream/error/retry/replay, spy fetch 0 lan goi) chi o muc test",
+    "rollback san"
+  ],
+  "packages": [
+    {
+      "dsh": "@deepseek-ai/dsh-llm-pi-ai",
+      "gbh": "gbh-host-llm-pi-ai"
+    }
+  ]
+}

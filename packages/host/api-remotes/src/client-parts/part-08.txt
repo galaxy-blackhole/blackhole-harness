@@ -1,0 +1,1000 @@
+												],
+												"additionalProperties": false
+											},
+											{
+												"type": "object",
+												"properties": {
+													"id": {
+														"type": "string",
+														"description": "Globally unique task identity."
+													},
+													"kind": {
+														"type": "string",
+														"const": "weekly",
+														"description": "Rule discriminator for a weekly wall-clock reminder."
+													},
+													"title": {
+														"type": "string",
+														"description": "Required stored task name; already trimmed, non-empty, and at most 120 characters."
+													},
+													"prompt": {
+														"type": "string",
+														"description": "Trimmed reminder content supplied at creation."
+													},
+													"time": {
+														"type": "string",
+														"description": "Local time normalized to HH:mm:ss.SSS."
+													},
+													"timeZone": {
+														"type": "string",
+														"description": "Explicit canonical IANA zone; equivalent timing edits retain the stored spelling."
+													},
+													"weekdays": {
+														"type": "array",
+														"items": { "type": "number" },
+														"description": "Unique ascending ISO weekdays, Monday 1 through Sunday 7."
+													},
+													"scheduledAt": {
+														"type": "string",
+														"description": "Committed next UTC instant while active, or final occurrence when inactive."
+													}
+												},
+												"required": [
+													"id",
+													"kind",
+													"title",
+													"prompt",
+													"time",
+													"timeZone",
+													"weekdays",
+													"scheduledAt"
+												],
+												"additionalProperties": false
+											},
+											{
+												"type": "object",
+												"properties": {
+													"id": {
+														"type": "string",
+														"description": "Globally unique task identity."
+													},
+													"kind": {
+														"type": "string",
+														"const": "cron",
+														"description": "Rule discriminator for a five-field cron wall-clock reminder."
+													},
+													"title": {
+														"type": "string",
+														"description": "Required stored task name; already trimmed, non-empty, and at most 120 characters."
+													},
+													"prompt": {
+														"type": "string",
+														"description": "Trimmed reminder content supplied at creation."
+													},
+													"expression": {
+														"type": "string",
+														"description": "Canonical five-field cron expression: minute hour day-of-month month day-of-week."
+													},
+													"timeZone": {
+														"type": "string",
+														"description": "Explicit IANA zone; equivalent timing edits retain the stored spelling."
+													},
+													"scheduledAt": {
+														"type": "string",
+														"description": "Committed next UTC instant while active, or final occurrence when inactive."
+													}
+												},
+												"required": [
+													"id",
+													"kind",
+													"title",
+													"prompt",
+													"expression",
+													"timeZone",
+													"scheduledAt"
+												],
+												"additionalProperties": false
+											}
+										],
+										"description": "Complete record observed when editing began, including the committed target."
+									},
+									"change": {
+										"oneOf": [
+											{
+												"type": "object",
+												"properties": {
+													"kind": {
+														"type": "string",
+														"const": "at"
+													},
+													"at": { "oneOf": [{ "type": "string" }, {
+														"type": "object",
+														"properties": {
+															"date": {
+																"type": "string",
+																"description": "Four-digit ISO calendar date."
+															},
+															"time": {
+																"type": "string",
+																"description": "Local wall-clock time with optional one-to-three digit milliseconds."
+															},
+															"time_zone": {
+																"type": "string",
+																"description": "Explicit UTC or IANA Area/Location zone."
+															}
+														},
+														"required": [
+															"date",
+															"time",
+															"time_zone"
+														],
+														"additionalProperties": false
+													}] }
+												},
+												"required": ["kind", "at"],
+												"additionalProperties": false
+											},
+											{
+												"type": "object",
+												"properties": {
+													"kind": {
+														"type": "string",
+														"const": "every"
+													},
+													"every_seconds": { "type": "number" }
+												},
+												"required": ["kind", "every_seconds"],
+												"additionalProperties": false
+											},
+											{
+												"type": "object",
+												"properties": {
+													"kind": {
+														"type": "string",
+														"const": "daily"
+													},
+													"daily": {
+														"type": "object",
+														"properties": {
+															"time": {
+																"type": "string",
+																"description": "Local HH:mm:ss time with optional one-to-three fractional digits."
+															},
+															"time_zone": {
+																"type": "string",
+																"description": "Explicit UTC or IANA Area/Location zone."
+															}
+														},
+														"required": ["time", "time_zone"],
+														"additionalProperties": false
+													}
+												},
+												"required": ["kind", "daily"],
+												"additionalProperties": false
+											},
+											{
+												"type": "object",
+												"properties": {
+													"kind": {
+														"type": "string",
+														"const": "weekly"
+													},
+													"weekly": {
+														"type": "object",
+														"properties": {
+															"time": {
+																"type": "string",
+																"description": "Local HH:mm:ss time with optional one-to-three fractional digits."
+															},
+															"time_zone": {
+																"type": "string",
+																"description": "Explicit UTC or IANA Area/Location zone."
+															},
+															"weekdays": {
+																"type": "array",
+																"items": { "type": "number" },
+																"description": "Non-empty ISO weekday set, Monday 1 through Sunday 7, without repetitions."
+															}
+														},
+														"required": [
+															"time",
+															"time_zone",
+															"weekdays"
+														],
+														"additionalProperties": false
+													}
+												},
+												"required": ["kind", "weekly"],
+												"additionalProperties": false
+											},
+											{
+												"type": "object",
+												"properties": {
+													"kind": {
+														"type": "string",
+														"const": "cron"
+													},
+													"cron": {
+														"type": "object",
+														"properties": {
+															"expression": {
+																"type": "string",
+																"description": "Five-field Vixie cron expression: minute hour day-of-month month day-of-week."
+															},
+															"time_zone": {
+																"type": "string",
+																"description": "Explicit UTC or IANA Area/Location zone."
+															}
+														},
+														"required": ["expression", "time_zone"],
+														"additionalProperties": false
+													}
+												},
+												"required": ["kind", "cron"],
+												"additionalProperties": false
+											}
+										],
+										"description": "New timing; its kind may differ from the stored record's kind, and an omitted value keeps the committed target."
+									},
+									"id": {
+										"type": "string",
+										"description": "Task to remove."
+									},
+									"sessionId": {
+										"type": "string",
+										"description": "Original Session binding."
+									},
+									"title": {
+										"type": "string",
+										"description": "Task name of at most 120 characters, non-empty after trimming; omitted keeps the stored name."
+									},
+									"prompt": {
+										"type": "string",
+										"description": "Reminder instruction, non-empty after trimming; omitted keeps the stored instruction."
+									}
+								},
+								"required": [
+									"expected",
+									"id",
+									"sessionId"
+								],
+								"additionalProperties": false
+							}
+						}
+					}],
+					cancellation: { parameter: "signal" },
+					result: {
+						mode: "strict",
+						typeSymbol: "@deepseek-ai/dsh-schedule/client#ScheduleUpdateResult",
+						create: _deepseek_ai_dsh_schedule_schedule_update_result$schema,
+						description: "The committed record, unchanged record for a no-op, or a non-mutating input/lookup/conflict/refusal result. Storage and lifecycle failures reject; cancellation after a write starts does not roll it back.",
+						jsonSchemaError: "typert tool schema: selected union branches overlap or have no required discriminator"
+					},
+					sourceLocation: {
+						"file": "packages/schedule/schedule/src/index.ts",
+						"line": 356,
+						"column": 9
+					}
+				}
+			}
+		}, zod.z);
+		//#endregion
+		//#region ../../llm/llm/lib/typert.remote-client.js
+		let _deepseek_ai_dsh_llm_llm_discoverModels_parameter_0$schema$value;
+		const _deepseek_ai_dsh_llm_llm_discoverModels_parameter_0$schema = () => _deepseek_ai_dsh_llm_llm_discoverModels_parameter_0$schema$value ??= zod.z.string();
+		let _deepseek_ai_dsh_llm_llm_discoverModels_parameter_1$schema$value;
+		const _deepseek_ai_dsh_llm_llm_discoverModels_parameter_1$schema = () => _deepseek_ai_dsh_llm_llm_discoverModels_parameter_1$schema$value ??= zod.z.object({
+			"provider": zod.z.string().optional().describe("Route the draft is editing, when it edits an existing one. A route whose adapter already knows its models answers from that knowledge instead of asking the endpoint — the adapter's own registry is the better answer, and it costs no network call."),
+			"baseURL": zod.z.string().optional().describe("Endpoint to interrogate. Optional because a route the adapter already describes needs none; a route it does not must supply one."),
+			"api": zod.z.string().optional().describe("Wire protocol the endpoint speaks, when the draft names one."),
+			"apiKey": zod.z.string().optional().describe("Credential for this interrogation alone; the harness never stores it.")
+		});
+		let _deepseek_ai_dsh_llm_llm_discoverModels_result$schema$value;
+		const _deepseek_ai_dsh_llm_llm_discoverModels_result$schema = () => _deepseek_ai_dsh_llm_llm_discoverModels_result$schema$value ??= zod.z.array(zod.z.object({
+			"id": zod.z.string().describe("Model id the endpoint accepts."),
+			"name": zod.z.string().optional().describe("Human-readable name when the endpoint supplies one."),
+			"contextWindow": zod.z.number().optional().describe("Maximum combined request and response context, when disclosed."),
+			"maxTokens": zod.z.number().optional().describe("Maximum output tokens, when disclosed."),
+			"inputModalities": zod.z.array(zod.z.union([zod.z.literal("text"), zod.z.literal("image")])).optional().describe("Accepted input types when disclosed by the catalog or endpoint; absent means unknown.")
+		}));
+		let _deepseek_ai_dsh_llm_llm_listConfigurableProviders_result$schema$value;
+		const _deepseek_ai_dsh_llm_llm_listConfigurableProviders_result$schema = () => _deepseek_ai_dsh_llm_llm_listConfigurableProviders_result$schema$value ??= zod.z.array(zod.z.object({
+			"provider": zod.z.string().describe("Provider route key this entry activates when configured."),
+			"displayName": zod.z.string().describe("Human-readable provider name for configuration surfaces."),
+			"settingsNs": zod.z.string().describe("User-settings namespace whose section configures this provider."),
+			"settingsPath": zod.z.array(zod.z.string()).describe("Path from that namespace's section root to this provider's profile object; empty when the whole section is the profile."),
+			"declared": zod.z.boolean().optional().describe("Whether the owning adapter knows this route only because configuration declared it — a gateway or self-hosted server it ships nothing about. Absent means the adapter draws no such distinction; false means it does and this route is one of its own. Only the adapter can answer: a stored profile is how a user-added route AND a corrected shipped one both look from outside."),
+			"defaultBaseURL": zod.z.string().optional().describe("Route endpoint the adapter uses when the profile sets no `baseURL`; the adapter may still send an individual model to that model's own endpoint. Absent when the route has no fixed endpoint."),
+			"baseURLEnv": zod.z.array(zod.z.string()).optional().describe("Environment variables used to construct a provider endpoint; absent when none are reported."),
+			"nativeAuth": zod.z.object({
+				"env": zod.z.array(zod.z.string()).describe("Environment variables the route's authentication reads, in lookup order; empty when it reads none."),
+				"oauth": zod.z.boolean().describe("Whether a stored OAuth sign-in can authenticate the route.")
+			}).optional().describe("Authentication the adapter performs when the profile names no credential reference; absent when it reports none."),
+			"error": zod.z.string().optional().describe("Configuration diagnostic for repair; unaffected models may remain serviceable.")
+		}));
+		let _deepseek_ai_dsh_llm_llm_listProviders_result$schema$value;
+		const _deepseek_ai_dsh_llm_llm_listProviders_result$schema = () => _deepseek_ai_dsh_llm_llm_listProviders_result$schema$value ??= zod.z.array(zod.z.object({
+			"id": zod.z.string().describe("Provider route key used by {@link GenerateOptions.provider}."),
+			"name": zod.z.string().describe("Human-readable provider name for selectors and diagnostics.")
+		}));
+		let _deepseek_ai_dsh_llm_llm_discoverModels_parameter_0_strict$schema$value;
+		const _deepseek_ai_dsh_llm_llm_discoverModels_parameter_0_strict$schema = () => _deepseek_ai_dsh_llm_llm_discoverModels_parameter_0_strict$schema$value ??= zod.z.string();
+		let _deepseek_ai_dsh_llm_llm_discoverModels_parameter_1_strict$schema$value;
+		const _deepseek_ai_dsh_llm_llm_discoverModels_parameter_1_strict$schema = () => _deepseek_ai_dsh_llm_llm_discoverModels_parameter_1_strict$schema$value ??= zod.z.strictObject({
+			"provider": zod.z.string().optional().describe("Route the draft is editing, when it edits an existing one. A route whose adapter already knows its models answers from that knowledge instead of asking the endpoint — the adapter's own registry is the better answer, and it costs no network call."),
+			"baseURL": zod.z.string().optional().describe("Endpoint to interrogate. Optional because a route the adapter already describes needs none; a route it does not must supply one."),
+			"api": zod.z.string().optional().describe("Wire protocol the endpoint speaks, when the draft names one."),
+			"apiKey": zod.z.string().optional().describe("Credential for this interrogation alone; the harness never stores it.")
+		});
+		const TYPERT_REMOTE$16 = createTypertRemoteInfo({
+			package: "@deepseek-ai/dsh-llm",
+			methods: {
+				"llm/discoverModels": {
+					service: "llm",
+					description: "Remote adapter for one draft provider interrogation.",
+					implementation: "remoteDiscoverModels",
+					invocation: { kind: "direct" },
+					parameters: [{
+						name: "settingsNs",
+						description: "namespace whose registered discovery serves this draft.",
+						source: "json",
+						codec: {
+							mode: "strict",
+							typeSymbol: "@deepseek-ai/dsh-llm#llm/discoverModels:settingsNs",
+							create: _deepseek_ai_dsh_llm_llm_discoverModels_parameter_0$schema,
+							jsonSchema: { "type": "string" }
+						},
+						strictCodec: {
+							mode: "strict",
+							typeSymbol: "@deepseek-ai/dsh-llm#llm/discoverModels:settingsNs",
+							create: _deepseek_ai_dsh_llm_llm_discoverModels_parameter_0_strict$schema,
+							jsonSchema: { "type": "string" }
+						}
+					}, {
+						name: "request",
+						description: "endpoint, protocol, and one-shot credential to use.",
+						source: "json",
+						codec: {
+							mode: "strict",
+							typeSymbol: "@deepseek-ai/dsh-llm/types#LlmModelDiscoveryRequest",
+							create: _deepseek_ai_dsh_llm_llm_discoverModels_parameter_1$schema,
+							jsonSchema: {
+								"type": "object",
+								"properties": {
+									"provider": {
+										"type": "string",
+										"description": "Route the draft is editing, when it edits an existing one. A route whose adapter already knows its models answers from that knowledge instead of asking the endpoint — the adapter's own registry is the better answer, and it costs no network call."
+									},
+									"baseURL": {
+										"type": "string",
+										"description": "Endpoint to interrogate. Optional because a route the adapter already describes needs none; a route it does not must supply one."
+									},
+									"api": {
+										"type": "string",
+										"description": "Wire protocol the endpoint speaks, when the draft names one."
+									},
+									"apiKey": {
+										"type": "string",
+										"description": "Credential for this interrogation alone; the harness never stores it."
+									}
+								},
+								"required": [],
+								"additionalProperties": true
+							}
+						},
+						strictCodec: {
+							mode: "strict",
+							typeSymbol: "@deepseek-ai/dsh-llm/types#LlmModelDiscoveryRequest",
+							create: _deepseek_ai_dsh_llm_llm_discoverModels_parameter_1_strict$schema,
+							jsonSchema: {
+								"type": "object",
+								"properties": {
+									"provider": {
+										"type": "string",
+										"description": "Route the draft is editing, when it edits an existing one. A route whose adapter already knows its models answers from that knowledge instead of asking the endpoint — the adapter's own registry is the better answer, and it costs no network call."
+									},
+									"baseURL": {
+										"type": "string",
+										"description": "Endpoint to interrogate. Optional because a route the adapter already describes needs none; a route it does not must supply one."
+									},
+									"api": {
+										"type": "string",
+										"description": "Wire protocol the endpoint speaks, when the draft names one."
+									},
+									"apiKey": {
+										"type": "string",
+										"description": "Credential for this interrogation alone; the harness never stores it."
+									}
+								},
+								"required": [],
+								"additionalProperties": false
+							}
+						}
+					}],
+					cancellation: { parameter: "signal" },
+					result: {
+						mode: "strict",
+						typeSymbol: "@deepseek-ai/dsh-llm#llm/discoverModels:result",
+						create: _deepseek_ai_dsh_llm_llm_discoverModels_result$schema,
+						description: "advertised models in endpoint order.",
+						jsonSchema: {
+							"type": "array",
+							"items": {
+								"type": "object",
+								"properties": {
+									"id": {
+										"type": "string",
+										"description": "Model id the endpoint accepts."
+									},
+									"name": {
+										"type": "string",
+										"description": "Human-readable name when the endpoint supplies one."
+									},
+									"contextWindow": {
+										"type": "number",
+										"description": "Maximum combined request and response context, when disclosed."
+									},
+									"maxTokens": {
+										"type": "number",
+										"description": "Maximum output tokens, when disclosed."
+									},
+									"inputModalities": {
+										"type": "array",
+										"items": {
+											"type": "string",
+											"enum": ["text", "image"]
+										},
+										"description": "Accepted input types when disclosed by the catalog or endpoint; absent means unknown."
+									}
+								},
+								"required": ["id"],
+								"additionalProperties": true
+							}
+						}
+					},
+					sourceLocation: {
+						"file": "packages/llm/llm/src/index.ts",
+						"line": 643,
+						"column": 9
+					}
+				},
+				"llm/listConfigurableProviders": {
+					service: "llm",
+					description: "List every declared configurable provider, registered or dormant.",
+					invocation: { kind: "direct" },
+					parameters: [],
+					result: {
+						mode: "strict",
+						typeSymbol: "@deepseek-ai/dsh-llm#llm/listConfigurableProviders:result",
+						create: _deepseek_ai_dsh_llm_llm_listConfigurableProviders_result$schema,
+						description: "detached directory entries in declaration order.",
+						jsonSchema: {
+							"type": "array",
+							"items": {
+								"type": "object",
+								"properties": {
+									"provider": {
+										"type": "string",
+										"description": "Provider route key this entry activates when configured."
+									},
+									"displayName": {
+										"type": "string",
+										"description": "Human-readable provider name for configuration surfaces."
+									},
+									"settingsNs": {
+										"type": "string",
+										"description": "User-settings namespace whose section configures this provider."
+									},
+									"settingsPath": {
+										"type": "array",
+										"items": { "type": "string" },
+										"description": "Path from that namespace's section root to this provider's profile object; empty when the whole section is the profile."
+									},
+									"declared": {
+										"type": "boolean",
+										"description": "Whether the owning adapter knows this route only because configuration declared it — a gateway or self-hosted server it ships nothing about. Absent means the adapter draws no such distinction; false means it does and this route is one of its own. Only the adapter can answer: a stored profile is how a user-added route AND a corrected shipped one both look from outside."
+									},
+									"defaultBaseURL": {
+										"type": "string",
+										"description": "Route endpoint the adapter uses when the profile sets no `baseURL`; the adapter may still send an individual model to that model's own endpoint. Absent when the route has no fixed endpoint."
+									},
+									"baseURLEnv": {
+										"type": "array",
+										"items": { "type": "string" },
+										"description": "Environment variables used to construct a provider endpoint; absent when none are reported."
+									},
+									"nativeAuth": {
+										"type": "object",
+										"properties": {
+											"env": {
+												"type": "array",
+												"items": { "type": "string" },
+												"description": "Environment variables the route's authentication reads, in lookup order; empty when it reads none."
+											},
+											"oauth": {
+												"type": "boolean",
+												"description": "Whether a stored OAuth sign-in can authenticate the route."
+											}
+										},
+										"required": ["env", "oauth"],
+										"additionalProperties": true,
+										"description": "Authentication the adapter performs when the profile names no credential reference; absent when it reports none."
+									},
+									"error": {
+										"type": "string",
+										"description": "Configuration diagnostic for repair; unaffected models may remain serviceable."
+									}
+								},
+								"required": [
+									"provider",
+									"displayName",
+									"settingsNs",
+									"settingsPath"
+								],
+								"additionalProperties": true
+							}
+						}
+					},
+					sourceLocation: {
+						"file": "packages/llm/llm/src/index.ts",
+						"line": 555,
+						"column": 3
+					}
+				},
+				"llm/listProviders": {
+					service: "llm",
+					description: "Describe provider routes with a registered adapter.",
+					invocation: { kind: "direct" },
+					parameters: [],
+					result: {
+						mode: "strict",
+						typeSymbol: "@deepseek-ai/dsh-llm#llm/listProviders:result",
+						create: _deepseek_ai_dsh_llm_llm_listProviders_result$schema,
+						description: "detached provider metadata in registration order.",
+						jsonSchema: {
+							"type": "array",
+							"items": {
+								"type": "object",
+								"properties": {
+									"id": {
+										"type": "string",
+										"description": "Provider route key used by {@link GenerateOptions.provider}."
+									},
+									"name": {
+										"type": "string",
+										"description": "Human-readable provider name for selectors and diagnostics."
+									}
+								},
+								"required": ["id", "name"],
+								"additionalProperties": true
+							}
+						}
+					},
+					sourceLocation: {
+						"file": "packages/llm/llm/src/index.ts",
+						"line": 483,
+						"column": 3
+					}
+				}
+			}
+		}, zod.z);
+		//#endregion
+		//#region ../../extensions/cordis-host-runner/lib/typert.remote-client.js
+		let _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_getClientCode_parameter_0$schema$value;
+		const _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_getClientCode_parameter_0$schema = () => _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_getClientCode_parameter_0$schema$value ??= zod.z.string();
+		let _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_getClientCode_parameter_1$schema$value;
+		const _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_getClientCode_parameter_1$schema = () => _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_getClientCode_parameter_1$schema$value ??= zod.z.string();
+		let _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_getClientCode_parameter_2$schema$value;
+		const _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_getClientCode_parameter_2$schema = () => _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_getClientCode_parameter_2$schema$value ??= zod.z.string();
+		let _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_getClientCode_result$schema$value;
+		const _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_getClientCode_result$schema = () => _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_getClientCode_result$schema$value ??= zod.z.object({
+			"code": zod.z.string().describe("Browser JavaScript body."),
+			"name": zod.z.string().describe("Package label."),
+			"pluginId": zod.z.string().describe("Stable plugin instance."),
+			"packageId": zod.z.string().describe("Immutable source version."),
+			"pluginRunId": zod.z.string().describe("Exact activation the source belongs to.")
+		});
+		let _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_inventory_result$schema$value;
+		const _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_inventory_result$schema = () => _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_inventory_result$schema$value ??= zod.z.array(zod.z.object({
+			"pluginId": zod.z.string().describe("Stable plugin instance."),
+			"agentId": zod.z.string().describe("Session that owns this plugin."),
+			"packages": zod.z.array(zod.z.object({
+				"packageId": zod.z.string().describe("Immutable package version."),
+				"name": zod.z.string().describe("Package label."),
+				"purpose": zod.z.string().describe("User-facing purpose."),
+				"hasHostHalf": zod.z.boolean().describe("Whether this version contains Host code."),
+				"hasClientHalf": zod.z.boolean().describe("Whether this version contains Client code.")
+			})).describe("Immutable versions in define order."),
+			"currentPackageId": zod.z.string().optional().describe("Last package that completed activation successfully."),
+			"nextPackageId": zod.z.string().optional().describe("Package selected for a failed or in-progress transition."),
+			"activeRun": zod.z.object({
+				"pluginRunId": zod.z.string(),
+				"packageId": zod.z.string()
+			}).optional().describe("Current activation, absent while stopped."),
+			"latestRun": zod.z.object({
+				"pluginRunId": zod.z.string().describe("Exact attempt identity."),
+				"packageId": zod.z.string().describe("Target Package."),
+				"mode": zod.z.union([zod.z.literal("run"), zod.z.literal("update")]).describe("Explicit run/update intent."),
+				"status": zod.z.union([
+					zod.z.literal("cancelled"),
+					zod.z.literal("failed"),
+					zod.z.literal("running"),
+					zod.z.literal("rejected"),
+					zod.z.literal("awaiting-approval"),
+					zod.z.literal("starting-host"),
+					zod.z.literal("client-pending"),
+					zod.z.literal("waiting"),
+					zod.z.literal("stopped")
+				]).describe("Current attempt state."),
+				"approvalRequestId": zod.z.string().optional().describe("Pending Client activation request; it represents approval only when `requiresApproval` is true."),
+				"requiresApproval": zod.z.boolean().optional().describe("Whether the pending Client activation requires a user decision."),
+				"host": zod.z.object({
+					"status": zod.z.union([
+						zod.z.literal("failed"),
+						zod.z.literal("running"),
+						zod.z.literal("pending"),
+						zod.z.literal("waiting"),
+						zod.z.literal("stopped"),
+						zod.z.literal("absent")
+					]).describe("Lifecycle state of this half."),
+					"waitingFor": zod.z.array(zod.z.string()).describe("Services still needed by a successfully created Fiber."),
+					"error": zod.z.string().optional().describe("Failure text for this half.")
+				}).describe("Host-half state."),
+				"client": zod.z.object({
+					"status": zod.z.union([
+						zod.z.literal("failed"),
+						zod.z.literal("running"),
+						zod.z.literal("pending"),
+						zod.z.literal("waiting"),
+						zod.z.literal("stopped"),
+						zod.z.literal("absent")
+					]).describe("Lifecycle state of this half."),
+					"waitingFor": zod.z.array(zod.z.string()).describe("Services still needed by a successfully created Fiber."),
+					"error": zod.z.string().optional().describe("Failure text for this half.")
+				}).describe("Client-half state."),
+				"error": zod.z.object({
+					"phase": zod.z.union([
+						zod.z.literal("approval"),
+						zod.z.literal("host-load"),
+						zod.z.literal("host-apply"),
+						zod.z.literal("client-load"),
+						zod.z.literal("client-apply"),
+						zod.z.literal("client-render")
+					]).describe("Stage that failed."),
+					"message": zod.z.string().describe("Original failure text."),
+					"stack": zod.z.string().optional().describe("Original failure stack when available."),
+					"pluginId": zod.z.string().describe("Stable Plugin identity."),
+					"packageId": zod.z.string().describe("Immutable Package identity."),
+					"pluginRunId": zod.z.string().describe("Exact attempt identity.")
+				}).optional().describe("Most recent failure.")
+			}).optional().describe("Latest activation attempt, including pending approval and diagnostics.")
+		}));
+		let _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_invoke_parameter_0$schema$value;
+		const _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_invoke_parameter_0$schema = () => _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_invoke_parameter_0$schema$value ??= zod.z.string();
+		let _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_invoke_parameter_1$schema$value;
+		const _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_invoke_parameter_1$schema = () => _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_invoke_parameter_1$schema$value ??= zod.z.string();
+		let _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_invoke_parameter_2$schema$value;
+		const _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_invoke_parameter_2$schema = () => _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_invoke_parameter_2$schema$value ??= zod.z.string();
+		let _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_invoke_parameter_3$schema$value;
+		const _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_invoke_parameter_3$schema = () => _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_invoke_parameter_3$schema$value ??= zod.z.json();
+		let _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_invoke_result$schema$value;
+		const _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_invoke_result$schema = () => _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_invoke_result$schema$value ??= zod.z.union([zod.z.object({
+			"ok": zod.z.literal(true),
+			"value": zod.z.json()
+		}), zod.z.object({
+			"ok": zod.z.literal(false),
+			"code": zod.z.union([
+				zod.z.literal("plugin-not-running"),
+				zod.z.literal("stale-run"),
+				zod.z.literal("method-not-found"),
+				zod.z.literal("handler-error")
+			]),
+			"message": zod.z.string().describe("Original error message."),
+			"stack": zod.z.string().optional().describe("Original stack when the thrown value supplied one.")
+		})]);
+		let _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_reportClientGuardFailure_parameter_0$schema$value;
+		const _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_reportClientGuardFailure_parameter_0$schema = () => _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_reportClientGuardFailure_parameter_0$schema$value ??= zod.z.string();
+		let _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_reportClientGuardFailure_parameter_1$schema$value;
+		const _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_reportClientGuardFailure_parameter_1$schema = () => _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_reportClientGuardFailure_parameter_1$schema$value ??= zod.z.string();
+		let _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_reportClientGuardFailure_parameter_2$schema$value;
+		const _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_reportClientGuardFailure_parameter_2$schema = () => _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_reportClientGuardFailure_parameter_2$schema$value ??= zod.z.string();
+		let _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_reportClientGuardFailure_parameter_3$schema$value;
+		const _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_reportClientGuardFailure_parameter_3$schema = () => _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_reportClientGuardFailure_parameter_3$schema$value ??= zod.z.object({
+			"message": zod.z.string().describe("Original error message."),
+			"stack": zod.z.string().optional().describe("Original stack when the thrown value supplied one.")
+		});
+		let _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_reportClientGuardFailure_result$schema$value;
+		const _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_reportClientGuardFailure_result$schema = () => _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_reportClientGuardFailure_result$schema$value ??= zod.z.literal(null);
+		let _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_reportRenderFailure_parameter_0$schema$value;
+		const _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_reportRenderFailure_parameter_0$schema = () => _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_reportRenderFailure_parameter_0$schema$value ??= zod.z.string();
+		let _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_reportRenderFailure_parameter_1$schema$value;
+		const _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_reportRenderFailure_parameter_1$schema = () => _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_reportRenderFailure_parameter_1$schema$value ??= zod.z.string();
+		let _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_reportRenderFailure_parameter_2$schema$value;
+		const _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_reportRenderFailure_parameter_2$schema = () => _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_reportRenderFailure_parameter_2$schema$value ??= zod.z.string();
+		let _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_reportRenderFailure_parameter_3$schema$value;
+		const _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_reportRenderFailure_parameter_3$schema = () => _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_reportRenderFailure_parameter_3$schema$value ??= zod.z.object({
+			"slot": zod.z.string().describe("Slot whose component failed."),
+			"message": zod.z.string().describe("Render failure text."),
+			"stack": zod.z.string().optional().describe("Original render failure stack when available."),
+			"abdicated": zod.z.boolean().describe("Whether the failing contribution relinquished its slot.")
+		});
+		let _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_reportRenderFailure_result$schema$value;
+		const _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_reportRenderFailure_result$schema = () => _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_reportRenderFailure_result$schema$value ??= zod.z.literal(null);
+		let _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_resolveInspectQuery_parameter_0$schema$value;
+		const _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_resolveInspectQuery_parameter_0$schema = () => _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_resolveInspectQuery_parameter_0$schema$value ??= zod.z.string();
+		let _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_resolveInspectQuery_parameter_1$schema$value;
+		const _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_resolveInspectQuery_parameter_1$schema = () => _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_resolveInspectQuery_parameter_1$schema$value ??= zod.z.string();
+		let _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_resolveInspectQuery_parameter_2$schema$value;
+		const _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_resolveInspectQuery_parameter_2$schema = () => _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_resolveInspectQuery_parameter_2$schema$value ??= zod.z.union([zod.z.object({
+			"ok": zod.z.literal(true),
+			"data": zod.z.json()
+		}), zod.z.object({
+			"ok": zod.z.literal(false),
+			"reason": zod.z.union([
+				zod.z.literal("cancelled"),
+				zod.z.literal("provider-missing"),
+				zod.z.literal("method-missing"),
+				zod.z.literal("invalid-input"),
+				zod.z.literal("provider-error")
+			]),
+			"message": zod.z.string()
+		})]);
+		let _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_resolveInspectQuery_result$schema$value;
+		const _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_resolveInspectQuery_result$schema = () => _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_resolveInspectQuery_result$schema$value ??= zod.z.object({ "accepted": zod.z.boolean().describe("True only for a valid success that settles the query; false for retained failures and unknown, timed out, cancelled, or late answers.") });
+		let _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_resolveRequestRun_parameter_0$schema$value;
+		const _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_resolveRequestRun_parameter_0$schema = () => _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_resolveRequestRun_parameter_0$schema$value ??= zod.z.string();
+		let _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_resolveRequestRun_parameter_1$schema$value;
+		const _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_resolveRequestRun_parameter_1$schema = () => _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_resolveRequestRun_parameter_1$schema$value ??= zod.z.union([zod.z.object({
+			"ok": zod.z.literal(true),
+			"pluginRunId": zod.z.string(),
+			"waitingFor": zod.z.array(zod.z.string()).optional()
+		}), zod.z.object({
+			"ok": zod.z.literal(false),
+			"reason": zod.z.union([
+				zod.z.literal("rejected"),
+				zod.z.literal("host-half-failed"),
+				zod.z.literal("client-half-failed")
+			]),
+			"pluginRunId": zod.z.string().optional().describe("Activation that failed; absent for a refusal before activation."),
+			"startedHere": zod.z.boolean().optional().describe("Whether this page created the failed activation instead of attaching to it."),
+			"message": zod.z.string().optional(),
+			"stack": zod.z.string().optional()
+		})]);
+		let _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_resolveRequestRun_result$schema$value;
+		const _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_resolveRequestRun_result$schema = () => _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_resolveRequestRun_result$schema$value ??= zod.z.object({ "accepted": zod.z.boolean().describe("False for late, unknown, or stale answers.") });
+		let _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_runHostHalf_parameter_0$schema$value;
+		const _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_runHostHalf_parameter_0$schema = () => _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_runHostHalf_parameter_0$schema$value ??= zod.z.string();
+		let _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_runHostHalf_parameter_1$schema$value;
+		const _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_runHostHalf_parameter_1$schema = () => _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_runHostHalf_parameter_1$schema$value ??= zod.z.string();
+		let _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_runHostHalf_parameter_2$schema$value;
+		const _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_runHostHalf_parameter_2$schema = () => _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_runHostHalf_parameter_2$schema$value ??= zod.z.string();
+		let _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_runHostHalf_parameter_3$schema$value;
+		const _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_runHostHalf_parameter_3$schema = () => _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_runHostHalf_parameter_3$schema$value ??= zod.z.union([zod.z.literal("run"), zod.z.literal("update")]);
+		let _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_runHostHalf_parameter_4$schema$value;
+		const _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_runHostHalf_parameter_4$schema = () => _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_runHostHalf_parameter_4$schema$value ??= zod.z.union([zod.z.literal(null), zod.z.string()]);
+		let _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_runHostHalf_parameter_5$schema$value;
+		const _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_runHostHalf_parameter_5$schema = () => _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_runHostHalf_parameter_5$schema$value ??= zod.z.boolean();
+		let _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_runHostHalf_result$schema$value;
+		const _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_runHostHalf_result$schema = () => _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_runHostHalf_result$schema$value ??= zod.z.union([zod.z.object({
+			"ok": zod.z.literal(true),
+			"pluginId": zod.z.string(),
+			"packageId": zod.z.string(),
+			"pluginRunId": zod.z.string(),
+			"waitingFor": zod.z.array(zod.z.string()),
+			"startedHere": zod.z.boolean().describe("False when a panel merely attaches this page to an already active run.")
+		}), zod.z.object({
+			"ok": zod.z.literal(false),
+			"message": zod.z.string().describe("Original error message."),
+			"stack": zod.z.string().optional().describe("Original stack when the thrown value supplied one.")
+		})]);
+		let _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_settleUserRun_parameter_0$schema$value;
+		const _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_settleUserRun_parameter_0$schema = () => _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_settleUserRun_parameter_0$schema$value ??= zod.z.string();
+		let _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_settleUserRun_parameter_1$schema$value;
+		const _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_settleUserRun_parameter_1$schema = () => _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_settleUserRun_parameter_1$schema$value ??= zod.z.string();
+		let _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_settleUserRun_parameter_2$schema$value;
+		const _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_settleUserRun_parameter_2$schema = () => _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_settleUserRun_parameter_2$schema$value ??= zod.z.union([zod.z.object({
+			"ok": zod.z.literal(true),
+			"pluginRunId": zod.z.string(),
+			"waitingFor": zod.z.array(zod.z.string()).optional()
+		}), zod.z.object({
+			"ok": zod.z.literal(false),
+			"reason": zod.z.union([
+				zod.z.literal("rejected"),
+				zod.z.literal("host-half-failed"),
+				zod.z.literal("client-half-failed")
+			]),
+			"pluginRunId": zod.z.string().optional().describe("Activation that failed; absent for a refusal before activation."),
+			"startedHere": zod.z.boolean().optional().describe("Whether this page created the failed activation instead of attaching to it."),
+			"message": zod.z.string().optional(),
+			"stack": zod.z.string().optional()
+		})]);
+		let _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_settleUserRun_result$schema$value;
+		const _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_settleUserRun_result$schema = () => _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_settleUserRun_result$schema$value ??= zod.z.union([zod.z.object({
+			"ok": zod.z.literal(true),
+			"status": zod.z.union([
+				zod.z.literal("running"),
+				zod.z.literal("awaiting-approval"),
+				zod.z.literal("starting")
+			]).describe("Whether activation completed synchronously, is starting in a Client, or awaits user approval."),
+			"pluginId": zod.z.string(),
+			"packageId": zod.z.string(),
+			"pluginRunId": zod.z.string(),
+			"waitingFor": zod.z.array(zod.z.string()).describe("Missing Host services; a parked Fiber is a successful activation."),
+			"clientWaitingFor": zod.z.array(zod.z.string()).optional().describe("Missing Client services reported by the approving page."),
+			"currentPackageId": zod.z.string().optional().describe("Last fully successful Package."),
+			"nextPackageId": zod.z.string().optional().describe("Selected transition target."),
+			"mode": zod.z.union([zod.z.literal("run"), zod.z.literal("update")]).describe("Explicit lifecycle intent.")
+		}), zod.z.object({
+			"ok": zod.z.literal(false),
+			"reason": zod.z.union([
+				zod.z.literal("cancelled"),
+				zod.z.literal("not-running"),
+				zod.z.literal("plugin-missing"),
+				zod.z.literal("rejected"),
+				zod.z.literal("host-half-failed"),
+				zod.z.literal("client-half-failed"),
+				zod.z.literal("package-missing"),
+				zod.z.literal("invalid-mode"),
+				zod.z.literal("transition-in-flight")
+			]),
+			"message": zod.z.string(),
+			"stack": zod.z.string().optional().describe("Original failure stack when available.")
+		})]);
+		let _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_stopFromPanel_parameter_0$schema$value;
+		const _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_stopFromPanel_parameter_0$schema = () => _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_stopFromPanel_parameter_0$schema$value ??= zod.z.string();
+		let _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_stopFromPanel_parameter_1$schema$value;
+		const _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_stopFromPanel_parameter_1$schema = () => _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_stopFromPanel_parameter_1$schema$value ??= zod.z.string();
+		let _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_stopFromPanel_result$schema$value;
+		const _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_stopFromPanel_result$schema = () => _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_stopFromPanel_result$schema$value ??= zod.z.union([zod.z.object({ "ok": zod.z.literal(true) }), zod.z.object({
+			"ok": zod.z.literal(false),
+			"reason": zod.z.union([zod.z.literal("not-running"), zod.z.literal("plugin-missing")]),
+			"message": zod.z.string()
+		})]);
+		let _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_syncInspectManifest_parameter_0$schema$value;
+		const _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_syncInspectManifest_parameter_0$schema = () => _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_syncInspectManifest_parameter_0$schema$value ??= zod.z.array(zod.z.object({
+			"id": zod.z.string().describe("Provider identity, unique within one platform."),
+			"description": zod.z.string().describe("Capability described by this provider."),
+			"methods": zod.z.array(zod.z.object({
+				"name": zod.z.string().describe("Method name, unique within its provider."),
+				"description": zod.z.string().describe("What the query returns and when to use it."),
+				"inputSchema": zod.z.json().describe("JSON Schema accepted by the query."),
+				"outputSchema": zod.z.json().describe("JSON Schema produced by the query.")
+			})).describe("Explicit read-only queries.")
+		}));
+		let _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_syncInspectManifest_result$schema$value;
+		const _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_syncInspectManifest_result$schema = () => _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_syncInspectManifest_result$schema$value ??= zod.z.literal(null);
+		let _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_undefineFromPanel_parameter_0$schema$value;
+		const _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_undefineFromPanel_parameter_0$schema = () => _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_undefineFromPanel_parameter_0$schema$value ??= zod.z.string();
+		let _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_undefineFromPanel_parameter_1$schema$value;
+		const _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_undefineFromPanel_parameter_1$schema = () => _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_undefineFromPanel_parameter_1$schema$value ??= zod.z.string();
+		let _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_undefineFromPanel_result$schema$value;
+		const _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_undefineFromPanel_result$schema = () => _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_undefineFromPanel_result$schema$value ??= zod.z.union([zod.z.object({
+			"ok": zod.z.literal(true),
+			"wasRunning": zod.z.boolean()
+		}), zod.z.object({
+			"ok": zod.z.literal(false),
+			"reason": zod.z.literal("plugin-missing"),
+			"message": zod.z.string()
+		})]);
+		let _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_getClientCode_parameter_0_strict$schema$value;
+		const _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_getClientCode_parameter_0_strict$schema = () => _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_getClientCode_parameter_0_strict$schema$value ??= zod.z.string();
+		let _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_getClientCode_parameter_1_strict$schema$value;
+		const _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_getClientCode_parameter_1_strict$schema = () => _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_getClientCode_parameter_1_strict$schema$value ??= zod.z.string();
+		let _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_getClientCode_parameter_2_strict$schema$value;
+		const _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_getClientCode_parameter_2_strict$schema = () => _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_getClientCode_parameter_2_strict$schema$value ??= zod.z.string();
+		let _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_invoke_parameter_0_strict$schema$value;
+		const _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_invoke_parameter_0_strict$schema = () => _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_invoke_parameter_0_strict$schema$value ??= zod.z.string();
+		let _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_invoke_parameter_1_strict$schema$value;
+		const _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_invoke_parameter_1_strict$schema = () => _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_invoke_parameter_1_strict$schema$value ??= zod.z.string();
+		let _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_invoke_parameter_2_strict$schema$value;
+		const _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_invoke_parameter_2_strict$schema = () => _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_invoke_parameter_2_strict$schema$value ??= zod.z.string();
+		let _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_invoke_parameter_3_strict$schema$value;
+		const _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_invoke_parameter_3_strict$schema = () => _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_invoke_parameter_3_strict$schema$value ??= zod.z.json();
+		let _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_reportClientGuardFailure_parameter_0_strict$schema$value;
+		const _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_reportClientGuardFailure_parameter_0_strict$schema = () => _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_reportClientGuardFailure_parameter_0_strict$schema$value ??= zod.z.string();
+		let _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_reportClientGuardFailure_parameter_1_strict$schema$value;
+		const _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_reportClientGuardFailure_parameter_1_strict$schema = () => _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_reportClientGuardFailure_parameter_1_strict$schema$value ??= zod.z.string();
+		let _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_reportClientGuardFailure_parameter_2_strict$schema$value;
+		const _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_reportClientGuardFailure_parameter_2_strict$schema = () => _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_reportClientGuardFailure_parameter_2_strict$schema$value ??= zod.z.string();
+		let _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_reportClientGuardFailure_parameter_3_strict$schema$value;
+		const _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_reportClientGuardFailure_parameter_3_strict$schema = () => _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_reportClientGuardFailure_parameter_3_strict$schema$value ??= zod.z.strictObject({
+			"message": zod.z.string().describe("Original error message."),
+			"stack": zod.z.string().optional().describe("Original stack when the thrown value supplied one.")
+		});
+		let _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_reportRenderFailure_parameter_0_strict$schema$value;
+		const _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_reportRenderFailure_parameter_0_strict$schema = () => _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_reportRenderFailure_parameter_0_strict$schema$value ??= zod.z.string();
+		let _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_reportRenderFailure_parameter_1_strict$schema$value;
+		const _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_reportRenderFailure_parameter_1_strict$schema = () => _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_reportRenderFailure_parameter_1_strict$schema$value ??= zod.z.string();
+		let _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_reportRenderFailure_parameter_2_strict$schema$value;
+		const _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_reportRenderFailure_parameter_2_strict$schema = () => _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_reportRenderFailure_parameter_2_strict$schema$value ??= zod.z.string();
+		let _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_reportRenderFailure_parameter_3_strict$schema$value;
+		const _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_reportRenderFailure_parameter_3_strict$schema = () => _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_reportRenderFailure_parameter_3_strict$schema$value ??= zod.z.strictObject({
+			"slot": zod.z.string().describe("Slot whose component failed."),
+			"message": zod.z.string().describe("Render failure text."),
+			"stack": zod.z.string().optional().describe("Original render failure stack when available."),
+			"abdicated": zod.z.boolean().describe("Whether the failing contribution relinquished its slot.")
+		});
+		let _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_resolveInspectQuery_parameter_0_strict$schema$value;
+		const _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_resolveInspectQuery_parameter_0_strict$schema = () => _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_resolveInspectQuery_parameter_0_strict$schema$value ??= zod.z.string();
+		let _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_resolveInspectQuery_parameter_1_strict$schema$value;
+		const _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_resolveInspectQuery_parameter_1_strict$schema = () => _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_resolveInspectQuery_parameter_1_strict$schema$value ??= zod.z.string();
+		let _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_resolveInspectQuery_parameter_2_strict$schema$value;
+		const _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_resolveInspectQuery_parameter_2_strict$schema = () => _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_resolveInspectQuery_parameter_2_strict$schema$value ??= zod.z.union([zod.z.strictObject({
+			"ok": zod.z.literal(true),
+			"data": zod.z.json()
+		}), zod.z.strictObject({
+			"ok": zod.z.literal(false),
+			"reason": zod.z.union([
+				zod.z.literal("cancelled"),
+				zod.z.literal("provider-missing"),
+				zod.z.literal("method-missing"),
+				zod.z.literal("invalid-input"),
+				zod.z.literal("provider-error")
+			]),
+			"message": zod.z.string()
+		})]);
+		let _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_resolveRequestRun_parameter_0_strict$schema$value;
+		const _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_resolveRequestRun_parameter_0_strict$schema = () => _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_resolveRequestRun_parameter_0_strict$schema$value ??= zod.z.string();
+		let _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_resolveRequestRun_parameter_1_strict$schema$value;
+		const _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_resolveRequestRun_parameter_1_strict$schema = () => _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_resolveRequestRun_parameter_1_strict$schema$value ??= zod.z.union([zod.z.strictObject({
+			"ok": zod.z.literal(true),
+			"pluginRunId": zod.z.string(),
+			"waitingFor": zod.z.array(zod.z.string()).optional()
+		}), zod.z.strictObject({
+			"ok": zod.z.literal(false),
+			"reason": zod.z.union([
+				zod.z.literal("rejected"),
+				zod.z.literal("host-half-failed"),
+				zod.z.literal("client-half-failed")
+			]),
+			"pluginRunId": zod.z.string().optional().describe("Activation that failed; absent for a refusal before activation."),
+			"startedHere": zod.z.boolean().optional().describe("Whether this page created the failed activation instead of attaching to it."),
+			"message": zod.z.string().optional(),
+			"stack": zod.z.string().optional()
+		})]);
+		let _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_runHostHalf_parameter_0_strict$schema$value;
+		const _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_runHostHalf_parameter_0_strict$schema = () => _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_runHostHalf_parameter_0_strict$schema$value ??= zod.z.string();
+		let _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_runHostHalf_parameter_1_strict$schema$value;
+		const _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_runHostHalf_parameter_1_strict$schema = () => _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_runHostHalf_parameter_1_strict$schema$value ??= zod.z.string();
+		let _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_runHostHalf_parameter_2_strict$schema$value;
+		const _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_runHostHalf_parameter_2_strict$schema = () => _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_runHostHalf_parameter_2_strict$schema$value ??= zod.z.string();
+		let _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_runHostHalf_parameter_3_strict$schema$value;
+		const _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_runHostHalf_parameter_3_strict$schema = () => _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_runHostHalf_parameter_3_strict$schema$value ??= zod.z.union([zod.z.literal("run"), zod.z.literal("update")]);
+		let _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_runHostHalf_parameter_4_strict$schema$value;
+		const _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_runHostHalf_parameter_4_strict$schema = () => _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_runHostHalf_parameter_4_strict$schema$value ??= zod.z.union([zod.z.literal(null), zod.z.string()]);
+		let _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_runHostHalf_parameter_5_strict$schema$value;
+		const _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_runHostHalf_parameter_5_strict$schema = () => _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_runHostHalf_parameter_5_strict$schema$value ??= zod.z.boolean();
+		let _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_settleUserRun_parameter_0_strict$schema$value;
+		const _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_settleUserRun_parameter_0_strict$schema = () => _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_settleUserRun_parameter_0_strict$schema$value ??= zod.z.string();
+		let _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_settleUserRun_parameter_1_strict$schema$value;
+		const _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_settleUserRun_parameter_1_strict$schema = () => _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_settleUserRun_parameter_1_strict$schema$value ??= zod.z.string();
+		let _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_settleUserRun_parameter_2_strict$schema$value;
+		const _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_settleUserRun_parameter_2_strict$schema = () => _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_settleUserRun_parameter_2_strict$schema$value ??= zod.z.union([zod.z.strictObject({
+			"ok": zod.z.literal(true),
+			"pluginRunId": zod.z.string(),
+			"waitingFor": zod.z.array(zod.z.string()).optional()
+		}), zod.z.strictObject({
+			"ok": zod.z.literal(false),
+			"reason": zod.z.union([
+				zod.z.literal("rejected"),
+				zod.z.literal("host-half-failed"),
+				zod.z.literal("client-half-failed")
+			]),
+			"pluginRunId": zod.z.string().optional().describe("Activation that failed; absent for a refusal before activation."),
+			"startedHere": zod.z.boolean().optional().describe("Whether this page created the failed activation instead of attaching to it."),
+			"message": zod.z.string().optional(),
+			"stack": zod.z.string().optional()
+		})]);
+		let _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_stopFromPanel_parameter_0_strict$schema$value;
+		const _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_stopFromPanel_parameter_0_strict$schema = () => _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_stopFromPanel_parameter_0_strict$schema$value ??= zod.z.string();
+		let _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_stopFromPanel_parameter_1_strict$schema$value;
+		const _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_stopFromPanel_parameter_1_strict$schema = () => _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_stopFromPanel_parameter_1_strict$schema$value ??= zod.z.string();
+		let _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_syncInspectManifest_parameter_0_strict$schema$value;
+		const _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_syncInspectManifest_parameter_0_strict$schema = () => _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_syncInspectManifest_parameter_0_strict$schema$value ??= zod.z.array(zod.z.strictObject({
+			"id": zod.z.string().describe("Provider identity, unique within one platform."),
+			"description": zod.z.string().describe("Capability described by this provider."),
+			"methods": zod.z.array(zod.z.strictObject({
+				"name": zod.z.string().describe("Method name, unique within its provider."),
+				"description": zod.z.string().describe("What the query returns and when to use it."),
+				"inputSchema": zod.z.json().describe("JSON Schema accepted by the query."),
+				"outputSchema": zod.z.json().describe("JSON Schema produced by the query.")

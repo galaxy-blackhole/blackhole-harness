@@ -1,0 +1,19 @@
+{
+  "dev": "tm-client-ui-a",
+  "owner": "tm-client-ui-a",
+  "evidence": [
+    "signed, MOUNTED — check:app 11/11, lab 0 did-not-activate, boot-smoke DAT; mount -> **137 entry**",
+    "**3 artefact CONG BYTE** (reviewer build lai + do): client **20.619 B** (goc 20.614, +5) sha `143f44ed076de1…` · typert.host **66.062 B** (goc 66.052, +10) sha `41e6d4356ff2fc0…` · typert.remote-client **50.874 B** (goc 50.869, +5) sha `898fcc313eb2a6b…` — chenh lech dung bang do dai id moi",
+    "**typert-loader ACCEPTED** (Lead validate bang loader THAT) — reviewer ghi nhan; test 2 tep declared: **27 pass / 0 fail / 139 expect**",
+    "**check:app DAT 11/11** (2 luot): (3) **137 entry** · (5) 0 · #root 47.181 / 46 slot / 0 console / 0 pageerror · (9) **0/80** · (11) HMR",
+    "**lab:row home CACH LY: #root 22.204 · 0 console · 0 pageerror · 0 did-not-activate**",
+    "KIEM THEM nua client theo yeu cau Lead (UI Workspace + hop chon thu muc): app render 46 slot / 0 console / 0 pageerror + (9) 0/80 ⇒ UI Workspace lanh; hop chon thu muc native KHONG the mo trong moi truong lab/headless — phan nay chi chung minh qua (8)/(9) + test faces, KHONG phai probe native that",
+    "dev/owner tam ghi tm-client-ui-a (chua co entry cu) — Lead sua neu khac; rollback san"
+  ],
+  "packages": [
+    {
+      "dsh": "@deepseek-ai/dsh-api-workspace-controller",
+      "gbh": "gbh-api-workspace-controller"
+    }
+  ]
+}

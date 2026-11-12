@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "api-workspace-controller",
+    "description": "Lệnh Remote cho workspace và đường truyền trạng thái an toàn khi kết nối lại."
+  }
+}

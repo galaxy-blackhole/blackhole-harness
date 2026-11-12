@@ -1,0 +1,21 @@
+{
+  "dev": "tm-host-core",
+  "owner": "tm-host-core",
+  "evidence": [
+    "reviewer tm-reviewer do doc lap tren artifact + LAB BOOT CACH LY (home rieng /tmp/rev-lab-<row>, cong 5480): config-editor **notActivated=0** · #root 24.602 · 0 console · 0 pageerror · 0 overlay — service 'configEditor has been registered' DA HET",
+    "pwsh-sandbox: lab **notActivated=0** · #root 22.204 · 0 console · 0 pageerror · 0 overlay — tren macOS KHONG con entry nao activate (mirror oracle), 'service shell has been registered' DA HET",
+    "che do mirror do duoc trong patch: stock `disabled: true` VO DIEU KIEN; insert cua ta mang `disabled: !!js \"!ctx.get('profileContext')\"` (config-editor) va `disabled: !!js process.platform !== 'win32'` (pwsh) — dung nhu ban goc",
+    "reviewer tu chay bun test tests/host/config-editor.test.ts + tests/host/pwsh-sandbox.test.ts: **39 pass / 0 fail / 226 expect**",
+    "export host khop ban goc (thieu 0) · ca 2 goi khai gbh.row kem tests va mount dung trong --dump-config"
+  ],
+  "packages": [
+    {
+      "dsh": "@deepseek-ai/dsh-config-editor",
+      "gbh": "gbh-config-editor"
+    },
+    {
+      "dsh": "@deepseek-ai/dsh-pwsh-sandbox",
+      "gbh": "gbh-pwsh-sandbox"
+    }
+  ]
+}

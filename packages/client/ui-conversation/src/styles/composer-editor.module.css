@@ -1,0 +1,8 @@
+/**
+ * author Bùi Trọng Hiếu
+ * email kevinbui210191@gmail.com
+ * create date 15/10/2026
+ * modify date 18/10/2026
+ * desc CSS composer-editor cua row ui-conversation — NGUYEN VAN ban goc (tien to hash giu nguyen)
+ */
+.q44v1G_reference{border-radius:var(--dsw-radius-sm);line-height:inherit;vertical-align:baseline;color:var(--dsw-alias-state-business-primary);-webkit-box-decoration-break:clone;box-decoration-break:clone;background:0 0;padding:0 4px}.q44v1G_reference:hover{background:var(--dsw-alias-state-business-tertiary)}.q44v1G_openable{cursor:pointer}[data-composer-command][data-selected]>.q44v1G_reference{background:var(--dsw-alias-state-business-tertiary)}.q44v1G_textRef{max-width:100%;display:inline-block}

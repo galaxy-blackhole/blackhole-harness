@@ -1,0 +1,60 @@
+{
+  "name": "@galaxy-blackhole/gbh-client-product-analytics",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "type": "module",
+  "main": "lib/index.js",
+  "description": "Ban viet lai cua Galaxy Blackhole cho row product-analytics cua DSH (@deepseek-ai/dsh-client-product-analytics): nua host giu service Remote productAnalytics (policy + report co xac thuc qua deepseekAccount/productTelemetry), nua browser phoi service productAnalytics cho cac row khac va theo luong policy cua Host.",
+  "scripts": {
+    "build": "bun run build.ts"
+  },
+  "dsh": {
+    "client": {
+      "platform": "web",
+      "inject": [
+        "@deepseek-ai/dsh-api-gateway"
+      ]
+    }
+  },
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./client": "./lib/client.js",
+    "./package.json": "./package.json"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2",
+    "@deepseek-ai/schemastery": "~3.18.5-alpha.2",
+    "@deepseek-ai/dsh-typert-protocol": "0.2.1-alpha.4"
+  },
+  "gbh": {
+    "row": {
+      "id": "product-analytics",
+      "moduleIds": [
+        "@galaxy-blackhole/gbh-client-product-analytics"
+      ],
+      "aliases": [
+        "@deepseek-ai/dsh-client-product-analytics"
+      ],
+      "config": {
+        "enabled": true,
+        "appVersion": {
+          "js": "process.env.DSH_CLIENT_VERSION"
+        }
+      },
+      "tests": [
+        "tests/client/product-analytics.test.ts"
+      ]
+    },
+    "peers": [
+      "@deepseek-ai/dsh-typert-protocol"
+    ],
+    "draft": "Config giu NGUYEN bo cua row goc (enabled: true · appVersion: !!js process.env.DSH_CLIENT_VERSION) de ban mount khong doi hanh vi. Khac ban goc DUY NHAT mot diem, co ghi trong src/ids.ts: productTelemetry KHONG nam trong inject TINH (no thuoc row desktop-product-telemetry — row bi TAT o profile khong phai desktop) ma tra bang ctx.get luc goi; giu nguyen trong inject tinh se lam entry pending vinh vien.",
+    "provenance": {
+      "stock": "@deepseek-ai/dsh-client-product-analytics"
+    }
+  },
+  "types": "lib/types/index.d.ts"
+}

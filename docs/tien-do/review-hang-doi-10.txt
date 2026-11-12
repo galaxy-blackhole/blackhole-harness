@@ -1,0 +1,14 @@
+client/ui-message-feedback
+client/ui-model-selection
+client/ui-plan
+client/ui-plugin-market
+client/ui-renderer
+client/ui-secret-mask
+client/ui-session
+client/ui-settings
+client/ui-settings-account
+client/ui-settings-agent-loop
+client/ui-settings-general
+client/ui-settings-models
+client/ui-settings-plugin-inventory
+client/ui-settings-session-log

@@ -1,0 +1,56 @@
+{
+  "name": "@galaxy-blackhole/gbh-client-ui-plugin-manager",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "type": "module",
+  "main": "lib/index.js",
+  "description": "Ban viet lai cua Galaxy Blackhole cho row ui-plugin-manager cua DSH (@deepseek-ai/dsh-client-ui-plugin-manager).",
+  "scripts": {
+    "build": "bun run build.ts"
+  },
+  "gbh": {
+    "draft": "DA KHAI gbh.row (row ui-plugin-manager) — tests gom 1 A/B host + 1 A/B client.",
+    "tests": [
+      "tests/client/ui-plugin-manager.test.ts"
+    ],
+    "provenance": {
+      "stock": "@deepseek-ai/dsh-client-ui-plugin-manager"
+    },
+    "row": {
+      "id": "ui-plugin-manager",
+      "moduleIds": [
+        "@galaxy-blackhole/gbh-client-ui-plugin-manager"
+      ],
+      "aliases": [
+        "@deepseek-ai/dsh-client-ui-plugin-manager"
+      ],
+      "tests": [
+        "tests/client/ui-plugin-manager.test.ts",
+        "tests/client/ui-plugin-manager-ab-host.test.ts",
+        "tests/client/ui-plugin-manager-ab-client.test.ts"
+      ]
+    }
+  },
+  "dsh": {
+    "client": {
+      "inject": [
+        "@galaxy-blackhole/gbh-api-remotes",
+        "@galaxy-blackhole/gbh-client-locale",
+        "@galaxy-blackhole/gbh-client-ui-layout",
+        "@galaxy-blackhole/gbh-client-ui-sidebar"
+      ],
+      "platform": "web"
+    }
+  },
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./client": {
+      "default": "./lib/client.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "types": "lib/types/index.d.ts"
+}

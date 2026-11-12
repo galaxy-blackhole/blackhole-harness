@@ -1,0 +1,13 @@
+client/ui-settings-agent-loop
+client/ui-settings-general
+client/ui-settings-models
+client/ui-settings-plugin-inventory
+client/ui-settings-plugins
+client/ui-settings-session-log
+client/ui-settings-shell
+client/ui-settings-subagent
+client/ui-settings-web-search
+client/ui-settings
+client/ui-shortcuts
+client/ui-sidebar-browser
+client/ui-sidebar-documentpreview

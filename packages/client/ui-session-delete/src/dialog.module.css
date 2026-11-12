@@ -1,0 +1,24 @@
+/**
+ * author Bùi Trọng Hiếu
+ * email kevinbui210191@gmail.com
+ * create date 15/10/2026
+ * modify date 05/11/2026
+ * desc CSS dialog xác nhận xoá phiên — DỰNG LẠI sau sự cố mất tệp (05/11/2026) từ bảng tên lớp GbhDelete_*.
+ */
+
+.GbhDelete_menuDanger {
+  color: var(--dsw-alias-state-error-primary);
+}
+
+.GbhDelete_menuDanger:hover {
+  color: var(--dsw-alias-state-error-primary-hover, var(--dsw-alias-state-error-primary));
+}
+
+.GbhDelete_confirmDanger {
+  background: var(--dsw-alias-state-error-primary);
+  color: var(--dsw-alias-label-inverse, #fff);
+}
+
+.GbhDelete_confirmDanger:hover {
+  background: var(--dsw-alias-state-error-primary-hover, var(--dsw-alias-state-error-primary));
+}

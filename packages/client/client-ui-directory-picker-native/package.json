@@ -1,0 +1,49 @@
+{
+  "name": "@galaxy-blackhole/gbh-client-ui-directory-picker-native",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "type": "module",
+  "main": "lib/index.js",
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./client": {
+      "types": "./lib/types/client/index.d.ts",
+      "default": "./lib/client.js"
+    },
+    "./src/*": "./src/*",
+    "./package.json": "./package.json",
+    "./locale/*.json": "./locale/*.json"
+  },
+  "dsh": {
+    "client": {
+      "inject": [
+        "@galaxy-blackhole/gbh-client-ui-renderer",
+        "@galaxy-blackhole/gbh-client-ui-workspace"
+      ],
+      "platform": "web"
+    }
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2"
+  },
+  "gbh": {
+    "draft": "Port 1:1 `@deepseek-ai/dsh-client-ui-directory-picker-native` — gói THƯ VIỆN (web-app khai ở dependencies), KHÔNG có row trong dump oracle ⇒ KHÔNG khai gbh.row/gbh.row_unmounted_ly_do. BỘ BA: dsh.client khớp tuyệt đối + exports['./client'] + 2 Bun.build tách rời + MỘT-ID.",
+    "tests": [
+      "tests/client/client-ui-directory-picker-native.test.ts"
+    ],
+    "peers": [
+      "@deepseek-ai/cordis"
+    ],
+    "provenance": {
+      "stock": "@deepseek-ai/dsh-client-ui-directory-picker-native",
+      "version": "0.2.1-alpha.4",
+      "sha": "c67856a5575ae00245d0a2ed1ccce81f817f88f93cec08742e72cc8d2883e71d",
+      "note": "Bản port đã có từ task-136 (tm-client-ui-a) — KHÔNG port lại; chỉ khai provenance để matrix nhận."
+    }
+  },
+  "description": "Native directory-picker surface: the renderless workspace directory-flow occupant driving the local Desktop or Host OS chooser",
+  "types": "lib/types/index.d.ts"
+}

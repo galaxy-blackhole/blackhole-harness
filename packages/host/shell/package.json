@@ -1,0 +1,47 @@
+{
+  "name": "@galaxy-blackhole/gbh-shell",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "type": "module",
+  "main": "lib/index.js",
+  "description": "Abstract bash executor seam (ctx.shell) for the Galaxy Blackhole",
+  "scripts": {
+    "build": "bun run build.ts"
+  },
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./package.json": "./package.json",
+    "./src/*": "./src/*"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/dsh-subprocess": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-sandbox": "0.2.1-alpha.4",
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2"
+  },
+  "devDependencies": {
+    "@deepseek-ai/dsh-subprocess": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-sandbox": "0.2.1-alpha.4",
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2"
+  },
+  "license": "MIT",
+  "gbh": {
+    "peers": [
+      "@deepseek-ai/dsh-subprocess",
+      "@deepseek-ai/dsh-sandbox",
+      "@deepseek-ai/cordis"
+    ],
+    "tests": [
+      "tests/host/shell.test.ts"
+    ],
+    "draft": "19/10/2026 — GBH-ONLY, KHÔNG CÓ ROW STOCK ĐỂ MIRROR: đo /tmp/dump-now2.txt (2.297 dòng) ngày 19/10/2026 bằng `grep -nE \"^[[:space:]]*- id: .*shell\"` chỉ thấy các row của GÓI KHÁC — dòng 251 `shell-env` (`@deepseek-ai/dsh-shell-env`), dòng 1966 `shell-identity` (`@galaxy-blackhole/gbh-host-shell-identity`), dòng 2163 `shell-env-ours` (`@galaxy-blackhole/gbh-shell-env`), dòng 808/1810 `ui-settings-shell` (client), dòng 1198 `persistent-shell` (row lồng); KHÔNG có `- id: shell` và KHÔNG có `name: '@deepseek-ai/dsh-shell'` (grep tên package = 0 dòng). Vì không có row stock nào để mirror nên gói KHÔNG khai `gbh.row` và cũng KHÔNG bịa `gbh.row_unmounted_ly_do`; trạng thái là chưa mount/chưa flip. Stock là lớp abstract Service 95 dòng được các consumer trong cùng tiến trình import INLINE (bash-sandbox, shell-env, tool-bash, …), không phải plugin mount; nếu sau này bundle patch thật sự thêm một row id `shell` thì mới thêm `gbh.row` kèm dòng đo tương ứng.",
+    "provenance": {
+      "stock": "@deepseek-ai/dsh-shell",
+      "version": "0.2.1-alpha.4",
+      "sha": "6c5aa32fda2d92ef827d949480fd32cb4867f811ce06e875e70c59ab2c9261b1"
+    }
+  },
+  "types": "lib/types/index.d.ts"
+}

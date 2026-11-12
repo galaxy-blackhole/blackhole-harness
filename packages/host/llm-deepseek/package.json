@@ -1,0 +1,52 @@
+{
+  "name": "@galaxy-blackhole/gbh-llm-deepseek",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "type": "module",
+  "main": "lib/index.js",
+  "description": "Bản viết lại của Galaxy Blackhole cho row llm-deepseek của DSH (@deepseek-ai/dsh-llm-deepseek-api-key): khoá API DeepSeek cho route chính thức — cấu hình provider, phân giải credential theo từng request và khám phá model có điều kiện.",
+  "scripts": {
+    "build": "bun run build.ts"
+  },
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./package.json": "./package.json",
+    "./src/*": "./src/*",
+    "./locale/*.json": "./locale/*.json"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2",
+    "@deepseek-ai/dsh-credentials": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-launch-environment": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-llm": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-llm-deepseek": "0.2.1-alpha.4",
+    "@deepseek-ai/schemastery": "~3.18.5-alpha.2"
+  },
+  "devDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2",
+    "@deepseek-ai/dsh-credentials": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-launch-environment": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-llm": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-llm-deepseek": "0.2.1-alpha.4",
+    "@deepseek-ai/schemastery": "~3.18.5-alpha.2"
+  },
+  "license": "MIT",
+  "gbh": {
+    "peers": [
+      "@deepseek-ai/cordis",
+      "@deepseek-ai/schemastery",
+      "@deepseek-ai/dsh-llm",
+      "@deepseek-ai/dsh-llm-deepseek",
+      "@deepseek-ai/dsh-launch-environment",
+      "@deepseek-ai/dsh-credentials"
+    ],
+    "provenance": {
+      "stock": "@deepseek-ai/dsh-llm-deepseek-api-key",
+      "draft": "KIỂM KÊ (Lead chốt 08/11/2026, phương án (b)): gói này triển khai ROW API-KEY @deepseek-ai/dsh-llm-deepseek-api-key. ROW ADAPTER @deepseek-ai/dsh-llm-deepseek CHƯA PORT (thiếu DeepSeekAdapter, PUBLIC_BASE_URL, deepSeekConfigFields, catalogModelInfo, registerDeepSeekProvider) — thuộc lô riêng. Trùng provenance.stock với packages/host/llm-deepseek-api-key (de-bundle 1:1)."
+    }
+  },
+  "types": "lib/types/index.d.ts"
+}

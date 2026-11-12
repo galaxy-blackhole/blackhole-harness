@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "api-account-controller",
+    "description": "Cung cấp các thao tác tài khoản an toàn qua Remote đã xác thực."
+  }
+}

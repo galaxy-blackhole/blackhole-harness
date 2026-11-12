@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "skill-filesystem",
+    "description": "Provider skill từ hệ thống tệp cục bộ cho Galaxy Blackhole: phát hiện và đọc skill trong các thư mục trên đĩa."
+  }
+}

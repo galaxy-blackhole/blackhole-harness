@@ -1,0 +1,70 @@
+{
+  "name": "@galaxy-blackhole/gbh-tool-schedule",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "type": "module",
+  "main": "lib/index.js",
+  "description": "Model-facing reminder management tools (schedule_create, schedule_list, schedule_update, schedule_delete) over the Host ctx.schedule service",
+  "scripts": {
+    "build": "bun run build.ts"
+  },
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./package.json": "./package.json",
+    "./src/*": "./src/*",
+    "./locale/*.json": "./locale/*.json"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2",
+    "@deepseek-ai/dsh-llm": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-schedule": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-subagent": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-tools": "0.2.1-alpha.4"
+  },
+  "devDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2",
+    "@deepseek-ai/dsh-llm": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-schedule": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-subagent": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-tools": "0.2.1-alpha.4"
+  },
+  "license": "MIT",
+  "gbh": {
+    "draft": "ĐO 19/10/2026 trên dump MỚI NHẤT /tmp/dump-now2.txt (2298 dòng, script bun cắt block theo depth — không đoán): '- id: tool-schedule' xuất hiện ĐÚNG 3 lần, TẤT CẢ ở depth 6 trong config.plugins của 3 preset: preset-standard dòng 865 (preset mở dòng 835, config.id=standard, order=1) · preset-ptc dòng 1029 (preset 999, id=ptc, order=2) · preset-cordis dòng 1296 (preset 1266, id=cordis, order=4). preset-minimal (1169–1265) KHÔNG có entry này. KHÔNG có '- id: tool-schedule' ở depth 0 ⇒ KHÔNG khai gbh.row VÀ KHÔNG khai gbh.row_unmounted_ly_do (chỉ khai gbh.nested). Mỗi entry chỉ có 2 dòng (id + name '@deepseek-ai/dsh-tool-schedule'), KHÔNG config · KHÔNG inject · KHÔNG disabled (không có biểu thức !!js) ⇒ 3 preset KHÔNG khác nhau về disabled. Gói MỘT MẶT (manifest gốc không dsh.client, không lib/client.js). CHƯA mount/flip: metadata này chỉ để agent-preset-registry đổi specifier stock -> @galaxy-blackhole/gbh-tool-schedule khi có task mount tầng preset.",
+    "tests": [
+      "tests/host/tool-schedule.test.ts"
+    ],
+    "peers": [
+      "@deepseek-ai/cordis",
+      "@deepseek-ai/dsh-llm",
+      "@deepseek-ai/dsh-schedule",
+      "@deepseek-ai/dsh-subagent",
+      "@deepseek-ai/dsh-tools"
+    ],
+    "toolNames": [
+      "schedule_create",
+      "schedule_list",
+      "schedule_delete",
+      "schedule_update"
+    ],
+    "reference": "apps/host/node_modules/@deepseek-ai/dsh-tool-schedule (CHỈ ĐỌC — nguồn đối chiếu byte)",
+    "nested": {
+      "kind": "preset",
+      "pluginId": "tool-schedule",
+      "stockId": "@deepseek-ai/dsh-tool-schedule",
+      "presets": [
+        "preset-standard",
+        "preset-ptc",
+        "preset-cordis"
+      ]
+    },
+    "provenance": {
+      "stock": "@deepseek-ai/dsh-tool-schedule",
+      "version": "0.2.1-alpha.4",
+      "sha": "172100bf8a53e45ce3cb8fb476bf8bdd51c208e28135ceca59897fab4edc7929"
+    }
+  }
+}

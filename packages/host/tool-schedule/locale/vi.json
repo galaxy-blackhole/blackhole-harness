@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "Lên lịch nhắc",
+    "description": "Công cụ quản lý nhắc hẹn cho mô hình (schedule_create, schedule_list, schedule_update, schedule_delete) trên dịch vụ ctx.schedule của Host."
+  }
+}

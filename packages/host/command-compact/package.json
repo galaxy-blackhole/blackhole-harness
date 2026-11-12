@@ -1,0 +1,59 @@
+{
+  "name": "@galaxy-blackhole/gbh-command-compact",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "type": "module",
+  "main": "lib/index.js",
+  "description": "Human-facing slash command for explicit session compaction",
+  "scripts": {
+    "build": "bun run build.ts"
+  },
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./package.json": "./package.json",
+    "./src/*": "./src/*",
+    "./locale/*.json": "./locale/*.json"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/dsh-compaction": "0.2.1-alpha.4",
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2",
+    "@deepseek-ai/dsh-commands": "0.2.1-alpha.4"
+  },
+  "devDependencies": {
+    "@deepseek-ai/dsh-compaction": "0.2.1-alpha.4",
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2",
+    "@deepseek-ai/dsh-commands": "0.2.1-alpha.4"
+  },
+  "license": "MIT",
+  "gbh": {
+    "draft": "KHÔNG khai gbh.row — row là ROW LỒNG trong GROUP `compaction` của các preset (luật §4d dòng 3). Gói MỘT MẶT: bundle gốc chỉ có lib/index.js (102 dòng, MỘT khối), không lib/client.js, không dsh.client. Muốn mount: overlay patch tầng NHÓM (gbh.nested). Gói đã port xong: lib/index.js 3.506 byte = bundle gốc, delta 0.",
+    "peers": [
+      "@deepseek-ai/dsh-commands",
+      "@deepseek-ai/dsh-compaction",
+      "@deepseek-ai/cordis"
+    ],
+    "tests": [
+      "tests/host/command-compact.test.ts"
+    ],
+    "reference": "apps/host/node_modules/@deepseek-ai/dsh-command-compact (CHỈ ĐỌC — nguồn đối chiếu byte)",
+    "nested": {
+      "kind": "group",
+      "pluginId": "command-compact",
+      "stockId": "@deepseek-ai/dsh-command-compact",
+      "presets": [
+        "preset-standard",
+        "preset-ptc",
+        "preset-minimal",
+        "preset-cordis"
+      ]
+    },
+    "provenance": {
+      "stock": "@deepseek-ai/dsh-command-compact",
+      "version": "0.2.1-alpha.4",
+      "sha": "ee8b2519449ad549db3c2d81d652b2b0827492b3ae1d809e8c01df3f79b6ad94"
+    }
+  }
+}

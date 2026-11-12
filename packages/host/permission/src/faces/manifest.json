@@ -1,0 +1,42 @@
+{
+  "typert.host.js.txt": {
+    "lib": "typert.host.js",
+    "occurrences": 3
+  },
+  "typert.host.d.ts.txt": {
+    "lib": "typert.host.d.ts",
+    "occurrences": 0
+  },
+  "typert.remote-client.js.txt": {
+    "lib": "typert.remote-client.js",
+    "occurrences": 2
+  },
+  "typert.remote-client.d.ts.txt": {
+    "lib": "typert.remote-client.d.ts",
+    "occurrences": 1
+  },
+  "types__index.js.txt": {
+    "lib": "types/index.js",
+    "occurrences": 1
+  },
+  "types__index.d.ts.txt": {
+    "lib": "types/index.d.ts",
+    "occurrences": 0
+  },
+  "types__types.js.txt": {
+    "lib": "types/types.js",
+    "occurrences": 1
+  },
+  "types__types.d.ts.txt": {
+    "lib": "types/types.d.ts",
+    "occurrences": 1
+  },
+  "types__client.js.txt": {
+    "lib": "types/client.js",
+    "occurrences": 1
+  },
+  "types__client.d.ts.txt": {
+    "lib": "types/client.d.ts",
+    "occurrences": 1
+  }
+}

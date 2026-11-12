@@ -1,0 +1,43 @@
+{
+  "name": "@galaxy-blackhole/gbh-skill-badge",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "type": "module",
+  "main": "lib/index.js",
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./package.json": "./package.json",
+    "./locale/*.json": "./locale/*.json"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/dsh-skill": "0.2.1-alpha.4",
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2"
+  },
+  "dependencies": {},
+  "gbh": {
+    "peers": [
+      "@deepseek-ai/dsh-skill",
+      "@deepseek-ai/cordis"
+    ],
+    "tests": [
+      "tests/host/skill-badge.test.ts"
+    ],
+    "provenance": {
+      "stock": "@deepseek-ai/dsh-skill-badge",
+      "version": "0.2.1-alpha.4",
+      "sha": "e5b52ecf52c51316a70bf6fd837c8e7369a373960626bc2839661bab581f121d"
+    },
+    "draft": "thư viện nhãn skill (không phải row)",
+    "row": {
+      "id": "skill-badge",
+      "tests": [
+        "tests/host/skill-badge.test.ts"
+      ],
+      "ownedByBundle": true
+    }
+  },
+  "description": "Bundled GBH badge skill provider for Galaxy Blackhole"
+}

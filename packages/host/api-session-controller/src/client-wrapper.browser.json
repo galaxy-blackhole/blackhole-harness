@@ -1,0 +1,53 @@
+{
+  "head": [
+    "window.__ModuleLoader__.load({",
+    "\tid: \"@galaxy-blackhole/gbh-api-session-controller\",",
+    "\tfactory: (require) => {"
+  ],
+  "tail": [
+    "\t\texports.MutableSessionEventSource = MutableSessionEventSource;",
+    "\t\texports.SESSION_SEARCH_RESULT_LIMIT = SESSION_SEARCH_RESULT_LIMIT;",
+    "\t\texports.SESSION_SEARCH_SNIPPET_MAX_CODE_POINTS = SESSION_SEARCH_SNIPPET_MAX_CODE_POINTS;",
+    "\t\texports.SessionCreateError = SessionCreateError;",
+    "\t\texports.SessionEventStream = SessionEventStream;",
+    "\t\texports.SessionForkError = SessionForkError;",
+    "\t\texports.apply = apply;",
+    "\t\texports.createScope = createScope;",
+    "\t\texports.createSessionControlStream = createSessionControlStream;",
+    "\t\texports.inject = inject;",
+    "\t\texports.scopeOf = scopeOf;",
+    "\t\treturn module.exports;",
+    "\t}",
+    "});",
+    "",
+    "//# sourceMappingURL=client.js.map"
+  ],
+  "parts": [
+    "part-00.ts",
+    "part-01.ts",
+    "part-02.ts",
+    "part-03.ts",
+    "part-04.ts",
+    "part-05.ts",
+    "part-06.ts",
+    "part-07.ts",
+    "part-08.ts",
+    "part-09.ts",
+    "part-10.ts",
+    "part-11.ts",
+    "part-12.ts",
+    "part-13.ts",
+    "part-14.ts",
+    "part-15.ts",
+    "part-16.ts",
+    "part-17.ts",
+    "part-18.ts",
+    "part-19.ts",
+    "part-20.ts",
+    "part-21.ts",
+    "part-22.ts",
+    "part-23.ts",
+    "part-24.ts",
+    "part-25.ts"
+  ]
+}

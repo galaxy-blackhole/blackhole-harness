@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "tool-pwsh-persistent",
+    "description": "Công cụ PowerShell bền vững theo chủ sở hữu, dựng trên dịch vụ PTY của bộ khung."
+  }
+}

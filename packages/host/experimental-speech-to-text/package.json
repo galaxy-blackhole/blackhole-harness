@@ -1,0 +1,83 @@
+{
+  "name": "@galaxy-blackhole/gbh-experimental-speech-to-text",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "type": "module",
+  "main": "lib/index.js",
+  "description": "Experimental speech recognition with independently selectable providers",
+  "scripts": {
+    "build": "bun run build.ts"
+  },
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./types": {
+      "types": "./lib/types/types.d.ts",
+      "default": "./lib/types.js"
+    },
+    "./wave": {
+      "types": "./lib/types/wave.d.ts",
+      "default": "./lib/wave.js"
+    },
+    "./package.json": "./package.json",
+    "./src/*": "./src/*",
+    "./locale/*.json": "./locale/*.json"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2",
+    "@deepseek-ai/dsh-brand": "0.2.1-alpha.4",
+    "@deepseek-ai/cordis-plugin-loader": "~1.0.6-alpha.2",
+    "@deepseek-ai/schemastery": "~3.18.5-alpha.2",
+    "@deepseek-ai/dsh-settings": "0.2.1-alpha.4"
+  },
+  "devDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2",
+    "@deepseek-ai/dsh-brand": "0.2.1-alpha.4",
+    "@deepseek-ai/cordis-plugin-loader": "~1.0.6-alpha.2",
+    "@deepseek-ai/schemastery": "~3.18.5-alpha.2",
+    "@deepseek-ai/dsh-settings": "0.2.1-alpha.4"
+  },
+  "peerDependenciesMeta": {
+    "@deepseek-ai/cordis-plugin-loader": {
+      "optional": true
+    }
+  },
+  "license": "MIT",
+  "gbh": {
+    "peers": [
+      "@deepseek-ai/cordis",
+      "@deepseek-ai/dsh-brand",
+      "@deepseek-ai/dsh-settings",
+      "@deepseek-ai/cordis-plugin-loader",
+      "@deepseek-ai/schemastery"
+    ],
+    "tests": [
+      "tests/host/experimental-speech-to-text.test.ts"
+    ],
+    "draft": "19/10/2026 — Port 1:1 host-only, CHƯA mount: stock là Service class (default export) tên ctx.speechToText, không có apply, và row speech-to-text nằm trong bundle patch dsh-experimental-voice-input-bundle — dump moi /tmp/dump-now2.txt dòng 1555–1558 (id + name + config.defaultProvider: sensevoice-local). Vì vậy KHÔNG khai gbh.row (chưa flip): giữ nguyên hình dạng row trong gbh.row_unmounted_ly_do.row để mount lại là MỘT dòng, kèm moduleIds + tests. Ba entrypoint build riêng từng lượt Bun.build (index/types/wave) để tránh prelude chia sẻ làm lệch byte (bài học task-130).",
+    "row": {
+      "id": "speech-to-text",
+      "aliases": [
+        "@deepseek-ai/dsh-experimental-speech-to-text"
+      ],
+      "config": {
+        "defaultProvider": "sensevoice-local"
+      },
+      "moduleIds": [
+        "@galaxy-blackhole/gbh-experimental-speech-to-text"
+      ],
+      "tests": [
+        "tests/host/experimental-speech-to-text.test.ts"
+      ],
+      "ownedByBundle": true
+    },
+    "provenance": {
+      "stock": "@deepseek-ai/dsh-experimental-speech-to-text",
+      "version": "0.2.1-alpha.4",
+      "sha": "3bf6dd33e37a6b68e15d806e1cd016797eb3fd7476214390c8d826fd6953c529"
+    }
+  },
+  "types": "lib/types/index.d.ts"
+}

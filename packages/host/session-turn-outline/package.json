@@ -1,0 +1,41 @@
+{
+  "name": "@galaxy-blackhole/gbh-session-turn-outline",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "type": "module",
+  "main": "lib/index.js",
+  "description": "Bản viết lại của Galaxy Blackhole cho row session-turn-outline của DSH (@deepseek-ai/dsh-session-turn-outline): đơn vị chiếu turnOutline — dàn bài toàn log các lượt của phiên (số lượt, seq của turn/start, bản xem trước prompt người dùng đầu tiên và phản hồi cuối cùng) phục vụ qua seam sessionProjections.",
+  "scripts": {
+    "build": "bun run build.ts"
+  },
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./package.json": "./package.json",
+    "./locale/*.json": "./locale/*.json"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/dsh-session-projection": "0.2.1-alpha.4"
+  },
+  "dependencies": {
+    "zod": "^4.6.7"
+  },
+  "license": "MIT",
+  "gbh": {
+    "peers": [
+      "@deepseek-ai/dsh-session-projection"
+    ],
+    "row": {
+      "id": "session-turn-outline",
+      "tests": [
+        "tests/host/session-turn-outline.test.ts"
+      ]
+    },
+    "provenance": {
+      "stock": "@deepseek-ai/dsh-session-turn-outline"
+    }
+  },
+  "types": "lib/types/index.d.ts"
+}

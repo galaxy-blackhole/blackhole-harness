@@ -1,0 +1,22 @@
+{
+  "dev": "tm-assets",
+  "owner": "tm-assets",
+  "evidence": [
+    "signed, MOUNTED — check:app 11/11 BA LUOT LIEN TIEP; artifact + test do REVIEWER TU DO (build trong thu muc goi, exit 0)",
+    "**3 luot check:app lien tiep DAT 11/11** — (3) **149 entry** · (5) **0** · #root 47.584 / 46 slot / 0 console / 0 pageerror · (9) 0/80 · (10) **349 file khop repo** · (11) HMR",
+    "CO CHE: ca 2 la row khai theo PRESET (`gbh.row {stockId, presets:[preset-standard,preset-ptc,preset-cordis]}`) + **ban va config**: tool-todo `{allowParallelInProgress:true}` · tool-web `{fetch, searchTimeoutMs}`",
+    "tool-todo: index **6.856 B** sha `289b998c69` · client.js 0 B (rong dung thiet ke) · test **24 pass/112 expect**",
+    "tool-web: index **51.539 B** sha `458d8cd8a2` · test **24 pass/158 expect**",
+    "rollback san"
+  ],
+  "packages": [
+    {
+      "dsh": "@deepseek-ai/dsh-tool-todo",
+      "gbh": "gbh-host-tool-todo"
+    },
+    {
+      "dsh": "@deepseek-ai/dsh-tool-web",
+      "gbh": "gbh-host-tool-web"
+    }
+  ]
+}

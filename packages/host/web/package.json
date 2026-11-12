@@ -1,0 +1,52 @@
+{
+  "name": "@galaxy-blackhole/gbh-web",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "type": "module",
+  "main": "lib/index.js",
+  "description": "Bản viết lại của Galaxy Blackhole cho row web của DSH (@deepseek-ai/dsh-web): seam truy cập web (ctx.web) — sổ provider tìm kiếm/tải về, chọn provider độc lập thứ tự đăng ký, từ vựng request/result, và taxonomy lỗi WebError.",
+  "scripts": {
+    "build": "bun run build.ts"
+  },
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./package.json": "./package.json",
+    "./src/*": "./src/*",
+    "./locale/*.json": "./locale/*.json"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2",
+    "@deepseek-ai/dsh-llm": "0.2.1-alpha.4",
+    "@deepseek-ai/schemastery": "~3.18.5-alpha.2"
+  },
+  "devDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2",
+    "@deepseek-ai/dsh-llm": "0.2.1-alpha.4",
+    "@deepseek-ai/schemastery": "~3.18.5-alpha.2"
+  },
+  "license": "MIT",
+  "gbh": {
+    "peers": [
+      "@deepseek-ai/cordis",
+      "@deepseek-ai/schemastery",
+      "@deepseek-ai/dsh-llm"
+    ],
+    "row": {
+      "id": "web",
+      "tests": [
+        "tests/host/web.test.ts"
+      ],
+      "config": {
+        "searchProvider": "auto",
+        "fetchProvider": "http"
+      }
+    },
+    "provenance": {
+      "stock": "@deepseek-ai/dsh-web"
+    }
+  },
+  "types": "lib/types/index.d.ts"
+}

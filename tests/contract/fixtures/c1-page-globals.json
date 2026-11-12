@@ -1,0 +1,86 @@
+{
+ "capturedAt": "2026-10-17",
+ "source": "http://127.0.0.1:5439/?token=<token>",
+ "release": {
+  "version": "0.2.1-alpha.4",
+  "commit": "cc6a8f5"
+ },
+ "globals": [
+  {
+   "name": "__DSH_CONTACT_CONFIG__",
+   "value": {
+    "contactFormUrl": "https://trtgsjkv6r.feishu.cn/share/base/form/shrcnlCoGElW7MQznGy9r3YYXcg?hide_uid=1&hide_device_info=1&hide_harness_version=1",
+    "contactSource": "",
+    "bonusAckRetryDelayMs": 1000,
+    "bonusAckRetryMaxDelayMs": 60000
+   }
+  },
+  {
+   "name": "__DSH_SHORTCUTS_CONFIG__",
+   "value": {
+    "stopSequenceMs": 500
+   }
+  },
+  {
+   "name": "__DSH_DOCUMENT_PREVIEW_CONFIG__",
+   "value": {
+    "office": {
+     "maxCachedEntries": 8,
+     "maxCachedBytes": 67108864,
+     "maxPending": 8,
+     "maxReaders": 32
+    },
+    "excel": {
+     "maxBytes": 16777216,
+     "maxCells": 250000,
+     "timeoutMs": 15000
+    }
+   }
+  },
+  {
+   "name": "__DSH_MODELS_ONBOARDING__",
+   "value": {
+    "credentialOnboarding": true
+   }
+  },
+  {
+   "name": "__GBH_REMOTE_ACCESS__",
+   "value": {
+    "type": "baseline",
+    "owner": true
+   }
+  },
+  {
+   "name": "__GBH_HAS_KEY__",
+   "value": false
+  },
+  {
+   "name": "__DSH_CONNECTION_RECOVERY__",
+   "value": {
+    "backoffBaseMs": 500,
+    "backoffFactor": 2,
+    "backoffMaxMs": 10000,
+    "generationReadyWarnMs": 3000,
+    "generationReadyTimeoutMs": 15000
+   }
+  },
+  {
+   "name": "__GBH_INSPECTOR__",
+   "value": {
+    "endpoint": "ws://127.0.0.1:9231/ingest",
+    "protocol": "dsh-inspector-v0-<nonce>",
+    "maxQueuedRecords": 2048,
+    "maxQueuedBytes": 16777216,
+    "maxRecordsPerFrame": 128,
+    "maxFrameBytes": 131072,
+    "reconnectBaseMs": 250,
+    "reconnectMaxMs": 5000,
+    "queryTimeoutMs": 10000,
+    "maxRuntimeObjectsPerSession": 10000,
+    "maxRuntimePropertiesPerResult": 2000,
+    "maxClientSourceBytes": 8388608,
+    "maxCordisNodes": 2048
+   }
+  }
+ ]
+}

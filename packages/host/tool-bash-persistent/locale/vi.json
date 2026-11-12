@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "tool-bash-persistent",
+    "description": "Công cụ Bash bền vững theo chủ sở hữu, dựng trên dịch vụ PTY của bộ khung."
+  }
+}

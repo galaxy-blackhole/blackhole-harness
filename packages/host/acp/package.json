@@ -1,0 +1,56 @@
+{
+  "name": "@galaxy-blackhole/gbh-acp",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "type": "module",
+  "main": "lib/index.js",
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2",
+    "@deepseek-ai/dsh-attachment": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-llm": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-mcp-client": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-session-persistence": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-user-approval": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-agent": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-session": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-token-meter": "0.2.1-alpha.4"
+  },
+  "dependencies": {
+    "@agentclientprotocol/sdk": "1.4.0",
+    "@deepseek-ai/dsh-brand": "0.2.1-alpha.4",
+    "@deepseek-ai/schemastery": "~3.18.5-alpha.2"
+  },
+  "gbh": {
+    "peers": [
+      "@deepseek-ai/cordis",
+      "@deepseek-ai/dsh-agent",
+      "@deepseek-ai/dsh-attachment",
+      "@deepseek-ai/dsh-llm",
+      "@deepseek-ai/dsh-mcp-client",
+      "@deepseek-ai/dsh-session",
+      "@deepseek-ai/dsh-session-persistence",
+      "@deepseek-ai/dsh-token-meter",
+      "@deepseek-ai/dsh-user-approval",
+      "@agentclientprotocol/sdk",
+      "@deepseek-ai/dsh-brand",
+      "@deepseek-ai/schemastery"
+    ],
+    "tests": [
+      "tests/host/acp.test.ts"
+    ],
+    "provenance": {
+      "stock": "@deepseek-ai/dsh-acp",
+      "version": "0.2.1-alpha.4",
+      "sha": "9df25827fbf2ac7c0b168f22e5bea151153c1492ef118511be96688dc3039989"
+    },
+    "draft": "host plugin dạng thư viện (dump 0 row) — port 1:1, KHÔNG mount/flip"
+  },
+  "description": "Automation-only Agent Client Protocol server for driving Galaxy Blackhole agents over JSON-RPC stdio"
+}

@@ -1,0 +1,19 @@
+{
+  "dev": "tm-assets",
+  "owner": "tm-assets",
+  "evidence": [
+    "signed, MOUNTED — check:app 11/11, lab 0 did-not-activate, boot-smoke DAT",
+    "reviewer tm-reviewer TU DO: patch `app.patch.yml:962-968` (`repeat-tool-reminder disabled: true` + insert `repeat-tool-reminder-ours`) · dump (344 entry) co stock disabled (config thresholds giu nguyen) + ours ENABLED",
+    "artifact build lai exit 0: `index.js` **134 dong** (Lead ghi '159 dong THAT' — toi do artifact 134 dong; bundle goc 2.267 dong, phan con lai la vendor) · export **3 = 3** (`name` · `apply` · `Config`)",
+    "reviewer tu chay bun test tests/host/repeat-tool-reminder.test.ts: **19 pass / 0 fail / 62 expect**",
+    "lab:row home CACH LY cua reviewer: #root **22.204** · 0 console · 0 pageerror · 0 overlay · **0 did-not-activate**",
+    "**3 luot check:app lien tiep DAT 11/11** (135 entry · (5) 0 · #root 47.181/46 slot/0/0 · (9) 0/80 · HMR) · boot-smoke cua Lead DAT (113.436 B · facade ✓ · 22.204 · 0/0)",
+    "tsc 0 ke ca noi `.d.ts` goc theo chu goi; rollback san"
+  ],
+  "packages": [
+    {
+      "dsh": "@deepseek-ai/dsh-repeat-tool-reminder",
+      "gbh": "gbh-host-repeat-tool-reminder"
+    }
+  ]
+}

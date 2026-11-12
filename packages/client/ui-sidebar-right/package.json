@@ -1,0 +1,53 @@
+{
+  "name": "@galaxy-blackhole/gbh-client-ui-sidebar-right",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "type": "module",
+  "main": "lib/index.js",
+  "description": "Ban viet lai cua Galaxy Blackhole cho row ui-sidebar-right cua DSH (@deepseek-ai/dsh-client-ui-sidebar-right).",
+  "scripts": {
+    "build": "bun run build.ts"
+  },
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./client": "./lib/client.js",
+    "./package.json": "./package.json"
+  },
+  "dsh": {
+    "client": {
+      "inject": [
+        "@deepseek-ai/dsh-api-session-controller",
+        "@deepseek-ai/dsh-client-resources",
+        "@deepseek-ai/dsh-client-ui-conversation",
+        "@deepseek-ai/dsh-client-ui-layout",
+        "@deepseek-ai/dsh-client-ui-session",
+        "@deepseek-ai/dsh-client-shortcuts"
+      ],
+      "platform": "web"
+    }
+  },
+  "gbh": {
+    "row": {
+      "id": "ui-sidebar-right",
+      "moduleIds": [
+        "@galaxy-blackhole/gbh-client-ui-sidebar-right"
+      ],
+      "aliases": [
+        "@deepseek-ai/dsh-client-ui-sidebar-right"
+      ],
+      "tests": [
+        "tests/client/ui-sidebar-right.test.ts"
+      ]
+    },
+    "row_unmounted_ly_do": {
+      "ly_do": "DA GO 18/10/2026 03:52 (boot chung 8 row: #root 2.673 + 5 loi console, co dong `apply nem loi — TabDomai...`). DA KIEM LAI BANG LAB RIENG 18/10/2026 04:0x: `bun run lab:row ui-sidebar-right` (cong 5464) => #root 58.588 · 0 loi console · 0 dong `did not activate`; DOM: [data-sidebar-right-session] x2 · pane x1 · .P3OORG_panel x2 · nut mo rong x1 · **0 the [data-sidebar-right-unavailable]** (slot KEYED khop key=id) · 3 the <style> dung id goc (GuideBody 1469 · ExpandButton 164 · SidebarRight 2677 byte)."
+    },
+    "provenance": {
+      "stock": "@deepseek-ai/dsh-client-ui-sidebar-right"
+    }
+  },
+  "types": "lib/types/index.d.ts"
+}

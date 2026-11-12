@@ -1,0 +1,1000 @@
+				"time": zod.z.string().readonly().describe("Local time normalized to HH:mm:ss.SSS."),
+				"timeZone": zod.z.string().readonly().describe("Explicit canonical IANA zone; equivalent timing edits retain the stored spelling."),
+				"weekdays": zod.z.array(zod.z.number()).readonly().describe("Unique ascending ISO weekdays, Monday 1 through Sunday 7."),
+				"scheduledAt": zod.z.string().readonly().describe("Committed next UTC instant while active, or final occurrence when inactive."),
+				"sessionId": zod.z.string().readonly().describe("Session receiving this reminder when it becomes due."),
+				"status": zod.z.union([zod.z.literal("active"), zod.z.literal("inactive")]).readonly().describe("Inactive reminders remain visible but never schedule another delivery."),
+				"lastDelivery": zod.z.object({
+					"scheduledAt": zod.z.string().readonly().describe("Canonical UTC target of the delivered occurrence."),
+					"deliveredAt": zod.z.string().readonly().describe("Canonical UTC time sampled after Session persistence acknowledged delivery."),
+					"messageId": zod.z.string().readonly().describe("Identity of the delivered message, shared by tasks in one recurring batch.")
+				}).readonly().optional().describe("Most recent durably acknowledged inbox delivery, when available.")
+			}),
+			zod.z.object({
+				"id": zod.z.string().readonly().describe("Globally unique task identity."),
+				"kind": zod.z.literal("cron").readonly().describe("Rule discriminator for a five-field cron wall-clock reminder."),
+				"title": zod.z.string().readonly().describe("Required stored task name; already trimmed, non-empty, and at most 120 characters."),
+				"prompt": zod.z.string().readonly().describe("Trimmed reminder content supplied at creation."),
+				"expression": zod.z.string().readonly().describe("Canonical five-field cron expression: minute hour day-of-month month day-of-week."),
+				"timeZone": zod.z.string().readonly().describe("Explicit IANA zone; equivalent timing edits retain the stored spelling."),
+				"scheduledAt": zod.z.string().readonly().describe("Committed next UTC instant while active, or final occurrence when inactive."),
+				"sessionId": zod.z.string().readonly().describe("Session receiving this reminder when it becomes due."),
+				"status": zod.z.union([zod.z.literal("active"), zod.z.literal("inactive")]).readonly().describe("Inactive reminders remain visible but never schedule another delivery."),
+				"lastDelivery": zod.z.object({
+					"scheduledAt": zod.z.string().readonly().describe("Canonical UTC target of the delivered occurrence."),
+					"deliveredAt": zod.z.string().readonly().describe("Canonical UTC time sampled after Session persistence acknowledged delivery."),
+					"messageId": zod.z.string().readonly().describe("Identity of the delivered message, shared by tasks in one recurring batch.")
+				}).readonly().optional().describe("Most recent durably acknowledged inbox delivery, when available.")
+			})
+		]));
+		let _deepseek_ai_dsh_schedule_schedule_delete_parameter_0$schema$value;
+		const _deepseek_ai_dsh_schedule_schedule_delete_parameter_0$schema = () => _deepseek_ai_dsh_schedule_schedule_delete_parameter_0$schema$value ??= zod.z.object({
+			"id": zod.z.string().describe("Task to remove."),
+			"sessionId": zod.z.string().describe("Original Session binding.")
+		});
+		let _deepseek_ai_dsh_schedule_schedule_delete_result$schema$value;
+		const _deepseek_ai_dsh_schedule_schedule_delete_result$schema = () => _deepseek_ai_dsh_schedule_schedule_delete_result$schema$value ??= zod.z.union([zod.z.object({
+			"id": zod.z.string().readonly(),
+			"deleted": zod.z.literal(true).readonly()
+		}), zod.z.object({
+			"id": zod.z.string().readonly(),
+			"deleted": zod.z.literal(false).readonly(),
+			"code": zod.z.literal("schedule_not_found").readonly()
+		})]);
+		let _deepseek_ai_dsh_schedule_schedule_history_parameter_0$schema$value;
+		const _deepseek_ai_dsh_schedule_schedule_history_parameter_0$schema = () => _deepseek_ai_dsh_schedule_schedule_history_parameter_0$schema$value ??= zod.z.object({
+			"limit": zod.z.number().describe("Required safe-integer page size from 1 through 100."),
+			"before": zod.z.string().optional().describe("Message identity of the oldest entry in the previous page; excluded from this page."),
+			"id": zod.z.string().describe("Task to remove."),
+			"sessionId": zod.z.string().describe("Original Session binding.")
+		});
+		let _deepseek_ai_dsh_schedule_schedule_history_result$schema$value;
+		const _deepseek_ai_dsh_schedule_schedule_history_result$schema = () => _deepseek_ai_dsh_schedule_schedule_history_result$schema$value ??= zod.z.union([zod.z.object({
+			"id": zod.z.string().readonly(),
+			"records": zod.z.array(zod.z.object({
+				"prompt": zod.z.string().readonly().optional().describe("Prompt sent for this occurrence; unavailable for legacy receipts."),
+				"scheduledAt": zod.z.string().readonly().describe("Canonical UTC target of the delivered occurrence."),
+				"deliveredAt": zod.z.string().readonly().describe("Canonical UTC time sampled after Session persistence acknowledged delivery."),
+				"messageId": zod.z.string().readonly().describe("Identity of the delivered message, shared by tasks in one recurring batch.")
+			})).readonly(),
+			"earlierRecordsUnavailable": zod.z.boolean().readonly().describe("Whether earlier delivery records may be unavailable; missing receipts are never reconstructed."),
+			"earlierRecordsPruned": zod.z.boolean().readonly().describe("True only after an append removed saved records; absent legacy evidence is false."),
+			"retention": zod.z.object({
+				"days": zod.z.number().readonly().describe("Retained window in days, measured back from the acknowledgment being appended."),
+				"records": zod.z.number().readonly().describe("Maximum retained records per task; the newest survive.")
+			}).readonly().describe("Current Host retention configuration, also used by the delivery writer."),
+			"nextBefore": zod.z.string().readonly().optional().describe("Oldest returned message identity, present only when older saved records remain.")
+		}), zod.z.object({
+			"id": zod.z.string().readonly(),
+			"code": zod.z.union([zod.z.literal("schedule_not_found"), zod.z.literal("delivery_cursor_not_found")]).readonly()
+		})]);
+		let _deepseek_ai_dsh_schedule_schedule_list_parameter_0$schema$value;
+		const _deepseek_ai_dsh_schedule_schedule_list_parameter_0$schema = () => _deepseek_ai_dsh_schedule_schedule_list_parameter_0$schema$value ??= zod.z.object({ "sessionId": zod.z.string().describe("Original Session binding.") });
+		let _deepseek_ai_dsh_schedule_schedule_list_result$schema$value;
+		const _deepseek_ai_dsh_schedule_schedule_list_result$schema = () => _deepseek_ai_dsh_schedule_schedule_list_result$schema$value ??= zod.z.array(zod.z.union([
+			zod.z.object({
+				"id": zod.z.string().readonly().describe("Globally unique task identity."),
+				"kind": zod.z.literal("after").readonly().describe("Rule discriminator for a delayed one-shot reminder."),
+				"title": zod.z.string().readonly().describe("Required stored task name; already trimmed, non-empty, and at most 120 characters."),
+				"prompt": zod.z.string().readonly().describe("Trimmed reminder content supplied at creation."),
+				"afterSeconds": zod.z.number().readonly().describe("Positive safe-integer delay accepted at creation."),
+				"scheduledAt": zod.z.string().readonly().describe("Four-digit-year RFC 3339 UTC target.")
+			}),
+			zod.z.object({
+				"id": zod.z.string().readonly().describe("Globally unique task identity."),
+				"kind": zod.z.literal("at").readonly().describe("Rule discriminator for an absolute one-shot reminder."),
+				"title": zod.z.string().readonly().describe("Required stored task name; already trimmed, non-empty, and at most 120 characters."),
+				"prompt": zod.z.string().readonly().describe("Trimmed reminder content supplied at creation."),
+				"scheduledAt": zod.z.string().readonly().describe("Four-digit-year RFC 3339 UTC target.")
+			}),
+			zod.z.object({
+				"id": zod.z.string().readonly().describe("Globally unique task identity."),
+				"kind": zod.z.literal("every").readonly().describe("Rule discriminator for a fixed-rate recurring reminder."),
+				"title": zod.z.string().readonly().describe("Required stored task name; already trimmed, non-empty, and at most 120 characters."),
+				"prompt": zod.z.string().readonly().describe("Trimmed reminder content supplied at creation."),
+				"everySeconds": zod.z.number().readonly().describe("Fixed safe-integer interval, never below one minute."),
+				"scheduledAt": zod.z.string().readonly().describe("Next anchor-aligned occurrence while active, or final occurrence when inactive.")
+			}),
+			zod.z.object({
+				"id": zod.z.string().readonly().describe("Globally unique task identity."),
+				"kind": zod.z.literal("daily").readonly().describe("Rule discriminator for a daily wall-clock reminder."),
+				"title": zod.z.string().readonly().describe("Required stored task name; already trimmed, non-empty, and at most 120 characters."),
+				"prompt": zod.z.string().readonly().describe("Trimmed reminder content supplied at creation."),
+				"time": zod.z.string().readonly().describe("Local time normalized to HH:mm:ss.SSS."),
+				"timeZone": zod.z.string().readonly().describe("Explicit IANA zone; equivalent timing edits retain the stored spelling."),
+				"scheduledAt": zod.z.string().readonly().describe("Committed next UTC instant while active, or final occurrence when inactive.")
+			}),
+			zod.z.object({
+				"id": zod.z.string().readonly().describe("Globally unique task identity."),
+				"kind": zod.z.literal("weekly").readonly().describe("Rule discriminator for a weekly wall-clock reminder."),
+				"title": zod.z.string().readonly().describe("Required stored task name; already trimmed, non-empty, and at most 120 characters."),
+				"prompt": zod.z.string().readonly().describe("Trimmed reminder content supplied at creation."),
+				"time": zod.z.string().readonly().describe("Local time normalized to HH:mm:ss.SSS."),
+				"timeZone": zod.z.string().readonly().describe("Explicit canonical IANA zone; equivalent timing edits retain the stored spelling."),
+				"weekdays": zod.z.array(zod.z.number()).readonly().describe("Unique ascending ISO weekdays, Monday 1 through Sunday 7."),
+				"scheduledAt": zod.z.string().readonly().describe("Committed next UTC instant while active, or final occurrence when inactive.")
+			}),
+			zod.z.object({
+				"id": zod.z.string().readonly().describe("Globally unique task identity."),
+				"kind": zod.z.literal("cron").readonly().describe("Rule discriminator for a five-field cron wall-clock reminder."),
+				"title": zod.z.string().readonly().describe("Required stored task name; already trimmed, non-empty, and at most 120 characters."),
+				"prompt": zod.z.string().readonly().describe("Trimmed reminder content supplied at creation."),
+				"expression": zod.z.string().readonly().describe("Canonical five-field cron expression: minute hour day-of-month month day-of-week."),
+				"timeZone": zod.z.string().readonly().describe("Explicit IANA zone; equivalent timing edits retain the stored spelling."),
+				"scheduledAt": zod.z.string().readonly().describe("Committed next UTC instant while active, or final occurrence when inactive.")
+			})
+		]));
+		let _deepseek_ai_dsh_schedule_schedule_update_parameter_0$schema$value;
+		const _deepseek_ai_dsh_schedule_schedule_update_parameter_0$schema = () => _deepseek_ai_dsh_schedule_schedule_update_parameter_0$schema$value ??= zod.z.object({
+			"expected": zod.z.union([
+				zod.z.object({
+					"id": zod.z.string().readonly().describe("Globally unique task identity."),
+					"kind": zod.z.literal("after").readonly().describe("Rule discriminator for a delayed one-shot reminder."),
+					"title": zod.z.string().readonly().describe("Required stored task name; already trimmed, non-empty, and at most 120 characters."),
+					"prompt": zod.z.string().readonly().describe("Trimmed reminder content supplied at creation."),
+					"afterSeconds": zod.z.number().readonly().describe("Positive safe-integer delay accepted at creation."),
+					"scheduledAt": zod.z.string().readonly().describe("Four-digit-year RFC 3339 UTC target.")
+				}),
+				zod.z.object({
+					"id": zod.z.string().readonly().describe("Globally unique task identity."),
+					"kind": zod.z.literal("at").readonly().describe("Rule discriminator for an absolute one-shot reminder."),
+					"title": zod.z.string().readonly().describe("Required stored task name; already trimmed, non-empty, and at most 120 characters."),
+					"prompt": zod.z.string().readonly().describe("Trimmed reminder content supplied at creation."),
+					"scheduledAt": zod.z.string().readonly().describe("Four-digit-year RFC 3339 UTC target.")
+				}),
+				zod.z.object({
+					"id": zod.z.string().readonly().describe("Globally unique task identity."),
+					"kind": zod.z.literal("every").readonly().describe("Rule discriminator for a fixed-rate recurring reminder."),
+					"title": zod.z.string().readonly().describe("Required stored task name; already trimmed, non-empty, and at most 120 characters."),
+					"prompt": zod.z.string().readonly().describe("Trimmed reminder content supplied at creation."),
+					"everySeconds": zod.z.number().readonly().describe("Fixed safe-integer interval, never below one minute."),
+					"scheduledAt": zod.z.string().readonly().describe("Next anchor-aligned occurrence while active, or final occurrence when inactive.")
+				}),
+				zod.z.object({
+					"id": zod.z.string().readonly().describe("Globally unique task identity."),
+					"kind": zod.z.literal("daily").readonly().describe("Rule discriminator for a daily wall-clock reminder."),
+					"title": zod.z.string().readonly().describe("Required stored task name; already trimmed, non-empty, and at most 120 characters."),
+					"prompt": zod.z.string().readonly().describe("Trimmed reminder content supplied at creation."),
+					"time": zod.z.string().readonly().describe("Local time normalized to HH:mm:ss.SSS."),
+					"timeZone": zod.z.string().readonly().describe("Explicit IANA zone; equivalent timing edits retain the stored spelling."),
+					"scheduledAt": zod.z.string().readonly().describe("Committed next UTC instant while active, or final occurrence when inactive.")
+				}),
+				zod.z.object({
+					"id": zod.z.string().readonly().describe("Globally unique task identity."),
+					"kind": zod.z.literal("weekly").readonly().describe("Rule discriminator for a weekly wall-clock reminder."),
+					"title": zod.z.string().readonly().describe("Required stored task name; already trimmed, non-empty, and at most 120 characters."),
+					"prompt": zod.z.string().readonly().describe("Trimmed reminder content supplied at creation."),
+					"time": zod.z.string().readonly().describe("Local time normalized to HH:mm:ss.SSS."),
+					"timeZone": zod.z.string().readonly().describe("Explicit canonical IANA zone; equivalent timing edits retain the stored spelling."),
+					"weekdays": zod.z.array(zod.z.number()).readonly().describe("Unique ascending ISO weekdays, Monday 1 through Sunday 7."),
+					"scheduledAt": zod.z.string().readonly().describe("Committed next UTC instant while active, or final occurrence when inactive.")
+				}),
+				zod.z.object({
+					"id": zod.z.string().readonly().describe("Globally unique task identity."),
+					"kind": zod.z.literal("cron").readonly().describe("Rule discriminator for a five-field cron wall-clock reminder."),
+					"title": zod.z.string().readonly().describe("Required stored task name; already trimmed, non-empty, and at most 120 characters."),
+					"prompt": zod.z.string().readonly().describe("Trimmed reminder content supplied at creation."),
+					"expression": zod.z.string().readonly().describe("Canonical five-field cron expression: minute hour day-of-month month day-of-week."),
+					"timeZone": zod.z.string().readonly().describe("Explicit IANA zone; equivalent timing edits retain the stored spelling."),
+					"scheduledAt": zod.z.string().readonly().describe("Committed next UTC instant while active, or final occurrence when inactive.")
+				})
+			]).readonly().describe("Complete record observed when editing began, including the committed target."),
+			"change": zod.z.union([
+				zod.z.object({
+					"kind": zod.z.literal("at").readonly(),
+					"at": zod.z.union([zod.z.string(), zod.z.object({
+						"date": zod.z.string().readonly().describe("Four-digit ISO calendar date."),
+						"time": zod.z.string().readonly().describe("Local wall-clock time with optional one-to-three digit milliseconds."),
+						"time_zone": zod.z.string().readonly().describe("Explicit UTC or IANA Area/Location zone.")
+					})]).readonly()
+				}),
+				zod.z.object({
+					"kind": zod.z.literal("every").readonly(),
+					"every_seconds": zod.z.number().readonly()
+				}),
+				zod.z.object({
+					"kind": zod.z.literal("daily").readonly(),
+					"daily": zod.z.object({
+						"time": zod.z.string().readonly().describe("Local HH:mm:ss time with optional one-to-three fractional digits."),
+						"time_zone": zod.z.string().readonly().describe("Explicit UTC or IANA Area/Location zone.")
+					}).readonly()
+				}),
+				zod.z.object({
+					"kind": zod.z.literal("weekly").readonly(),
+					"weekly": zod.z.object({
+						"time": zod.z.string().readonly().describe("Local HH:mm:ss time with optional one-to-three fractional digits."),
+						"time_zone": zod.z.string().readonly().describe("Explicit UTC or IANA Area/Location zone."),
+						"weekdays": zod.z.array(zod.z.number()).readonly().describe("Non-empty ISO weekday set, Monday 1 through Sunday 7, without repetitions.")
+					}).readonly()
+				}),
+				zod.z.object({
+					"kind": zod.z.literal("cron").readonly(),
+					"cron": zod.z.object({
+						"expression": zod.z.string().readonly().describe("Five-field Vixie cron expression: minute hour day-of-month month day-of-week."),
+						"time_zone": zod.z.string().readonly().describe("Explicit UTC or IANA Area/Location zone.")
+					}).readonly()
+				})
+			]).readonly().optional().describe("New timing; its kind may differ from the stored record's kind, and an omitted value keeps the committed target."),
+			"id": zod.z.string().describe("Task to remove."),
+			"sessionId": zod.z.string().describe("Original Session binding."),
+			"title": zod.z.string().readonly().optional().describe("Task name of at most 120 characters, non-empty after trimming; omitted keeps the stored name."),
+			"prompt": zod.z.string().readonly().optional().describe("Reminder instruction, non-empty after trimming; omitted keeps the stored instruction.")
+		});
+		let _deepseek_ai_dsh_schedule_schedule_update_result$schema$value;
+		const _deepseek_ai_dsh_schedule_schedule_update_result$schema = () => _deepseek_ai_dsh_schedule_schedule_update_result$schema$value ??= zod.z.union([
+			zod.z.object({
+				"id": zod.z.string().readonly(),
+				"updated": zod.z.boolean().readonly(),
+				"record": zod.z.union([
+					zod.z.object({
+						"id": zod.z.string().readonly().describe("Globally unique task identity."),
+						"kind": zod.z.literal("after").readonly().describe("Rule discriminator for a delayed one-shot reminder."),
+						"title": zod.z.string().readonly().describe("Required stored task name; already trimmed, non-empty, and at most 120 characters."),
+						"prompt": zod.z.string().readonly().describe("Trimmed reminder content supplied at creation."),
+						"afterSeconds": zod.z.number().readonly().describe("Positive safe-integer delay accepted at creation."),
+						"scheduledAt": zod.z.string().readonly().describe("Four-digit-year RFC 3339 UTC target.")
+					}),
+					zod.z.object({
+						"id": zod.z.string().readonly().describe("Globally unique task identity."),
+						"kind": zod.z.literal("at").readonly().describe("Rule discriminator for an absolute one-shot reminder."),
+						"title": zod.z.string().readonly().describe("Required stored task name; already trimmed, non-empty, and at most 120 characters."),
+						"prompt": zod.z.string().readonly().describe("Trimmed reminder content supplied at creation."),
+						"scheduledAt": zod.z.string().readonly().describe("Four-digit-year RFC 3339 UTC target.")
+					}),
+					zod.z.object({
+						"id": zod.z.string().readonly().describe("Globally unique task identity."),
+						"kind": zod.z.literal("every").readonly().describe("Rule discriminator for a fixed-rate recurring reminder."),
+						"title": zod.z.string().readonly().describe("Required stored task name; already trimmed, non-empty, and at most 120 characters."),
+						"prompt": zod.z.string().readonly().describe("Trimmed reminder content supplied at creation."),
+						"everySeconds": zod.z.number().readonly().describe("Fixed safe-integer interval, never below one minute."),
+						"scheduledAt": zod.z.string().readonly().describe("Next anchor-aligned occurrence while active, or final occurrence when inactive.")
+					}),
+					zod.z.object({
+						"id": zod.z.string().readonly().describe("Globally unique task identity."),
+						"kind": zod.z.literal("daily").readonly().describe("Rule discriminator for a daily wall-clock reminder."),
+						"title": zod.z.string().readonly().describe("Required stored task name; already trimmed, non-empty, and at most 120 characters."),
+						"prompt": zod.z.string().readonly().describe("Trimmed reminder content supplied at creation."),
+						"time": zod.z.string().readonly().describe("Local time normalized to HH:mm:ss.SSS."),
+						"timeZone": zod.z.string().readonly().describe("Explicit IANA zone; equivalent timing edits retain the stored spelling."),
+						"scheduledAt": zod.z.string().readonly().describe("Committed next UTC instant while active, or final occurrence when inactive.")
+					}),
+					zod.z.object({
+						"id": zod.z.string().readonly().describe("Globally unique task identity."),
+						"kind": zod.z.literal("weekly").readonly().describe("Rule discriminator for a weekly wall-clock reminder."),
+						"title": zod.z.string().readonly().describe("Required stored task name; already trimmed, non-empty, and at most 120 characters."),
+						"prompt": zod.z.string().readonly().describe("Trimmed reminder content supplied at creation."),
+						"time": zod.z.string().readonly().describe("Local time normalized to HH:mm:ss.SSS."),
+						"timeZone": zod.z.string().readonly().describe("Explicit canonical IANA zone; equivalent timing edits retain the stored spelling."),
+						"weekdays": zod.z.array(zod.z.number()).readonly().describe("Unique ascending ISO weekdays, Monday 1 through Sunday 7."),
+						"scheduledAt": zod.z.string().readonly().describe("Committed next UTC instant while active, or final occurrence when inactive.")
+					}),
+					zod.z.object({
+						"id": zod.z.string().readonly().describe("Globally unique task identity."),
+						"kind": zod.z.literal("cron").readonly().describe("Rule discriminator for a five-field cron wall-clock reminder."),
+						"title": zod.z.string().readonly().describe("Required stored task name; already trimmed, non-empty, and at most 120 characters."),
+						"prompt": zod.z.string().readonly().describe("Trimmed reminder content supplied at creation."),
+						"expression": zod.z.string().readonly().describe("Canonical five-field cron expression: minute hour day-of-month month day-of-week."),
+						"timeZone": zod.z.string().readonly().describe("Explicit IANA zone; equivalent timing edits retain the stored spelling."),
+						"scheduledAt": zod.z.string().readonly().describe("Committed next UTC instant while active, or final occurrence when inactive.")
+					})
+				]).readonly()
+			}),
+			zod.z.object({
+				"id": zod.z.string().readonly(),
+				"updated": zod.z.literal(false).readonly(),
+				"code": zod.z.union([
+					zod.z.literal("schedule_not_found"),
+					zod.z.literal("schedule_ended"),
+					zod.z.literal("schedule_conflict")
+				]).readonly()
+			}),
+			zod.z.object({
+				"code": zod.z.literal("invalid_prompt").readonly(),
+				"message": zod.z.string().readonly()
+			}),
+			zod.z.object({
+				"code": zod.z.literal("invalid_selector").readonly(),
+				"message": zod.z.string().readonly()
+			}),
+			zod.z.object({
+				"code": zod.z.literal("invalid_rule").readonly(),
+				"message": zod.z.string().readonly()
+			}),
+			zod.z.object({
+				"code": zod.z.literal("invalid_time_zone").readonly(),
+				"message": zod.z.string().readonly()
+			}),
+			zod.z.object({
+				"code": zod.z.literal("not_future").readonly(),
+				"message": zod.z.string().readonly()
+			}),
+			zod.z.object({
+				"code": zod.z.literal("time_out_of_range").readonly(),
+				"message": zod.z.string().readonly()
+			}),
+			zod.z.object({
+				"code": zod.z.literal("frequency_too_high").readonly(),
+				"message": zod.z.string().readonly()
+			}),
+			zod.z.object({
+				"code": zod.z.literal("subagent_session").readonly(),
+				"message": zod.z.string().readonly()
+			}),
+			zod.z.object({
+				"code": zod.z.literal("internal_error").readonly(),
+				"message": zod.z.string().readonly()
+			})
+		]);
+		let _deepseek_ai_dsh_schedule_schedule_delete_parameter_0_strict$schema$value;
+		const _deepseek_ai_dsh_schedule_schedule_delete_parameter_0_strict$schema = () => _deepseek_ai_dsh_schedule_schedule_delete_parameter_0_strict$schema$value ??= zod.z.strictObject({
+			"id": zod.z.string().describe("Task to remove."),
+			"sessionId": zod.z.string().describe("Original Session binding.")
+		});
+		let _deepseek_ai_dsh_schedule_schedule_history_parameter_0_strict$schema$value;
+		const _deepseek_ai_dsh_schedule_schedule_history_parameter_0_strict$schema = () => _deepseek_ai_dsh_schedule_schedule_history_parameter_0_strict$schema$value ??= zod.z.strictObject({
+			"limit": zod.z.number().describe("Required safe-integer page size from 1 through 100."),
+			"before": zod.z.string().optional().describe("Message identity of the oldest entry in the previous page; excluded from this page."),
+			"id": zod.z.string().describe("Task to remove."),
+			"sessionId": zod.z.string().describe("Original Session binding.")
+		});
+		let _deepseek_ai_dsh_schedule_schedule_list_parameter_0_strict$schema$value;
+		const _deepseek_ai_dsh_schedule_schedule_list_parameter_0_strict$schema = () => _deepseek_ai_dsh_schedule_schedule_list_parameter_0_strict$schema$value ??= zod.z.strictObject({ "sessionId": zod.z.string().describe("Original Session binding.") });
+		let _deepseek_ai_dsh_schedule_schedule_update_parameter_0_strict$schema$value;
+		const _deepseek_ai_dsh_schedule_schedule_update_parameter_0_strict$schema = () => _deepseek_ai_dsh_schedule_schedule_update_parameter_0_strict$schema$value ??= zod.z.strictObject({
+			"expected": zod.z.union([
+				zod.z.strictObject({
+					"id": zod.z.string().readonly().describe("Globally unique task identity."),
+					"kind": zod.z.literal("after").readonly().describe("Rule discriminator for a delayed one-shot reminder."),
+					"title": zod.z.string().readonly().describe("Required stored task name; already trimmed, non-empty, and at most 120 characters."),
+					"prompt": zod.z.string().readonly().describe("Trimmed reminder content supplied at creation."),
+					"afterSeconds": zod.z.number().readonly().describe("Positive safe-integer delay accepted at creation."),
+					"scheduledAt": zod.z.string().readonly().describe("Four-digit-year RFC 3339 UTC target.")
+				}),
+				zod.z.strictObject({
+					"id": zod.z.string().readonly().describe("Globally unique task identity."),
+					"kind": zod.z.literal("at").readonly().describe("Rule discriminator for an absolute one-shot reminder."),
+					"title": zod.z.string().readonly().describe("Required stored task name; already trimmed, non-empty, and at most 120 characters."),
+					"prompt": zod.z.string().readonly().describe("Trimmed reminder content supplied at creation."),
+					"scheduledAt": zod.z.string().readonly().describe("Four-digit-year RFC 3339 UTC target.")
+				}),
+				zod.z.strictObject({
+					"id": zod.z.string().readonly().describe("Globally unique task identity."),
+					"kind": zod.z.literal("every").readonly().describe("Rule discriminator for a fixed-rate recurring reminder."),
+					"title": zod.z.string().readonly().describe("Required stored task name; already trimmed, non-empty, and at most 120 characters."),
+					"prompt": zod.z.string().readonly().describe("Trimmed reminder content supplied at creation."),
+					"everySeconds": zod.z.number().readonly().describe("Fixed safe-integer interval, never below one minute."),
+					"scheduledAt": zod.z.string().readonly().describe("Next anchor-aligned occurrence while active, or final occurrence when inactive.")
+				}),
+				zod.z.strictObject({
+					"id": zod.z.string().readonly().describe("Globally unique task identity."),
+					"kind": zod.z.literal("daily").readonly().describe("Rule discriminator for a daily wall-clock reminder."),
+					"title": zod.z.string().readonly().describe("Required stored task name; already trimmed, non-empty, and at most 120 characters."),
+					"prompt": zod.z.string().readonly().describe("Trimmed reminder content supplied at creation."),
+					"time": zod.z.string().readonly().describe("Local time normalized to HH:mm:ss.SSS."),
+					"timeZone": zod.z.string().readonly().describe("Explicit IANA zone; equivalent timing edits retain the stored spelling."),
+					"scheduledAt": zod.z.string().readonly().describe("Committed next UTC instant while active, or final occurrence when inactive.")
+				}),
+				zod.z.strictObject({
+					"id": zod.z.string().readonly().describe("Globally unique task identity."),
+					"kind": zod.z.literal("weekly").readonly().describe("Rule discriminator for a weekly wall-clock reminder."),
+					"title": zod.z.string().readonly().describe("Required stored task name; already trimmed, non-empty, and at most 120 characters."),
+					"prompt": zod.z.string().readonly().describe("Trimmed reminder content supplied at creation."),
+					"time": zod.z.string().readonly().describe("Local time normalized to HH:mm:ss.SSS."),
+					"timeZone": zod.z.string().readonly().describe("Explicit canonical IANA zone; equivalent timing edits retain the stored spelling."),
+					"weekdays": zod.z.array(zod.z.number()).readonly().describe("Unique ascending ISO weekdays, Monday 1 through Sunday 7."),
+					"scheduledAt": zod.z.string().readonly().describe("Committed next UTC instant while active, or final occurrence when inactive.")
+				}),
+				zod.z.strictObject({
+					"id": zod.z.string().readonly().describe("Globally unique task identity."),
+					"kind": zod.z.literal("cron").readonly().describe("Rule discriminator for a five-field cron wall-clock reminder."),
+					"title": zod.z.string().readonly().describe("Required stored task name; already trimmed, non-empty, and at most 120 characters."),
+					"prompt": zod.z.string().readonly().describe("Trimmed reminder content supplied at creation."),
+					"expression": zod.z.string().readonly().describe("Canonical five-field cron expression: minute hour day-of-month month day-of-week."),
+					"timeZone": zod.z.string().readonly().describe("Explicit IANA zone; equivalent timing edits retain the stored spelling."),
+					"scheduledAt": zod.z.string().readonly().describe("Committed next UTC instant while active, or final occurrence when inactive.")
+				})
+			]).readonly().describe("Complete record observed when editing began, including the committed target."),
+			"change": zod.z.union([
+				zod.z.strictObject({
+					"kind": zod.z.literal("at").readonly(),
+					"at": zod.z.union([zod.z.string(), zod.z.strictObject({
+						"date": zod.z.string().readonly().describe("Four-digit ISO calendar date."),
+						"time": zod.z.string().readonly().describe("Local wall-clock time with optional one-to-three digit milliseconds."),
+						"time_zone": zod.z.string().readonly().describe("Explicit UTC or IANA Area/Location zone.")
+					})]).readonly()
+				}),
+				zod.z.strictObject({
+					"kind": zod.z.literal("every").readonly(),
+					"every_seconds": zod.z.number().readonly()
+				}),
+				zod.z.strictObject({
+					"kind": zod.z.literal("daily").readonly(),
+					"daily": zod.z.strictObject({
+						"time": zod.z.string().readonly().describe("Local HH:mm:ss time with optional one-to-three fractional digits."),
+						"time_zone": zod.z.string().readonly().describe("Explicit UTC or IANA Area/Location zone.")
+					}).readonly()
+				}),
+				zod.z.strictObject({
+					"kind": zod.z.literal("weekly").readonly(),
+					"weekly": zod.z.strictObject({
+						"time": zod.z.string().readonly().describe("Local HH:mm:ss time with optional one-to-three fractional digits."),
+						"time_zone": zod.z.string().readonly().describe("Explicit UTC or IANA Area/Location zone."),
+						"weekdays": zod.z.array(zod.z.number()).readonly().describe("Non-empty ISO weekday set, Monday 1 through Sunday 7, without repetitions.")
+					}).readonly()
+				}),
+				zod.z.strictObject({
+					"kind": zod.z.literal("cron").readonly(),
+					"cron": zod.z.strictObject({
+						"expression": zod.z.string().readonly().describe("Five-field Vixie cron expression: minute hour day-of-month month day-of-week."),
+						"time_zone": zod.z.string().readonly().describe("Explicit UTC or IANA Area/Location zone.")
+					}).readonly()
+				})
+			]).readonly().optional().describe("New timing; its kind may differ from the stored record's kind, and an omitted value keeps the committed target."),
+			"id": zod.z.string().describe("Task to remove."),
+			"sessionId": zod.z.string().describe("Original Session binding."),
+			"title": zod.z.string().readonly().optional().describe("Task name of at most 120 characters, non-empty after trimming; omitted keeps the stored name."),
+			"prompt": zod.z.string().readonly().optional().describe("Reminder instruction, non-empty after trimming; omitted keeps the stored instruction.")
+		});
+		const TYPERT_REMOTE$17 = createTypertRemoteInfo({
+			package: "@deepseek-ai/dsh-schedule",
+			methods: {
+				"schedule/catalog": {
+					service: "schedule",
+					description: "Read all active and inactive Host reminders with their original Session bindings. A deleted reminder has no row, so it is absent here. Does not activate Sessions or read Session history.",
+					invocation: { kind: "direct" },
+					parameters: [],
+					result: {
+						mode: "strict",
+						typeSymbol: "@deepseek-ai/dsh-schedule#schedule/catalog:result",
+						create: _deepseek_ai_dsh_schedule_schedule_catalog_result$schema,
+						description: "Reminders ordered by scheduledAt ascending, then lexicographically by id.",
+						jsonSchema: {
+							"type": "array",
+							"items": { "oneOf": [
+								{
+									"type": "object",
+									"properties": {
+										"id": {
+											"type": "string",
+											"description": "Globally unique task identity."
+										},
+										"kind": {
+											"type": "string",
+											"const": "after",
+											"description": "Rule discriminator for a delayed one-shot reminder."
+										},
+										"title": {
+											"type": "string",
+											"description": "Required stored task name; already trimmed, non-empty, and at most 120 characters."
+										},
+										"prompt": {
+											"type": "string",
+											"description": "Trimmed reminder content supplied at creation."
+										},
+										"afterSeconds": {
+											"type": "number",
+											"description": "Positive safe-integer delay accepted at creation."
+										},
+										"scheduledAt": {
+											"type": "string",
+											"description": "Four-digit-year RFC 3339 UTC target."
+										},
+										"sessionId": {
+											"type": "string",
+											"description": "Session receiving this reminder when it becomes due."
+										},
+										"status": {
+											"type": "string",
+											"enum": ["active", "inactive"],
+											"description": "Inactive reminders remain visible but never schedule another delivery."
+										},
+										"lastDelivery": {
+											"type": "object",
+											"properties": {
+												"scheduledAt": {
+													"type": "string",
+													"description": "Canonical UTC target of the delivered occurrence."
+												},
+												"deliveredAt": {
+													"type": "string",
+													"description": "Canonical UTC time sampled after Session persistence acknowledged delivery."
+												},
+												"messageId": {
+													"type": "string",
+													"description": "Identity of the delivered message, shared by tasks in one recurring batch."
+												}
+											},
+											"required": [
+												"scheduledAt",
+												"deliveredAt",
+												"messageId"
+											],
+											"additionalProperties": true,
+											"description": "Most recent durably acknowledged inbox delivery, when available."
+										}
+									},
+									"required": [
+										"id",
+										"kind",
+										"title",
+										"prompt",
+										"afterSeconds",
+										"scheduledAt",
+										"sessionId",
+										"status"
+									],
+									"additionalProperties": true
+								},
+								{
+									"type": "object",
+									"properties": {
+										"id": {
+											"type": "string",
+											"description": "Globally unique task identity."
+										},
+										"kind": {
+											"type": "string",
+											"const": "at",
+											"description": "Rule discriminator for an absolute one-shot reminder."
+										},
+										"title": {
+											"type": "string",
+											"description": "Required stored task name; already trimmed, non-empty, and at most 120 characters."
+										},
+										"prompt": {
+											"type": "string",
+											"description": "Trimmed reminder content supplied at creation."
+										},
+										"scheduledAt": {
+											"type": "string",
+											"description": "Four-digit-year RFC 3339 UTC target."
+										},
+										"sessionId": {
+											"type": "string",
+											"description": "Session receiving this reminder when it becomes due."
+										},
+										"status": {
+											"type": "string",
+											"enum": ["active", "inactive"],
+											"description": "Inactive reminders remain visible but never schedule another delivery."
+										},
+										"lastDelivery": {
+											"type": "object",
+											"properties": {
+												"scheduledAt": {
+													"type": "string",
+													"description": "Canonical UTC target of the delivered occurrence."
+												},
+												"deliveredAt": {
+													"type": "string",
+													"description": "Canonical UTC time sampled after Session persistence acknowledged delivery."
+												},
+												"messageId": {
+													"type": "string",
+													"description": "Identity of the delivered message, shared by tasks in one recurring batch."
+												}
+											},
+											"required": [
+												"scheduledAt",
+												"deliveredAt",
+												"messageId"
+											],
+											"additionalProperties": true,
+											"description": "Most recent durably acknowledged inbox delivery, when available."
+										}
+									},
+									"required": [
+										"id",
+										"kind",
+										"title",
+										"prompt",
+										"scheduledAt",
+										"sessionId",
+										"status"
+									],
+									"additionalProperties": true
+								},
+								{
+									"type": "object",
+									"properties": {
+										"id": {
+											"type": "string",
+											"description": "Globally unique task identity."
+										},
+										"kind": {
+											"type": "string",
+											"const": "every",
+											"description": "Rule discriminator for a fixed-rate recurring reminder."
+										},
+										"title": {
+											"type": "string",
+											"description": "Required stored task name; already trimmed, non-empty, and at most 120 characters."
+										},
+										"prompt": {
+											"type": "string",
+											"description": "Trimmed reminder content supplied at creation."
+										},
+										"everySeconds": {
+											"type": "number",
+											"description": "Fixed safe-integer interval, never below one minute."
+										},
+										"scheduledAt": {
+											"type": "string",
+											"description": "Next anchor-aligned occurrence while active, or final occurrence when inactive."
+										},
+										"sessionId": {
+											"type": "string",
+											"description": "Session receiving this reminder when it becomes due."
+										},
+										"status": {
+											"type": "string",
+											"enum": ["active", "inactive"],
+											"description": "Inactive reminders remain visible but never schedule another delivery."
+										},
+										"lastDelivery": {
+											"type": "object",
+											"properties": {
+												"scheduledAt": {
+													"type": "string",
+													"description": "Canonical UTC target of the delivered occurrence."
+												},
+												"deliveredAt": {
+													"type": "string",
+													"description": "Canonical UTC time sampled after Session persistence acknowledged delivery."
+												},
+												"messageId": {
+													"type": "string",
+													"description": "Identity of the delivered message, shared by tasks in one recurring batch."
+												}
+											},
+											"required": [
+												"scheduledAt",
+												"deliveredAt",
+												"messageId"
+											],
+											"additionalProperties": true,
+											"description": "Most recent durably acknowledged inbox delivery, when available."
+										}
+									},
+									"required": [
+										"id",
+										"kind",
+										"title",
+										"prompt",
+										"everySeconds",
+										"scheduledAt",
+										"sessionId",
+										"status"
+									],
+									"additionalProperties": true
+								},
+								{
+									"type": "object",
+									"properties": {
+										"id": {
+											"type": "string",
+											"description": "Globally unique task identity."
+										},
+										"kind": {
+											"type": "string",
+											"const": "daily",
+											"description": "Rule discriminator for a daily wall-clock reminder."
+										},
+										"title": {
+											"type": "string",
+											"description": "Required stored task name; already trimmed, non-empty, and at most 120 characters."
+										},
+										"prompt": {
+											"type": "string",
+											"description": "Trimmed reminder content supplied at creation."
+										},
+										"time": {
+											"type": "string",
+											"description": "Local time normalized to HH:mm:ss.SSS."
+										},
+										"timeZone": {
+											"type": "string",
+											"description": "Explicit IANA zone; equivalent timing edits retain the stored spelling."
+										},
+										"scheduledAt": {
+											"type": "string",
+											"description": "Committed next UTC instant while active, or final occurrence when inactive."
+										},
+										"sessionId": {
+											"type": "string",
+											"description": "Session receiving this reminder when it becomes due."
+										},
+										"status": {
+											"type": "string",
+											"enum": ["active", "inactive"],
+											"description": "Inactive reminders remain visible but never schedule another delivery."
+										},
+										"lastDelivery": {
+											"type": "object",
+											"properties": {
+												"scheduledAt": {
+													"type": "string",
+													"description": "Canonical UTC target of the delivered occurrence."
+												},
+												"deliveredAt": {
+													"type": "string",
+													"description": "Canonical UTC time sampled after Session persistence acknowledged delivery."
+												},
+												"messageId": {
+													"type": "string",
+													"description": "Identity of the delivered message, shared by tasks in one recurring batch."
+												}
+											},
+											"required": [
+												"scheduledAt",
+												"deliveredAt",
+												"messageId"
+											],
+											"additionalProperties": true,
+											"description": "Most recent durably acknowledged inbox delivery, when available."
+										}
+									},
+									"required": [
+										"id",
+										"kind",
+										"title",
+										"prompt",
+										"time",
+										"timeZone",
+										"scheduledAt",
+										"sessionId",
+										"status"
+									],
+									"additionalProperties": true
+								},
+								{
+									"type": "object",
+									"properties": {
+										"id": {
+											"type": "string",
+											"description": "Globally unique task identity."
+										},
+										"kind": {
+											"type": "string",
+											"const": "weekly",
+											"description": "Rule discriminator for a weekly wall-clock reminder."
+										},
+										"title": {
+											"type": "string",
+											"description": "Required stored task name; already trimmed, non-empty, and at most 120 characters."
+										},
+										"prompt": {
+											"type": "string",
+											"description": "Trimmed reminder content supplied at creation."
+										},
+										"time": {
+											"type": "string",
+											"description": "Local time normalized to HH:mm:ss.SSS."
+										},
+										"timeZone": {
+											"type": "string",
+											"description": "Explicit canonical IANA zone; equivalent timing edits retain the stored spelling."
+										},
+										"weekdays": {
+											"type": "array",
+											"items": { "type": "number" },
+											"description": "Unique ascending ISO weekdays, Monday 1 through Sunday 7."
+										},
+										"scheduledAt": {
+											"type": "string",
+											"description": "Committed next UTC instant while active, or final occurrence when inactive."
+										},
+										"sessionId": {
+											"type": "string",
+											"description": "Session receiving this reminder when it becomes due."
+										},
+										"status": {
+											"type": "string",
+											"enum": ["active", "inactive"],
+											"description": "Inactive reminders remain visible but never schedule another delivery."
+										},
+										"lastDelivery": {
+											"type": "object",
+											"properties": {
+												"scheduledAt": {
+													"type": "string",
+													"description": "Canonical UTC target of the delivered occurrence."
+												},
+												"deliveredAt": {
+													"type": "string",
+													"description": "Canonical UTC time sampled after Session persistence acknowledged delivery."
+												},
+												"messageId": {
+													"type": "string",
+													"description": "Identity of the delivered message, shared by tasks in one recurring batch."
+												}
+											},
+											"required": [
+												"scheduledAt",
+												"deliveredAt",
+												"messageId"
+											],
+											"additionalProperties": true,
+											"description": "Most recent durably acknowledged inbox delivery, when available."
+										}
+									},
+									"required": [
+										"id",
+										"kind",
+										"title",
+										"prompt",
+										"time",
+										"timeZone",
+										"weekdays",
+										"scheduledAt",
+										"sessionId",
+										"status"
+									],
+									"additionalProperties": true
+								},
+								{
+									"type": "object",
+									"properties": {
+										"id": {
+											"type": "string",
+											"description": "Globally unique task identity."
+										},
+										"kind": {
+											"type": "string",
+											"const": "cron",
+											"description": "Rule discriminator for a five-field cron wall-clock reminder."
+										},
+										"title": {
+											"type": "string",
+											"description": "Required stored task name; already trimmed, non-empty, and at most 120 characters."
+										},
+										"prompt": {
+											"type": "string",
+											"description": "Trimmed reminder content supplied at creation."
+										},
+										"expression": {
+											"type": "string",
+											"description": "Canonical five-field cron expression: minute hour day-of-month month day-of-week."
+										},
+										"timeZone": {
+											"type": "string",
+											"description": "Explicit IANA zone; equivalent timing edits retain the stored spelling."
+										},
+										"scheduledAt": {
+											"type": "string",
+											"description": "Committed next UTC instant while active, or final occurrence when inactive."
+										},
+										"sessionId": {
+											"type": "string",
+											"description": "Session receiving this reminder when it becomes due."
+										},
+										"status": {
+											"type": "string",
+											"enum": ["active", "inactive"],
+											"description": "Inactive reminders remain visible but never schedule another delivery."
+										},
+										"lastDelivery": {
+											"type": "object",
+											"properties": {
+												"scheduledAt": {
+													"type": "string",
+													"description": "Canonical UTC target of the delivered occurrence."
+												},
+												"deliveredAt": {
+													"type": "string",
+													"description": "Canonical UTC time sampled after Session persistence acknowledged delivery."
+												},
+												"messageId": {
+													"type": "string",
+													"description": "Identity of the delivered message, shared by tasks in one recurring batch."
+												}
+											},
+											"required": [
+												"scheduledAt",
+												"deliveredAt",
+												"messageId"
+											],
+											"additionalProperties": true,
+											"description": "Most recent durably acknowledged inbox delivery, when available."
+										}
+									},
+									"required": [
+										"id",
+										"kind",
+										"title",
+										"prompt",
+										"expression",
+										"timeZone",
+										"scheduledAt",
+										"sessionId",
+										"status"
+									],
+									"additionalProperties": true
+								}
+							] }
+						}
+					},
+					sourceLocation: {
+						"file": "packages/schedule/schedule/src/index.ts",
+						"line": 285,
+						"column": 9
+					}
+				},
+				"schedule/delete": {
+					service: "schedule",
+					description: "Delete one task belonging to the selected Session, leaving queued messages intact. The row is removed: the task no longer schedules, leaves `list` and `catalog`, and its saved delivery records go with it. A task bound to a Session a delegated child owns stays deletable even though creation and timing edits refuse that binding, so a task stored before that rule existed remains removable.",
+					invocation: { kind: "direct" },
+					parameters: [{
+						name: "request",
+						description: "Session and exact task identity.",
+						source: "json",
+						codec: {
+							mode: "strict",
+							typeSymbol: "@deepseek-ai/dsh-schedule/client#ScheduleDeleteRequest",
+							create: _deepseek_ai_dsh_schedule_schedule_delete_parameter_0$schema,
+							jsonSchema: {
+								"type": "object",
+								"properties": {
+									"id": {
+										"type": "string",
+										"description": "Task to remove."
+									},
+									"sessionId": {
+										"type": "string",
+										"description": "Original Session binding."
+									}
+								},
+								"required": ["id", "sessionId"],
+								"additionalProperties": true
+							}
+						},
+						strictCodec: {
+							mode: "strict",
+							typeSymbol: "@deepseek-ai/dsh-schedule/client#ScheduleDeleteRequest",
+							create: _deepseek_ai_dsh_schedule_schedule_delete_parameter_0_strict$schema,
+							jsonSchema: {
+								"type": "object",
+								"properties": {
+									"id": {
+										"type": "string",
+										"description": "Task to remove."
+									},
+									"sessionId": {
+										"type": "string",
+										"description": "Original Session binding."
+									}
+								},
+								"required": ["id", "sessionId"],
+								"additionalProperties": false
+							}
+						}
+					}],
+					cancellation: { parameter: "signal" },
+					result: {
+						mode: "strict",
+						typeSymbol: "@deepseek-ai/dsh-schedule/client#ScheduleDeleteResult",
+						create: _deepseek_ai_dsh_schedule_schedule_delete_result$schema,
+						description: "Whether that Session owned a deleted task. Cancellation does not roll back an in-flight write.",
+						jsonSchema: { "oneOf": [{
+							"type": "object",
+							"properties": {
+								"id": { "type": "string" },
+								"deleted": {
+									"type": "boolean",
+									"const": true
+								}
+							},
+							"required": ["id", "deleted"],
+							"additionalProperties": true
+						}, {
+							"type": "object",
+							"properties": {
+								"id": { "type": "string" },
+								"deleted": {
+									"type": "boolean",
+									"const": false
+								},
+								"code": {
+									"type": "string",
+									"const": "schedule_not_found"
+								}

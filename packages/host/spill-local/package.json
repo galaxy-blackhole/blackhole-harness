@@ -1,0 +1,52 @@
+{
+  "name": "@galaxy-blackhole/gbh-spill-local",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "type": "module",
+  "main": "lib/index.js",
+  "description": "Bản viết lại của Galaxy Blackhole cho row spill-local của DSH (@deepseek-ai/dsh-spill-local): bản cài đặt bằng hệ tệp host của seam lưu tràn (ctx.spillStore) — tệp riêng theo phiên, tên khử đường dẫn leo thang, ghi độc quyền 0600, và lượt dọn best-effort lúc khởi động.",
+  "scripts": {
+    "build": "bun run build.ts"
+  },
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "default": "./lib/index.js"
+    },
+    "./package.json": "./package.json",
+    "./src/*": "./src/*",
+    "./locale/*.json": "./locale/*.json"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2",
+    "@deepseek-ai/dsh-spill": "0.2.1-alpha.4",
+    "@deepseek-ai/schemastery": "~3.18.5-alpha.2"
+  },
+  "devDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2",
+    "@deepseek-ai/dsh-spill": "0.2.1-alpha.4",
+    "@deepseek-ai/schemastery": "~3.18.5-alpha.2"
+  },
+  "license": "MIT",
+  "gbh": {
+    "draft": "gbh.row do LEAD khai (commit 34702d4, 18/10 10:51:49) — GIU NGUYEN: id spill-local, KHONG config, KHONG inject (dung ours.yml dong 394-395: row khong disabled/config/inject). Tap export = tap export goc 10 = 10 do tren ARTIFACT; gbh.peers ⊆ peerDependencies 3/3 (so PHAN TU). app.patch.yml co cap disable+insert; profile co artifact cung than ma voi lib/ trong repo (chi khac dong chu thich duong dan nguon). Xem docs/recipes/HOST-ROW-REWRITE.md muc 1b va M6-MOUNT-PLAN.md muc 1c/1d.",
+    "peers": [
+      "@deepseek-ai/cordis",
+      "@deepseek-ai/dsh-spill",
+      "@deepseek-ai/schemastery"
+    ],
+    "tests": [
+      "tests/host/spill-local.test.ts"
+    ],
+    "row": {
+      "id": "spill-local",
+      "tests": [
+        "tests/host/spill-local.test.ts"
+      ]
+    },
+    "provenance": {
+      "stock": "@deepseek-ai/dsh-spill-local"
+    }
+  },
+  "types": "src/index.ts"
+}

@@ -1,0 +1,17 @@
+{
+  "dev": "tm-client-ui-a",
+  "owner": "tm-client-ui-a",
+  "evidence": [
+    "signed, MOUNTED — check:app 11/11 BA LUOT LIEN TIEP; artifact + test do REVIEWER TU DO (build trong thu muc goi, exit 0)",
+    "**3 luot check:app lien tiep DAT 11/11** — (3) **149 entry** · (5) **0** · #root 47.584 / 46 slot / 0 console / 0 pageerror · (9) 0/80 · (10) **349 file khop repo** · (11) HMR",
+    "CO CHE: row TOP-LEVEL, client KEP (exports['./client'] 3 nhanh + immediately:true theo Lead; reviewer do artifact)",
+    "index **24.195 B** sha `ea5e3beb6d` · client.browser **26.137 B** `294ceb5f96` · client.node **24.515 B** `b56ea1a47d` · client-entry **2.263 B** `c4b5fb3f4b` · test **25 pass/185 expect**",
+    "rollback san"
+  ],
+  "packages": [
+    {
+      "dsh": "@deepseek-ai/dsh-typert-registry",
+      "gbh": "gbh-typert-registry"
+    }
+  ]
+}

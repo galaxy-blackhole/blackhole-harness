@@ -1,0 +1,53 @@
+{
+  "name": "@galaxy-blackhole/gbh-client-ui-sidebar-terminal",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "type": "module",
+  "main": "lib/index.js",
+  "description": "Bản viết lại của Galaxy Blackhole cho row ui-sidebar-terminal của DSH (@deepseek-ai/dsh-client-ui-sidebar-terminal).",
+  "scripts": {
+    "build": "bun run build.ts"
+  },
+  "gbh": {
+    "row": {
+      "id": "ui-sidebar-terminal",
+      "moduleIds": [
+        "@galaxy-blackhole/gbh-client-ui-sidebar-terminal"
+      ],
+      "tests": [
+        "tests/client/ui-sidebar-terminal.test.ts"
+      ],
+      "aliases": [
+        "@deepseek-ai/dsh-client-ui-sidebar-terminal"
+      ]
+    },
+    "provenance": {
+      "stock": "@deepseek-ai/dsh-client-ui-sidebar-terminal"
+    }
+  },
+  "devDependencies": {
+    "@xterm/addon-fit": "^0.11.0",
+    "@xterm/xterm": "^6.0.0"
+  },
+  "exports": {
+    "./locale/*.json": "./locale/*.json",
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./client": "./lib/client.js"
+  },
+  "dsh": {
+    "client": {
+      "inject": [
+        "@deepseek-ai/dsh-api-terminal-controller",
+        "@deepseek-ai/dsh-client-ui-sidebar-right",
+        "@deepseek-ai/dsh-api-remotes",
+        "@deepseek-ai/dsh-client-ui-theme",
+        "@deepseek-ai/dsh-client-shortcuts"
+      ],
+      "platform": "web"
+    }
+  },
+  "types": "lib/types/index.d.ts"
+}

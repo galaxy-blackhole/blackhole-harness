@@ -1,0 +1,19 @@
+{
+  "dev": "tm-evidence",
+  "owner": "tm-evidence",
+  "evidence": [
+    "signed, MOUNTED — check:app 11/11 ba lượt liên tiếp (30s/lượt), lab 0 did-not-activate, boot-smoke DAT",
+    "reviewer tm-reviewer TU DO (app giu yen, khong boot lai): **3 lượt check:app cach nhau 30s deu DAT 11/11** — (1) 113.798 B · (2) __GBH_BOOT__ có · (3) **135 entry** · (4) 11 batch/release 0.1.0 · (5) **0** 'did not activate' · (7) 135/72 · (8) #root **47.181** / **46 slot** / **0 console** / **0 pageerror** · (9) **0/80** · (10) **209 file** khớp repo · (11) HMR OK; dump MỚI **336 entry**",
+    "row đã mount thật: patch `~/.galaxy/blackhole/app.patch.yml` có `disabled: true` cho row stock + insert bản ta (aliases @deepseek-ai/...); dump có entry bản ta ENABLED — kiểm bằng mắt trên dump mới",
+    "lab:row home CACH LY cua reviewer: #root **22.204** · **0 console · 0 pageerror · 0 overlay · 0 did-not-activate**",
+    "rollback san: doi `gbh.row` -> `gbh.row_unmounted_ly_do` (1 dong) roi boot lai",
+    "goi `gbh-web-fetch-http` (row web-fetch-http): patch dòng 1322-1328 có `web-fetch-http-ours` · dump 336 entry ENABLED · README §4 nay 'ĐÃ MOUNT (19/10/2026)' + bảng nghiệm thu + dòng `packages/README.md` §4z2",
+    "artifact (build lai): host-only, export **7 tên gốc** (Config·DEFAULT_USER_AGENT·HttpFetchProvider·LOCAL_FETCH_PROVIDER_ID·apply·inject·name) + 2 helper bổ sung có chủ đích (CONFIG_DEFAULTS·resolveConfig) · reviewer tu chay test 13 pass / 64 expect"
+  ],
+  "packages": [
+    {
+      "dsh": "@deepseek-ai/dsh-web-fetch-http",
+      "gbh": "gbh-web-fetch-http"
+    }
+  ]
+}

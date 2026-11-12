@@ -1,0 +1,22 @@
+# author Bùi Trọng Hiếu
+# email kevinbui210191@gmail.com
+# create date 15/10/2026
+# modify date 19/10/2026
+# desc Bản sao 1:1 cordis.patch.yml của bundle gốc — THÂN patch giữ nguyên văn, chỉ thay id theo bản đồ gói ta
+
+- insert:
+    - id: optional-ralph
+      name: cordis:group
+      group: true
+      isolate:
+        workflowEngine: true
+      config:
+        - id: optional-ralph-workflow
+          name: '@galaxy-blackhole/gbh-workflow-ptc'
+          config:
+            provider: spawn
+        - id: tool-ralph
+          name: '@galaxy-blackhole/gbh-tool-ralph'
+          config:
+            subagentProvider: spawn
+            maxRounds: 64

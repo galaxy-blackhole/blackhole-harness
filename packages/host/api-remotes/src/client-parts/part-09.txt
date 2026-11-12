@@ -1,0 +1,1000 @@
+			})).describe("Explicit read-only queries.")
+		}));
+		let _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_undefineFromPanel_parameter_0_strict$schema$value;
+		const _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_undefineFromPanel_parameter_0_strict$schema = () => _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_undefineFromPanel_parameter_0_strict$schema$value ??= zod.z.string();
+		let _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_undefineFromPanel_parameter_1_strict$schema$value;
+		const _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_undefineFromPanel_parameter_1_strict$schema = () => _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_undefineFromPanel_parameter_1_strict$schema$value ??= zod.z.string();
+		const TYPERT_REMOTE$15 = createTypertRemoteInfo({
+			package: "@deepseek-ai/dsh-cordis-host-runner",
+			methods: {
+				"dynamicCordisRunner/getClientCode": {
+					service: "dynamicCordisRunner",
+					description: "Fetch Client code for the exact active run.",
+					invocation: { kind: "direct" },
+					scope: {
+						context: "agent",
+						wire: "agentId"
+					},
+					parameters: [
+						{
+							name: "agent",
+							wire: "agentId",
+							description: "Agent whose Session must own the Plugin.",
+							source: "lookup",
+							lookup: "agent",
+							codec: {
+								mode: "strict",
+								typeSymbol: "@deepseek-ai/dsh-session/types#SessionId",
+								create: _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_getClientCode_parameter_0$schema,
+								jsonSchema: { "type": "string" }
+							},
+							strictCodec: {
+								mode: "strict",
+								typeSymbol: "@deepseek-ai/dsh-session/types#SessionId",
+								create: _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_getClientCode_parameter_0_strict$schema,
+								jsonSchema: { "type": "string" }
+							}
+						},
+						{
+							name: "pluginId",
+							description: "Stable Plugin identity to read.",
+							source: "json",
+							codec: {
+								mode: "strict",
+								typeSymbol: "@deepseek-ai/dsh-cordis-host-runner/types#CordisDynamicPluginId",
+								create: _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_getClientCode_parameter_1$schema,
+								jsonSchema: { "type": "string" }
+							},
+							strictCodec: {
+								mode: "strict",
+								typeSymbol: "@deepseek-ai/dsh-cordis-host-runner/types#CordisDynamicPluginId",
+								create: _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_getClientCode_parameter_1_strict$schema,
+								jsonSchema: { "type": "string" }
+							}
+						},
+						{
+							name: "pluginRunId",
+							description: "Exact active run authorized to receive source.",
+							source: "json",
+							codec: {
+								mode: "strict",
+								typeSymbol: "@deepseek-ai/dsh-cordis-host-runner/types#CordisDynamicPluginRunId",
+								create: _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_getClientCode_parameter_2$schema,
+								jsonSchema: { "type": "string" }
+							},
+							strictCodec: {
+								mode: "strict",
+								typeSymbol: "@deepseek-ai/dsh-cordis-host-runner/types#CordisDynamicPluginRunId",
+								create: _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_getClientCode_parameter_2_strict$schema,
+								jsonSchema: { "type": "string" }
+							}
+						}
+					],
+					result: {
+						mode: "strict",
+						typeSymbol: "@deepseek-ai/dsh-cordis-host-runner/types#DynamicCordisClientSource",
+						create: _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_getClientCode_result$schema,
+						description: "Client source and its Plugin, Package, and run identities.",
+						jsonSchema: {
+							"type": "object",
+							"properties": {
+								"code": {
+									"type": "string",
+									"description": "Browser JavaScript body."
+								},
+								"name": {
+									"type": "string",
+									"description": "Package label."
+								},
+								"pluginId": {
+									"type": "string",
+									"description": "Stable plugin instance."
+								},
+								"packageId": {
+									"type": "string",
+									"description": "Immutable source version."
+								},
+								"pluginRunId": {
+									"type": "string",
+									"description": "Exact activation the source belongs to."
+								}
+							},
+							"required": [
+								"code",
+								"name",
+								"pluginId",
+								"packageId",
+								"pluginRunId"
+							],
+							"additionalProperties": true
+						}
+					},
+					sourceLocation: {
+						"file": "packages/extensions/cordis-host-runner/src/index.ts",
+						"line": 402,
+						"column": 3
+					}
+				},
+				"dynamicCordisRunner/inventory": {
+					service: "dynamicCordisRunner",
+					description: "Frame-wide inventory, grouped as one row per stable Plugin.",
+					invocation: { kind: "direct" },
+					parameters: [],
+					result: {
+						mode: "strict",
+						typeSymbol: "@deepseek-ai/dsh-cordis-host-runner#dynamicCordisRunner/inventory:result",
+						create: _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_inventory_result$schema,
+						description: "Source-free metadata for every process-local Plugin.",
+						jsonSchema: {
+							"type": "array",
+							"items": {
+								"type": "object",
+								"properties": {
+									"pluginId": {
+										"type": "string",
+										"description": "Stable plugin instance."
+									},
+									"agentId": {
+										"type": "string",
+										"description": "Session that owns this plugin."
+									},
+									"packages": {
+										"type": "array",
+										"items": {
+											"type": "object",
+											"properties": {
+												"packageId": {
+													"type": "string",
+													"description": "Immutable package version."
+												},
+												"name": {
+													"type": "string",
+													"description": "Package label."
+												},
+												"purpose": {
+													"type": "string",
+													"description": "User-facing purpose."
+												},
+												"hasHostHalf": {
+													"type": "boolean",
+													"description": "Whether this version contains Host code."
+												},
+												"hasClientHalf": {
+													"type": "boolean",
+													"description": "Whether this version contains Client code."
+												}
+											},
+											"required": [
+												"packageId",
+												"name",
+												"purpose",
+												"hasHostHalf",
+												"hasClientHalf"
+											],
+											"additionalProperties": true
+										},
+										"description": "Immutable versions in define order."
+									},
+									"currentPackageId": {
+										"type": "string",
+										"description": "Last package that completed activation successfully."
+									},
+									"nextPackageId": {
+										"type": "string",
+										"description": "Package selected for a failed or in-progress transition."
+									},
+									"activeRun": {
+										"type": "object",
+										"properties": {
+											"pluginRunId": { "type": "string" },
+											"packageId": { "type": "string" }
+										},
+										"required": ["pluginRunId", "packageId"],
+										"additionalProperties": true,
+										"description": "Current activation, absent while stopped."
+									},
+									"latestRun": {
+										"type": "object",
+										"properties": {
+											"pluginRunId": {
+												"type": "string",
+												"description": "Exact attempt identity."
+											},
+											"packageId": {
+												"type": "string",
+												"description": "Target Package."
+											},
+											"mode": {
+												"type": "string",
+												"enum": ["run", "update"],
+												"description": "Explicit run/update intent."
+											},
+											"status": {
+												"type": "string",
+												"enum": [
+													"cancelled",
+													"failed",
+													"running",
+													"rejected",
+													"awaiting-approval",
+													"starting-host",
+													"client-pending",
+													"waiting",
+													"stopped"
+												],
+												"description": "Current attempt state."
+											},
+											"approvalRequestId": {
+												"type": "string",
+												"description": "Pending Client activation request; it represents approval only when `requiresApproval` is true."
+											},
+											"requiresApproval": {
+												"type": "boolean",
+												"description": "Whether the pending Client activation requires a user decision."
+											},
+											"host": {
+												"type": "object",
+												"properties": {
+													"status": {
+														"type": "string",
+														"enum": [
+															"failed",
+															"running",
+															"pending",
+															"waiting",
+															"stopped",
+															"absent"
+														],
+														"description": "Lifecycle state of this half."
+													},
+													"waitingFor": {
+														"type": "array",
+														"items": { "type": "string" },
+														"description": "Services still needed by a successfully created Fiber."
+													},
+													"error": {
+														"type": "string",
+														"description": "Failure text for this half."
+													}
+												},
+												"required": ["status", "waitingFor"],
+												"additionalProperties": true,
+												"description": "Host-half state."
+											},
+											"client": {
+												"type": "object",
+												"properties": {
+													"status": {
+														"type": "string",
+														"enum": [
+															"failed",
+															"running",
+															"pending",
+															"waiting",
+															"stopped",
+															"absent"
+														],
+														"description": "Lifecycle state of this half."
+													},
+													"waitingFor": {
+														"type": "array",
+														"items": { "type": "string" },
+														"description": "Services still needed by a successfully created Fiber."
+													},
+													"error": {
+														"type": "string",
+														"description": "Failure text for this half."
+													}
+												},
+												"required": ["status", "waitingFor"],
+												"additionalProperties": true,
+												"description": "Client-half state."
+											},
+											"error": {
+												"type": "object",
+												"properties": {
+													"phase": {
+														"type": "string",
+														"enum": [
+															"approval",
+															"host-load",
+															"host-apply",
+															"client-load",
+															"client-apply",
+															"client-render"
+														],
+														"description": "Stage that failed."
+													},
+													"message": {
+														"type": "string",
+														"description": "Original failure text."
+													},
+													"stack": {
+														"type": "string",
+														"description": "Original failure stack when available."
+													},
+													"pluginId": {
+														"type": "string",
+														"description": "Stable Plugin identity."
+													},
+													"packageId": {
+														"type": "string",
+														"description": "Immutable Package identity."
+													},
+													"pluginRunId": {
+														"type": "string",
+														"description": "Exact attempt identity."
+													}
+												},
+												"required": [
+													"phase",
+													"message",
+													"pluginId",
+													"packageId",
+													"pluginRunId"
+												],
+												"additionalProperties": true,
+												"description": "Most recent failure."
+											}
+										},
+										"required": [
+											"pluginRunId",
+											"packageId",
+											"mode",
+											"status",
+											"host",
+											"client"
+										],
+										"additionalProperties": true,
+										"description": "Latest activation attempt, including pending approval and diagnostics."
+									}
+								},
+								"required": [
+									"pluginId",
+									"agentId",
+									"packages"
+								],
+								"additionalProperties": true
+							}
+						}
+					},
+					sourceLocation: {
+						"file": "packages/extensions/cordis-host-runner/src/index.ts",
+						"line": 544,
+						"column": 3
+					}
+				},
+				"dynamicCordisRunner/invoke": {
+					service: "dynamicCordisRunner",
+					description: "Invoke an active Host method while rejecting stale Client runs.",
+					invocation: { kind: "direct" },
+					parameters: [
+						{
+							name: "pluginId",
+							description: "Stable Plugin identity that owns the method.",
+							source: "json",
+							codec: {
+								mode: "strict",
+								typeSymbol: "@deepseek-ai/dsh-cordis-host-runner/types#CordisDynamicPluginId",
+								create: _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_invoke_parameter_0$schema,
+								jsonSchema: { "type": "string" }
+							},
+							strictCodec: {
+								mode: "strict",
+								typeSymbol: "@deepseek-ai/dsh-cordis-host-runner/types#CordisDynamicPluginId",
+								create: _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_invoke_parameter_0_strict$schema,
+								jsonSchema: { "type": "string" }
+							}
+						},
+						{
+							name: "pluginRunId",
+							description: "Exact active run authorizing the call.",
+							source: "json",
+							codec: {
+								mode: "strict",
+								typeSymbol: "@deepseek-ai/dsh-cordis-host-runner/types#CordisDynamicPluginRunId",
+								create: _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_invoke_parameter_1$schema,
+								jsonSchema: { "type": "string" }
+							},
+							strictCodec: {
+								mode: "strict",
+								typeSymbol: "@deepseek-ai/dsh-cordis-host-runner/types#CordisDynamicPluginRunId",
+								create: _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_invoke_parameter_1_strict$schema,
+								jsonSchema: { "type": "string" }
+							}
+						},
+						{
+							name: "method",
+							description: "Registered Host handler name.",
+							source: "json",
+							codec: {
+								mode: "strict",
+								typeSymbol: "@deepseek-ai/dsh-cordis-host-runner#dynamicCordisRunner/invoke:method",
+								create: _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_invoke_parameter_2$schema,
+								jsonSchema: { "type": "string" }
+							},
+							strictCodec: {
+								mode: "strict",
+								typeSymbol: "@deepseek-ai/dsh-cordis-host-runner#dynamicCordisRunner/invoke:method",
+								create: _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_invoke_parameter_2_strict$schema,
+								jsonSchema: { "type": "string" }
+							}
+						},
+						{
+							name: "args",
+							description: "JSON argument delivered to the handler.",
+							source: "json",
+							codec: {
+								mode: "strict",
+								typeSymbol: "@deepseek-ai/dsh-util-values#JsonValue",
+								create: _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_invoke_parameter_3$schema,
+								jsonSchema: {}
+							},
+							strictCodec: {
+								mode: "strict",
+								typeSymbol: "@deepseek-ai/dsh-util-values#JsonValue",
+								create: _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_invoke_parameter_3_strict$schema,
+								jsonSchema: {}
+							}
+						}
+					],
+					result: {
+						mode: "strict",
+						typeSymbol: "@deepseek-ai/dsh-cordis-host-runner/types#DynamicCordisInvokeResult",
+						create: _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_invoke_result$schema,
+						description: "The JSON result or a typed invocation failure.",
+						jsonSchema: { "oneOf": [{
+							"type": "object",
+							"properties": {
+								"ok": {
+									"type": "boolean",
+									"const": true
+								},
+								"value": {}
+							},
+							"required": ["ok", "value"],
+							"additionalProperties": true
+						}, {
+							"type": "object",
+							"properties": {
+								"ok": {
+									"type": "boolean",
+									"const": false
+								},
+								"code": {
+									"type": "string",
+									"enum": [
+										"plugin-not-running",
+										"stale-run",
+										"method-not-found",
+										"handler-error"
+									]
+								},
+								"message": {
+									"type": "string",
+									"description": "Original error message."
+								},
+								"stack": {
+									"type": "string",
+									"description": "Original stack when the thrown value supplied one."
+								}
+							},
+							"required": [
+								"ok",
+								"code",
+								"message"
+							],
+							"additionalProperties": true
+						}] }
+					},
+					sourceLocation: {
+						"file": "packages/extensions/cordis-host-runner/src/index.ts",
+						"line": 760,
+						"column": 9
+					}
+				},
+				"dynamicCordisRunner/reportClientGuardFailure": {
+					service: "dynamicCordisRunner",
+					description: "Report a Client guard rejection that happened after the Package completed activation.",
+					invocation: { kind: "direct" },
+					scope: {
+						context: "agent",
+						wire: "agentId"
+					},
+					parameters: [
+						{
+							name: "agent",
+							wire: "agentId",
+							description: "Agent whose Session must own the Plugin.",
+							source: "lookup",
+							lookup: "agent",
+							codec: {
+								mode: "strict",
+								typeSymbol: "@deepseek-ai/dsh-session/types#SessionId",
+								create: _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_reportClientGuardFailure_parameter_0$schema,
+								jsonSchema: { "type": "string" }
+							},
+							strictCodec: {
+								mode: "strict",
+								typeSymbol: "@deepseek-ai/dsh-session/types#SessionId",
+								create: _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_reportClientGuardFailure_parameter_0_strict$schema,
+								jsonSchema: { "type": "string" }
+							}
+						},
+						{
+							name: "pluginId",
+							description: "Stable Plugin identity whose Client code was rejected.",
+							source: "json",
+							codec: {
+								mode: "strict",
+								typeSymbol: "@deepseek-ai/dsh-cordis-host-runner/types#CordisDynamicPluginId",
+								create: _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_reportClientGuardFailure_parameter_1$schema,
+								jsonSchema: { "type": "string" }
+							},
+							strictCodec: {
+								mode: "strict",
+								typeSymbol: "@deepseek-ai/dsh-cordis-host-runner/types#CordisDynamicPluginId",
+								create: _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_reportClientGuardFailure_parameter_1_strict$schema,
+								jsonSchema: { "type": "string" }
+							}
+						},
+						{
+							name: "pluginRunId",
+							description: "Exact active run that produced the rejection.",
+							source: "json",
+							codec: {
+								mode: "strict",
+								typeSymbol: "@deepseek-ai/dsh-cordis-host-runner/types#CordisDynamicPluginRunId",
+								create: _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_reportClientGuardFailure_parameter_2$schema,
+								jsonSchema: { "type": "string" }
+							},
+							strictCodec: {
+								mode: "strict",
+								typeSymbol: "@deepseek-ai/dsh-cordis-host-runner/types#CordisDynamicPluginRunId",
+								create: _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_reportClientGuardFailure_parameter_2_strict$schema,
+								jsonSchema: { "type": "string" }
+							}
+						},
+						{
+							name: "failure",
+							description: "Original guard message and stack.",
+							source: "json",
+							codec: {
+								mode: "strict",
+								typeSymbol: "@deepseek-ai/dsh-cordis-host-runner/types#CordisErrorDetails",
+								create: _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_reportClientGuardFailure_parameter_3$schema,
+								jsonSchema: {
+									"type": "object",
+									"properties": {
+										"message": {
+											"type": "string",
+											"description": "Original error message."
+										},
+										"stack": {
+											"type": "string",
+											"description": "Original stack when the thrown value supplied one."
+										}
+									},
+									"required": ["message"],
+									"additionalProperties": true
+								}
+							},
+							strictCodec: {
+								mode: "strict",
+								typeSymbol: "@deepseek-ai/dsh-cordis-host-runner/types#CordisErrorDetails",
+								create: _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_reportClientGuardFailure_parameter_3_strict$schema,
+								jsonSchema: {
+									"type": "object",
+									"properties": {
+										"message": {
+											"type": "string",
+											"description": "Original error message."
+										},
+										"stack": {
+											"type": "string",
+											"description": "Original stack when the thrown value supplied one."
+										}
+									},
+									"required": ["message"],
+									"additionalProperties": false
+								}
+							}
+						}
+					],
+					result: {
+						mode: "strict",
+						typeSymbol: "@deepseek-ai/dsh-cordis-host-runner#dynamicCordisRunner/reportClientGuardFailure:result",
+						create: _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_reportClientGuardFailure_result$schema,
+						description: "Null after reporting or ignoring a stale/startup failure.",
+						jsonSchema: {
+							"type": "null",
+							"const": null
+						}
+					},
+					sourceLocation: {
+						"file": "packages/extensions/cordis-host-runner/src/index.ts",
+						"line": 737,
+						"column": 9
+					}
+				},
+				"dynamicCordisRunner/reportRenderFailure": {
+					service: "dynamicCordisRunner",
+					description: "Record a post-load render failure for the exact active run.",
+					invocation: { kind: "direct" },
+					scope: {
+						context: "agent",
+						wire: "agentId"
+					},
+					parameters: [
+						{
+							name: "agent",
+							wire: "agentId",
+							description: "Agent whose Session must own the Plugin.",
+							source: "lookup",
+							lookup: "agent",
+							codec: {
+								mode: "strict",
+								typeSymbol: "@deepseek-ai/dsh-session/types#SessionId",
+								create: _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_reportRenderFailure_parameter_0$schema,
+								jsonSchema: { "type": "string" }
+							},
+							strictCodec: {
+								mode: "strict",
+								typeSymbol: "@deepseek-ai/dsh-session/types#SessionId",
+								create: _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_reportRenderFailure_parameter_0_strict$schema,
+								jsonSchema: { "type": "string" }
+							}
+						},
+						{
+							name: "pluginId",
+							description: "Stable Plugin identity that rendered.",
+							source: "json",
+							codec: {
+								mode: "strict",
+								typeSymbol: "@deepseek-ai/dsh-cordis-host-runner/types#CordisDynamicPluginId",
+								create: _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_reportRenderFailure_parameter_1$schema,
+								jsonSchema: { "type": "string" }
+							},
+							strictCodec: {
+								mode: "strict",
+								typeSymbol: "@deepseek-ai/dsh-cordis-host-runner/types#CordisDynamicPluginId",
+								create: _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_reportRenderFailure_parameter_1_strict$schema,
+								jsonSchema: { "type": "string" }
+							}
+						},
+						{
+							name: "pluginRunId",
+							description: "Exact active run that produced the failure.",
+							source: "json",
+							codec: {
+								mode: "strict",
+								typeSymbol: "@deepseek-ai/dsh-cordis-host-runner/types#CordisDynamicPluginRunId",
+								create: _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_reportRenderFailure_parameter_2$schema,
+								jsonSchema: { "type": "string" }
+							},
+							strictCodec: {
+								mode: "strict",
+								typeSymbol: "@deepseek-ai/dsh-cordis-host-runner/types#CordisDynamicPluginRunId",
+								create: _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_reportRenderFailure_parameter_2_strict$schema,
+								jsonSchema: { "type": "string" }
+							}
+						},
+						{
+							name: "failure",
+							description: "Slot, message, and entry-retirement result.",
+							source: "json",
+							codec: {
+								mode: "strict",
+								typeSymbol: "@deepseek-ai/dsh-cordis-host-runner/types#DynamicCordisRenderFailure",
+								create: _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_reportRenderFailure_parameter_3$schema,
+								jsonSchema: {
+									"type": "object",
+									"properties": {
+										"slot": {
+											"type": "string",
+											"description": "Slot whose component failed."
+										},
+										"message": {
+											"type": "string",
+											"description": "Render failure text."
+										},
+										"stack": {
+											"type": "string",
+											"description": "Original render failure stack when available."
+										},
+										"abdicated": {
+											"type": "boolean",
+											"description": "Whether the failing contribution relinquished its slot."
+										}
+									},
+									"required": [
+										"slot",
+										"message",
+										"abdicated"
+									],
+									"additionalProperties": true
+								}
+							},
+							strictCodec: {
+								mode: "strict",
+								typeSymbol: "@deepseek-ai/dsh-cordis-host-runner/types#DynamicCordisRenderFailure",
+								create: _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_reportRenderFailure_parameter_3_strict$schema,
+								jsonSchema: {
+									"type": "object",
+									"properties": {
+										"slot": {
+											"type": "string",
+											"description": "Slot whose component failed."
+										},
+										"message": {
+											"type": "string",
+											"description": "Render failure text."
+										},
+										"stack": {
+											"type": "string",
+											"description": "Original render failure stack when available."
+										},
+										"abdicated": {
+											"type": "boolean",
+											"description": "Whether the failing contribution relinquished its slot."
+										}
+									},
+									"required": [
+										"slot",
+										"message",
+										"abdicated"
+									],
+									"additionalProperties": false
+								}
+							}
+						}
+					],
+					result: {
+						mode: "strict",
+						typeSymbol: "@deepseek-ai/dsh-cordis-host-runner#dynamicCordisRunner/reportRenderFailure:result",
+						create: _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_reportRenderFailure_result$schema,
+						description: "Null after recording or ignoring a stale report.",
+						jsonSchema: {
+							"type": "null",
+							"const": null
+						}
+					},
+					sourceLocation: {
+						"file": "packages/extensions/cordis-host-runner/src/index.ts",
+						"line": 703,
+						"column": 9
+					}
+				},
+				"dynamicCordisRunner/resolveInspectQuery": {
+					service: "dynamicCordisRunner",
+					description: "Submit a Client inspect result or failure for a pending query.",
+					invocation: { kind: "direct" },
+					scope: {
+						context: "agent",
+						wire: "agentId"
+					},
+					parameters: [
+						{
+							name: "agent",
+							wire: "agentId",
+							description: "Session that owns the query.",
+							source: "lookup",
+							lookup: "agent",
+							codec: {
+								mode: "strict",
+								typeSymbol: "@deepseek-ai/dsh-session/types#SessionId",
+								create: _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_resolveInspectQuery_parameter_0$schema,
+								jsonSchema: { "type": "string" }
+							},
+							strictCodec: {
+								mode: "strict",
+								typeSymbol: "@deepseek-ai/dsh-session/types#SessionId",
+								create: _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_resolveInspectQuery_parameter_0_strict$schema,
+								jsonSchema: { "type": "string" }
+							}
+						},
+						{
+							name: "requestId",
+							description: "exact pending query identity.",
+							source: "json",
+							codec: {
+								mode: "strict",
+								typeSymbol: "@deepseek-ai/dsh-cordis-host-runner/types#CordisInspectRequestId",
+								create: _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_resolveInspectQuery_parameter_1$schema,
+								jsonSchema: { "type": "string" }
+							},
+							strictCodec: {
+								mode: "strict",
+								typeSymbol: "@deepseek-ai/dsh-cordis-host-runner/types#CordisInspectRequestId",
+								create: _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_resolveInspectQuery_parameter_1_strict$schema,
+								jsonSchema: { "type": "string" }
+							}
+						},
+						{
+							name: "resolution",
+							description: "provider result or structured refusal.",
+							source: "json",
+							codec: {
+								mode: "strict",
+								typeSymbol: "@deepseek-ai/dsh-cordis-host-runner/types#CordisInspectQueryResolution",
+								create: _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_resolveInspectQuery_parameter_2$schema,
+								jsonSchema: { "oneOf": [{
+									"type": "object",
+									"properties": {
+										"ok": {
+											"type": "boolean",
+											"const": true
+										},
+										"data": {}
+									},
+									"required": ["ok", "data"],
+									"additionalProperties": true
+								}, {
+									"type": "object",
+									"properties": {
+										"ok": {
+											"type": "boolean",
+											"const": false
+										},
+										"reason": {
+											"type": "string",
+											"enum": [
+												"cancelled",
+												"provider-missing",
+												"method-missing",
+												"invalid-input",
+												"provider-error"
+											]
+										},
+										"message": { "type": "string" }
+									},
+									"required": [
+										"ok",
+										"reason",
+										"message"
+									],
+									"additionalProperties": true
+								}] }
+							},
+							strictCodec: {
+								mode: "strict",
+								typeSymbol: "@deepseek-ai/dsh-cordis-host-runner/types#CordisInspectQueryResolution",
+								create: _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_resolveInspectQuery_parameter_2_strict$schema,
+								jsonSchema: { "oneOf": [{
+									"type": "object",
+									"properties": {
+										"ok": {
+											"type": "boolean",
+											"const": true
+										},
+										"data": {}
+									},
+									"required": ["ok", "data"],
+									"additionalProperties": false
+								}, {
+									"type": "object",
+									"properties": {
+										"ok": {
+											"type": "boolean",
+											"const": false
+										},
+										"reason": {
+											"type": "string",
+											"enum": [
+												"cancelled",
+												"provider-missing",
+												"method-missing",
+												"invalid-input",
+												"provider-error"
+											]
+										},
+										"message": { "type": "string" }
+									},
+									"required": [
+										"ok",
+										"reason",
+										"message"
+									],
+									"additionalProperties": false
+								}] }
+							}
+						}
+					],
+					result: {
+						mode: "strict",
+						typeSymbol: "@deepseek-ai/dsh-cordis-host-runner/types#CordisInspectResolveAck",
+						create: _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_resolveInspectQuery_result$schema,
+						description: "acknowledgement with accepted true only for a valid success that settles the query; pending-query failures return { accepted: false } and retain only the first diagnostic.",
+						jsonSchema: {
+							"type": "object",
+							"properties": { "accepted": {
+								"type": "boolean",
+								"description": "True only for a valid success that settles the query; false for retained failures and unknown, timed out, cancelled, or late answers."
+							} },
+							"required": ["accepted"],
+							"additionalProperties": true
+						}
+					},
+					sourceLocation: {
+						"file": "packages/extensions/cordis-host-runner/src/index.ts",
+						"line": 530,
+						"column": 3
+					}
+				},
+				"dynamicCordisRunner/resolveRequestRun": {
+					service: "dynamicCordisRunner",
+					description: "Resolve one model-driven Client activation request.",
+					invocation: { kind: "direct" },
+					parameters: [{
+						name: "requestId",
+						description: "Request identity to settle once.",
+						source: "json",
+						codec: {
+							mode: "strict",
+							typeSymbol: "@deepseek-ai/dsh-cordis-host-runner/types#ApprovalRequestId",
+							create: _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_resolveRequestRun_parameter_0$schema,
+							jsonSchema: { "type": "string" }
+						},
+						strictCodec: {
+							mode: "strict",
+							typeSymbol: "@deepseek-ai/dsh-cordis-host-runner/types#ApprovalRequestId",
+							create: _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_resolveRequestRun_parameter_0_strict$schema,
+							jsonSchema: { "type": "string" }
+						}
+					}, {
+						name: "resolution",
+						description: "Browser refusal or exact Client activation result.",
+						source: "json",
+						codec: {
+							mode: "strict",
+							typeSymbol: "@deepseek-ai/dsh-cordis-host-runner/types#DynamicCordisRunResolution",
+							create: _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_resolveRequestRun_parameter_1$schema,
+							jsonSchema: { "oneOf": [{
+								"type": "object",
+								"properties": {
+									"ok": {
+										"type": "boolean",
+										"const": true
+									},
+									"pluginRunId": { "type": "string" },
+									"waitingFor": {
+										"type": "array",
+										"items": { "type": "string" }
+									}
+								},
+								"required": ["ok", "pluginRunId"],
+								"additionalProperties": true
+							}, {
+								"type": "object",
+								"properties": {
+									"ok": {
+										"type": "boolean",
+										"const": false
+									},
+									"reason": {
+										"type": "string",
+										"enum": [
+											"rejected",
+											"host-half-failed",
+											"client-half-failed"
+										]
+									},
+									"pluginRunId": {
+										"type": "string",
+										"description": "Activation that failed; absent for a refusal before activation."
+									},
+									"startedHere": {
+										"type": "boolean",
+										"description": "Whether this page created the failed activation instead of attaching to it."
+									},
+									"message": { "type": "string" },
+									"stack": { "type": "string" }
+								},
+								"required": ["ok", "reason"],
+								"additionalProperties": true
+							}] }
+						},
+						strictCodec: {
+							mode: "strict",
+							typeSymbol: "@deepseek-ai/dsh-cordis-host-runner/types#DynamicCordisRunResolution",
+							create: _deepseek_ai_dsh_cordis_host_runner_dynamicCordisRunner_resolveRequestRun_parameter_1_strict$schema,

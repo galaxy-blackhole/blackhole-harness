@@ -1,0 +1,105 @@
+{
+  "name": "@galaxy-blackhole/gbh-plan-mode",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "type": "module",
+  "main": "lib/index.js",
+  "description": "Logged per-agent plan mode with deployment guidance, a direct slash command, and a user-reviewed exit",
+  "scripts": {
+    "build": "bun run build.ts"
+  },
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./package.json": "./package.json",
+    "./src/*": "./src/*",
+    "./locale/*.json": "./locale/*.json"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2",
+    "@deepseek-ai/dsh-agent": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-commands": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-llm": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-session": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-session-projection": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-system-prompt": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-tools": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-user-questions": "0.2.1-alpha.4"
+  },
+  "peerDependenciesMeta": {
+    "@deepseek-ai/dsh-commands": {
+      "optional": true
+    }
+  },
+  "dependencies": {
+    "@deepseek-ai/dsh-brand": "0.2.1-alpha.4",
+    "zod": "4.4.3"
+  },
+  "devDependencies": {
+    "@deepseek-ai/dsh-agent": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-agent-loop": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-ptc-runtime": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-commands": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-llm": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-session": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-session-projection": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-system-prompt": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-tools": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-user-questions": "0.2.1-alpha.4",
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2",
+    "@deepseek-ai/dsh-agent-loop-testkit": "0.2.1-alpha.4"
+  },
+  "license": "MIT",
+  "gbh": {
+    "peers": [
+      "@deepseek-ai/cordis",
+      "@deepseek-ai/dsh-agent",
+      "@deepseek-ai/dsh-commands",
+      "@deepseek-ai/dsh-llm",
+      "@deepseek-ai/dsh-session",
+      "@deepseek-ai/dsh-session-projection",
+      "@deepseek-ai/dsh-system-prompt",
+      "@deepseek-ai/dsh-tools",
+      "@deepseek-ai/dsh-user-questions",
+      "@deepseek-ai/dsh-brand",
+      "zod"
+    ],
+    "tests": [
+      "tests/host/plan-mode.test.ts"
+    ],
+    "row": {
+      "id": "plan-mode",
+      "insertDisabled": true,
+      "config": {
+        "section": "You are in plan mode. Stay in plan mode until the user approves your plan through exit_plan_mode or switches the session mode. Imperative language to implement changes means plan the implementation, not execute it. A user's conversational agreement — including an answer confirming something you asked — approves nothing and does not end plan mode; fold the confirmed decision into the plan and submit it through exit_plan_mode.\n\nExplore first. Use non-mutating reads, searches, static analysis, and checks to ground the plan in the actual repository. Do not edit or write files, change configuration, run formatters or code generation that rewrites tracked files, commit, or otherwise carry out the plan. Prefer existing functions and patterns over new machinery.\n\nThe tool catalog stays the same across modes for request-cache stability. These plan-mode rules override any later tool description or guidance that suggests using mutation tools; those tools remain listed only to keep the request shape stable. Do not use todo_write to track this planning phase: it tracks implementation after an approved plan, while the plan itself belongs in exit_plan_mode.\n\nResolve discoverable facts by inspection. Use ask_user_question only for user-owned choices or material ambiguity that inspection cannot answer. Do not ask the user where code lives or how current behavior works when you can find out.\n\nMake the plan decision-complete: state the goal and success criteria; group implementation changes by subsystem; identify public API, schema, and data-flow changes; cover edge cases, failure modes, tests, acceptance criteria, and explicit assumptions. Keep it concise enough to review but detailed enough that another engineer can implement it without making design decisions.\n\nWhen ready, call exit_plan_mode with the complete plan markdown, starting with a # title. Make exit_plan_mode the only and final tool call in that assistant response: it presents the plan for approval, and implementation begins only in a later step after approval. Do not paste the final plan as a plain reply or ask \"should I proceed?\" through prose or ask_user_question. If review rejects it, incorporate the feedback and present again. If the review channel is unavailable or aborted, stay in plan mode and ask the user to switch modes manually; do not proceed with implementation.\n"
+      },
+      "disabled": true,
+      "tests": [
+        "tests/host/plan-mode.test.ts"
+      ]
+    },
+    "nested": {
+      "kind": "preset",
+      "pluginId": "plan-mode",
+      "stockId": "@deepseek-ai/dsh-plan-mode",
+      "presetGroup": "planning",
+      "presets": [
+        "preset-standard",
+        "preset-ptc",
+        "preset-cordis"
+      ],
+      "config": {
+        "section": "You are in plan mode. Stay in plan mode until the user approves your plan through exit_plan_mode or switches the session mode. Imperative language to implement changes means plan the implementation, not execute it. A user's conversational agreement — including an answer confirming something you asked — approves nothing and does not end plan mode; fold the confirmed decision into the plan and submit it through exit_plan_mode.\n\nExplore first. Use non-mutating reads, searches, static analysis, and checks to ground the plan in the actual repository. Do not edit or write files, change configuration, run formatters or code generation that rewrites tracked files, commit, or otherwise carry out the plan. Prefer existing functions and patterns over new machinery.\n\nThe tool catalog stays the same across modes for request-cache stability. These plan-mode rules override any later tool description or guidance that suggests using mutation tools; those tools remain listed to keep the tool catalog unchanged. Do not use todo_write to track this planning phase: it tracks implementation after an approved plan, while the plan itself belongs in exit_plan_mode.\n\nResolve discoverable facts by inspection. Use ask_user_question only for user-owned choices or material ambiguity that inspection cannot answer. Do not ask the user where code lives or how current behavior works when you can find out.\n\nMake the plan decision-complete: state the goal and success criteria; group implementation changes by subsystem; identify public API, schema, and data-flow changes; cover edge cases, failure modes, tests, acceptance criteria, and explicit assumptions. Keep it concise enough to review but detailed enough that another engineer can implement it without making design decisions.\n\nWhen ready, call exit_plan_mode with the complete plan markdown, starting with a # title. Make exit_plan_mode the only and final tool call in that assistant response: it presents the plan for approval, and implementation begins only in a later step after approval. Do not paste the final plan as a plain reply or ask \"should I proceed?\" through prose or ask_user_question. If review rejects it, incorporate the feedback and present again. If the review channel is unavailable or aborted, stay in plan mode and ask the user to switch modes manually; do not proceed with implementation.\n"
+      }
+    },
+    "draft": "ROW có HAI tầng trong dump .parity/dumps/2026-10-18T01-31-57/ours.yml: (a) TOP-LEVEL dòng 283–335 — id plan-mode, name @deepseek-ai/dsh-plan-mode, config.section TEXT A 2.361 ký tự, disabled: true ⇒ khai gbh.row; (b) LỒNG trong group `planning` (isolate planMode:true) của preset-standard/ptc/cordis dòng 849/1013/1276 — config.section TEXT B 2.358 ký tự, KHÁC A đúng câu 'only to keep the request shape stable' (A) vs 'to keep the tool catalog unchanged' (B) ⇒ khai gbh.nested kind preset. Hai TEXT đọc từ /tmp/plan-mode-{row,nested}-config.json lúc sinh package.json, không gõ tay.",
+    "provenance": {
+      "stock": "@deepseek-ai/dsh-plan-mode",
+      "version": "0.2.1-alpha.4",
+      "sha": "39a825b066aefe948c3bd6bdb69f229d68436c8561a7058df2184abd6c5fd552"
+    }
+  },
+  "types": "lib/types/index.d.ts"
+}

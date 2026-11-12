@@ -1,0 +1,79 @@
+{
+  "name": "@galaxy-blackhole/gbh-tool-session-query",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "type": "module",
+  "main": "lib/index.js",
+  "description": "Workspace-authorized model-facing session history search, trace, and event read tools",
+  "scripts": {
+    "build": "bun run build.ts"
+  },
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./package.json": "./package.json",
+    "./src/*": "./src/*"
+  },
+  "dependencies": {
+    "@deepseek-ai/dsh-brand": "0.2.1-alpha.4",
+    "@deepseek-ai/schemastery": "~3.18.5-alpha.2"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2",
+    "@deepseek-ai/dsh-agent": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-llm": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-session": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-session-projection": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-session-query": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-system-prompt": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-timeout": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-tools": "0.2.1-alpha.4"
+  },
+  "devDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2",
+    "@deepseek-ai/dsh-agent": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-llm": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-session": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-session-projection": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-session-query": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-system-prompt": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-timeout": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-tools": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-brand": "0.2.1-alpha.4",
+    "@deepseek-ai/schemastery": "~3.18.5-alpha.2"
+  },
+  "license": "MIT",
+  "gbh": {
+    "draft": "ĐO §4f 19/10/2026 bằng script bun cắt block theo depth trên /tmp/dump-now2.txt (2.297 dòng · 511 entry): KHÔNG có row TOP-LEVEL 'tool-session-query' (0 dòng ở depth 0; 'session-query' cũng 0) ⇒ KHÔNG khai gbh.row và KHÔNG khai gbh.row_unmounted_ly_do. Entry stock DUY NHẤT là row LỒNG: dòng 1494–1495, indent 4, depth 2, id 'optional-tool-session-query', name '@deepseek-ai/dsh-tool-session-query', KHÔNG config · KHÔNG inject · KHÔNG disabled, nằm trong row NHÓM 'optional-session-search' (dòng 1483–1496: cordis:group · group: true · isolate.sessionQuery: true · NHÓM disabled: true ở dòng 1496), section '@deepseek-ai/dsh-experimental-session-search' dòng 1482. KHÔNG có entry trong preset agent nào (preset-standard/ptc/cordis/minimal: 0 lần) ⇒ gbh.nested kind 'group' (KHÔNG phải 'preset'), presets = ['optional-session-search'] (id nhóm chứa nó); chỉ MỘT nhóm chứa entry nên không có khác biệt disabled giữa các preset. Trong dump đo được (12:55), lớp app.patch của home (section dòng 1567, KHÔNG thuộc gói) có nhóm thay thế 'optional-session-search-ours' dòng 2285–2297 với con trỏ @galaxy-blackhole/gbh-tool-session-query dòng 2296; đo lại lúc 15:08 app.patch home đã sinh lại (123 dòng) và KHÔNG còn khối này ⇒ hiện CHƯA mount/flip. Lượt này không sửa app.patch/profile, không chạy boot. Gói CHỈ khai metadata (không gbh.row). Artifact: lib/index.js 1.034 dòng sha256 b2feaf3164d81080c667d4a391316a3a9549b1bd380a4bf23dedddce5707df11 = bundle gốc.",
+    "tests": [
+      "tests/host/tool-session-query.test.ts"
+    ],
+    "peers": [
+      "@deepseek-ai/cordis",
+      "@deepseek-ai/dsh-agent",
+      "@deepseek-ai/dsh-llm",
+      "@deepseek-ai/dsh-session",
+      "@deepseek-ai/dsh-session-projection",
+      "@deepseek-ai/dsh-session-query",
+      "@deepseek-ai/dsh-system-prompt",
+      "@deepseek-ai/dsh-timeout",
+      "@deepseek-ai/dsh-tools"
+    ],
+    "reference": "apps/host/node_modules/@deepseek-ai/dsh-tool-session-query (CHỈ ĐỌC — nguồn đối chiếu byte)",
+    "nested": {
+      "kind": "group",
+      "pluginId": "optional-tool-session-query",
+      "stockId": "@deepseek-ai/dsh-tool-session-query",
+      "presets": [
+        "optional-session-search"
+      ]
+    },
+    "provenance": {
+      "stock": "@deepseek-ai/dsh-tool-session-query",
+      "version": "0.2.1-alpha.4",
+      "sha": "b2feaf3164d81080c667d4a391316a3a9549b1bd380a4bf23dedddce5707df11"
+    }
+  }
+}

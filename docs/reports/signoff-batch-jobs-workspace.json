@@ -1,0 +1,20 @@
+{
+  "dev": "phien-truoc (git log)",
+  "owner": "lead",
+  "evidence": [
+    "reviewer tm-reviewer doc lap tren artifact: build ca 2 goi thanh cong · export host khop ban goc (thieu 0) · khong co cu phap ESM sai cho",
+    "reviewer tu chay bun test: tests/host/jobs-local.test.ts 13 pass / 0 fail · tests/host/workspace.test.ts 18 pass / 0 fail / 128 expect (ca 'buoc 0 — goi KHONG khai gbh.row' da duoc don, khong con fail cu)",
+    "workspace: host row, A/B n/a; export khop; mount trong --dump-config (workspace-ours)",
+    "jobs-local: host row; mount trong --dump-config (jobs-ours)"
+  ],
+  "packages": [
+    {
+      "dsh": "@deepseek-ai/dsh-jobs-local",
+      "gbh": "gbh-jobs-local"
+    },
+    {
+      "dsh": "@deepseek-ai/dsh-workspace",
+      "gbh": "gbh-workspace"
+    }
+  ]
+}

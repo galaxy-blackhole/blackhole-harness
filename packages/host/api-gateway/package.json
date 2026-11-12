@@ -1,0 +1,75 @@
+{
+  "name": "@galaxy-blackhole/gbh-api-gateway",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "type": "module",
+  "main": "lib/index.js",
+  "description": "Typert Remote Host dispatcher and Client API endpoint",
+  "scripts": {
+    "build": "bun run build.ts"
+  },
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./client": {
+      "types": "./lib/types/client/index.d.ts",
+      "node": "./lib/client.node.js",
+      "browser": "./lib/client.browser.js",
+      "default": "./lib/client.browser.js"
+    },
+    "./types": {
+      "types": "./lib/types/types.d.ts",
+      "default": "./lib/types/types.js"
+    },
+    "./stream-protocol": {
+      "types": "./lib/types/stream-protocol.d.ts",
+      "default": "./lib/types/stream-protocol.js"
+    },
+    "./src/*": "./src/*",
+    "./package.json": "./package.json",
+    "./locale/*.json": "./locale/*.json"
+  },
+  "dependencies": {
+    "@deepseek-ai/dsh-deque": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-timeout": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-typert-protocol": "0.2.1-alpha.4",
+    "@deepseek-ai/schemastery": "~3.18.5-alpha.2",
+    "ws": "^8.21.3"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2"
+  },
+  "devDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2",
+    "@deepseek-ai/dsh-deque": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-timeout": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-typert-protocol": "0.2.1-alpha.4",
+    "@deepseek-ai/schemastery": "~3.18.5-alpha.2",
+    "ws": "^8.21.3"
+  },
+  "license": "MIT",
+  "gbh": {
+    "draft": "NỬA HOST CỦA GÓI HAI MẶT — KHÔNG khai gbh.row. Đo 18/10/2026: bản gốc có lib/index.js 1.830 dòng (nửa host, service typertGateway) và exports['./client'] với client.browser.js 2.186 + client.node.js 1.991 dòng (nửa browser, dsh.client.platform=web, immediately=true). Mount row 'typert-gateway' mà thiếu nửa client ⇒ mất gateway phía browser ⇒ hỏng live-remote trên UI. Vì vậy gói này port TRỌN nửa host (byte-identical) + GHI NỢ nửa client; muốn mount phải port nốt nửa client HOẶC overlay row giữ nửa client của bản gốc. Đây là gói MỞ KHOÁ cho api-remotes: service typertGateway của nó có registerRemoteEvents (thiếu ở packages/host/typert-gateway bản một phần).",
+    "tests": [
+      "tests/host/api-gateway.test.ts"
+    ],
+    "reference": "apps/host/node_modules/@deepseek-ai/dsh-api-gateway (CHỈ ĐỌC — nguồn đối chiếu byte)",
+    "provenance": {
+      "stock": "@deepseek-ai/dsh-api-gateway",
+      "version": "0.2.1-alpha.4",
+      "sha": "4fbe460fec585ebc2cf2887261f6c33f024081a539d9fb5d6557a9002324b23f"
+    }
+  },
+  "dsh": {
+    "client": {
+      "inject": [
+        "@galaxy-blackhole/gbh-typert-registry",
+        "@galaxy-blackhole/gbh-client-connection"
+      ],
+      "platform": "web",
+      "immediately": true
+    }
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "command-goal",
+    "description": "Lệnh gạch chéo /goal dành cho người dùng: xem, tạo, sửa, tạm dừng, tiếp tục và xoá mục tiêu được lưu bền trong cùng phiên."
+  }
+}

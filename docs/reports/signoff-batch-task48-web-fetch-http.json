@@ -1,0 +1,18 @@
+{
+  "dev": "tm-evidence",
+  "owner": "tm-evidence",
+  "evidence": [
+    "package signed, not mounted (row park theo lệnh Lead — chờ lab:row + packages/README.md §4)",
+    "reviewer tm-reviewer doc lap tren artifact build lai: exit 0 · export **đủ 7 tên gốc** (`Config` · `DEFAULT_USER_AGENT` · `HttpFetchProvider` · `LOCAL_FETCH_PROVIDER_ID` · `apply` · `inject` · `name`) + **2 helper bổ sung có chủ đích** `CONFIG_DEFAULTS` · `resolveConfig` (README §3.2; kiểm: chỉ gói này + test của nó dùng, không consumer ngoài nào import) · không có lib/client.js",
+    "sai lệch CÓ CHỦ ĐÍCH đã ghi README §3: (1) seam `network` — tham số 3 của HttpFetchProvider, mặc định transport undici thật; bun test cần seam vì Agent của undici trong Bun KHÔNG có close/dispatch; (2) resolveConfig + CONFIG_DEFAULTS đúng giá trị schema cấp; (3) apply(ctx, config={}) điền mặc định trước khi kiểm — hành vi cuối y hệt (đúng 4 hàm kiểm + đăng ký provider)",
+    "reviewer tu chay bun test tests/host/web-fetch-http.test.ts: **13 pass / 0 fail / 64 expect** — server HTTP CUC BO, phu redirect/byte-limit/content-type/timeout/cancel/HTTP-error + A/B mặc định Config với bundle gốc",
+    "row dang PARK: `gbh` khai `row_unmounted_ly_do` (không `gbh.row`); điều kiện khai lại theo README §4: (a) Lead thêm dòng packages/README.md §4 CÙNG LÚC, (b) lượt lab cách ly chứng minh row thay row stock 0 lỗi + đủ entry, (c) reviewer ký",
+    "gate đỏ typecheck hiện tại KHÔNG thuộc gói này (2 vi phạm còn lại ở typert-registry + web, file tạm header) — theo Lead"
+  ],
+  "packages": [
+    {
+      "dsh": "@deepseek-ai/dsh-web-fetch-http",
+      "gbh": "gbh-web-fetch-http"
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "dev": "tm-assets",
+  "owner": "tm-assets",
+  "evidence": [
+    "signed, MOUNTED — check:app 11/11 ba lượt liên tiếp, lab 0 did-not-activate (retry sạch sau khi Lead park row settings), boot-smoke DAT",
+    "reviewer tm-reviewer TU DO: patch `app.patch.yml:924-930` (`translator disabled: true` + insert `translator-ours` name @galaxy-blackhole/gbh-host-experimental-translator) · dump MOI (344 entry) co stock `disabled: true` + `translator-ours` ENABLED",
+    "**3 lượt check:app lien tiep DAT 11/11** — (3) **136 entry** · (5) **0** · (8) #root 47.181 / 46 slot / 0 console / 0 pageerror · (9) **0/80** · (10) 218 file · (11) HMR OK",
+    "lab:row home CACH LY cua reviewer: #root **22.204** · 0 console · 0 pageerror · 0 overlay · **0 did-not-activate** — (2 lan dau FAIL vi `settings-ours` double-register; Lead da PARK row settings ⇒ retry sach)",
+    "artifact build lai exit 0 (index.js + types.js) · export **2 = 2** (`TranslationError` · `default`, missing 0/extra 0) · `Config` cung cau truc voi goc (provider union 4 lua chon google/bing/deepseek-account/deepseek-official + googleEndpoint/bingEndpoint transform + default y goc)",
+    "reviewer tu chay bun test tests/host/experimental-translator.test.ts: **15 pass / 0 fail / 34 expect** tren Context cordis THAT (resolve/TranslationError/recipe thuan/translate/dang ky service)",
+    "boot-smoke (Lead tu chay sau khi va tool): HTML 112.118 · facade CO · #root 22.204 · 0 console · 0 did-not-activate ⇒ boot LANH; rollback san"
+  ],
+  "packages": [
+    {
+      "dsh": "@deepseek-ai/dsh-experimental-translator",
+      "gbh": "gbh-host-experimental-translator"
+    }
+  ]
+}

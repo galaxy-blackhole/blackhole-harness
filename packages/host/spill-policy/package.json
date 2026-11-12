@@ -1,0 +1,59 @@
+{
+  "name": "@galaxy-blackhole/gbh-spill-policy",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "type": "module",
+  "main": "lib/index.js",
+  "description": "Bản viết lại của Galaxy Blackhole cho row spill-policy của DSH (@deepseek-ai/dsh-spill-policy): chính sách tràn ngữ cảnh — giữ kết quả tool trong ngân sách token ước lượng, chép bản đầy đủ vào kho tràn và phát thông báo có đường dẫn đọc lại.",
+  "scripts": {
+    "build": "bun run build.ts"
+  },
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "default": "./lib/index.js"
+    },
+    "./notice": "./lib/notice.js",
+    "./package.json": "./package.json",
+    "./src/*": "./src/*",
+    "./locale/*.json": "./locale/*.json"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/schemastery": "~3.18.5-alpha.2",
+    "@deepseek-ai/dsh-llm": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-output-retention": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-token-meter": "0.2.1-alpha.4"
+  },
+  "devDependencies": {
+    "@deepseek-ai/schemastery": "~3.18.5-alpha.2",
+    "@deepseek-ai/dsh-llm": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-output-retention": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-token-meter": "0.2.1-alpha.4"
+  },
+  "license": "MIT",
+  "gbh": {
+    "draft": "CHUA KHAI gbh.row (Lead khai): config GOC chep nguyen van tu ours.yml (maxInlineTokens: 12500). Tap export = tap export goc (4 = 4) do tren ARTIFACT; gbh.peers ⊆ peerDependencies (4/4). Xem docs/recipes/HOST-ROW-REWRITE.md muc 7 va M6-MOUNT-PLAN.md muc 1c/1d.",
+    "peers": [
+      "@deepseek-ai/dsh-llm",
+      "@deepseek-ai/dsh-output-retention",
+      "@deepseek-ai/dsh-token-meter",
+      "@deepseek-ai/schemastery"
+    ],
+    "tests": [
+      "tests/host/spill-policy.test.ts"
+    ],
+    "row": {
+      "id": "spill-policy",
+      "config": {
+        "maxInlineTokens": 12500
+      },
+      "tests": [
+        "tests/host/spill-policy.test.ts"
+      ]
+    },
+    "provenance": {
+      "stock": "@deepseek-ai/dsh-spill-policy"
+    }
+  },
+  "types": "src/index.ts"
+}

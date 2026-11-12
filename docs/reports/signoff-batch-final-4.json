@@ -1,0 +1,31 @@
+{
+  "dev": "tm-client-debundle",
+  "owner": "tm-client-debundle",
+  "evidence": [
+    "**4 gói cuối — X → 0**: 2 thư viện port (KHÔNG mount) + 2 binding Win32/koffi (KHÔNG mount); chữ ký ghi rõ cơ chế từng gói",
+    "**web-search-deepseek** (library, không row): stock `dsh-web-search-deepseek@0.2.1-alpha.4` · test **10 pass / 0 fail / 40 expect** · **locale en/zh reviewer tự cmp = IDENTICAL từng sha** (`39016cb3b5`/`3d260b5837`) · index port 11.246 B không byte-identical với stock 16.420 B (bản viết lại TS, đúng bản chất port)",
+    "**host-directory-picker-native** (library + entry `./worker`, không row): stock `dsh-host-directory-picker-native@0.2.1-alpha.4` · test **8 pass / 0 fail / 28 expect** · `worker.cjs` reviewer đo **260 dòng / 10.553 B** = **253 dòng thân nguyên văn + 7 dòng header** (đúng ghi chú Lead); body sha theo provenance `434946b4a825…`; locale en 59 / zh 128 B",
+    "**win32-process** (binding koffi, không row): stock `dsh-win32-process@0.2.1-alpha.4` · test **9 pass / 0 fail / 19 expect** · **index reviewer cmp = IDENTICAL** (27.290 B sha `622bc3a9e9` = stock, khớp provenance `sha`)",
+    "**sandbox-windows-acl** (binding koffi, không row): stock `dsh-sandbox-windows-acl@0.2.1-alpha.4` · test **10 pass / 0 fail / 23 expect** · **index cmp = IDENTICAL** (364 B sha `83379e9c6e` = stock, khớp provenance `sha`)",
+    "GHI CHU: 2 gói win32 là binding ⇒ test văn bản/thuần hàm + ca `win32-unobservable` ghi rõ lý do nhánh win32 không quan sát được trên macOS (koffi không load); không mount nên không cần rollback",
+    "app xác nhận khi ký: (3) **79 entry** · (5) **0** · (10) **363 file khớp repo** · entry gốc **0** — LANH"
+  ],
+  "packages": [
+    {
+      "dsh": "@deepseek-ai/dsh-web-search-deepseek",
+      "gbh": "gbh-web-search-deepseek"
+    },
+    {
+      "dsh": "@deepseek-ai/dsh-host-directory-picker-native",
+      "gbh": "gbh-host-directory-picker-native"
+    },
+    {
+      "dsh": "@deepseek-ai/dsh-win32-process",
+      "gbh": "gbh-win32-process"
+    },
+    {
+      "dsh": "@deepseek-ai/dsh-sandbox-windows-acl",
+      "gbh": "gbh-sandbox-windows-acl"
+    }
+  ]
+}

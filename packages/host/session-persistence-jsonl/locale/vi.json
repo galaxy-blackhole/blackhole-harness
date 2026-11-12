@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "session-persistence-jsonl",
+    "description": "Lưu nhật ký phiên thành tệp JSONL cục bộ để khôi phục và đọc lại."
+  }
+}

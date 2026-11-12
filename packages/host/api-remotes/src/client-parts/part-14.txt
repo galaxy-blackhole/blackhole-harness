@@ -1,0 +1,1000 @@
+		const _deepseek_ai_dsh_session_reference_sessionReferenceResolver_candidates_parameter_0_strict$schema = () => _deepseek_ai_dsh_session_reference_sessionReferenceResolver_candidates_parameter_0_strict$schema$value ??= zod.z.string();
+		let _deepseek_ai_dsh_session_reference_sessionReferenceResolver_candidates_parameter_1_strict$schema$value;
+		const _deepseek_ai_dsh_session_reference_sessionReferenceResolver_candidates_parameter_1_strict$schema = () => _deepseek_ai_dsh_session_reference_sessionReferenceResolver_candidates_parameter_1_strict$schema$value ??= zod.z.string();
+		const TYPERT_REMOTE$6 = createTypertRemoteInfo({
+			package: "@deepseek-ai/dsh-session-reference",
+			methods: { "sessionReferenceResolver/candidates": {
+				service: "sessionReferenceResolver",
+				description: "Remote face of {@link listCandidates}: the configured candidate limit applies, and every candidate carries the canonical mention a host inserts into the prompt draft.",
+				implementation: "remoteExportCandidates",
+				invocation: { kind: "direct" },
+				scope: {
+					context: "agent",
+					wire: "agentId"
+				},
+				parameters: [{
+					name: "agent",
+					wire: "agentId",
+					description: "target agent; self is excluded and its cwd drives ranking.",
+					source: "lookup",
+					lookup: "agent",
+					codec: {
+						mode: "strict",
+						typeSymbol: "@deepseek-ai/dsh-session/types#SessionId",
+						create: _deepseek_ai_dsh_session_reference_sessionReferenceResolver_candidates_parameter_0$schema,
+						jsonSchema: { "type": "string" }
+					},
+					strictCodec: {
+						mode: "strict",
+						typeSymbol: "@deepseek-ai/dsh-session/types#SessionId",
+						create: _deepseek_ai_dsh_session_reference_sessionReferenceResolver_candidates_parameter_0_strict$schema,
+						jsonSchema: { "type": "string" }
+					}
+				}, {
+					name: "query",
+					description: "optional case-insensitive session-id/cwd/title substring.",
+					source: "json",
+					codec: {
+						mode: "strict",
+						typeSymbol: "@deepseek-ai/dsh-session-reference#sessionReferenceResolver/candidates:query",
+						create: _deepseek_ai_dsh_session_reference_sessionReferenceResolver_candidates_parameter_1$schema,
+						jsonSchema: { "type": "string" }
+					},
+					strictCodec: {
+						mode: "strict",
+						typeSymbol: "@deepseek-ai/dsh-session-reference#sessionReferenceResolver/candidates:query",
+						create: _deepseek_ai_dsh_session_reference_sessionReferenceResolver_candidates_parameter_1_strict$schema,
+						jsonSchema: { "type": "string" }
+					}
+				}],
+				cancellation: { parameter: "signal" },
+				result: {
+					mode: "strict",
+					typeSymbol: "@deepseek-ai/dsh-session-reference#sessionReferenceResolver/candidates:result",
+					create: _deepseek_ai_dsh_session_reference_sessionReferenceResolver_candidates_result$schema,
+					description: "mention-carrying candidates in rank order.",
+					jsonSchema: {
+						"type": "array",
+						"items": {
+							"type": "object",
+							"properties": {
+								"mention": {
+									"type": "string",
+									"description": "Canonical `@[label](dsh-session:…)` mention serialized into the prompt draft."
+								},
+								"sessionId": {
+									"type": "string",
+									"description": "Opaque source session identity."
+								},
+								"label": {
+									"type": "string",
+									"description": "Latest log-backed title, falling back to the opaque session id."
+								},
+								"displayTitle": {
+									"type": "string",
+									"description": "Display and canonical-mention text, preferring a subagent's durable creation label over {@link label}."
+								},
+								"cwd": {
+									"type": "string",
+									"description": "Source session working directory, when recorded."
+								},
+								"sameWorkspace": {
+									"type": "boolean",
+									"description": "True when {@link SessionReferenceCandidate.cwd} is recorded and equals the requesting agent's. Hosts that only surface a distinguishing location read this instead of comparing paths they never received."
+								},
+								"createdAt": {
+									"type": "number",
+									"description": "Source session creation time in Unix epoch milliseconds."
+								}
+							},
+							"required": [
+								"mention",
+								"sessionId",
+								"label",
+								"sameWorkspace",
+								"createdAt"
+							],
+							"additionalProperties": true
+						}
+					}
+				},
+				sourceLocation: {
+					"file": "packages/context/session-reference/src/index.ts",
+					"line": 290,
+					"column": 9
+				}
+			} }
+		}, zod.z);
+		//#endregion
+		//#region ../../subagent/subagent/lib/typert.remote-client.js
+		let _deepseek_ai_dsh_subagent_subagents_interruptByParent_parameter_0$schema$value;
+		const _deepseek_ai_dsh_subagent_subagents_interruptByParent_parameter_0$schema = () => _deepseek_ai_dsh_subagent_subagents_interruptByParent_parameter_0$schema$value ??= zod.z.string();
+		let _deepseek_ai_dsh_subagent_subagents_interruptByParent_parameter_1$schema$value;
+		const _deepseek_ai_dsh_subagent_subagents_interruptByParent_parameter_1$schema = () => _deepseek_ai_dsh_subagent_subagents_interruptByParent_parameter_1$schema$value ??= zod.z.string();
+		let _deepseek_ai_dsh_subagent_subagents_interruptByParent_parameter_2$schema$value;
+		const _deepseek_ai_dsh_subagent_subagents_interruptByParent_parameter_2$schema = () => _deepseek_ai_dsh_subagent_subagents_interruptByParent_parameter_2$schema$value ??= zod.z.literal("continuable");
+		let _deepseek_ai_dsh_subagent_subagents_interruptByParent_result$schema$value;
+		const _deepseek_ai_dsh_subagent_subagents_interruptByParent_result$schema = () => _deepseek_ai_dsh_subagent_subagents_interruptByParent_result$schema$value ??= zod.z.object({ "accepted": zod.z.literal(true).readonly() });
+		let _deepseek_ai_dsh_subagent_subagents_prompt_parameter_0$schema$value;
+		const _deepseek_ai_dsh_subagent_subagents_prompt_parameter_0$schema = () => _deepseek_ai_dsh_subagent_subagents_prompt_parameter_0$schema$value ??= zod.z.object({
+			"requestId": zod.z.string().readonly().describe("Identity persisted on the accepted message, minted before the call."),
+			"parentSessionId": zod.z.string().readonly(),
+			"childSessionId": zod.z.string().readonly(),
+			"mode": zod.z.literal("continuable").readonly().describe("Required discriminator retained from the browser control address."),
+			"delivery": zod.z.union([zod.z.literal("queue"), zod.z.literal("steer")]).readonly().describe("Whether this message queues a later turn or targets the nearest step."),
+			"content": zod.z.array(zod.z.union([zod.z.object({
+				"type": zod.z.literal("text").readonly(),
+				"text": zod.z.string().readonly()
+			}), zod.z.object({
+				"type": zod.z.literal("image").readonly(),
+				"mediaType": zod.z.union([
+					zod.z.literal("image/png"),
+					zod.z.literal("image/jpeg"),
+					zod.z.literal("image/webp"),
+					zod.z.literal("image/gif")
+				]).readonly(),
+				"data": zod.z.string().readonly(),
+				"name": zod.z.string().readonly().optional()
+			})])).readonly().describe("Browser prompt parts delivered as the child's user message. The Host admits and persists image parts before delivery, so the wire never carries a durable attachment reference the caller could fabricate."),
+			"clientTimeZone": zod.z.string().readonly().optional().describe("Optional browser zone sampled for this exact human prompt.")
+		});
+		let _deepseek_ai_dsh_subagent_subagents_prompt_result$schema$value;
+		const _deepseek_ai_dsh_subagent_subagents_prompt_result$schema = () => _deepseek_ai_dsh_subagent_subagents_prompt_result$schema$value ??= zod.z.object({ "messageId": zod.z.string().readonly() });
+		let _deepseek_ai_dsh_subagent_subagents_interruptByParent_parameter_0_strict$schema$value;
+		const _deepseek_ai_dsh_subagent_subagents_interruptByParent_parameter_0_strict$schema = () => _deepseek_ai_dsh_subagent_subagents_interruptByParent_parameter_0_strict$schema$value ??= zod.z.string();
+		let _deepseek_ai_dsh_subagent_subagents_interruptByParent_parameter_1_strict$schema$value;
+		const _deepseek_ai_dsh_subagent_subagents_interruptByParent_parameter_1_strict$schema = () => _deepseek_ai_dsh_subagent_subagents_interruptByParent_parameter_1_strict$schema$value ??= zod.z.string();
+		let _deepseek_ai_dsh_subagent_subagents_interruptByParent_parameter_2_strict$schema$value;
+		const _deepseek_ai_dsh_subagent_subagents_interruptByParent_parameter_2_strict$schema = () => _deepseek_ai_dsh_subagent_subagents_interruptByParent_parameter_2_strict$schema$value ??= zod.z.literal("continuable");
+		let _deepseek_ai_dsh_subagent_subagents_prompt_parameter_0_strict$schema$value;
+		const _deepseek_ai_dsh_subagent_subagents_prompt_parameter_0_strict$schema = () => _deepseek_ai_dsh_subagent_subagents_prompt_parameter_0_strict$schema$value ??= zod.z.strictObject({
+			"requestId": zod.z.string().readonly().describe("Identity persisted on the accepted message, minted before the call."),
+			"parentSessionId": zod.z.string().readonly(),
+			"childSessionId": zod.z.string().readonly(),
+			"mode": zod.z.literal("continuable").readonly().describe("Required discriminator retained from the browser control address."),
+			"delivery": zod.z.union([zod.z.literal("queue"), zod.z.literal("steer")]).readonly().describe("Whether this message queues a later turn or targets the nearest step."),
+			"content": zod.z.array(zod.z.union([zod.z.strictObject({
+				"type": zod.z.literal("text").readonly(),
+				"text": zod.z.string().readonly()
+			}), zod.z.strictObject({
+				"type": zod.z.literal("image").readonly(),
+				"mediaType": zod.z.union([
+					zod.z.literal("image/png"),
+					zod.z.literal("image/jpeg"),
+					zod.z.literal("image/webp"),
+					zod.z.literal("image/gif")
+				]).readonly(),
+				"data": zod.z.string().readonly(),
+				"name": zod.z.string().readonly().optional()
+			})])).readonly().describe("Browser prompt parts delivered as the child's user message. The Host admits and persists image parts before delivery, so the wire never carries a durable attachment reference the caller could fabricate."),
+			"clientTimeZone": zod.z.string().readonly().optional().describe("Optional browser zone sampled for this exact human prompt.")
+		});
+		const TYPERT_REMOTE$5 = createTypertRemoteInfo({
+			package: "@deepseek-ai/dsh-subagent",
+			methods: {
+				"subagents/interruptByParent": {
+					service: "subagents",
+					description: "Remote face of {@link interrupt} under one durable parent address. No catalog, history, persistence, or parent Agent lookup runs: the core primitive alone authorizes the address against the live Activation, which is what keeps a live child interruptible while its parent Agent is offline. Absent, idle, and already-completed targets are accepted no-ops there.",
+					invocation: { kind: "direct" },
+					parameters: [
+						{
+							name: "childSessionId",
+							description: "durable child session id to interrupt.",
+							source: "json",
+							codec: {
+								mode: "strict",
+								typeSymbol: "@deepseek-ai/dsh-session/types#SessionId",
+								create: _deepseek_ai_dsh_subagent_subagents_interruptByParent_parameter_0$schema,
+								jsonSchema: { "type": "string" }
+							},
+							strictCodec: {
+								mode: "strict",
+								typeSymbol: "@deepseek-ai/dsh-session/types#SessionId",
+								create: _deepseek_ai_dsh_subagent_subagents_interruptByParent_parameter_0_strict$schema,
+								jsonSchema: { "type": "string" }
+							}
+						},
+						{
+							name: "parentSessionId",
+							description: "durable direct parent whose authority is claimed.",
+							source: "json",
+							codec: {
+								mode: "strict",
+								typeSymbol: "@deepseek-ai/dsh-session/types#SessionId",
+								create: _deepseek_ai_dsh_subagent_subagents_interruptByParent_parameter_1$schema,
+								jsonSchema: { "type": "string" }
+							},
+							strictCodec: {
+								mode: "strict",
+								typeSymbol: "@deepseek-ai/dsh-session/types#SessionId",
+								create: _deepseek_ai_dsh_subagent_subagents_interruptByParent_parameter_1_strict$schema,
+								jsonSchema: { "type": "string" }
+							}
+						},
+						{
+							name: "mode",
+							description: "required continuable-address discriminator.",
+							source: "json",
+							codec: {
+								mode: "strict",
+								typeSymbol: "@deepseek-ai/dsh-subagent#subagents/interruptByParent:mode",
+								create: _deepseek_ai_dsh_subagent_subagents_interruptByParent_parameter_2$schema,
+								jsonSchema: {
+									"type": "string",
+									"const": "continuable"
+								}
+							},
+							strictCodec: {
+								mode: "strict",
+								typeSymbol: "@deepseek-ai/dsh-subagent#subagents/interruptByParent:mode",
+								create: _deepseek_ai_dsh_subagent_subagents_interruptByParent_parameter_2_strict$schema,
+								jsonSchema: {
+									"type": "string",
+									"const": "continuable"
+								}
+							}
+						}
+					],
+					result: {
+						mode: "strict",
+						typeSymbol: "@deepseek-ai/dsh-subagent/client#SubagentInterruptReceipt",
+						create: _deepseek_ai_dsh_subagent_subagents_interruptByParent_result$schema,
+						description: "acknowledgement that the cancel signal was admitted, not that the target is quiescent.",
+						jsonSchema: {
+							"type": "object",
+							"properties": { "accepted": {
+								"type": "boolean",
+								"const": true
+							} },
+							"required": ["accepted"],
+							"additionalProperties": true
+						}
+					},
+					sourceLocation: {
+						"file": "packages/subagent/subagent/src/index.ts",
+						"line": 517,
+						"column": 3
+					}
+				},
+				"subagents/prompt": {
+					service: "subagents",
+					description: "Deliver one browser-authored message to a continuable child through the exact live direct parent, retaining the caller-minted request identity and validated browser zone on the accepted message. Success identifies the message the child's inbox accepted; later execution is independent of this call. Queue delivery targets a later turn; steer delivery targets the nearest step and retains the Agent loop's best-effort fallback semantics. Image parts are admitted and persisted through the attachment store before delivery, and the child's model must accept image input. Cold resume at capacity rejects with `subagent/delivery-unavailable`.",
+					invocation: { kind: "direct" },
+					parameters: [{
+						name: "request",
+						description: "durable address, delivery, minted identity, content, and optional browser zone.",
+						source: "json",
+						codec: {
+							mode: "strict",
+							typeSymbol: "@deepseek-ai/dsh-subagent/client#SubagentPromptRequest",
+							create: _deepseek_ai_dsh_subagent_subagents_prompt_parameter_0$schema,
+							jsonSchema: {
+								"type": "object",
+								"properties": {
+									"requestId": {
+										"type": "string",
+										"description": "Identity persisted on the accepted message, minted before the call."
+									},
+									"parentSessionId": { "type": "string" },
+									"childSessionId": { "type": "string" },
+									"mode": {
+										"type": "string",
+										"const": "continuable",
+										"description": "Required discriminator retained from the browser control address."
+									},
+									"delivery": {
+										"type": "string",
+										"enum": ["queue", "steer"],
+										"description": "Whether this message queues a later turn or targets the nearest step."
+									},
+									"content": {
+										"type": "array",
+										"items": { "oneOf": [{
+											"type": "object",
+											"properties": {
+												"type": {
+													"type": "string",
+													"const": "text"
+												},
+												"text": { "type": "string" }
+											},
+											"required": ["type", "text"],
+											"additionalProperties": true
+										}, {
+											"type": "object",
+											"properties": {
+												"type": {
+													"type": "string",
+													"const": "image"
+												},
+												"mediaType": {
+													"type": "string",
+													"enum": [
+														"image/png",
+														"image/jpeg",
+														"image/webp",
+														"image/gif"
+													]
+												},
+												"data": { "type": "string" },
+												"name": { "type": "string" }
+											},
+											"required": [
+												"type",
+												"mediaType",
+												"data"
+											],
+											"additionalProperties": true
+										}] },
+										"description": "Browser prompt parts delivered as the child's user message. The Host admits and persists image parts before delivery, so the wire never carries a durable attachment reference the caller could fabricate."
+									},
+									"clientTimeZone": {
+										"type": "string",
+										"description": "Optional browser zone sampled for this exact human prompt."
+									}
+								},
+								"required": [
+									"requestId",
+									"parentSessionId",
+									"childSessionId",
+									"mode",
+									"delivery",
+									"content"
+								],
+								"additionalProperties": true
+							}
+						},
+						strictCodec: {
+							mode: "strict",
+							typeSymbol: "@deepseek-ai/dsh-subagent/client#SubagentPromptRequest",
+							create: _deepseek_ai_dsh_subagent_subagents_prompt_parameter_0_strict$schema,
+							jsonSchema: {
+								"type": "object",
+								"properties": {
+									"requestId": {
+										"type": "string",
+										"description": "Identity persisted on the accepted message, minted before the call."
+									},
+									"parentSessionId": { "type": "string" },
+									"childSessionId": { "type": "string" },
+									"mode": {
+										"type": "string",
+										"const": "continuable",
+										"description": "Required discriminator retained from the browser control address."
+									},
+									"delivery": {
+										"type": "string",
+										"enum": ["queue", "steer"],
+										"description": "Whether this message queues a later turn or targets the nearest step."
+									},
+									"content": {
+										"type": "array",
+										"items": { "oneOf": [{
+											"type": "object",
+											"properties": {
+												"type": {
+													"type": "string",
+													"const": "text"
+												},
+												"text": { "type": "string" }
+											},
+											"required": ["type", "text"],
+											"additionalProperties": false
+										}, {
+											"type": "object",
+											"properties": {
+												"type": {
+													"type": "string",
+													"const": "image"
+												},
+												"mediaType": {
+													"type": "string",
+													"enum": [
+														"image/png",
+														"image/jpeg",
+														"image/webp",
+														"image/gif"
+													]
+												},
+												"data": { "type": "string" },
+												"name": { "type": "string" }
+											},
+											"required": [
+												"type",
+												"mediaType",
+												"data"
+											],
+											"additionalProperties": false
+										}] },
+										"description": "Browser prompt parts delivered as the child's user message. The Host admits and persists image parts before delivery, so the wire never carries a durable attachment reference the caller could fabricate."
+									},
+									"clientTimeZone": {
+										"type": "string",
+										"description": "Optional browser zone sampled for this exact human prompt."
+									}
+								},
+								"required": [
+									"requestId",
+									"parentSessionId",
+									"childSessionId",
+									"mode",
+									"delivery",
+									"content"
+								],
+								"additionalProperties": false
+							}
+						}
+					}],
+					cancellation: { parameter: "signal" },
+					result: {
+						mode: "strict",
+						typeSymbol: "@deepseek-ai/dsh-subagent/client#SubagentPromptReceipt",
+						create: _deepseek_ai_dsh_subagent_subagents_prompt_result$schema,
+						description: "the accepted message's inbox identity.",
+						jsonSchema: {
+							"type": "object",
+							"properties": { "messageId": { "type": "string" } },
+							"required": ["messageId"],
+							"additionalProperties": true
+						}
+					},
+					sourceLocation: {
+						"file": "packages/subagent/subagent/src/index.ts",
+						"line": 448,
+						"column": 9
+					}
+				}
+			}
+		}, zod.z);
+		//#endregion
+		//#region ../session-controller/lib/typert.remote-client.js
+		let _deepseek_ai_dsh_api_session_controller_fileReferences_list_parameter_0$schema$value;
+		const _deepseek_ai_dsh_api_session_controller_fileReferences_list_parameter_0$schema = () => _deepseek_ai_dsh_api_session_controller_fileReferences_list_parameter_0$schema$value ??= zod.z.string();
+		let _deepseek_ai_dsh_api_session_controller_fileReferences_list_parameter_1$schema$value;
+		const _deepseek_ai_dsh_api_session_controller_fileReferences_list_parameter_1$schema = () => _deepseek_ai_dsh_api_session_controller_fileReferences_list_parameter_1$schema$value ??= zod.z.string();
+		let _deepseek_ai_dsh_api_session_controller_fileReferences_list_result$schema$value;
+		const _deepseek_ai_dsh_api_session_controller_fileReferences_list_result$schema = () => _deepseek_ai_dsh_api_session_controller_fileReferences_list_result$schema$value ??= zod.z.array(zod.z.object({
+			"path": zod.z.string().describe("User-facing path accepted by normal prompts and filesystem tools."),
+			"kind": zod.z.union([zod.z.literal("file"), zod.z.literal("directory")]).describe("Directories keep completion open; files finish the mention.")
+		}));
+		let _deepseek_ai_dsh_api_session_controller_session_attachment_parameter_0$schema$value;
+		const _deepseek_ai_dsh_api_session_controller_session_attachment_parameter_0$schema = () => _deepseek_ai_dsh_api_session_controller_session_attachment_parameter_0$schema$value ??= zod.z.object({
+			"sessionId": zod.z.string().readonly(),
+			"attachmentId": zod.z.string().readonly()
+		});
+		let _deepseek_ai_dsh_api_session_controller_session_attachment_result$schema$value;
+		const _deepseek_ai_dsh_api_session_controller_session_attachment_result$schema = () => _deepseek_ai_dsh_api_session_controller_session_attachment_result$schema$value ??= zod.z.object({
+			"attachment": zod.z.object({
+				"attachmentId": zod.z.string().describe("Opaque storage identifier; never a filesystem path or bearer URL."),
+				"mediaType": zod.z.union([
+					zod.z.literal("image/png"),
+					zod.z.literal("image/jpeg"),
+					zod.z.literal("image/webp"),
+					zod.z.literal("image/gif")
+				]).describe("Media type verified from the stored bytes."),
+				"bytes": zod.z.number().describe("Exact encoded byte length."),
+				"width": zod.z.number().describe("Intrinsic encoded width in pixels."),
+				"height": zod.z.number().describe("Intrinsic encoded height in pixels."),
+				"name": zod.z.string().optional().describe("Optional display name stripped of local path information."),
+				"originalDimensions": zod.z.object({
+					"width": zod.z.number(),
+					"height": zod.z.number()
+				}).optional().describe("Input dimensions after applying EXIF orientation and before normalization scaling. Present only when normalization reduced the image.")
+			}).readonly(),
+			"data": zod.z.string().readonly()
+		});
+		let _deepseek_ai_dsh_api_session_controller_session_cancel_parameter_0$schema$value;
+		const _deepseek_ai_dsh_api_session_controller_session_cancel_parameter_0$schema = () => _deepseek_ai_dsh_api_session_controller_session_cancel_parameter_0$schema$value ??= zod.z.object({ "sessionId": zod.z.string().readonly() });
+		let _deepseek_ai_dsh_api_session_controller_session_cancel_result$schema$value;
+		const _deepseek_ai_dsh_api_session_controller_session_cancel_result$schema = () => _deepseek_ai_dsh_api_session_controller_session_cancel_result$schema$value ??= zod.z.object({ "accepted": zod.z.literal(true).readonly() });
+		let _deepseek_ai_dsh_api_session_controller_session_canOpenWorkspacePath_result$schema$value;
+		const _deepseek_ai_dsh_api_session_controller_session_canOpenWorkspacePath_result$schema = () => _deepseek_ai_dsh_api_session_controller_session_canOpenWorkspacePath_result$schema$value ??= zod.z.boolean();
+		let _deepseek_ai_dsh_api_session_controller_session_control_result$schema$value;
+		const _deepseek_ai_dsh_api_session_controller_session_control_result$schema = () => _deepseek_ai_dsh_api_session_controller_session_control_result$schema$value ??= zod.z.union([zod.z.object({
+			"type": zod.z.literal("baseline").readonly(),
+			"value": zod.z.object({ "projections": zod.z.record(zod.z.string(), zod.z.object({
+				"asOfSeq": zod.z.number().readonly(),
+				"values": zod.z.intersection(zod.z.object({
+					"inbox": zod.z.object({
+						"next-turn": zod.z.array(zod.z.json()).readonly(),
+						"next-step": zod.z.array(zod.z.json()).readonly()
+					}).optional().describe("Pending agent input reconstructed from durable inbox splices."),
+					"workingDirectory": zod.z.union([zod.z.literal(null), zod.z.string()]).optional().describe("Recorded current directory for Session observations, or null when none is recorded."),
+					"agentPreset": zod.z.union([zod.z.literal(null), zod.z.string()]).optional().describe("Preset the Session runs, or null when the deployment composes none."),
+					"title": zod.z.union([zod.z.literal(null), zod.z.string()]).optional().describe("The session's current normalized title — the latest `session/title` event's text (last-wins), or `null` before the first title lands. A plain string: the shape the client list rows consume."),
+					"todos": zod.z.union([zod.z.literal(null), zod.z.array(zod.z.object({
+						"content": zod.z.string().describe("What this task is — a short imperative line shown in the UI."),
+						"status": zod.z.union([
+							zod.z.literal("completed"),
+							zod.z.literal("pending"),
+							zod.z.literal("in_progress")
+						]).describe("Lifecycle state. `in_progress` marks a task being worked now; parallel work may mark several.")
+					}))]).optional().describe("The agent's current whole todo list (the latest `todo/write` snapshot), or `null` before the first write. Whole-value rule: every `todo/write` carries the complete replacement list, so the fold is last-wins."),
+					"sessionListMetadata": zod.z.object({
+						"blank": zod.z.boolean().readonly().describe("Whether the folded prefix contains no turn."),
+						"lastPromptAt": zod.z.union([zod.z.literal(null), zod.z.number()]).readonly().describe("Latest human-authored prompt time in the folded prefix.")
+					}).optional().describe("Persisted facts used to summarize a Session without activating it."),
+					"imageLimits": zod.z.object({
+						"maxImageBytes": zod.z.number(),
+						"maxImagesPerMessage": zod.z.number(),
+						"maxMessageImageBytes": zod.z.number(),
+						"maxImagePixels": zod.z.number(),
+						"maxImageDimension": zod.z.number().describe("Maximum intrinsic width and maximum intrinsic height in pixels for one image."),
+						"mediaTypes": zod.z.array(zod.z.union([
+							zod.z.literal("image/png"),
+							zod.z.literal("image/jpeg"),
+							zod.z.literal("image/webp"),
+							zod.z.literal("image/gif")
+						]))
+					}).optional().describe("Image-intake limits enforced by the Session prompt endpoint."),
+					"modelSelection": zod.z.object({
+						"lastUsed": zod.z.union([zod.z.literal(null), zod.z.object({
+							"provider": zod.z.string().readonly(),
+							"model": zod.z.string().readonly(),
+							"reasoningEffort": zod.z.string().readonly().optional()
+						})]).readonly().describe("Selection consumed by the latest recorded model request."),
+						"next": zod.z.union([zod.z.literal(null), zod.z.object({
+							"provider": zod.z.string().readonly(),
+							"model": zod.z.string().readonly(),
+							"reasoningEffort": zod.z.string().readonly().optional()
+						})]).readonly().describe("Selection the next request should use, falling back to {@link lastUsed}.")
+					}).optional().describe("Durable model selection already used and selected for the next request."),
+					"permissions": zod.z.object({ "currentValue": zod.z.string().describe("The effective current value: a configured preset key, `auto`, or `custom`.") }).optional().describe("The session's current permission, folded from the three whole-value knob events (`permission/preset`, `sandbox/mode`, `approval/policy`) over the composition defaults. Selectable options come from the process-level catalog Remote. Key absence means no permission service is composed — clients hide the control."),
+					"subagentCatalog": zod.z.array(zod.z.union([
+						zod.z.object({
+							"id": zod.z.string().readonly(),
+							"createdAt": zod.z.number().readonly(),
+							"mode": zod.z.literal("one-shot").readonly(),
+							"label": zod.z.string().readonly().optional()
+						}),
+						zod.z.object({
+							"id": zod.z.string().readonly(),
+							"createdAt": zod.z.number().readonly(),
+							"mode": zod.z.literal("external").readonly(),
+							"label": zod.z.string().readonly().optional()
+						}),
+						zod.z.object({
+							"id": zod.z.string().readonly(),
+							"createdAt": zod.z.number().readonly(),
+							"mode": zod.z.literal("continuable").readonly(),
+							"label": zod.z.string().readonly()
+						}),
+						zod.z.object({
+							"id": zod.z.string().readonly(),
+							"createdAt": zod.z.number().readonly(),
+							"mode": zod.z.literal("unknown").readonly(),
+							"label": zod.z.string().readonly().optional()
+						})
+					])).optional().describe("Direct children in parent catalog event order, excluding fork-inherited facts."),
+					"subagentTiming": zod.z.object({
+						"settledMs": zod.z.number().describe("Milliseconds accumulated across completed turns after the child's own descriptor."),
+						"active": zod.z.object({
+							"since": zod.z.number().describe("Start of the open turn."),
+							"through": zod.z.number().describe("Latest event time folded into this projection cut.")
+						}).optional().describe("Same-cut bounds of the currently open turn, when one has not reached `turn/end`."),
+						"lastTurnCompleted": zod.z.boolean().optional().describe("Whether the latest closed turn after the child's own descriptor completed normally; absent while a turn is open or before one closes.")
+					}).optional().describe("Active-turn duration and latest closed-turn completion for a descriptor-backed subagent session."),
+					"subagent": zod.z.union([
+						zod.z.literal(null),
+						zod.z.object({
+							"mode": zod.z.literal("one-shot").describe("A terminal one-shot child."),
+							"label": zod.z.string().optional().describe("Optional durable creation label from the child's descriptor."),
+							"seq": zod.z.number().describe("Seq of the `subagent/descriptor` event this identity was folded from. `session.isOwnSeq(seq)` proves the identity comes from the child's OWN log suffix — where a descriptor is immutable once appended — and not from a fork seed's replayed ancestor descriptor.")
+						}),
+						zod.z.object({
+							"mode": zod.z.literal("continuable").describe("A resumable conversation."),
+							"label": zod.z.string().describe("Durable creation label from the child's descriptor."),
+							"seq": zod.z.number().describe("Seq of the folded descriptor event; see the one-shot arm for the own-suffix proof.")
+						})
+					]).optional().describe("Identity of a descriptor-backed subagent session. `null` ⟺ no valid descriptor (missing, malformed, or unrecognized-version — deliberately undistinguished). The sentinel is deliberately serializable: a value pushed over JSON transports must survive `JSON.stringify` losslessly, where an `undefined` field would be dropped and a stale identity would survive on the receiving side. The entry itself stays non-optional."),
+					"tokenUsage": zod.z.object({
+						"uncachedInputTokens": zod.z.number(),
+						"outputTokens": zod.z.number(),
+						"cacheReadTokens": zod.z.number(),
+						"cacheWriteTokens": zod.z.number()
+					}).optional().describe("Provider-reported usage accumulated across the complete durable log."),
+					"contextPressure": zod.z.object({
+						"pressureTokens": zod.z.number().optional().describe("Provider-reported prompt size of the most recent request: uncached input plus cache reads and writes. Response output is excluded, so this does not grow as the current turn streams. Absent until a provider reports usage."),
+						"projectedTokens": zod.z.number().optional().describe("What the NEXT request's prompt would cost: {@link pressureTokens} plus the heuristic repricing of everything the surface gained or lost since that sample. Only the delta is estimated, so the figure stays anchored to the provider while still reacting the moment a compaction shadows a span — which `pressureTokens` alone cannot do, since compaction reports no usage of its own. Absent until a provider reports usage."),
+						"contextWindow": zod.z.number().optional().describe("Newest recorded route capacity; absent when no adapter advertised one.")
+					}).optional().describe("Newest request pressure paired with the newest known route capacity."),
+					"contextBreakdown": zod.z.object({
+						"systemTokens": zod.z.number().describe("Heuristic tokens of the last nonempty surviving system prompt in surface order; 0 when none exists."),
+						"toolsTokens": zod.z.number().describe("Heuristic tokens of the newest request envelope's tool schemas; 0 before any request."),
+						"messageTokens": zod.z.number().describe("Heuristic tokens of every other visible surface node, including superseded system prompts.")
+					}).optional().describe("Heuristic system/tools/message composition of the next request."),
+					"agentTeam": zod.z.object({
+						"members": zod.z.array(zod.z.object({
+							"id": zod.z.string().readonly(),
+							"name": zod.z.string().readonly(),
+							"role": zod.z.union([zod.z.literal("lead"), zod.z.literal("teammate")]).readonly(),
+							"phase": zod.z.union([
+								zod.z.literal("failed"),
+								zod.z.literal("provisioning"),
+								zod.z.literal("active")
+							]).readonly().describe("Durable lifecycle; the Lead row is always `active`. Turn activity comes from Session status."),
+							"error": zod.z.string().readonly().optional()
+						})).readonly(),
+						"tasks": zod.z.array(zod.z.object({
+							"id": zod.z.string().readonly(),
+							"revision": zod.z.number().readonly(),
+							"subject": zod.z.string().readonly(),
+							"description": zod.z.string().readonly(),
+							"status": zod.z.union([
+								zod.z.literal("completed"),
+								zod.z.literal("pending"),
+								zod.z.literal("in_progress"),
+								zod.z.literal("deleted")
+							]).readonly(),
+							"blockedBy": zod.z.array(zod.z.string()).readonly(),
+							"writeScopes": zod.z.array(zod.z.string()).readonly(),
+							"ownerName": zod.z.string().readonly().optional(),
+							"ready": zod.z.boolean().readonly(),
+							"writeScopeWarnings": zod.z.array(zod.z.string()).readonly()
+						})).readonly(),
+						"failure": zod.z.string().readonly().optional()
+					}).optional().describe("Durable roster and non-deleted task board of the Team rooted at the projected Session."),
+					"userQuestions": zod.z.object({
+						"active": zod.z.array(zod.z.object({
+							"callId": zod.z.string().readonly(),
+							"questions": zod.z.array(zod.z.object({
+								"id": zod.z.string().describe("Stable caller-provided question id, echoed in the answer."),
+								"question": zod.z.string().describe("The question to display."),
+								"detail": zod.z.string().optional().describe("Optional supporting detail rendered with the question but kept out of option labels."),
+								"header": zod.z.string().optional().describe("Optional short heading/group label."),
+								"options": zod.z.array(zod.z.object({
+									"label": zod.z.string().describe("User-facing label."),
+									"description": zod.z.string().optional().describe("Optional extra context rendered by capable UIs.")
+								})).optional().describe("Optional choices the UI can render as a menu."),
+								"multiSelect": zod.z.boolean().optional().describe("Whether more than one option may be selected. Defaults to single-select."),
+								"intent": zod.z.object({
+									"kind": zod.z.literal("plan-review").describe("A plan submitted for review: `detail` is the plan markdown `ask()` requires, and the decision approves or declines it."),
+									"approve": zod.z.string().describe("The option label that approves the plan; every other option declines it. Named rather than positional so no UI infers the verdict from option order. An `approve` naming no option of its own question is rejected at `ask()`."),
+									"callId": zod.z.string().optional().describe("Logged tool invocation whose arguments contain the reviewed plan.")
+								}).optional().describe("Optional presentation intent for capable UIs; absent asks for the generic option list.")
+							})).readonly(),
+							"state": zod.z.union([zod.z.literal("open"), zod.z.literal("continued")]).readonly()
+						})).readonly().describe("Calls that can still take an answer, in ask order."),
+						"settled": zod.z.array(zod.z.object({
+							"callId": zod.z.string().readonly().describe("The settled call."),
+							"answers": zod.z.array(zod.z.object({
+								"id": zod.z.string().describe("The answered question id."),
+								"selected": zod.z.array(zod.z.string()).describe("Selected option labels. May accompany custom text for a multi-select question."),
+								"custom": zod.z.string().optional().describe("Optional free-text \"Other\" answer.")
+							})).readonly().describe("The recorded batch, one entry per question; empty when the late reply carried none.")
+						})).readonly().describe("Calls an answer settled, in settlement order.")
+					}).optional().describe("Timed questions that remain answerable in this Session, and the ones a late reply settled."),
+					"goal": zod.z.union([zod.z.literal(null), zod.z.object({
+						"goal": zod.z.object({
+							"objective": zod.z.string().readonly().describe("Human-requested completion objective."),
+							"phase": zod.z.union([
+								zod.z.literal("active"),
+								zod.z.literal("paused"),
+								zod.z.literal("blocked"),
+								zod.z.literal("complete")
+							]).readonly().describe("Durable lifecycle phase."),
+							"blockedReason": zod.z.object({
+								"code": zod.z.string().readonly().describe("Stable lower-kebab-case classification chosen by the blocking policy."),
+								"message": zod.z.string().readonly().describe("Non-empty explanation shown to humans and models.")
+							}).readonly().optional().describe("Present exactly while `phase` is `blocked`."),
+							"maxGoalRounds": zod.z.number().readonly().describe("Total admitted goal-round cap."),
+							"id": zod.z.string().readonly().describe("Stable goal identity."),
+							"revision": zod.z.number().readonly().describe("Positive revision; every durable mutation increments it.")
+						}).readonly().describe("Current durable goal snapshot (the CAS ref for mutations rides on it)."),
+						"roundsStarted": zod.z.number().readonly().describe("Highest admitted round number for this goal."),
+						"createdAt": zod.z.number().readonly().describe("Epoch milliseconds of the create mutation."),
+						"updatedAt": zod.z.number().readonly().describe("Epoch milliseconds of the latest mutation.")
+					})]).optional().describe("The session's current goal and admitted-round count, or `null` before the first create and after a clear tombstone. `goal/change` supplies the whole lifecycle value; matching admitted `user/message` events advance `roundsStarted`."),
+					"plan": zod.z.object({
+						"active": zod.z.boolean(),
+						"pending": zod.z.boolean()
+					}).optional().describe("Plan collaboration state folded from the plan command lifecycle and `plan/mode` events.")
+				}), zod.z.record(zod.z.string(), zod.z.json()).readonly()).readonly().describe("Provider-validated values; omitted keys are absent capabilities at this cut.")
+			})).readonly().readonly() }).readonly()
+		}), zod.z.object({
+			"type": zod.z.literal("projection").readonly(),
+			"sessionId": zod.z.string().readonly(),
+			"key": zod.z.string().readonly(),
+			"value": zod.z.json().readonly(),
+			"seq": zod.z.number().readonly()
+		})]);
+		let _deepseek_ai_dsh_api_session_controller_session_create_parameter_0$schema$value;
+		const _deepseek_ai_dsh_api_session_controller_session_create_parameter_0$schema = () => _deepseek_ai_dsh_api_session_controller_session_create_parameter_0$schema$value ??= zod.z.object({
+			"workspaceId": zod.z.string().readonly().optional().describe("Workspace the Session joins; exclusive with `cwd`."),
+			"cwd": zod.z.string().readonly().optional().describe("Directory the Session owns when no Workspace is named."),
+			"sessionId": zod.z.string().readonly().optional().describe("Blank Session to reuse while it is reusable, or the identity of a new Session when none is stored under it."),
+			"agentPreset": zod.z.string().readonly().optional().describe("Preset the Session runs, replacing a reused Session's recorded preset; the configured default when omitted.")
+		});
+		let _deepseek_ai_dsh_api_session_controller_session_create_result$schema$value;
+		const _deepseek_ai_dsh_api_session_controller_session_create_result$schema = () => _deepseek_ai_dsh_api_session_controller_session_create_result$schema$value ??= zod.z.object({
+			"sessionId": zod.z.string().readonly().describe("The created or reused Session, which may differ from the requested `sessionId`."),
+			"agentPreset": zod.z.string().readonly().optional().describe("Preset the Session runs, when the deployment composes a preset roster.")
+		});
+		let _deepseek_ai_dsh_api_session_controller_session_follow_parameter_0$schema$value;
+		const _deepseek_ai_dsh_api_session_controller_session_follow_parameter_0$schema = () => _deepseek_ai_dsh_api_session_controller_session_follow_parameter_0$schema$value ??= zod.z.object({
+			"address": zod.z.union([zod.z.object({
+				"kind": zod.z.literal("session").readonly(),
+				"sessionId": zod.z.string().readonly()
+			}), zod.z.object({
+				"kind": zod.z.literal("subagent").readonly(),
+				"parentSessionId": zod.z.string().readonly(),
+				"childSessionId": zod.z.string().readonly(),
+				"mode": zod.z.union([
+					zod.z.literal("one-shot"),
+					zod.z.literal("continuable"),
+					zod.z.literal("unknown")
+				]).readonly()
+			})]).readonly(),
+			"assistantStream": zod.z.literal(true).readonly().optional().describe("Include process-local assistant presentation frames for the Web client."),
+			"maxMessages": zod.z.number().readonly().optional(),
+			"turnWindow": zod.z.object({
+				"minMessages": zod.z.number().readonly().describe("Minimum append-origin user/assistant messages; must not exceed maxMessages."),
+				"minTurns": zod.z.number().readonly().describe("Minimum Turn starts crossed, including the partial Turn at beforeSeq.")
+			}).readonly().optional().describe("Stop at a Turn start after both minima, unless maxMessages or history exhaustion wins.")
+		});
+		let _deepseek_ai_dsh_api_session_controller_session_follow_result$schema$value;
+		const _deepseek_ai_dsh_api_session_controller_session_follow_result$schema = () => _deepseek_ai_dsh_api_session_controller_session_follow_result$schema$value ??= zod.z.union([
+			zod.z.object({
+				"type": zod.z.literal("event").readonly(),
+				"event": zod.z.object({
+					"type": zod.z.string().readonly(),
+					"seq": zod.z.number().readonly(),
+					"time": zod.z.number().readonly(),
+					"data": zod.z.json().readonly(),
+					"ignorable": zod.z.literal(true).readonly().optional(),
+					"sourceEventSeqs": zod.z.json().readonly().optional().describe("Earlier sources on current surface events; opaque JSON on unknown ignorable events."),
+					"surfaceOp": zod.z.json().readonly().optional().describe("Canonical placement on current surface events; opaque JSON on unknown ignorable events.")
+				}).readonly()
+			}),
+			zod.z.object({
+				"type": zod.z.literal("snapshot").readonly(),
+				"header": zod.z.object({
+					"version": zod.z.number().readonly(),
+					"id": zod.z.string().readonly(),
+					"createdAt": zod.z.number().readonly(),
+					"cwd": zod.z.string().readonly().optional(),
+					"parentSession": zod.z.string().readonly().optional(),
+					"isSeeded": zod.z.boolean().readonly().describe("Whether the Session contains a fork-inherited prefix."),
+					"origin": zod.z.literal("subagent").readonly().optional(),
+					"delegationDepth": zod.z.number().readonly().optional(),
+					"agentPreset": zod.z.string().readonly().optional()
+				}).readonly(),
+				"cursor": zod.z.number().readonly(),
+				"records": zod.z.array(zod.z.object({
+					"type": zod.z.literal("event").readonly(),
+					"event": zod.z.object({
+						"type": zod.z.string().readonly(),
+						"seq": zod.z.number().readonly(),
+						"time": zod.z.number().readonly(),
+						"data": zod.z.json().readonly(),
+						"ignorable": zod.z.literal(true).readonly().optional(),
+						"sourceEventSeqs": zod.z.json().readonly().optional().describe("Earlier sources on current surface events; opaque JSON on unknown ignorable events."),
+						"surfaceOp": zod.z.json().readonly().optional().describe("Canonical placement on current surface events; opaque JSON on unknown ignorable events.")
+					}).readonly()
+				})).readonly(),
+				"hasMore": zod.z.boolean().readonly(),
+				"projections": zod.z.object({
+					"asOfSeq": zod.z.number().readonly(),
+					"values": zod.z.intersection(zod.z.object({
+						"inbox": zod.z.object({
+							"next-turn": zod.z.array(zod.z.json()).readonly(),
+							"next-step": zod.z.array(zod.z.json()).readonly()
+						}).optional().describe("Pending agent input reconstructed from durable inbox splices."),
+						"workingDirectory": zod.z.union([zod.z.literal(null), zod.z.string()]).optional().describe("Recorded current directory for Session observations, or null when none is recorded."),
+						"agentPreset": zod.z.union([zod.z.literal(null), zod.z.string()]).optional().describe("Preset the Session runs, or null when the deployment composes none."),
+						"title": zod.z.union([zod.z.literal(null), zod.z.string()]).optional().describe("The session's current normalized title — the latest `session/title` event's text (last-wins), or `null` before the first title lands. A plain string: the shape the client list rows consume."),
+						"todos": zod.z.union([zod.z.literal(null), zod.z.array(zod.z.object({
+							"content": zod.z.string().describe("What this task is — a short imperative line shown in the UI."),
+							"status": zod.z.union([
+								zod.z.literal("completed"),
+								zod.z.literal("pending"),
+								zod.z.literal("in_progress")
+							]).describe("Lifecycle state. `in_progress` marks a task being worked now; parallel work may mark several.")
+						}))]).optional().describe("The agent's current whole todo list (the latest `todo/write` snapshot), or `null` before the first write. Whole-value rule: every `todo/write` carries the complete replacement list, so the fold is last-wins."),
+						"sessionListMetadata": zod.z.object({
+							"blank": zod.z.boolean().readonly().describe("Whether the folded prefix contains no turn."),
+							"lastPromptAt": zod.z.union([zod.z.literal(null), zod.z.number()]).readonly().describe("Latest human-authored prompt time in the folded prefix.")
+						}).optional().describe("Persisted facts used to summarize a Session without activating it."),
+						"imageLimits": zod.z.object({
+							"maxImageBytes": zod.z.number(),
+							"maxImagesPerMessage": zod.z.number(),
+							"maxMessageImageBytes": zod.z.number(),
+							"maxImagePixels": zod.z.number(),
+							"maxImageDimension": zod.z.number().describe("Maximum intrinsic width and maximum intrinsic height in pixels for one image."),
+							"mediaTypes": zod.z.array(zod.z.union([
+								zod.z.literal("image/png"),
+								zod.z.literal("image/jpeg"),
+								zod.z.literal("image/webp"),
+								zod.z.literal("image/gif")
+							]))
+						}).optional().describe("Image-intake limits enforced by the Session prompt endpoint."),
+						"modelSelection": zod.z.object({
+							"lastUsed": zod.z.union([zod.z.literal(null), zod.z.object({
+								"provider": zod.z.string().readonly(),
+								"model": zod.z.string().readonly(),
+								"reasoningEffort": zod.z.string().readonly().optional()
+							})]).readonly().describe("Selection consumed by the latest recorded model request."),
+							"next": zod.z.union([zod.z.literal(null), zod.z.object({
+								"provider": zod.z.string().readonly(),
+								"model": zod.z.string().readonly(),
+								"reasoningEffort": zod.z.string().readonly().optional()
+							})]).readonly().describe("Selection the next request should use, falling back to {@link lastUsed}.")
+						}).optional().describe("Durable model selection already used and selected for the next request."),
+						"permissions": zod.z.object({ "currentValue": zod.z.string().describe("The effective current value: a configured preset key, `auto`, or `custom`.") }).optional().describe("The session's current permission, folded from the three whole-value knob events (`permission/preset`, `sandbox/mode`, `approval/policy`) over the composition defaults. Selectable options come from the process-level catalog Remote. Key absence means no permission service is composed — clients hide the control."),
+						"subagentCatalog": zod.z.array(zod.z.union([
+							zod.z.object({
+								"id": zod.z.string().readonly(),
+								"createdAt": zod.z.number().readonly(),
+								"mode": zod.z.literal("one-shot").readonly(),
+								"label": zod.z.string().readonly().optional()
+							}),
+							zod.z.object({
+								"id": zod.z.string().readonly(),
+								"createdAt": zod.z.number().readonly(),
+								"mode": zod.z.literal("external").readonly(),
+								"label": zod.z.string().readonly().optional()
+							}),
+							zod.z.object({
+								"id": zod.z.string().readonly(),
+								"createdAt": zod.z.number().readonly(),
+								"mode": zod.z.literal("continuable").readonly(),
+								"label": zod.z.string().readonly()
+							}),
+							zod.z.object({
+								"id": zod.z.string().readonly(),
+								"createdAt": zod.z.number().readonly(),
+								"mode": zod.z.literal("unknown").readonly(),
+								"label": zod.z.string().readonly().optional()
+							})
+						])).optional().describe("Direct children in parent catalog event order, excluding fork-inherited facts."),
+						"subagentTiming": zod.z.object({
+							"settledMs": zod.z.number().describe("Milliseconds accumulated across completed turns after the child's own descriptor."),
+							"active": zod.z.object({
+								"since": zod.z.number().describe("Start of the open turn."),
+								"through": zod.z.number().describe("Latest event time folded into this projection cut.")
+							}).optional().describe("Same-cut bounds of the currently open turn, when one has not reached `turn/end`."),
+							"lastTurnCompleted": zod.z.boolean().optional().describe("Whether the latest closed turn after the child's own descriptor completed normally; absent while a turn is open or before one closes.")
+						}).optional().describe("Active-turn duration and latest closed-turn completion for a descriptor-backed subagent session."),
+						"subagent": zod.z.union([
+							zod.z.literal(null),
+							zod.z.object({
+								"mode": zod.z.literal("one-shot").describe("A terminal one-shot child."),
+								"label": zod.z.string().optional().describe("Optional durable creation label from the child's descriptor."),
+								"seq": zod.z.number().describe("Seq of the `subagent/descriptor` event this identity was folded from. `session.isOwnSeq(seq)` proves the identity comes from the child's OWN log suffix — where a descriptor is immutable once appended — and not from a fork seed's replayed ancestor descriptor.")
+							}),
+							zod.z.object({
+								"mode": zod.z.literal("continuable").describe("A resumable conversation."),
+								"label": zod.z.string().describe("Durable creation label from the child's descriptor."),
+								"seq": zod.z.number().describe("Seq of the folded descriptor event; see the one-shot arm for the own-suffix proof.")
+							})
+						]).optional().describe("Identity of a descriptor-backed subagent session. `null` ⟺ no valid descriptor (missing, malformed, or unrecognized-version — deliberately undistinguished). The sentinel is deliberately serializable: a value pushed over JSON transports must survive `JSON.stringify` losslessly, where an `undefined` field would be dropped and a stale identity would survive on the receiving side. The entry itself stays non-optional."),
+						"tokenUsage": zod.z.object({
+							"uncachedInputTokens": zod.z.number(),
+							"outputTokens": zod.z.number(),
+							"cacheReadTokens": zod.z.number(),
+							"cacheWriteTokens": zod.z.number()
+						}).optional().describe("Provider-reported usage accumulated across the complete durable log."),
+						"contextPressure": zod.z.object({
+							"pressureTokens": zod.z.number().optional().describe("Provider-reported prompt size of the most recent request: uncached input plus cache reads and writes. Response output is excluded, so this does not grow as the current turn streams. Absent until a provider reports usage."),
+							"projectedTokens": zod.z.number().optional().describe("What the NEXT request's prompt would cost: {@link pressureTokens} plus the heuristic repricing of everything the surface gained or lost since that sample. Only the delta is estimated, so the figure stays anchored to the provider while still reacting the moment a compaction shadows a span — which `pressureTokens` alone cannot do, since compaction reports no usage of its own. Absent until a provider reports usage."),
+							"contextWindow": zod.z.number().optional().describe("Newest recorded route capacity; absent when no adapter advertised one.")
+						}).optional().describe("Newest request pressure paired with the newest known route capacity."),
+						"contextBreakdown": zod.z.object({
+							"systemTokens": zod.z.number().describe("Heuristic tokens of the last nonempty surviving system prompt in surface order; 0 when none exists."),
+							"toolsTokens": zod.z.number().describe("Heuristic tokens of the newest request envelope's tool schemas; 0 before any request."),
+							"messageTokens": zod.z.number().describe("Heuristic tokens of every other visible surface node, including superseded system prompts.")
+						}).optional().describe("Heuristic system/tools/message composition of the next request."),
+						"agentTeam": zod.z.object({
+							"members": zod.z.array(zod.z.object({
+								"id": zod.z.string().readonly(),
+								"name": zod.z.string().readonly(),
+								"role": zod.z.union([zod.z.literal("lead"), zod.z.literal("teammate")]).readonly(),
+								"phase": zod.z.union([
+									zod.z.literal("failed"),
+									zod.z.literal("provisioning"),
+									zod.z.literal("active")
+								]).readonly().describe("Durable lifecycle; the Lead row is always `active`. Turn activity comes from Session status."),
+								"error": zod.z.string().readonly().optional()
+							})).readonly(),
+							"tasks": zod.z.array(zod.z.object({
+								"id": zod.z.string().readonly(),
+								"revision": zod.z.number().readonly(),
+								"subject": zod.z.string().readonly(),
+								"description": zod.z.string().readonly(),
+								"status": zod.z.union([
+									zod.z.literal("completed"),
+									zod.z.literal("pending"),
+									zod.z.literal("in_progress"),
+									zod.z.literal("deleted")
+								]).readonly(),
+								"blockedBy": zod.z.array(zod.z.string()).readonly(),
+								"writeScopes": zod.z.array(zod.z.string()).readonly(),
+								"ownerName": zod.z.string().readonly().optional(),
+								"ready": zod.z.boolean().readonly(),
+								"writeScopeWarnings": zod.z.array(zod.z.string()).readonly()
+							})).readonly(),
+							"failure": zod.z.string().readonly().optional()
+						}).optional().describe("Durable roster and non-deleted task board of the Team rooted at the projected Session."),
+						"userQuestions": zod.z.object({
+							"active": zod.z.array(zod.z.object({
+								"callId": zod.z.string().readonly(),
+								"questions": zod.z.array(zod.z.object({
+									"id": zod.z.string().describe("Stable caller-provided question id, echoed in the answer."),
+									"question": zod.z.string().describe("The question to display."),
+									"detail": zod.z.string().optional().describe("Optional supporting detail rendered with the question but kept out of option labels."),
+									"header": zod.z.string().optional().describe("Optional short heading/group label."),
+									"options": zod.z.array(zod.z.object({
+										"label": zod.z.string().describe("User-facing label."),
+										"description": zod.z.string().optional().describe("Optional extra context rendered by capable UIs.")
+									})).optional().describe("Optional choices the UI can render as a menu."),
+									"multiSelect": zod.z.boolean().optional().describe("Whether more than one option may be selected. Defaults to single-select."),
+									"intent": zod.z.object({
+										"kind": zod.z.literal("plan-review").describe("A plan submitted for review: `detail` is the plan markdown `ask()` requires, and the decision approves or declines it."),
+										"approve": zod.z.string().describe("The option label that approves the plan; every other option declines it. Named rather than positional so no UI infers the verdict from option order. An `approve` naming no option of its own question is rejected at `ask()`."),
+										"callId": zod.z.string().optional().describe("Logged tool invocation whose arguments contain the reviewed plan.")
+									}).optional().describe("Optional presentation intent for capable UIs; absent asks for the generic option list.")
+								})).readonly(),
+								"state": zod.z.union([zod.z.literal("open"), zod.z.literal("continued")]).readonly()
+							})).readonly().describe("Calls that can still take an answer, in ask order."),
+							"settled": zod.z.array(zod.z.object({
+								"callId": zod.z.string().readonly().describe("The settled call."),
+								"answers": zod.z.array(zod.z.object({
+									"id": zod.z.string().describe("The answered question id."),
+									"selected": zod.z.array(zod.z.string()).describe("Selected option labels. May accompany custom text for a multi-select question."),
+									"custom": zod.z.string().optional().describe("Optional free-text \"Other\" answer.")
+								})).readonly().describe("The recorded batch, one entry per question; empty when the late reply carried none.")
+							})).readonly().describe("Calls an answer settled, in settlement order.")
+						}).optional().describe("Timed questions that remain answerable in this Session, and the ones a late reply settled."),
+						"goal": zod.z.union([zod.z.literal(null), zod.z.object({
+							"goal": zod.z.object({
+								"objective": zod.z.string().readonly().describe("Human-requested completion objective."),
+								"phase": zod.z.union([
+									zod.z.literal("active"),
+									zod.z.literal("paused"),
+									zod.z.literal("blocked"),
+									zod.z.literal("complete")
+								]).readonly().describe("Durable lifecycle phase."),
+								"blockedReason": zod.z.object({
+									"code": zod.z.string().readonly().describe("Stable lower-kebab-case classification chosen by the blocking policy."),
+									"message": zod.z.string().readonly().describe("Non-empty explanation shown to humans and models.")
+								}).readonly().optional().describe("Present exactly while `phase` is `blocked`."),
+								"maxGoalRounds": zod.z.number().readonly().describe("Total admitted goal-round cap."),
+								"id": zod.z.string().readonly().describe("Stable goal identity."),
+								"revision": zod.z.number().readonly().describe("Positive revision; every durable mutation increments it.")
+							}).readonly().describe("Current durable goal snapshot (the CAS ref for mutations rides on it)."),
+							"roundsStarted": zod.z.number().readonly().describe("Highest admitted round number for this goal."),
+							"createdAt": zod.z.number().readonly().describe("Epoch milliseconds of the create mutation."),
+							"updatedAt": zod.z.number().readonly().describe("Epoch milliseconds of the latest mutation.")
+						})]).optional().describe("The session's current goal and admitted-round count, or `null` before the first create and after a clear tombstone. `goal/change` supplies the whole lifecycle value; matching admitted `user/message` events advance `roundsStarted`."),
+						"plan": zod.z.object({
+							"active": zod.z.boolean(),
+							"pending": zod.z.boolean()
+						}).optional().describe("Plan collaboration state folded from the plan command lifecycle and `plan/mode` events.")
+					}), zod.z.record(zod.z.string(), zod.z.json()).readonly()).readonly().describe("Provider-validated values; omitted keys are absent capabilities at this cut.")
+				}).readonly(),
+				"assistantStream": zod.z.object({
+					"revision": zod.z.number().readonly(),
+					"activeAttempt": zod.z.object({
+						"attemptId": zod.z.string().readonly(),
+						"startedAfterSeq": zod.z.union([zod.z.number(), zod.z.literal(-1)]).readonly().describe("Last durable Session seq observed when this attempt started."),
+						"turn": zod.z.number().readonly(),
+						"step": zod.z.number().readonly(),
+						"nextIndex": zod.z.number().readonly().describe("Dense position expected for the next live chunk frame."),
+						"stream": zod.z.array(zod.z.json()).readonly().describe("Compact detached stream accumulated at this opening revision.")
+					}).readonly().optional()
+				}).readonly().optional()
+			}),
+			zod.z.object({
+				"type": zod.z.literal("assistant-stream").readonly(),
+				"frame": zod.z.union([
+					zod.z.object({
+						"type": zod.z.literal("start").readonly(),
+						"attemptId": zod.z.string().readonly(),
+						"revision": zod.z.number().readonly(),
+						"startedAfterSeq": zod.z.union([zod.z.number(), zod.z.literal(-1)]).readonly(),
+						"turn": zod.z.number().readonly(),
+						"step": zod.z.number().readonly()
+					}),
+					zod.z.object({
+						"type": zod.z.literal("chunk").readonly(),
+						"attemptId": zod.z.string().readonly(),

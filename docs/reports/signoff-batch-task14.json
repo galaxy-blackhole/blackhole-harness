@@ -1,0 +1,65 @@
+{
+  "dev": "tm-client-ui-a",
+  "owner": "tm-client-ui-a",
+  "evidence": [
+    "reviewer tm-reviewer doc lap — build artifact 13/13 goi: co idempotent PHAM VI MODULE (installed / bundleInstalled / accountInstalled / workflowRunInstalled) va chi bat SAU khi dang ky xong",
+    "reviewer tu chay bun test: 14 tep test = 135 pass / 0 fail / 795 expect",
+    "ui-goal khai DU 2 tep test: tests/client/ui-goal.test.ts + tests/client/ui-goal-idempotent.test.ts",
+    "artifact: id ta=1 / id goc=0 (do lai tren ban build sau khi sua); khong co cu phap ESM trong bundle client",
+    "check:rows 123 goi 0 chan · gate 7/7 XANH (so do cua Lead)"
+  ],
+  "packages": [
+    {
+      "dsh": "@deepseek-ai/dsh-client-ui-goal",
+      "gbh": "gbh-client-ui-goal"
+    },
+    {
+      "dsh": "@deepseek-ai/dsh-client-ui-secret-mask",
+      "gbh": "gbh-client-ui-secret-mask"
+    },
+    {
+      "dsh": "@deepseek-ai/dsh-client-ui-settings-plugins",
+      "gbh": "gbh-client-ui-settings-plugins"
+    },
+    {
+      "dsh": "@deepseek-ai/dsh-client-ui-settings-web-search",
+      "gbh": "gbh-client-ui-settings-web-search"
+    },
+    {
+      "dsh": "@deepseek-ai/dsh-client-ui-skill",
+      "gbh": "gbh-client-ui-skill"
+    },
+    {
+      "dsh": "@deepseek-ai/dsh-client-locale",
+      "gbh": "gbh-client-locale"
+    },
+    {
+      "dsh": "@deepseek-ai/dsh-client-resources",
+      "gbh": "gbh-client-resources"
+    },
+    {
+      "dsh": "@deepseek-ai/dsh-client-ui-jobs",
+      "gbh": "gbh-client-ui-jobs"
+    },
+    {
+      "dsh": "@deepseek-ai/dsh-client-ui-message-feedback",
+      "gbh": "gbh-client-ui-message-feedback"
+    },
+    {
+      "dsh": "@deepseek-ai/dsh-client-ui-settings-account",
+      "gbh": "gbh-client-ui-settings-account"
+    },
+    {
+      "dsh": "@deepseek-ai/dsh-client-ui-settings-session-log",
+      "gbh": "gbh-client-ui-settings-session-log"
+    },
+    {
+      "dsh": "@deepseek-ai/dsh-client-ui-sidebar-terminal",
+      "gbh": "gbh-client-ui-sidebar-terminal"
+    },
+    {
+      "dsh": "@deepseek-ai/dsh-client-ui-workflow-run",
+      "gbh": "gbh-client-ui-workflow-run"
+    }
+  ]
+}

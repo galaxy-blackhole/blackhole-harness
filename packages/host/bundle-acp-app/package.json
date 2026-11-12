@@ -1,0 +1,39 @@
+{
+  "name": "@galaxy-blackhole/gbh-acp-app",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "type": "module",
+  "description": "The gbh ACP profile bundle: automation-only JSON-RPC stdio and process lifecycle over gbh-base",
+  "exports": {
+    "./cordis.patch.yml": "./cordis.patch.yml",
+    "./package.json": "./package.json",
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    }
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    }
+  },
+  "license": "MIT",
+  "gbh": {
+    "tests": [
+      "tests/host/bundle-profile-patches.test.ts"
+    ],
+    "provenance": {
+      "stock": "@deepseek-ai/dsh-acp-app",
+      "stockVersion": "0.2.1-alpha.4",
+      "patch": "./cordis.patch.yml",
+      "patchLines": 23,
+      "headerLines": 6,
+      "replacements": [],
+      "stockSha256": "b2191971be86e253c4a53b27aaa5951a36b31721abad4fbd2e06352f2898cfa0",
+      "bodySha256": "b2191971be86e253c4a53b27aaa5951a36b31721abad4fbd2e06352f2898cfa0"
+    }
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2"
+  }
+}

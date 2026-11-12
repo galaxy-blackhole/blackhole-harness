@@ -1,0 +1,19 @@
+{
+  "dev": "tm-client-ui-b",
+  "owner": "tm-client-ui-b",
+  "evidence": [
+    "signed, MOUNTED — check:app 11/11 ba lượt liên tiếp, lab 0 did-not-activate, boot-smoke DAT",
+    "reviewer tm-reviewer TU DO: patch `~/.galaxy/blackhole/app.patch.yml:195-202` (`attachment-local disabled: true` + insert `attachment-local-ours`) · dump-config MOI **340 entry** co stock disabled + `attachment-local-ours` ENABLED",
+    "**3 lượt check:app lien tiep deu DAT 11/11** — (1) 113.798 B · (3) 135 entry · (5) **0** · (8) #root **47.181 / 46 slot / 0 console / 0 pageerror** · (9) **0/80** · (10) **217 file** khop repo · (11) HMR OK",
+    "lab:row home CACH LY cua reviewer: #root **22.204** · 0 console · 0 pageerror · 0 overlay · **0 did-not-activate** (luot dau gap loi TAM do repo dang build do o goi khac — 6 entry khong activate ten goi KHAC; retry sach dat)",
+    "artifact build lai exit 0 · **21 ten export = goc 21** (10 hang · `LocalAttachmentStore` · `default` · 9 ham; README goi dong 40/51 cung ghi 21 — con so 22 trong tin Lead lech 1 do cach dem) · `missing 0 / extra 0`",
+    "reviewer tu chay bun test tests/host/attachment-local.test.ts: **19 pass / 0 fail / 92 expect**; hanh vi sharp THAT (src/image.ts · normalization.ts · request-image.ts dung sharp that, khong mock)",
+    "boot-smoke (chu goi do): DAT · rollback san: doi `gbh.row` -> `gbh.row_unmounted_ly_do`"
+  ],
+  "packages": [
+    {
+      "dsh": "@deepseek-ai/dsh-attachment-local",
+      "gbh": "gbh-attachment-local"
+    }
+  ]
+}

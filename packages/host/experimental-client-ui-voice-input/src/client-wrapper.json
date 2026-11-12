@@ -1,0 +1,16 @@
+{
+  "head": [
+    "window.__ModuleLoader__.load({",
+    "\tid: \"@galaxy-blackhole/gbh-experimental-client-ui-voice-input\",",
+    "\tfactory: (require) => {"
+  ],
+  "tail": [
+    "\t\texports.apply = apply;",
+    "\t\texports.inject = inject;",
+    "\t\treturn module.exports;",
+    "\t}",
+    "});",
+    "",
+    "//# sourceMappingURL=client.js.map"
+  ]
+}

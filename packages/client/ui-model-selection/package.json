@@ -1,0 +1,59 @@
+{
+  "name": "@galaxy-blackhole/gbh-client-ui-model-selection",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "type": "module",
+  "main": "lib/index.js",
+  "description": "Model selection over the shared model catalog, Session projection, and session.selectModel",
+  "scripts": {
+    "build": "bun run build.ts"
+  },
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./client": "./lib/client.js",
+    "./locale/*.json": "./locale/*.json",
+    "./package.json": "./package.json"
+  },
+  "dsh": {
+    "client": {
+      "inject": [
+        "@galaxy-blackhole/gbh-api-session-controller",
+        "@galaxy-blackhole/gbh-client-locale",
+        "@galaxy-blackhole/gbh-client-ui-commands",
+        "@galaxy-blackhole/gbh-api-remotes"
+      ],
+      "platform": "web"
+    }
+  },
+  "gbh": {
+    "draft": "PARKED — KHONG khai gbh.row. Do 19/10/2026: da port 1:1 CA HAI nua (host apply rong 19 dong; client sinh tu src/, dang ky DUNG MOT id @galaxy-blackhole/gbh-client-ui-model-selection), dsh.client khop tuyet doi ban goc (platform web + 4 inject dung thu tu), exports co './client' + './locale/*.json'. Chua khai gbh.row vi con thieu buoc cua Lead: --dump-config doi chieu row id that ('ui-model-selection'), boot-smoke + lab:row de xac nhan slot conversation.input.model mount that. Khai row truoc boot-smoke = thay row stock bang mot entry chua duoc chung minh. Tien le ghi no: packages/client/ui-input-trigger.",
+    "tests": [
+      "tests/client/ui-model-selection.test.ts"
+    ],
+    "row": {
+      "id": "ui-model-selection",
+      "moduleIds": [
+        "@galaxy-blackhole/gbh-client-ui-model-selection"
+      ],
+      "aliases": [
+        "@deepseek-ai/dsh-client-ui-model-selection"
+      ],
+      "tests": [
+        "tests/client/ui-model-selection.test.ts"
+      ]
+    },
+    "provenance": {
+      "stock": "@deepseek-ai/dsh-client-ui-model-selection",
+      "version": "0.2.1-alpha.4",
+      "sha": "83eb1b9fc2ab8bc26666fd953868495cca4efd516dd5c99ddc671275312c6a19",
+      "shaFile": "lib/client.js"
+    }
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2"
+  },
+  "types": "lib/types/index.d.ts"
+}

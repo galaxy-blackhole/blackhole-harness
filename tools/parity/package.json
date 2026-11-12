@@ -1,0 +1,13 @@
+{
+  "name": "@galaxy-blackhole/gbh-parity",
+  "private": true,
+  "version": "0.2.1-alpha.4",
+  "type": "module",
+  "description": "Gian parity cua Galaxy Blackhole Desktop — dump-config diff, anh A/B, bao cao",
+  "dependencies": {
+    "pixelmatch": "8.0.0",
+    "playwright-core": "1.63.0",
+    "pngjs": "7.0.0",
+    "yaml": "2.8.1"
+  }
+}

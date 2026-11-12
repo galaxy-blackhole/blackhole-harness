@@ -1,0 +1,57 @@
+{
+  "name": "@galaxy-blackhole/gbh-client-ui-workflow-run",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "type": "module",
+  "main": "lib/index.js",
+  "description": "Ban viet lai cua Galaxy Blackhole cho row ui-workflow-run cua DSH (@deepseek-ai/dsh-client-ui-workflow-run).",
+  "scripts": {
+    "build": "bun run build.ts"
+  },
+  "exports": {
+    "./locale/*.json": "./locale/*.json",
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./client": {
+      "default": "./lib/client.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2"
+  },
+  "dsh": {
+    "client": {
+      "platform": "web",
+      "inject": [
+        "@deepseek-ai/dsh-api-session-controller",
+        "@deepseek-ai/dsh-client-locale",
+        "@deepseek-ai/dsh-client-ui-chat",
+        "@deepseek-ai/dsh-client-ui-conversation",
+        "@deepseek-ai/dsh-client-ui-renderer",
+        "@deepseek-ai/dsh-client-ui-session",
+        "@deepseek-ai/dsh-client-ui-workspace"
+      ]
+    }
+  },
+  "gbh": {
+    "row": {
+      "id": "ui-workflow-run",
+      "moduleIds": [
+        "@galaxy-blackhole/gbh-client-ui-workflow-run"
+      ],
+      "tests": [
+        "tests/client/ui-workflow-run.test.ts"
+      ],
+      "aliases": [
+        "@deepseek-ai/dsh-client-ui-workflow-run"
+      ]
+    },
+    "provenance": {
+      "stock": "@deepseek-ai/dsh-client-ui-workflow-run"
+    }
+  },
+  "types": "lib/types/index.d.ts"
+}

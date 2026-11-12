@@ -1,0 +1,34 @@
+{
+  "name": "@galaxy-blackhole/gbh-web-search-ollama",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "type": "module",
+  "description": "Provider tìm kiếm web qua Galaxy cloud (Ollama) — đăng ký id auto.",
+  "main": "lib/index.js",
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "dependencies": {
+    "@deepseek-ai/dsh-web": "0.2.1-alpha.4"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2"
+  },
+  "license": "MIT",
+  "gbh": {
+    "peers": [
+      "@deepseek-ai/cordis"
+    ],
+    "row": {
+      "id": "web-search-auto",
+      "tests": [
+        "tests/host/web-search-ollama.test.ts"
+      ]
+    }
+  },
+  "types": "lib/types/index.d.ts"
+}

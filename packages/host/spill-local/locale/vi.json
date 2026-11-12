@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "spill-local",
+    "description": "Lưu kết quả công cụ quá dài vào tệp cục bộ riêng của phiên."
+  }
+}

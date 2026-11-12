@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "experimental-api-speech-to-text",
+    "description": "Chuyển giọng nói thành văn bản thử nghiệm, có xác thực, cho client trình duyệt."
+  }
+}

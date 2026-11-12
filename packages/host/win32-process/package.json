@@ -1,0 +1,38 @@
+{
+  "name": "@galaxy-blackhole/gbh-win32-process",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "type": "module",
+  "main": "lib/index.js",
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2"
+  },
+  "dependencies": {
+    "@deepseek-ai/dsh-lazy-require": "0.2.1-alpha.4",
+    "koffi": "3.1.1"
+  },
+  "gbh": {
+    "peers": [
+      "@deepseek-ai/cordis",
+      "@deepseek-ai/dsh-lazy-require",
+      "koffi"
+    ],
+    "tests": [
+      "tests/host/win32-process.test.ts"
+    ],
+    "provenance": {
+      "stock": "@deepseek-ai/dsh-win32-process",
+      "version": "0.2.1-alpha.4",
+      "sha": "622bc3a9e97c46e784fe41c9a0a8535da2808019e4ac3f66d17cdad70c9ac0c9"
+    },
+    "draft": "binding Win32/koffi (dsh-win32-process) — dump 0 row; KHÔNG mount. Nhánh win32 KHÔNG quan sát được trên darwin vì koffi không load."
+  },
+  "description": "Shared low-level Win32 process, stdio, and Job Object primitives"
+}

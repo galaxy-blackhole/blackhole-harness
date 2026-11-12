@@ -1,0 +1,48 @@
+{
+  "name": "@galaxy-blackhole/gbh-client-ui-approval",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "type": "module",
+  "main": "lib/index.js",
+  "description": "Ban viet lai cua Galaxy Blackhole cho row ui-approval cua DSH (@deepseek-ai/dsh-client-ui-approval).",
+  "scripts": {
+    "build": "bun run build.ts"
+  },
+  "exports": {
+    "./locale/*.json": "./locale/*.json",
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./client": "./lib/client.js",
+    "./package.json": "./package.json"
+  },
+  "dsh": {
+    "client": {
+      "inject": [
+        "@deepseek-ai/dsh-api-remotes",
+        "@deepseek-ai/dsh-api-session-controller",
+        "@deepseek-ai/dsh-client-locale",
+        "@deepseek-ai/dsh-client-ui-conversation",
+        "@deepseek-ai/dsh-client-ui-renderer",
+        "@deepseek-ai/dsh-client-ui-session"
+      ],
+      "platform": "web"
+    }
+  },
+  "gbh": {
+    "row": {
+      "moduleIds": [
+        "@galaxy-blackhole/gbh-client-ui-approval"
+      ],
+      "id": "ui-approval",
+      "tests": [
+        "tests/client/ui-approval.test.ts"
+      ],
+      "aliases": [
+        "@deepseek-ai/dsh-client-ui-approval"
+      ]
+    }
+  },
+  "types": "lib/types/index.d.ts"
+}

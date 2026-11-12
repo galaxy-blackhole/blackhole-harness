@@ -1,0 +1,48 @@
+{
+  "name": "@galaxy-blackhole/gbh-compaction-image-offload",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "type": "module",
+  "main": "lib/index.js",
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./package.json": "./package.json",
+    "./projection": {
+      "types": "./lib/types/projection.d.ts",
+      "default": "./lib/types/projection.js"
+    },
+    "./locale/*.json": "./locale/*.json"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2",
+    "@deepseek-ai/dsh-agent": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-compaction": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-llm": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-session": "0.2.1-alpha.4"
+  },
+  "dependencies": {
+    "@deepseek-ai/dsh-util-values": "0.2.1-alpha.4"
+  },
+  "gbh": {
+    "peers": [
+      "@deepseek-ai/cordis",
+      "@deepseek-ai/dsh-agent",
+      "@deepseek-ai/dsh-compaction",
+      "@deepseek-ai/dsh-llm",
+      "@deepseek-ai/dsh-session",
+      "@deepseek-ai/dsh-util-values"
+    ],
+    "provenance": {
+      "stock": "@deepseek-ai/dsh-compaction-image-offload",
+      "version": "0.2.1-alpha.4",
+      "sha": "6352066e8028a74374f0d6de42ebfeec5125100bb1a32ea98ff7a9fc9f58b940"
+    },
+    "tests": [
+      "tests/host/compaction-image-offload.test.ts"
+    ],
+    "draft": "de-bundle 1:1 (task-207): row `image-offload` đã do gói gbh-image-offload sở hữu ⇒ KHÔNG khai gbh.row (tránh trùng row.id); gói này giữ bản sao NGUYÊN VĂN của stock để đối chiếu byte (9 tệp lib + locale)."
+  }
+}

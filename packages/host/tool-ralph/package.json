@@ -1,0 +1,60 @@
+{
+  "name": "@galaxy-blackhole/gbh-tool-ralph",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "type": "module",
+  "main": "lib/index.js",
+  "description": "Model-facing fresh-agent Ralph loop over the workflow and subagent seams",
+  "scripts": {
+    "build": "bun run build.ts"
+  },
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./package.json": "./package.json",
+    "./locale/*.json": "./locale/*.json"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/dsh-agent": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-llm": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-subagent": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-system-prompt": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-tools": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-workflow": "0.2.1-alpha.4",
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2"
+  },
+  "dependencies": {
+    "@deepseek-ai/schemastery": "~3.18.5-alpha.2"
+  },
+  "license": "MIT",
+  "gbh": {
+    "peers": [
+      "@deepseek-ai/dsh-agent",
+      "@deepseek-ai/dsh-llm",
+      "@deepseek-ai/dsh-subagent",
+      "@deepseek-ai/dsh-system-prompt",
+      "@deepseek-ai/dsh-tools",
+      "@deepseek-ai/dsh-workflow",
+      "@deepseek-ai/cordis",
+      "@deepseek-ai/schemastery"
+    ],
+    "tests": [
+      "tests/host/tool-ralph.test.ts"
+    ],
+    "nested": {
+      "kind": "group",
+      "pluginId": "tool-ralph",
+      "stockId": "@deepseek-ai/dsh-tool-ralph",
+      "presets": [
+        "optional-ralph"
+      ]
+    },
+    "provenance": {
+      "stock": "@deepseek-ai/dsh-tool-ralph",
+      "version": "0.2.1-alpha.4",
+      "sha": "ad2f2f60dc65faae99bb1bd10417000e495a6febfb9abb747c4d39cfa80143b7"
+    }
+  }
+}

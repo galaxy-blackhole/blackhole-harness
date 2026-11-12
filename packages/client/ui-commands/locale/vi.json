@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "ui-commands",
+    "description": "Bề mặt lệnh phía client: cache thư mục toàn cục, nguồn lệnh '/', ba kiểu giao diện lệnh và registry popupSelect."
+  }
+}

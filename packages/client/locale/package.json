@@ -1,0 +1,56 @@
+{
+  "name": "@galaxy-blackhole/gbh-client-locale",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "type": "module",
+  "main": "lib/index.js",
+  "description": "Ban viet lai cua Galaxy Blackhole cho row locale cua DSH (@deepseek-ai/dsh-client-locale): dich vu locale (so tu dien + lua chon ngon ngu) + dong Language trong Settings.",
+  "scripts": {
+    "build": "bun run build.ts"
+  },
+  "gbh": {
+    "row": {
+      "id": "locale",
+      "moduleIds": [
+        "@galaxy-blackhole/gbh-client-locale"
+      ],
+      "tests": [
+        "tests/client/locale.test.ts"
+      ],
+      "aliases": [
+        "@deepseek-ai/dsh-client-locale"
+      ]
+    },
+    "provenance": {
+      "stock": "@deepseek-ai/dsh-client-locale"
+    }
+  },
+  "exports": {
+    "./locale/*.json": "./locale/*.json",
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./client": {
+      "default": "./lib/client.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2",
+    "@deepseek-ai/schemastery": "~3.18.5-alpha.2"
+  },
+  "dsh": {
+    "client": {
+      "platform": "web",
+      "immediately": true,
+      "inject": [
+        "@deepseek-ai/dsh-client-connection",
+        "@deepseek-ai/dsh-client-ui-renderer",
+        "@deepseek-ai/dsh-client-ui-settings",
+        "@deepseek-ai/dsh-api-remotes"
+      ]
+    }
+  },
+  "types": "lib/types/index.d.ts"
+}

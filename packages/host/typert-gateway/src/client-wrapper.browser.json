@@ -1,0 +1,36 @@
+{
+  "head": [
+    "window.__ModuleLoader__.load({",
+    "\tid: \"@galaxy-blackhole/gbh-host-typert-gateway\",",
+    "\tfactory: (require) => {"
+  ],
+  "tail": [
+    "\t\texports.RemoteJournalStream = RemoteJournalStream;",
+    "\t\texports.RemoteSnapshotStream = RemoteSnapshotStream;",
+    "\t\texports.RemoteStream = RemoteStream;",
+    "\t\texports.RemoteStreamCarrierError = RemoteStreamCarrierError;",
+    "\t\texports.apply = apply;",
+    "\t\texports.cancelledFailure = cancelledFailure;",
+    "\t\texports.carrierFailure = carrierFailure;",
+    "\t\texports.inject = inject;",
+    "\t\texports.isRemoteFailure = isRemoteFailure;",
+    "\t\treturn module.exports;",
+    "\t}",
+    "});",
+    "",
+    "//# sourceMappingURL=client.browser.js.map"
+  ],
+  "parts": [
+    "part-00.ts",
+    "part-01.ts",
+    "part-02.ts",
+    "part-03.ts",
+    "part-04.ts",
+    "part-05.ts",
+    "part-06.ts",
+    "part-07.ts",
+    "part-08.ts",
+    "part-09.ts",
+    "part-10.ts"
+  ]
+}

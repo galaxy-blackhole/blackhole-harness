@@ -1,0 +1,43 @@
+{
+  "name": "@galaxy-blackhole/gbh-native-command",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "type": "module",
+  "main": "lib/index.js",
+  "description": "Host-native command and path-opening utilities with shell-free execution, cancellation, desktop detection, and WSL handoff",
+  "scripts": {
+    "build": "bun run build.ts"
+  },
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./package.json": "./package.json",
+    "./types": {
+      "types": "./lib/types/types.d.ts",
+      "default": "./lib/types/types.js"
+    }
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2"
+  },
+  "devDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2"
+  },
+  "license": "MIT",
+  "gbh": {
+    "provenance": {
+      "stock": "@deepseek-ai/dsh-native-command",
+      "version": "0.2.1-alpha.4",
+      "sha": "609b10dcba6fa782d5d1f9819c1afb11bfcb6ae6b23bdc28be4f87699503aba6"
+    },
+    "tests": [
+      "tests/host/host-utils-cluster.test.ts"
+    ],
+    "peers": [
+      "@deepseek-ai/cordis"
+    ],
+    "draft": "19/10/2026 — GÓI THƯ VIỆN (0 dòng name trong dump 2026-10-18T01-31-57; matrix: khong co dong) ⇒ consumer inline, không khai gbh.row/gbh.nested."
+  }
+}

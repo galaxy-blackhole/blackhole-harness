@@ -1,0 +1,48 @@
+{
+  "name": "@galaxy-blackhole/gbh-tool-workspace-dependencies",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "type": "module",
+  "main": "lib/index.js",
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "description": "The load_workspace_dependencies tool: absolute paths into a bundled Python, Node.js, and pnpm payload",
+  "scripts": {
+    "build": "bun run build.ts"
+  },
+  "dependencies": {
+    "@deepseek-ai/schemastery": "~3.18.5-alpha.2"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2",
+    "@deepseek-ai/dsh-tools": "0.2.1-alpha.4",
+    "@deepseek-ai/schemastery": "~3.18.5-alpha.2"
+  },
+  "devDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2",
+    "@deepseek-ai/dsh-tools": "0.2.1-alpha.4"
+  },
+  "license": "MIT",
+  "gbh": {
+    "peers": [
+      "@deepseek-ai/cordis",
+      "@deepseek-ai/dsh-tools",
+      "@deepseek-ai/schemastery"
+    ],
+    "provenance": {
+      "stock": "@deepseek-ai/dsh-tool-workspace-dependencies",
+      "version": "0.2.1-alpha.4",
+      "sha": "b8478381a1501a11c1f7f8db7810bb4389694851ecad6131ac7d09055431a0b2"
+    },
+    "tests": [
+      "tests/host/tool-workspace-dependencies.test.ts"
+    ],
+    "draft": "KHÔNG khai gbh.row / gbh.nested: package.json stock KHÔNG có trường 'dsh' (chỉ name/description/version/publishConfig/repository/type/main/types/exports/files/license/peerDependencies/devDependencies/dependencies) ⇒ gói host-only, không thuộc cây plugin dump. Đo dump: KHÔNG có row 'tool-workspace-dependencies' ở bất kỳ thụt lề nào. Chỉ provenance + tests."
+  },
+  "types": "lib/types/index.d.ts"
+}

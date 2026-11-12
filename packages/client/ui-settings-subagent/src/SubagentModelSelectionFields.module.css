@@ -1,0 +1,28 @@
+/*
+ author Bùi Trọng Hiếu
+ email kevinbui210191@gmail.com
+ create date 15/10/2026
+ modify date 17/10/2026
+ desc CSS SubagentModelSelectionFields cua row ui-settings-subagent — NGUYEN VAN ban goc (newline chi o ranh gioi cap 0)
+*/
+
+.UPHdGa_permission{gap:6px;padding:12px 0;display:grid}
+.UPHdGa_toggleRow{color:var(--dsw-alias-label-primary);justify-content:space-between;align-items:flex-start;gap:16px;font-size:13px;line-height:1.5;display:flex}
+.UPHdGa_toggleLabel{flex:1;min-width:0}
+.UPHdGa_selection{gap:10px;display:grid}
+.UPHdGa_hint,.UPHdGa_notice,.UPHdGa_invalid,.UPHdGa_conflict{margin:0;font-size:12px;line-height:1.5}
+.UPHdGa_hint,.UPHdGa_notice{color:var(--dsw-alias-label-tertiary)}
+.UPHdGa_invalid,.UPHdGa_conflict{color:var(--dsw-alias-state-error-primary)}
+.UPHdGa_catalogError{color:var(--dsw-alias-state-error-primary);justify-content:space-between;align-items:center;gap:12px;font-size:12px;display:flex}
+.UPHdGa_catalogError button{color:var(--dsw-alias-brand-primary);cursor:pointer;background:0 0;border:0;padding:0}
+.UPHdGa_models{border:.5px solid var(--dsw-alias-border-l4);border-radius:var(--dsw-radius-lg);gap:6px;min-width:0;max-height:280px;margin:0;padding:10px;display:grid;overflow:auto}
+.UPHdGa_models legend{color:var(--dsw-alias-label-secondary);padding:0 4px;font-size:12px}
+.UPHdGa_modelGroup{gap:6px;display:grid}
+.UPHdGa_modelGroup+.UPHdGa_modelGroup{border-top:.5px solid var(--dsw-alias-border-l3);margin-top:4px;padding-top:10px}
+.UPHdGa_providerName{color:var(--dsw-alias-label-tertiary);padding:0 6px;font-size:11px;font-weight:500}
+.UPHdGa_model{border-radius:var(--dsw-radius-md);cursor:pointer;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:8px;min-width:0;padding:6px;display:grid}
+.UPHdGa_model:hover{background:var(--dsw-alias-bg-layer-4)}
+.UPHdGa_modelName,.UPHdGa_route{text-overflow:ellipsis;white-space:nowrap;display:block;overflow:hidden}
+.UPHdGa_modelName{color:var(--dsw-alias-label-primary);font-size:13px}
+.UPHdGa_route{color:var(--dsw-alias-label-tertiary);margin-top:2px;font-size:11px}
+.UPHdGa_unavailable{color:var(--dsw-alias-label-tertiary);font-size:11px}

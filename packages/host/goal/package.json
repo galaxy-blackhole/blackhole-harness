@@ -1,0 +1,59 @@
+{
+  "name": "@galaxy-blackhole/gbh-goal",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "type": "module",
+  "main": "lib/index.js",
+  "description": "Bản viết lại của Galaxy Blackhole cho row goal của DSH (@deepseek-ai/dsh-goal): trạng thái goal CÙNG PHIÊN hướng sự kiện + vòng đời — đơn vị chiếu `goal` NGHIÊM (stateVersion 6) trên sổ `ctx.sessionProjections`, so-sánh-và-đặt theo revision trên log phiên (`goal/change` toàn ảnh chụp + tombstone clear), và quyền tự động chạy tiếp phạm vi tiến trình (`armed`/`disarmed`, không bao giờ ghi bền).",
+  "scripts": {
+    "build": "bun run build.ts"
+  },
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./package.json": "./package.json",
+    "./src/*": "./src/*",
+    "./locale/*.json": "./locale/*.json"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2",
+    "@deepseek-ai/dsh-llm": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-scope": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-typert-protocol": "0.2.1-alpha.4",
+    "@deepseek-ai/schemastery": "~3.18.5-alpha.2",
+    "zod": "4.4.3"
+  },
+  "devDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2",
+    "@deepseek-ai/dsh-llm": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-scope": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-typert-protocol": "0.2.1-alpha.4",
+    "@deepseek-ai/schemastery": "~3.18.5-alpha.2",
+    "zod": "4.4.3"
+  },
+  "license": "MIT",
+  "gbh": {
+    "tests": [
+      "tests/host/goal.test.ts"
+    ],
+    "peers": [
+      "@deepseek-ai/dsh-typert-protocol",
+      "@deepseek-ai/dsh-llm",
+      "@deepseek-ai/dsh-scope",
+      "@deepseek-ai/schemastery",
+      "zod"
+    ],
+    "row": {
+      "id": "goal",
+      "tests": [
+        "tests/host/goal.test.ts"
+      ]
+    },
+    "provenance": {
+      "stock": "@deepseek-ai/dsh-goal"
+    }
+  },
+  "types": "lib/types/index.d.ts"
+}

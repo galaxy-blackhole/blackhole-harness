@@ -1,0 +1,40 @@
+{
+  "name": "@galaxy-blackhole/gbh-typert-protocol",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "type": "module",
+  "main": "lib/index.js",
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./package.json": "./package.json",
+    "./types": "./lib/types/types.js",
+    "./remote-info": "./lib/types/remote-info.js"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2"
+  },
+  "dependencies": {
+    "@deepseek-ai/dsh-brand": "0.2.1-alpha.4",
+    "zod": "^4.4.3"
+  },
+  "gbh": {
+    "peers": [
+      "@deepseek-ai/cordis",
+      "@deepseek-ai/dsh-brand",
+      "zod"
+    ],
+    "tests": [
+      "tests/host/typert-protocol.test.ts"
+    ],
+    "provenance": {
+      "stock": "@deepseek-ai/dsh-typert-protocol",
+      "version": "0.2.1-alpha.4",
+      "sha": "8d48ddbb4bbc62585ce5a4d3a7f53b39f55581b5320c1cae681766edd15ff8af"
+    },
+    "draft": "thư viện dsh-typert-protocol — không phải row trong dump (grep 0 match), port để đóng bộ SDK/protocol"
+  },
+  "description": "Compiler-independent Remote metadata and Typert provider protocols"
+}

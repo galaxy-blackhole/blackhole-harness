@@ -1,0 +1,17 @@
+{
+  "dev": "tm-evidence",
+  "owner": "tm-evidence",
+  "evidence": [
+    "KY LAI sau task-38 (persist dsh.* -> gbh.* + migration): reviewer tm-reviewer TU DO lai SAU ban sua 23:24 cua tm-evidence — 0 fail o moi to hop",
+    "artifact build lai exit 0 · host export `apply` + `Config` = stock **2=2** (thieu 0/thua 0) · client bundle MOT id `@galaxy-blackhole/gbh-client-shortcuts` (id goc = 0) — dung luat bundle-identity",
+    "reviewer tu chay (do doc lap, 3 goc nhin khop dinh chinh cua Lead va tm-evidence): declared 2 tep `shortcuts-protocol.test.ts` + `shortcuts-service.test.ts` = **14 pass / 0 fail / 2663 expect** · them `ui-shortcuts.test.ts` (13 pass/165) ⇒ **3 tep = 27 pass / 0 fail / 2828 expect** · `persist-migration-d2.test.ts` = **16 pass / 0 fail / 45 expect** · 2 tep Lead yeu cau (persist-d2 + shortcuts-service) = **24 pass / 0 fail / 105 expect** · tong 4 tep = 43 pass / 0 fail / 2873 expect",
+    "sua dung goc, KHONG doi hanh vi runtime: (i) dong 651-653 doc khoa MOI `gbh.keybindings.v1` roi `expect(mineRaw).toBe(theirsEnv.store.get(\"dsh.keybindings.v1\"))` — van so NOI DUNG voi store ben goc ⇒ phep A/B nguyen; (ii) dong 708-746: tieu de warn->debug, bat dung kenh `console.debug`, assert log chua ca 'factory duoc goi lan hai (id alias)' va 'tra plugin RONG'",
+    "test file mtime 23:24 · chi sua assertion + header modify date 18/10/2026; gate --no-tests XANH 7/7 · typecheck 1796 file 0 vi pham (tm-evidence do)"
+  ],
+  "packages": [
+    {
+      "dsh": "@deepseek-ai/dsh-client-shortcuts",
+      "gbh": "gbh-client-shortcuts"
+    }
+  ]
+}

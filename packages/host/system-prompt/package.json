@@ -1,0 +1,53 @@
+{
+  "name": "@galaxy-blackhole/gbh-system-prompt",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "type": "module",
+  "main": "lib/index.js",
+  "description": "Bản viết lại của Galaxy Blackhole cho row system-prompt của DSH (@deepseek-ai/dsh-system-prompt): sổ lắp ghép system prompt — mục prompt có thứ tự, ngữ cảnh động, schema tool và biến nội suy, với hai lớp đăng ký (global + scope theo agent) và waterfall system-prompt/assemble.",
+  "scripts": {
+    "build": "bun run build.ts"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2",
+    "@deepseek-ai/schemastery": "~3.18.5-alpha.2",
+    "@deepseek-ai/dsh-scope": "0.2.1-alpha.4"
+  },
+  "devDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2",
+    "@deepseek-ai/schemastery": "~3.18.5-alpha.2",
+    "@deepseek-ai/dsh-scope": "0.2.1-alpha.4"
+  },
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./package.json": "./package.json",
+    "./src/*": "./src/*",
+    "./locale/*.json": "./locale/*.json"
+  },
+  "gbh": {
+    "tests": [
+      "tests/host/system-prompt.test.ts"
+    ],
+    "peers": [
+      "@deepseek-ai/cordis",
+      "@deepseek-ai/schemastery",
+      "@deepseek-ai/dsh-scope"
+    ],
+    "row": {
+      "id": "system-prompt",
+      "config": {
+        "personaPrefix": "You are a coding agent powered by the {{model}} model."
+      },
+      "tests": [
+        "tests/host/system-prompt.test.ts"
+      ]
+    },
+    "provenance": {
+      "stock": "@deepseek-ai/dsh-system-prompt"
+    }
+  },
+  "types": "lib/types/index.d.ts"
+}

@@ -1,0 +1,54 @@
+{
+  "name": "@galaxy-blackhole/gbh-working-directory",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "type": "module",
+  "main": "lib/index.js",
+  "description": "Ban viet lai cua Galaxy Blackhole cho row working-directory cua DSH (@deepseek-ai/dsh-working-directory): thu muc lam viec cua phien — chieu phien workingDirectory, ngu canh model working-directory:current, va khoi phuc thu muc goc khi thu muc hien tai bien mat.",
+  "scripts": {
+    "build": "bun run build.ts"
+  },
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./package.json": "./package.json",
+    "./src/*": "./src/*"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2",
+    "@deepseek-ai/dsh-llm": "0.2.1-alpha.4",
+    "@deepseek-ai/schemastery": "~3.18.5-alpha.2"
+  },
+  "devDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2",
+    "@deepseek-ai/dsh-llm": "0.2.1-alpha.4",
+    "@deepseek-ai/schemastery": "~3.18.5-alpha.2"
+  },
+  "dependencies": {
+    "zod": "^4.6.7"
+  },
+  "license": "MIT",
+  "gbh": {
+    "draft": "CHUA KHAI gbh.row — be mat host-only da xong nhung CHUA co luot boot lab/mount cua Lead (xem README.md muc 5).",
+    "peers": [
+      "@deepseek-ai/cordis",
+      "@deepseek-ai/dsh-llm",
+      "@deepseek-ai/schemastery"
+    ],
+    "tests": [
+      "tests/host/working-directory.test.ts"
+    ],
+    "row": {
+      "id": "working-directory",
+      "tests": [
+        "tests/host/working-directory.test.ts"
+      ]
+    },
+    "provenance": {
+      "stock": "@deepseek-ai/dsh-working-directory"
+    }
+  },
+  "types": "lib/types/index.d.ts"
+}

@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "sandbox-local",
+    "description": "Cách ly tiến trình theo hệ điều hành và giới hạn phạm vi truy cập của lệnh; chạy lệnh trong hộp cát ngay trên máy."
+  }
+}

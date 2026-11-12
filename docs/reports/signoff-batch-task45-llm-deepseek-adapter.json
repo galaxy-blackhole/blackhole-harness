@@ -1,0 +1,19 @@
+{
+  "dev": "tm-client-ui-a",
+  "owner": "tm-client-ui-a",
+  "evidence": [
+    "package signed, not mounted (library, inlined by consumer)",
+    "reviewer tm-reviewer doc lap: build exit 0 va IN RA '(byte-identical voi bundle goc)' — build.ts DUNG neu lech 1 byte tren 23 lat de-bundle nguyen van",
+    "sha256 artifact = bundle goc: `eba35025ed1eedda89c51f2da46a3a968f7be1d59719f2ceeadfc4518dff37d6` · ca hai 103.187 B (do `shasum -a 256` + `wc -c`)",
+    "export **41 = 41** trung tung ten (thieu 0/thua 0) va KHONG co `apply`/`name` => khong co mat row plugin nao (goi thuan thu vien)",
+    "reviewer tu chay bun test tests/host/llm-deepseek-adapter.test.ts: **27 pass / 0 fail / 232 expect**",
+    "provider: adapter KHONG dang ky provider/service nao; 2 consumer dang chay dang ky route KHAC NHAU — llm-deepseek = `deepseek-official` (packages/host/llm-deepseek/src/index.ts:29) · llm-deepseek-account = `deepseek-account` (packages/host/llm-deepseek-account/src/index.ts:41) => khong trung provider",
+    "test 'registerDeepSeekProvider A/B tren Context cordis THAT' (tests/host/llm-deepseek-adapter.test.ts:369) nap cordis THAT tu apps/host/node_modules/@deepseek-ai/cordis va khang dinh MOI BEN dang ky DUNG MOT adapter cho provider da cho + cung co retry policy"
+  ],
+  "packages": [
+    {
+      "dsh": "@deepseek-ai/dsh-llm-deepseek",
+      "gbh": "gbh-llm-deepseek-adapter"
+    }
+  ]
+}

@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "client-ui-theme",
+    "description": "Plugin giao diện: khởi tạo theme từ Host, chuyển sáng/tối và bảng màu."
+  }
+}

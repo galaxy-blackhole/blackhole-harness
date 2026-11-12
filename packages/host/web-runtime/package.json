@@ -1,0 +1,75 @@
+{
+  "name": "@galaxy-blackhole/gbh-web-runtime",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "type": "module",
+  "main": "lib/index.js",
+  "description": "Bản viết lại của Galaxy Blackhole cho row `web-runtime` (@deepseek-ai/dsh-web-app): mount chủ sở hữu fallback dist, cấp service webApp, biến bash DSH_WEB_URL, dòng URL lúc khởi động và bàn giao trình duyệt mặc định.",
+  "scripts": {
+    "build": "bun run build.ts"
+  },
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./package.json": "./package.json",
+    "./src/*": "./src/*"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2",
+    "@deepseek-ai/schemastery": "~3.18.5-alpha.2",
+    "@deepseek-ai/dsh-app-boot": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-host-frontend-static": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-host-webserver": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-launch-environment": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-subprocess": "0.2.1-alpha.4",
+    "open": "^11.0.0"
+  },
+  "devDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2",
+    "@deepseek-ai/schemastery": "~3.18.5-alpha.2",
+    "@deepseek-ai/dsh-app-boot": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-host-frontend-static": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-host-webserver": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-launch-environment": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-subprocess": "0.2.1-alpha.4",
+    "open": "^11.0.0"
+  },
+  "gbh": {
+    "tests": [
+      "tests/host/web-runtime.test.ts"
+    ],
+    "peers": [
+      "@deepseek-ai/cordis",
+      "@deepseek-ai/schemastery",
+      "@deepseek-ai/dsh-app-boot",
+      "@deepseek-ai/dsh-host-frontend-static",
+      "@deepseek-ai/dsh-host-webserver",
+      "@deepseek-ai/dsh-launch-environment",
+      "@deepseek-ai/dsh-subprocess",
+      "open"
+    ],
+    "row": {
+      "id": "web-runtime",
+      "config": {
+        "openBrowser": {
+          "js": "ctx.webStartup.openBrowser"
+        },
+        "printUrl": true,
+        "publicUrl": {
+          "js": "ctx.webStartup.publicUrl"
+        },
+        "surfaceContext": true
+      },
+      "tests": [
+        "tests/host/web-runtime.test.ts"
+      ],
+      "inject": [
+        "webStartup"
+      ]
+    }
+  },
+  "license": "MIT",
+  "types": "src/index.ts"
+}

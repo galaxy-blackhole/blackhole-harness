@@ -1,0 +1,48 @@
+{
+  "dev": "phien-truoc (git log)",
+  "owner": "lead",
+  "evidence": [
+    "package signed, not mounted (library/seam) — inlined by consumer",
+    "reviewer tm-reviewer doc lap: build artifact exit 0 cho ca 7 goi · export tap = ban goc (agent-preset 1=1 · deepseek-account 8=8 · goal 10=10 · session-title-llm 5=5 · settings 4=4 · subprocess 6=6 · workflow 5=5), thieu 0 thua 0",
+    "reviewer tu chay bun test (duong dan quy uoc tests/host/<dir>.test.ts): agent-preset 14 pass/78 expect · deepseek-account 17/81 · goal 22/96 · session-title-llm 30/135 · settings 21/154 · subprocess 23/98 · workflow 15/107 — TAT CA 0 fail (tong 142 pass)",
+    "ly do KHONG mount (trich README tung goi):",
+    "- agent-preset: CHUA khai gbh.row vi BON row dung CHUNG mot goi (gbh.row chi chua MOT id); peers chi link kernel (cordis-plugin-loader · dsh-agent-preset-registry)",
+    "- deepseek-account: 'Vi vay goi nay CHUA khai gbh.row … viec mount that thuoc ve goi khac' (HOST-ROW-REWRITE §0 cau 5); host-only, artifact __ModuleLoader__ = 0",
+    "- goal: 'goi chua khai gbh.row nen chua mount' + test canh chua khai row; peers link kernel",
+    "- session-title-llm: 'grep dsh-session-title-llm trong ours.yml = 0 … goi chi duoc IMPORT boi 2 provider, khong duoc mount'; khai gbh.row se chiem row cua task-12 va chen row khong co apply ⇒ boot nem",
+    "- settings: row settings co disabled !!js '!ctx.get(profileContext)' (tat co dieu kien) — mount khi chua co quyet dinh cua Lead la doi hanh vi san pham; hien giu row_unmounted_ly_do",
+    "- subprocess: 'CHUA khai gbh.row — cho luot boot cua Lead'; test canh manifest.gbh.row phai undefined",
+    "- workflow: khai gbh.row se tao row THUA (id khong ton tai trong cay); 'goi hien o trang thai an toan de viet do: chua khai gbh.row ⇒ bh host khong mount' (apps/cli/src/mount.ts:122)",
+    "check:rows: 7 goi khong khai gbh.row nen khong vao phep kiem mount — dung thiet ke; khong co dong chan nao lien quan"
+  ],
+  "packages": [
+    {
+      "dsh": "@deepseek-ai/dsh-agent-preset",
+      "gbh": "gbh-agent-preset"
+    },
+    {
+      "dsh": "@deepseek-ai/dsh-deepseek-account",
+      "gbh": "gbh-deepseek-account"
+    },
+    {
+      "dsh": "@deepseek-ai/dsh-goal",
+      "gbh": "gbh-goal"
+    },
+    {
+      "dsh": "@deepseek-ai/dsh-session-title-llm",
+      "gbh": "gbh-session-title-llm"
+    },
+    {
+      "dsh": "@deepseek-ai/dsh-settings",
+      "gbh": "gbh-settings"
+    },
+    {
+      "dsh": "@deepseek-ai/dsh-subprocess",
+      "gbh": "gbh-subprocess"
+    },
+    {
+      "dsh": "@deepseek-ai/dsh-workflow",
+      "gbh": "gbh-workflow"
+    }
+  ]
+}

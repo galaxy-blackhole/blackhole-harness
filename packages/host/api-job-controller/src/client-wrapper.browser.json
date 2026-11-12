@@ -1,0 +1,22 @@
+{
+  "head": [
+    "window.__ModuleLoader__.load({",
+    "\tid: \"@galaxy-blackhole/gbh-api-job-controller\",",
+    "\tfactory: (require) => {"
+  ],
+  "tail": [
+    "\t\texports.apply = apply;",
+    "\t\texports.inject = inject;",
+    "\t\treturn module.exports;",
+    "\t}",
+    "});",
+    "",
+    "//# sourceMappingURL=client.js.map"
+  ],
+  "parts": [
+    "part-00.ts",
+    "part-01.ts",
+    "part-02.ts",
+    "part-03.ts"
+  ]
+}

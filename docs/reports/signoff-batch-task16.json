@@ -1,0 +1,20 @@
+{
+  "dev": "tm-client-debundle",
+  "owner": "tm-client-debundle",
+  "evidence": [
+    "reviewer tm-reviewer do doc lap tren artifact: session-inspector — host export 1=1 (apply) · client export 2=2 (apply,inject) · slot 1=1 (sidebar.right.pane.tab) · id ta=1 / id goc=0",
+    "cordis-client-runner — host export 1=1 (apply) · client export 11=11 · slot 0=0 · load TINH 1 dong `load({ id: ... })` trong artifact (2 loi goi load gom bundle + DynamicCordisPackageRunner la dong RUNTIME, co tripwire test tai tests/host/cordis-client-runner.test.ts:474)",
+    "reviewer tu chay bun test: 2 tep = 42 pass / 0 fail / 257 expect",
+    "session-inspector BO co moved (gbh.row khong con moved) va co aliases @deepseek-ai/dsh-experimental-session-inspector; ca 2 package DSH goc deu ton tai trong cay cai"
+  ],
+  "packages": [
+    {
+      "dsh": "@deepseek-ai/dsh-experimental-session-inspector",
+      "gbh": "gbh-session-inspector"
+    },
+    {
+      "dsh": "@deepseek-ai/dsh-cordis-client-runner",
+      "gbh": "gbh-cordis-client-runner"
+    }
+  ]
+}

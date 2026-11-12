@@ -1,0 +1,16 @@
+/**
+ * author Bùi Trọng Hiếu
+ * email kevinbui210191@gmail.com
+ * create date 15/10/2026
+ * modify date 17/10/2026
+ * desc Điểm vào nửa browser của row ui-session: CHỈ xuất factory để build.ts bọc thành script classic
+ */
+
+// Bundle browser KHÔNG được là ESM: bộ nạp tải nó bằng thẻ script classic, nên build.ts gói phần này ở
+// dạng CJS rồi bọc trong lời gọi window.__ModuleLoader__.load({ id, factory }). File này chỉ xuất
+// factory — không tự gọi load, không import gói ngoài (chỉ module nội bộ đã bundle sẵn).
+export { createPlugin } from "./plugin.ts";
+export type { RequireFn, UiSessionPlugin } from "./plugin.ts";
+export { INJECT, PendingInteractionDomain, BUILTIN_SOURCE, createSessionAdapter } from "./ui-session.ts";
+export type { SessionStatus, PendingInteraction } from "./ui-session.ts";
+export type { SessionBinding, SessionAreaProps } from "./session-provider.ts";

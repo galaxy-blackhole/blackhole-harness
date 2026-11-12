@@ -1,0 +1,64 @@
+{
+  "name": "@galaxy-blackhole/gbh-host-tool-web",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "type": "module",
+  "main": "lib/index.js",
+  "description": "Model-facing web tools (web_search, web_fetch) over the Galaxy Blackhole web capability seam (ctx.web)",
+  "scripts": {
+    "build": "bun run build.ts"
+  },
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./src/*": "./src/*",
+    "./package.json": "./package.json",
+    "./locale/*.json": "./locale/*.json"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2",
+    "@deepseek-ai/dsh-llm": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-system-prompt": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-tools": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-web": "0.2.1-alpha.4"
+  },
+  "gbh": {
+    "tests": [
+      "tests/host/tool-web.test.ts"
+    ],
+    "row": {
+      "id": "tool-web",
+      "stockId": "@deepseek-ai/dsh-tool-web",
+      "moduleIds": [
+        "@galaxy-blackhole/gbh-host-tool-web"
+      ],
+      "presets": [
+        "preset-standard",
+        "preset-ptc",
+        "preset-cordis"
+      ],
+      "tests": [
+        "tests/host/tool-web.test.ts"
+      ],
+      "config": {
+        "fetch": true,
+        "searchTimeoutMs": 60000
+      },
+      "aliases": [
+        "@deepseek-ai/dsh-tool-web"
+      ]
+    },
+    "provenance": {
+      "stock": "@deepseek-ai/dsh-tool-web",
+      "version": "0.2.1-alpha.4"
+    }
+  },
+  "dependencies": {
+    "@deepseek-ai/schemastery": "~3.18.5-alpha.2",
+    "@joplin/turndown-plugin-gfm": "^1.0.60",
+    "turndown": "^7.2.0"
+  },
+  "types": "lib/types/index.d.ts"
+}

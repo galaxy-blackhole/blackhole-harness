@@ -1,0 +1,9 @@
+# author Bùi Trọng Hiếu
+# email kevinbui210191@gmail.com
+# create date 15/10/2026
+# modify date 17/10/2026
+# desc Profile root cua app: danh sach entry RONG, cay plugin duoc dung bang cac lop patch
+#
+# `bh host` seed file nay vao ~/.galaxy/blackhole/profiles/blackhole/cordis.yml va harness ghi lai
+# dung danh sach rong nay moi lan boot. Muon tuy chinh thi sua cordis.patch.yml, KHONG sua file nay.
+[]

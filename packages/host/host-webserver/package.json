@@ -1,0 +1,60 @@
+{
+  "name": "@galaxy-blackhole/gbh-host-webserver",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "type": "module",
+  "main": "lib/index.js",
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./src/*": "./src/*",
+    "./package.json": "./package.json",
+    "./locale/*.json": "./locale/*.json"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2"
+  },
+  "gbh": {
+    "tests": [
+      "tests/host/webserver.test.ts",
+      "tests/host/host-webserver.test.ts"
+    ],
+    "peers": [
+      "@deepseek-ai/cordis"
+    ],
+    "draft": "TOP-LEVEL row `webserver` — gói cấp HTTP server của cả app (node:http + node:https + compression). Port 1:1: 1 artefact lib/index.js 538 dòng, id stock chỉ nằm trong JSDoc ⇒ byte-identical. Row CHUA khai: cho boot-smoke RIENG LE + dong README §4.",
+    "row": {
+      "id": "webserver",
+      "stockId": "@deepseek-ai/dsh-host-webserver",
+      "moduleIds": [
+        "@galaxy-blackhole/gbh-host-webserver"
+      ],
+      "aliases": [
+        "@deepseek-ai/dsh-host-webserver"
+      ],
+      "inject": [
+        "webStartup"
+      ],
+      "tests": [
+        "tests/host/host-webserver.test.ts"
+      ],
+      "config": {
+        "host": "!!js ctx.webStartup.host ?? '127.0.0.1'",
+        "port": "!!js ctx.webStartup.port ?? 3080",
+        "tls": "!!js ctx.webStartup.tls",
+        "compression": "gzip",
+        "compressionLevel": 1,
+        "compressionThresholdBytes": 1024
+      }
+    },
+    "provenance": {
+      "stock": "@deepseek-ai/dsh-host-webserver",
+      "version": "0.2.1-alpha.4",
+      "sha": "08907285802f0edd3aeb68c91fb443be2804879ab3d41104c4600424be06f3ab"
+    }
+  },
+  "description": "Web route-registration plugin: HTTP and upgrade routes, index transform taps, and static dist fallback; knows no harness concepts",
+  "types": "lib/types/index.d.ts"
+}

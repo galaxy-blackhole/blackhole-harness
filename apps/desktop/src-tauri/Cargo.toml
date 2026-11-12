@@ -1,0 +1,24 @@
+# author Bùi Trọng Hiếu
+# email kevinbui210191@gmail.com
+# create date 15/10/2026
+# modify date 11/11/2026
+# desc Vo Tauri cua Galaxy Blackhole Desktop: package Rust, phu thuoc tauri 2 + serde_json + libc
+#      11/11/2026: them libc de gui tin hieu toi CA NHOM tien trinh host (SIGTERM -> 3s -> SIGKILL), ke ca
+#      trong signal handler async-signal-safe khi app bi kill
+
+[package]
+name = "gbh-desktop"
+version = "0.1.0"
+edition = "2021"
+description = "Galaxy Blackhole Desktop shell"
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[dependencies]
+tauri = { version = "2", features = [] }
+serde_json = "1"
+libc = "0.2"
+
+[features]
+custom-protocol = ["tauri/custom-protocol"]

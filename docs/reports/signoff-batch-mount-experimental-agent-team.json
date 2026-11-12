@@ -1,0 +1,20 @@
+{
+  "dev": "tm-host-core",
+  "owner": "tm-host-core",
+  "evidence": [
+    "signed, MOUNTED — check:app 11/11, lab 0 did-not-activate, boot-smoke DAT",
+    "reviewer tm-reviewer TU DO: build lai exit 0 (index.js) · export **6 = 6** (`TeamService as default` · `TeamService` · `TeamTaskId` · `TeamMessageId` · `TeamId` · `TeamError`) va **`default === TeamService`** · `inject` **5** (`agents`, `sessions`, `sessionPersistence`, `sessionProjections`, `subagents`)",
+    "row `agent-team` co config mirror oracle: `maxMembers: 8` · `maxTasks: 256` · `maxMessageBytes: 65536` · `disposalTimeoutMs: 5000`",
+    "reviewer tu chay bun test tests/host/experimental-agent-team.test.ts: **20 pass / 0 fail / 61 expect**",
+    "**check:app DAT 11/11** (do lai 2 luot): (3) **136 entry** · (5) **0** · #root 47.181 / 46 slot / 0 console / 0 pageerror · (9) 0/80 · (11) HMR",
+    "**lab:row home CACH LY: 0 console · 0 pageerror · 0 did-not-activate** (failures rong)",
+    "KIEM THEM theo yeu cau Lead (provider agentTeams doi): 9 tool `tool-agent-team` nam o `packages/host/experimental-tool-agent-team` (install/view/policy/index) + client `ui-agent-team` slot `conversation.session.header.actions` — app 11/11 (136 entry, 0 console/0 pageerror) + lab sach ⇒ khong thay loi; neu can probe sau hon toi se phan tich tiep, hien KHONG co dau hieu loi",
+    "dev/owner tam ghi tm-host-core (chua co entry cu) — Lead sua 2 dong neu khac"
+  ],
+  "packages": [
+    {
+      "dsh": "@deepseek-ai/dsh-experimental-agent-team",
+      "gbh": "gbh-experimental-agent-team"
+    }
+  ]
+}

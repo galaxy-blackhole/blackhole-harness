@@ -1,0 +1,1000 @@
+			"id": zod.z.string().readonly().describe("Stable goal identity."),
+			"revision": zod.z.number().readonly().describe("Positive revision; every durable mutation increments it.")
+		});
+		let _deepseek_ai_dsh_goal_goals_edit_parameter_2_strict$schema$value;
+		const _deepseek_ai_dsh_goal_goals_edit_parameter_2_strict$schema = () => _deepseek_ai_dsh_goal_goals_edit_parameter_2_strict$schema$value ??= zod.z.strictObject({
+			"objective": zod.z.string().readonly().optional(),
+			"maxGoalRounds": zod.z.number().readonly().optional()
+		});
+		let _deepseek_ai_dsh_goal_goals_get_parameter_0_strict$schema$value;
+		const _deepseek_ai_dsh_goal_goals_get_parameter_0_strict$schema = () => _deepseek_ai_dsh_goal_goals_get_parameter_0_strict$schema$value ??= zod.z.string();
+		let _deepseek_ai_dsh_goal_goals_pause_parameter_0_strict$schema$value;
+		const _deepseek_ai_dsh_goal_goals_pause_parameter_0_strict$schema = () => _deepseek_ai_dsh_goal_goals_pause_parameter_0_strict$schema$value ??= zod.z.string();
+		let _deepseek_ai_dsh_goal_goals_pause_parameter_1_strict$schema$value;
+		const _deepseek_ai_dsh_goal_goals_pause_parameter_1_strict$schema = () => _deepseek_ai_dsh_goal_goals_pause_parameter_1_strict$schema$value ??= zod.z.strictObject({
+			"id": zod.z.string().readonly().describe("Stable goal identity."),
+			"revision": zod.z.number().readonly().describe("Positive revision; every durable mutation increments it.")
+		});
+		let _deepseek_ai_dsh_goal_goals_resume_parameter_0_strict$schema$value;
+		const _deepseek_ai_dsh_goal_goals_resume_parameter_0_strict$schema = () => _deepseek_ai_dsh_goal_goals_resume_parameter_0_strict$schema$value ??= zod.z.string();
+		let _deepseek_ai_dsh_goal_goals_resume_parameter_1_strict$schema$value;
+		const _deepseek_ai_dsh_goal_goals_resume_parameter_1_strict$schema = () => _deepseek_ai_dsh_goal_goals_resume_parameter_1_strict$schema$value ??= zod.z.strictObject({
+			"id": zod.z.string().readonly().describe("Stable goal identity."),
+			"revision": zod.z.number().readonly().describe("Positive revision; every durable mutation increments it.")
+		});
+		const TYPERT_REMOTE$18 = createTypertRemoteInfo({
+			package: "@deepseek-ai/dsh-goal",
+			methods: {
+				"goals/clear": {
+					service: "goals",
+					description: "Clear the current goal while retaining a durable tombstone and history.",
+					invocation: { kind: "direct" },
+					scope: {
+						context: "agent",
+						wire: "agentId"
+					},
+					parameters: [{
+						name: "agent",
+						wire: "agentId",
+						description: "owning live agent.",
+						source: "lookup",
+						lookup: "agent",
+						codec: {
+							mode: "strict",
+							typeSymbol: "@deepseek-ai/dsh-session/types#SessionId",
+							create: _deepseek_ai_dsh_goal_goals_clear_parameter_0$schema,
+							jsonSchema: { "type": "string" }
+						},
+						strictCodec: {
+							mode: "strict",
+							typeSymbol: "@deepseek-ai/dsh-session/types#SessionId",
+							create: _deepseek_ai_dsh_goal_goals_clear_parameter_0_strict$schema,
+							jsonSchema: { "type": "string" }
+						}
+					}, {
+						name: "ref",
+						description: "expected current revision.",
+						source: "json",
+						codec: {
+							mode: "strict",
+							typeSymbol: "@deepseek-ai/dsh-goal/client#GoalRef",
+							create: _deepseek_ai_dsh_goal_goals_clear_parameter_1$schema,
+							jsonSchema: {
+								"type": "object",
+								"properties": {
+									"id": {
+										"type": "string",
+										"description": "Stable goal identity."
+									},
+									"revision": {
+										"type": "number",
+										"description": "Positive revision; every durable mutation increments it."
+									}
+								},
+								"required": ["id", "revision"],
+								"additionalProperties": true
+							}
+						},
+						strictCodec: {
+							mode: "strict",
+							typeSymbol: "@deepseek-ai/dsh-goal/client#GoalRef",
+							create: _deepseek_ai_dsh_goal_goals_clear_parameter_1_strict$schema,
+							jsonSchema: {
+								"type": "object",
+								"properties": {
+									"id": {
+										"type": "string",
+										"description": "Stable goal identity."
+									},
+									"revision": {
+										"type": "number",
+										"description": "Positive revision; every durable mutation increments it."
+									}
+								},
+								"required": ["id", "revision"],
+								"additionalProperties": false
+							}
+						}
+					}],
+					result: {
+						mode: "strict",
+						typeSymbol: "@deepseek-ai/dsh-goal/client#GoalRef",
+						create: _deepseek_ai_dsh_goal_goals_clear_result$schema,
+						description: "the tombstone ref whose revision is one past the cleared snapshot.",
+						jsonSchema: {
+							"type": "object",
+							"properties": {
+								"id": {
+									"type": "string",
+									"description": "Stable goal identity."
+								},
+								"revision": {
+									"type": "number",
+									"description": "Positive revision; every durable mutation increments it."
+								}
+							},
+							"required": ["id", "revision"],
+							"additionalProperties": true
+						}
+					},
+					sourceLocation: {
+						"file": "packages/goal/goal/src/index.ts",
+						"line": 433,
+						"column": 3
+					}
+				},
+				"goals/complete": {
+					service: "goals",
+					description: "Mark a current non-complete goal complete and disarm it.",
+					invocation: { kind: "direct" },
+					scope: {
+						context: "agent",
+						wire: "agentId"
+					},
+					parameters: [{
+						name: "agent",
+						wire: "agentId",
+						description: "owning live agent.",
+						source: "lookup",
+						lookup: "agent",
+						codec: {
+							mode: "strict",
+							typeSymbol: "@deepseek-ai/dsh-session/types#SessionId",
+							create: _deepseek_ai_dsh_goal_goals_complete_parameter_0$schema,
+							jsonSchema: { "type": "string" }
+						},
+						strictCodec: {
+							mode: "strict",
+							typeSymbol: "@deepseek-ai/dsh-session/types#SessionId",
+							create: _deepseek_ai_dsh_goal_goals_complete_parameter_0_strict$schema,
+							jsonSchema: { "type": "string" }
+						}
+					}, {
+						name: "ref",
+						description: "expected current revision.",
+						source: "json",
+						codec: {
+							mode: "strict",
+							typeSymbol: "@deepseek-ai/dsh-goal/client#GoalRef",
+							create: _deepseek_ai_dsh_goal_goals_complete_parameter_1$schema,
+							jsonSchema: {
+								"type": "object",
+								"properties": {
+									"id": {
+										"type": "string",
+										"description": "Stable goal identity."
+									},
+									"revision": {
+										"type": "number",
+										"description": "Positive revision; every durable mutation increments it."
+									}
+								},
+								"required": ["id", "revision"],
+								"additionalProperties": true
+							}
+						},
+						strictCodec: {
+							mode: "strict",
+							typeSymbol: "@deepseek-ai/dsh-goal/client#GoalRef",
+							create: _deepseek_ai_dsh_goal_goals_complete_parameter_1_strict$schema,
+							jsonSchema: {
+								"type": "object",
+								"properties": {
+									"id": {
+										"type": "string",
+										"description": "Stable goal identity."
+									},
+									"revision": {
+										"type": "number",
+										"description": "Positive revision; every durable mutation increments it."
+									}
+								},
+								"required": ["id", "revision"],
+								"additionalProperties": false
+							}
+						}
+					}],
+					result: {
+						mode: "strict",
+						typeSymbol: "@deepseek-ai/dsh-goal/client#GoalView",
+						create: _deepseek_ai_dsh_goal_goals_complete_result$schema,
+						description: "the completed view.",
+						jsonSchema: {
+							"type": "object",
+							"properties": {
+								"roundsStarted": {
+									"type": "number",
+									"description": "Highest admitted round number for this goal."
+								},
+								"createdAt": {
+									"type": "number",
+									"description": "Epoch milliseconds of the create mutation."
+								},
+								"updatedAt": {
+									"type": "number",
+									"description": "Epoch milliseconds of the latest mutation."
+								},
+								"activation": {
+									"type": "string",
+									"enum": ["armed", "disarmed"],
+									"description": "Process-local continuation eligibility; never persisted."
+								},
+								"objective": {
+									"type": "string",
+									"description": "Human-requested completion objective."
+								},
+								"phase": {
+									"type": "string",
+									"enum": [
+										"active",
+										"paused",
+										"blocked",
+										"complete"
+									],
+									"description": "Durable lifecycle phase."
+								},
+								"blockedReason": {
+									"type": "object",
+									"properties": {
+										"code": {
+											"type": "string",
+											"description": "Stable lower-kebab-case classification chosen by the blocking policy."
+										},
+										"message": {
+											"type": "string",
+											"description": "Non-empty explanation shown to humans and models."
+										}
+									},
+									"required": ["code", "message"],
+									"additionalProperties": true,
+									"description": "Present exactly while `phase` is `blocked`."
+								},
+								"maxGoalRounds": {
+									"type": "number",
+									"description": "Total admitted goal-round cap."
+								},
+								"id": {
+									"type": "string",
+									"description": "Stable goal identity."
+								},
+								"revision": {
+									"type": "number",
+									"description": "Positive revision; every durable mutation increments it."
+								}
+							},
+							"required": [
+								"roundsStarted",
+								"createdAt",
+								"updatedAt",
+								"activation",
+								"objective",
+								"phase",
+								"maxGoalRounds",
+								"id",
+								"revision"
+							],
+							"additionalProperties": true
+						}
+					},
+					sourceLocation: {
+						"file": "packages/goal/goal/src/index.ts",
+						"line": 391,
+						"column": 3
+					}
+				},
+				"goals/create": {
+					service: "goals",
+					description: "Create one Goal through the remote boundary.",
+					implementation: "remoteExportCreate",
+					invocation: { kind: "direct" },
+					scope: {
+						context: "agent",
+						wire: "agentId"
+					},
+					parameters: [{
+						name: "agent",
+						wire: "agentId",
+						description: "exact live Agent resolved from the wire identity.",
+						source: "lookup",
+						lookup: "agent",
+						codec: {
+							mode: "strict",
+							typeSymbol: "@deepseek-ai/dsh-session/types#SessionId",
+							create: _deepseek_ai_dsh_goal_goals_create_parameter_0$schema,
+							jsonSchema: { "type": "string" }
+						},
+						strictCodec: {
+							mode: "strict",
+							typeSymbol: "@deepseek-ai/dsh-session/types#SessionId",
+							create: _deepseek_ai_dsh_goal_goals_create_parameter_0_strict$schema,
+							jsonSchema: { "type": "string" }
+						}
+					}, {
+						name: "request",
+						description: "objective and optional round cap.",
+						source: "json",
+						codec: {
+							mode: "strict",
+							typeSymbol: "@deepseek-ai/dsh-goal/client#CreateGoalRequest",
+							create: _deepseek_ai_dsh_goal_goals_create_parameter_1$schema,
+							jsonSchema: {
+								"type": "object",
+								"properties": {
+									"objective": { "type": "string" },
+									"maxGoalRounds": { "type": "number" }
+								},
+								"required": ["objective"],
+								"additionalProperties": true
+							}
+						},
+						strictCodec: {
+							mode: "strict",
+							typeSymbol: "@deepseek-ai/dsh-goal/client#CreateGoalRequest",
+							create: _deepseek_ai_dsh_goal_goals_create_parameter_1_strict$schema,
+							jsonSchema: {
+								"type": "object",
+								"properties": {
+									"objective": { "type": "string" },
+									"maxGoalRounds": { "type": "number" }
+								},
+								"required": ["objective"],
+								"additionalProperties": false
+							}
+						}
+					}],
+					result: {
+						mode: "strict",
+						typeSymbol: "@deepseek-ai/dsh-goal/client#CreateGoalResult",
+						create: _deepseek_ai_dsh_goal_goals_create_result$schema,
+						description: "the created Goal identity.",
+						jsonSchema: {
+							"type": "object",
+							"properties": { "ref": {
+								"type": "object",
+								"properties": {
+									"id": {
+										"type": "string",
+										"description": "Stable goal identity."
+									},
+									"revision": {
+										"type": "number",
+										"description": "Positive revision; every durable mutation increments it."
+									}
+								},
+								"required": ["id", "revision"],
+								"additionalProperties": true
+							} },
+							"required": ["ref"],
+							"additionalProperties": true
+						}
+					},
+					sourceLocation: {
+						"file": "packages/goal/goal/src/index.ts",
+						"line": 647,
+						"column": 3
+					}
+				},
+				"goals/edit": {
+					service: "goals",
+					description: "Edit objective and/or round cap without changing phase.",
+					invocation: { kind: "direct" },
+					scope: {
+						context: "agent",
+						wire: "agentId"
+					},
+					parameters: [
+						{
+							name: "agent",
+							wire: "agentId",
+							description: "owning live agent.",
+							source: "lookup",
+							lookup: "agent",
+							codec: {
+								mode: "strict",
+								typeSymbol: "@deepseek-ai/dsh-session/types#SessionId",
+								create: _deepseek_ai_dsh_goal_goals_edit_parameter_0$schema,
+								jsonSchema: { "type": "string" }
+							},
+							strictCodec: {
+								mode: "strict",
+								typeSymbol: "@deepseek-ai/dsh-session/types#SessionId",
+								create: _deepseek_ai_dsh_goal_goals_edit_parameter_0_strict$schema,
+								jsonSchema: { "type": "string" }
+							}
+						},
+						{
+							name: "ref",
+							description: "expected current revision.",
+							source: "json",
+							codec: {
+								mode: "strict",
+								typeSymbol: "@deepseek-ai/dsh-goal/client#GoalRef",
+								create: _deepseek_ai_dsh_goal_goals_edit_parameter_1$schema,
+								jsonSchema: {
+									"type": "object",
+									"properties": {
+										"id": {
+											"type": "string",
+											"description": "Stable goal identity."
+										},
+										"revision": {
+											"type": "number",
+											"description": "Positive revision; every durable mutation increments it."
+										}
+									},
+									"required": ["id", "revision"],
+									"additionalProperties": true
+								}
+							},
+							strictCodec: {
+								mode: "strict",
+								typeSymbol: "@deepseek-ai/dsh-goal/client#GoalRef",
+								create: _deepseek_ai_dsh_goal_goals_edit_parameter_1_strict$schema,
+								jsonSchema: {
+									"type": "object",
+									"properties": {
+										"id": {
+											"type": "string",
+											"description": "Stable goal identity."
+										},
+										"revision": {
+											"type": "number",
+											"description": "Positive revision; every durable mutation increments it."
+										}
+									},
+									"required": ["id", "revision"],
+									"additionalProperties": false
+								}
+							}
+						},
+						{
+							name: "request",
+							description: "at least one replacement field.",
+							source: "json",
+							codec: {
+								mode: "strict",
+								typeSymbol: "@deepseek-ai/dsh-goal/client#EditGoalRequest",
+								create: _deepseek_ai_dsh_goal_goals_edit_parameter_2$schema,
+								jsonSchema: {
+									"type": "object",
+									"properties": {
+										"objective": { "type": "string" },
+										"maxGoalRounds": { "type": "number" }
+									},
+									"required": [],
+									"additionalProperties": true
+								}
+							},
+							strictCodec: {
+								mode: "strict",
+								typeSymbol: "@deepseek-ai/dsh-goal/client#EditGoalRequest",
+								create: _deepseek_ai_dsh_goal_goals_edit_parameter_2_strict$schema,
+								jsonSchema: {
+									"type": "object",
+									"properties": {
+										"objective": { "type": "string" },
+										"maxGoalRounds": { "type": "number" }
+									},
+									"required": [],
+									"additionalProperties": false
+								}
+							}
+						}
+					],
+					result: {
+						mode: "strict",
+						typeSymbol: "@deepseek-ai/dsh-goal/client#GoalView",
+						create: _deepseek_ai_dsh_goal_goals_edit_result$schema,
+						description: "the edited view.",
+						jsonSchema: {
+							"type": "object",
+							"properties": {
+								"roundsStarted": {
+									"type": "number",
+									"description": "Highest admitted round number for this goal."
+								},
+								"createdAt": {
+									"type": "number",
+									"description": "Epoch milliseconds of the create mutation."
+								},
+								"updatedAt": {
+									"type": "number",
+									"description": "Epoch milliseconds of the latest mutation."
+								},
+								"activation": {
+									"type": "string",
+									"enum": ["armed", "disarmed"],
+									"description": "Process-local continuation eligibility; never persisted."
+								},
+								"objective": {
+									"type": "string",
+									"description": "Human-requested completion objective."
+								},
+								"phase": {
+									"type": "string",
+									"enum": [
+										"active",
+										"paused",
+										"blocked",
+										"complete"
+									],
+									"description": "Durable lifecycle phase."
+								},
+								"blockedReason": {
+									"type": "object",
+									"properties": {
+										"code": {
+											"type": "string",
+											"description": "Stable lower-kebab-case classification chosen by the blocking policy."
+										},
+										"message": {
+											"type": "string",
+											"description": "Non-empty explanation shown to humans and models."
+										}
+									},
+									"required": ["code", "message"],
+									"additionalProperties": true,
+									"description": "Present exactly while `phase` is `blocked`."
+								},
+								"maxGoalRounds": {
+									"type": "number",
+									"description": "Total admitted goal-round cap."
+								},
+								"id": {
+									"type": "string",
+									"description": "Stable goal identity."
+								},
+								"revision": {
+									"type": "number",
+									"description": "Positive revision; every durable mutation increments it."
+								}
+							},
+							"required": [
+								"roundsStarted",
+								"createdAt",
+								"updatedAt",
+								"activation",
+								"objective",
+								"phase",
+								"maxGoalRounds",
+								"id",
+								"revision"
+							],
+							"additionalProperties": true
+						}
+					},
+					sourceLocation: {
+						"file": "packages/goal/goal/src/index.ts",
+						"line": 329,
+						"column": 3
+					}
+				},
+				"goals/get": {
+					service: "goals",
+					description: "Read the current goal for one exact live agent.",
+					invocation: { kind: "direct" },
+					scope: {
+						context: "agent",
+						wire: "agentId"
+					},
+					parameters: [{
+						name: "agent",
+						wire: "agentId",
+						description: "owning live agent.",
+						source: "lookup",
+						lookup: "agent",
+						codec: {
+							mode: "strict",
+							typeSymbol: "@deepseek-ai/dsh-session/types#SessionId",
+							create: _deepseek_ai_dsh_goal_goals_get_parameter_0$schema,
+							jsonSchema: { "type": "string" }
+						},
+						strictCodec: {
+							mode: "strict",
+							typeSymbol: "@deepseek-ai/dsh-session/types#SessionId",
+							create: _deepseek_ai_dsh_goal_goals_get_parameter_0_strict$schema,
+							jsonSchema: { "type": "string" }
+						}
+					}],
+					result: {
+						mode: "strict",
+						typeSymbol: "@deepseek-ai/dsh-goal#goals/get:result",
+						create: _deepseek_ai_dsh_goal_goals_get_result$schema,
+						description: "a fresh view or `undefined` when no goal is current.",
+						jsonSchemaError: "typert tool schema: unsupported undefined value"
+					},
+					sourceLocation: {
+						"file": "packages/goal/goal/src/index.ts",
+						"line": 277,
+						"column": 3
+					}
+				},
+				"goals/pause": {
+					service: "goals",
+					description: "Pause an active goal and disarm automatic continuation.",
+					invocation: { kind: "direct" },
+					scope: {
+						context: "agent",
+						wire: "agentId"
+					},
+					parameters: [{
+						name: "agent",
+						wire: "agentId",
+						description: "owning live agent.",
+						source: "lookup",
+						lookup: "agent",
+						codec: {
+							mode: "strict",
+							typeSymbol: "@deepseek-ai/dsh-session/types#SessionId",
+							create: _deepseek_ai_dsh_goal_goals_pause_parameter_0$schema,
+							jsonSchema: { "type": "string" }
+						},
+						strictCodec: {
+							mode: "strict",
+							typeSymbol: "@deepseek-ai/dsh-session/types#SessionId",
+							create: _deepseek_ai_dsh_goal_goals_pause_parameter_0_strict$schema,
+							jsonSchema: { "type": "string" }
+						}
+					}, {
+						name: "ref",
+						description: "expected current revision.",
+						source: "json",
+						codec: {
+							mode: "strict",
+							typeSymbol: "@deepseek-ai/dsh-goal/client#GoalRef",
+							create: _deepseek_ai_dsh_goal_goals_pause_parameter_1$schema,
+							jsonSchema: {
+								"type": "object",
+								"properties": {
+									"id": {
+										"type": "string",
+										"description": "Stable goal identity."
+									},
+									"revision": {
+										"type": "number",
+										"description": "Positive revision; every durable mutation increments it."
+									}
+								},
+								"required": ["id", "revision"],
+								"additionalProperties": true
+							}
+						},
+						strictCodec: {
+							mode: "strict",
+							typeSymbol: "@deepseek-ai/dsh-goal/client#GoalRef",
+							create: _deepseek_ai_dsh_goal_goals_pause_parameter_1_strict$schema,
+							jsonSchema: {
+								"type": "object",
+								"properties": {
+									"id": {
+										"type": "string",
+										"description": "Stable goal identity."
+									},
+									"revision": {
+										"type": "number",
+										"description": "Positive revision; every durable mutation increments it."
+									}
+								},
+								"required": ["id", "revision"],
+								"additionalProperties": false
+							}
+						}
+					}],
+					result: {
+						mode: "strict",
+						typeSymbol: "@deepseek-ai/dsh-goal/client#GoalView",
+						create: _deepseek_ai_dsh_goal_goals_pause_result$schema,
+						description: "the paused view.",
+						jsonSchema: {
+							"type": "object",
+							"properties": {
+								"roundsStarted": {
+									"type": "number",
+									"description": "Highest admitted round number for this goal."
+								},
+								"createdAt": {
+									"type": "number",
+									"description": "Epoch milliseconds of the create mutation."
+								},
+								"updatedAt": {
+									"type": "number",
+									"description": "Epoch milliseconds of the latest mutation."
+								},
+								"activation": {
+									"type": "string",
+									"enum": ["armed", "disarmed"],
+									"description": "Process-local continuation eligibility; never persisted."
+								},
+								"objective": {
+									"type": "string",
+									"description": "Human-requested completion objective."
+								},
+								"phase": {
+									"type": "string",
+									"enum": [
+										"active",
+										"paused",
+										"blocked",
+										"complete"
+									],
+									"description": "Durable lifecycle phase."
+								},
+								"blockedReason": {
+									"type": "object",
+									"properties": {
+										"code": {
+											"type": "string",
+											"description": "Stable lower-kebab-case classification chosen by the blocking policy."
+										},
+										"message": {
+											"type": "string",
+											"description": "Non-empty explanation shown to humans and models."
+										}
+									},
+									"required": ["code", "message"],
+									"additionalProperties": true,
+									"description": "Present exactly while `phase` is `blocked`."
+								},
+								"maxGoalRounds": {
+									"type": "number",
+									"description": "Total admitted goal-round cap."
+								},
+								"id": {
+									"type": "string",
+									"description": "Stable goal identity."
+								},
+								"revision": {
+									"type": "number",
+									"description": "Positive revision; every durable mutation increments it."
+								}
+							},
+							"required": [
+								"roundsStarted",
+								"createdAt",
+								"updatedAt",
+								"activation",
+								"objective",
+								"phase",
+								"maxGoalRounds",
+								"id",
+								"revision"
+							],
+							"additionalProperties": true
+						}
+					},
+					sourceLocation: {
+						"file": "packages/goal/goal/src/index.ts",
+						"line": 352,
+						"column": 3
+					}
+				},
+				"goals/resume": {
+					service: "goals",
+					description: "Resume and arm a stopped goal, or rearm an active goal after a session-start edge, while its round budget still has capacity.",
+					invocation: { kind: "direct" },
+					scope: {
+						context: "agent",
+						wire: "agentId"
+					},
+					parameters: [{
+						name: "agent",
+						wire: "agentId",
+						description: "owning live agent.",
+						source: "lookup",
+						lookup: "agent",
+						codec: {
+							mode: "strict",
+							typeSymbol: "@deepseek-ai/dsh-session/types#SessionId",
+							create: _deepseek_ai_dsh_goal_goals_resume_parameter_0$schema,
+							jsonSchema: { "type": "string" }
+						},
+						strictCodec: {
+							mode: "strict",
+							typeSymbol: "@deepseek-ai/dsh-session/types#SessionId",
+							create: _deepseek_ai_dsh_goal_goals_resume_parameter_0_strict$schema,
+							jsonSchema: { "type": "string" }
+						}
+					}, {
+						name: "ref",
+						description: "expected current revision.",
+						source: "json",
+						codec: {
+							mode: "strict",
+							typeSymbol: "@deepseek-ai/dsh-goal/client#GoalRef",
+							create: _deepseek_ai_dsh_goal_goals_resume_parameter_1$schema,
+							jsonSchema: {
+								"type": "object",
+								"properties": {
+									"id": {
+										"type": "string",
+										"description": "Stable goal identity."
+									},
+									"revision": {
+										"type": "number",
+										"description": "Positive revision; every durable mutation increments it."
+									}
+								},
+								"required": ["id", "revision"],
+								"additionalProperties": true
+							}
+						},
+						strictCodec: {
+							mode: "strict",
+							typeSymbol: "@deepseek-ai/dsh-goal/client#GoalRef",
+							create: _deepseek_ai_dsh_goal_goals_resume_parameter_1_strict$schema,
+							jsonSchema: {
+								"type": "object",
+								"properties": {
+									"id": {
+										"type": "string",
+										"description": "Stable goal identity."
+									},
+									"revision": {
+										"type": "number",
+										"description": "Positive revision; every durable mutation increments it."
+									}
+								},
+								"required": ["id", "revision"],
+								"additionalProperties": false
+							}
+						}
+					}],
+					result: {
+						mode: "strict",
+						typeSymbol: "@deepseek-ai/dsh-goal/client#GoalView",
+						create: _deepseek_ai_dsh_goal_goals_resume_result$schema,
+						description: "the active view.",
+						jsonSchema: {
+							"type": "object",
+							"properties": {
+								"roundsStarted": {
+									"type": "number",
+									"description": "Highest admitted round number for this goal."
+								},
+								"createdAt": {
+									"type": "number",
+									"description": "Epoch milliseconds of the create mutation."
+								},
+								"updatedAt": {
+									"type": "number",
+									"description": "Epoch milliseconds of the latest mutation."
+								},
+								"activation": {
+									"type": "string",
+									"enum": ["armed", "disarmed"],
+									"description": "Process-local continuation eligibility; never persisted."
+								},
+								"objective": {
+									"type": "string",
+									"description": "Human-requested completion objective."
+								},
+								"phase": {
+									"type": "string",
+									"enum": [
+										"active",
+										"paused",
+										"blocked",
+										"complete"
+									],
+									"description": "Durable lifecycle phase."
+								},
+								"blockedReason": {
+									"type": "object",
+									"properties": {
+										"code": {
+											"type": "string",
+											"description": "Stable lower-kebab-case classification chosen by the blocking policy."
+										},
+										"message": {
+											"type": "string",
+											"description": "Non-empty explanation shown to humans and models."
+										}
+									},
+									"required": ["code", "message"],
+									"additionalProperties": true,
+									"description": "Present exactly while `phase` is `blocked`."
+								},
+								"maxGoalRounds": {
+									"type": "number",
+									"description": "Total admitted goal-round cap."
+								},
+								"id": {
+									"type": "string",
+									"description": "Stable goal identity."
+								},
+								"revision": {
+									"type": "number",
+									"description": "Positive revision; every durable mutation increments it."
+								}
+							},
+							"required": [
+								"roundsStarted",
+								"createdAt",
+								"updatedAt",
+								"activation",
+								"objective",
+								"phase",
+								"maxGoalRounds",
+								"id",
+								"revision"
+							],
+							"additionalProperties": true
+						}
+					},
+					sourceLocation: {
+						"file": "packages/goal/goal/src/index.ts",
+						"line": 364,
+						"column": 3
+					}
+				}
+			}
+		}, zod.z);
+		//#endregion
+		//#region ../../schedule/schedule/lib/typert.remote-client.js
+		let _deepseek_ai_dsh_schedule_schedule_catalog_result$schema$value;
+		const _deepseek_ai_dsh_schedule_schedule_catalog_result$schema = () => _deepseek_ai_dsh_schedule_schedule_catalog_result$schema$value ??= zod.z.array(zod.z.union([
+			zod.z.object({
+				"id": zod.z.string().readonly().describe("Globally unique task identity."),
+				"kind": zod.z.literal("after").readonly().describe("Rule discriminator for a delayed one-shot reminder."),
+				"title": zod.z.string().readonly().describe("Required stored task name; already trimmed, non-empty, and at most 120 characters."),
+				"prompt": zod.z.string().readonly().describe("Trimmed reminder content supplied at creation."),
+				"afterSeconds": zod.z.number().readonly().describe("Positive safe-integer delay accepted at creation."),
+				"scheduledAt": zod.z.string().readonly().describe("Four-digit-year RFC 3339 UTC target."),
+				"sessionId": zod.z.string().readonly().describe("Session receiving this reminder when it becomes due."),
+				"status": zod.z.union([zod.z.literal("active"), zod.z.literal("inactive")]).readonly().describe("Inactive reminders remain visible but never schedule another delivery."),
+				"lastDelivery": zod.z.object({
+					"scheduledAt": zod.z.string().readonly().describe("Canonical UTC target of the delivered occurrence."),
+					"deliveredAt": zod.z.string().readonly().describe("Canonical UTC time sampled after Session persistence acknowledged delivery."),
+					"messageId": zod.z.string().readonly().describe("Identity of the delivered message, shared by tasks in one recurring batch.")
+				}).readonly().optional().describe("Most recent durably acknowledged inbox delivery, when available.")
+			}),
+			zod.z.object({
+				"id": zod.z.string().readonly().describe("Globally unique task identity."),
+				"kind": zod.z.literal("at").readonly().describe("Rule discriminator for an absolute one-shot reminder."),
+				"title": zod.z.string().readonly().describe("Required stored task name; already trimmed, non-empty, and at most 120 characters."),
+				"prompt": zod.z.string().readonly().describe("Trimmed reminder content supplied at creation."),
+				"scheduledAt": zod.z.string().readonly().describe("Four-digit-year RFC 3339 UTC target."),
+				"sessionId": zod.z.string().readonly().describe("Session receiving this reminder when it becomes due."),
+				"status": zod.z.union([zod.z.literal("active"), zod.z.literal("inactive")]).readonly().describe("Inactive reminders remain visible but never schedule another delivery."),
+				"lastDelivery": zod.z.object({
+					"scheduledAt": zod.z.string().readonly().describe("Canonical UTC target of the delivered occurrence."),
+					"deliveredAt": zod.z.string().readonly().describe("Canonical UTC time sampled after Session persistence acknowledged delivery."),
+					"messageId": zod.z.string().readonly().describe("Identity of the delivered message, shared by tasks in one recurring batch.")
+				}).readonly().optional().describe("Most recent durably acknowledged inbox delivery, when available.")
+			}),
+			zod.z.object({
+				"id": zod.z.string().readonly().describe("Globally unique task identity."),
+				"kind": zod.z.literal("every").readonly().describe("Rule discriminator for a fixed-rate recurring reminder."),
+				"title": zod.z.string().readonly().describe("Required stored task name; already trimmed, non-empty, and at most 120 characters."),
+				"prompt": zod.z.string().readonly().describe("Trimmed reminder content supplied at creation."),
+				"everySeconds": zod.z.number().readonly().describe("Fixed safe-integer interval, never below one minute."),
+				"scheduledAt": zod.z.string().readonly().describe("Next anchor-aligned occurrence while active, or final occurrence when inactive."),
+				"sessionId": zod.z.string().readonly().describe("Session receiving this reminder when it becomes due."),
+				"status": zod.z.union([zod.z.literal("active"), zod.z.literal("inactive")]).readonly().describe("Inactive reminders remain visible but never schedule another delivery."),
+				"lastDelivery": zod.z.object({
+					"scheduledAt": zod.z.string().readonly().describe("Canonical UTC target of the delivered occurrence."),
+					"deliveredAt": zod.z.string().readonly().describe("Canonical UTC time sampled after Session persistence acknowledged delivery."),
+					"messageId": zod.z.string().readonly().describe("Identity of the delivered message, shared by tasks in one recurring batch.")
+				}).readonly().optional().describe("Most recent durably acknowledged inbox delivery, when available.")
+			}),
+			zod.z.object({
+				"id": zod.z.string().readonly().describe("Globally unique task identity."),
+				"kind": zod.z.literal("daily").readonly().describe("Rule discriminator for a daily wall-clock reminder."),
+				"title": zod.z.string().readonly().describe("Required stored task name; already trimmed, non-empty, and at most 120 characters."),
+				"prompt": zod.z.string().readonly().describe("Trimmed reminder content supplied at creation."),
+				"time": zod.z.string().readonly().describe("Local time normalized to HH:mm:ss.SSS."),
+				"timeZone": zod.z.string().readonly().describe("Explicit IANA zone; equivalent timing edits retain the stored spelling."),
+				"scheduledAt": zod.z.string().readonly().describe("Committed next UTC instant while active, or final occurrence when inactive."),
+				"sessionId": zod.z.string().readonly().describe("Session receiving this reminder when it becomes due."),
+				"status": zod.z.union([zod.z.literal("active"), zod.z.literal("inactive")]).readonly().describe("Inactive reminders remain visible but never schedule another delivery."),
+				"lastDelivery": zod.z.object({
+					"scheduledAt": zod.z.string().readonly().describe("Canonical UTC target of the delivered occurrence."),
+					"deliveredAt": zod.z.string().readonly().describe("Canonical UTC time sampled after Session persistence acknowledged delivery."),
+					"messageId": zod.z.string().readonly().describe("Identity of the delivered message, shared by tasks in one recurring batch.")
+				}).readonly().optional().describe("Most recent durably acknowledged inbox delivery, when available.")
+			}),
+			zod.z.object({
+				"id": zod.z.string().readonly().describe("Globally unique task identity."),
+				"kind": zod.z.literal("weekly").readonly().describe("Rule discriminator for a weekly wall-clock reminder."),
+				"title": zod.z.string().readonly().describe("Required stored task name; already trimmed, non-empty, and at most 120 characters."),
+				"prompt": zod.z.string().readonly().describe("Trimmed reminder content supplied at creation."),

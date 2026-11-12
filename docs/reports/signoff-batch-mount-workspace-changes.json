@@ -1,0 +1,18 @@
+{
+  "dev": "tm-assets",
+  "owner": "tm-assets",
+  "evidence": [
+    "signed, MOUNTED — check:app 11/11 ba lượt liên tiếp, lab DAT, boot-smoke DAT",
+    "reviewer tm-reviewer TU DO: patch `app.patch.yml:979-985` (`workspace-changes disabled: true` + insert `workspace-changes-ours` name @galaxy-blackhole/gbh-host-workspace-changes) · dump MOI **340 entry** co stock disabled + ours ENABLED · row `insertAs: workspace-changes-ours`",
+    "**3 lượt check:app lien tiep DAT 11/11** — (1) 113.798 B · (3) 135 · (5) **0** · (8) #root 47.181 / 46 slot / 0 console / 0 pageerror · (9) 0/80 · (10) 217 file · (11) HMR OK",
+    "artifact build lai exit 0 (index.js + types.js) · export **4 = 4** (`Config` · `apply` · `inject` · `name`, missing 0/extra 0) · `Config` cung 5 truong/5 gia tri mac dinh voi goc (timeoutMs 30.000 · outputMaxBytes 8 MiB · maxFiles 500 · maxFileBytes 2 MiB · diffTimeoutMs 100) · locale `en.json`+`zh.json` **byte-for-byte** (sha khop tung tep)",
+    "reviewer tu chay bun test tests/host/workspace-changes.test.ts: **18 pass / 0 fail / 70 expect**",
+    "lab:row + boot-smoke theo chu goi: DAT; `packages/README.md` §4z (bang tu sinh) co dong host/workspace-changes · reviewer tu chay lab:row home CACH LY: #root **22.204** · 0 console · 0 pageerror · 0 overlay · **0 did-not-activate**"
+  ],
+  "packages": [
+    {
+      "dsh": "@deepseek-ai/dsh-workspace-changes",
+      "gbh": "gbh-host-workspace-changes"
+    }
+  ]
+}

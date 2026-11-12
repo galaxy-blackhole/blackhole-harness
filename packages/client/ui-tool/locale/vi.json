@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "ui-tool",
+    "description": "Hiển thị cây gọi tool trong hội thoại, kèm quan hệ lồng nhau và slot trình bày riêng cho từng tool."
+  }
+}

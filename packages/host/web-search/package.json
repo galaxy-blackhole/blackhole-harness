@@ -1,0 +1,61 @@
+{
+  "name": "@galaxy-blackhole/gbh-web-search",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "type": "module",
+  "main": "lib/index.js",
+  "description": "DeepSeek-backed search provider (native web_search via the Anthropic-compatible API) for the Galaxy Blackhole web capability seam (ctx.web)",
+  "scripts": {
+    "build": "bun run build.ts"
+  },
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "default": "./lib/index.js"
+    },
+    "./package.json": "./package.json",
+    "./src/*": "./src/*",
+    "./locale/*.json": "./locale/*.json"
+  },
+  "license": "MIT",
+  "gbh": {
+    "tests": [
+      "tests/host/web-search-deepseek.test.ts"
+    ],
+    "provenance": {
+      "stock": "@deepseek-ai/dsh-web-search-deepseek",
+      "stockVersion": "0.2.1-alpha.4",
+      "stockLines": 341,
+      "localeBytes": {
+        "en.json": 55,
+        "zh.json": 123
+      },
+      "exports": [
+        "Config",
+        "DEEPSEEK_DEFAULT_API_VERSION",
+        "DEEPSEEK_DEFAULT_BASE_URL",
+        "DEEPSEEK_DEFAULT_MAX_TOKENS",
+        "DEEPSEEK_DEFAULT_MAX_USES",
+        "DEEPSEEK_DEFAULT_MODEL",
+        "DEEPSEEK_PROVIDER_ID",
+        "DeepSeekSearchProvider",
+        "WEB_SEARCH_DEEPSEEK_SETTINGS_NAMESPACE",
+        "apply",
+        "inject",
+        "name"
+      ],
+      "seam": "interface hẹp cục bộ (WebError/ctx/环境) — không import tĩnh @deepseek-ai/*"
+    }
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2",
+    "@deepseek-ai/dsh-agent": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-credentials": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-deepseek-account": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-launch-environment": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-session": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-web": "0.2.1-alpha.4",
+    "@deepseek-ai/schemastery": "~3.18.5-alpha.2"
+  },
+  "types": "lib/types/index.d.ts"
+}

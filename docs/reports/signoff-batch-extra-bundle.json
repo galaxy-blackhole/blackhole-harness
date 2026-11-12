@@ -1,0 +1,20 @@
+{
+  "dev": "tm-client-debundle",
+  "owner": "tm-client-debundle",
+  "evidence": [
+    "signed, MOUNTED — app xac nhan khi ky: (3) **152 entry** · (5) **0** · (10) **366 file khop repo** · entry goc **0** — LANH; test REVIEWER TU DO",
+    "**lazy-require** + **package-manifest**: `gbh.tests` nay tro `tests/host/bundle-extra-packages.test.ts` (tep cong bundle-extra) — reviewer chay tep do = **5 pass / 0 fail / 15 expect** (tep gop 2 tep cong truoc do: 19/19 theo moc Lead)",
+    "stock: `@deepseek-ai/dsh-lazy-require` · `@deepseek-ai/dsh-package-manifest`; 2 goi nay khong co logic rieng de test — bat bien cua chung la patch/data bundle duoc canh boi tep cong",
+    "rollback san"
+  ],
+  "packages": [
+    {
+      "dsh": "@deepseek-ai/dsh-lazy-require",
+      "gbh": "gbh-lazy-require"
+    },
+    {
+      "dsh": "@deepseek-ai/dsh-package-manifest",
+      "gbh": "gbh-package-manifest"
+    }
+  ]
+}

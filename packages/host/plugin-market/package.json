@@ -1,0 +1,109 @@
+{
+  "name": "@galaxy-blackhole/gbh-plugin-market",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "type": "module",
+  "main": "lib/index.js",
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "default": "./lib/index.js"
+    },
+    "./worker": "./lib/worker.js",
+    "./tools": "./lib/tools.js",
+    "./typert": "./lib/typert.host.js",
+    "./remote": "./lib/typert.remote-client.js",
+    "./package.json": "./package.json",
+    "./locale/*.json": "./locale/*.json"
+  },
+  "scripts": {
+    "build": "bun run build.ts"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2",
+    "@deepseek-ai/cordis-plugin-loader": "~1.0.6-alpha.2",
+    "@deepseek-ai/dsh-app-boot": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-plugin-manager": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-plugin-market-index": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-settings": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-timeout": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-tools": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-typert-protocol": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-util-values": "0.2.1-alpha.4",
+    "@deepseek-ai/schemastery": "~3.18.5-alpha.2",
+    "minisearch": "^7.2.0",
+    "semver": "^7.8.5",
+    "zod": "^4.4.3"
+  },
+  "devDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2",
+    "@deepseek-ai/dsh-app-boot": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-plugin-market-index": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-timeout": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-typert-protocol": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-util-values": "0.2.1-alpha.4",
+    "@deepseek-ai/schemastery": "~3.18.5-alpha.2",
+    "minisearch": "^7.2.0",
+    "semver": "^7.8.5",
+    "zod": "^4.4.3",
+    "@deepseek-ai/dsh-tools": "0.2.1-alpha.4"
+  },
+  "gbh": {
+    "peers": [
+      "@deepseek-ai/cordis",
+      "@deepseek-ai/cordis-plugin-loader",
+      "@deepseek-ai/dsh-app-boot",
+      "@deepseek-ai/dsh-plugin-manager",
+      "@deepseek-ai/dsh-plugin-market-index",
+      "@deepseek-ai/dsh-settings",
+      "@deepseek-ai/dsh-timeout",
+      "@deepseek-ai/dsh-typert-protocol",
+      "@deepseek-ai/dsh-util-values",
+      "@deepseek-ai/schemastery",
+      "minisearch",
+      "semver",
+      "zod"
+    ],
+    "tests": [
+      "tests/host/plugin-market-tools.test.ts",
+      "tests/host/plugin-market-typert.test.ts",
+      "tests/host/plugin-market-worker.test.ts",
+      "tests/host/plugin-market.test.ts",
+      "tests/host/plugin-market-nested.test.ts"
+    ],
+    "draft": "slice worker + slice service + slice tools + HAI manifest typert GENERATED ĐÃ port (src/typert-host.ts ← lib/typert.host.js 407 dòng · src/typert-remote-client.ts ← lib/typert.remote-client.js 259 dòng); exports có './typert' + './remote' đúng stock. KHÔNG khai gbh.row: top-level plugin-market dùng insertDisabled mirror ctx.get('profileContext') === undefined, nhưng 3 row lồng tool-plugin-market KHÔNG thay được bằng gbh.row ⇒ nếu mount, preset agent vẫn trỏ bundle stock cho tool ⇒ cần quyết định riêng của Lead. | 19/10/2026: ĐÃ có test A/B cho phần ROW LỒNG (tests/host/plugin-market-nested.test.ts, 14 ca: id/name/subpath /tools/disabled của standard·ptc·cordis so patch preset kernel) — vẫn CHƯA khai gbh.nested, chờ Lead nghiệm thu.",
+    "nested": {
+      "kind": "preset",
+      "pluginId": "tool-plugin-market",
+      "stockId": "@deepseek-ai/dsh-plugin-market/tools",
+      "presets": [
+        "preset-standard",
+        "preset-ptc",
+        "preset-cordis"
+      ],
+      "note": "Chỉ khai nested cho `tool-plugin-market` (subpath ./tools của gói này). `tool-plugin-manager` thuộc plugin-manager — chủ gói đó bổ sung."
+    },
+    "row": {
+      "id": "plugin-market",
+      "stockId": "@deepseek-ai/dsh-plugin-market",
+      "moduleIds": [
+        "@galaxy-blackhole/gbh-plugin-market"
+      ],
+      "disabled": true,
+      "tests": [
+        "tests/host/plugin-market.test.ts"
+      ],
+      "insertDisabled": {
+        "js": "!ctx.get('profileContext')"
+      }
+    },
+    "provenance": {
+      "stock": "@deepseek-ai/dsh-plugin-market",
+      "version": "0.2.1-alpha.4",
+      "sha": "be12ca82401349d3953b57998c4acfc829583268ac78031eb914531b1952bf4c"
+    }
+  },
+  "description": "Configured plugin market indexes for the Web Discover page and the plugin_market agent tool",
+  "types": "src/index.ts",
+  "dependencies": {}
+}

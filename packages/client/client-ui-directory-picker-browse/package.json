@@ -1,0 +1,51 @@
+{
+  "name": "@galaxy-blackhole/gbh-client-ui-directory-picker-browse",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "type": "module",
+  "main": "lib/index.js",
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./client": {
+      "types": "./lib/types/client/index.d.ts",
+      "default": "./lib/client.js"
+    },
+    "./src/*": "./src/*",
+    "./package.json": "./package.json",
+    "./locale/*.json": "./locale/*.json"
+  },
+  "dsh": {
+    "client": {
+      "inject": [
+        "@galaxy-blackhole/gbh-api-remotes",
+        "@galaxy-blackhole/gbh-client-ui-renderer",
+        "@galaxy-blackhole/gbh-client-ui-workspace",
+        "@galaxy-blackhole/gbh-client-locale"
+      ],
+      "platform": "web"
+    }
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2"
+  },
+  "gbh": {
+    "draft": "Port 1:1 `@deepseek-ai/dsh-client-ui-directory-picker-browse` — gói THƯ VIỆN (web-app khai ở dependencies), KHÔNG có row trong dump oracle. BỘ BA: dsh.client khớp tuyệt đối + exports['./client'] + 2 Bun.build + MỘT-ID. LƯU Ý: client.js gốc có 3 lần id stock nhưng CHỈ dòng 2 (loader) là id module; 2 lần còn lại là DỮ LIỆU (CSS module tagId + dataset.plugin) — giữ nguyên.",
+    "tests": [
+      "tests/client/client-ui-directory-picker-browse.test.ts"
+    ],
+    "peers": [
+      "@deepseek-ai/cordis"
+    ],
+    "provenance": {
+      "stock": "@deepseek-ai/dsh-client-ui-directory-picker-browse",
+      "version": "0.2.1-alpha.4",
+      "sha": "55af354b2c4ace0c2e676264cd56c24b7d5b9da005e40269a1c0a1f1bb76fdea",
+      "note": "Bản port đã có từ task-136 (tm-client-ui-a) — KHÔNG port lại; chỉ khai provenance để matrix nhận."
+    }
+  },
+  "description": "In-app directory browsing surface: the workspace directory-flow owner rendering the host's listing and creation primitives",
+  "types": "lib/types/index.d.ts"
+}

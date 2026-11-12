@@ -1,0 +1,51 @@
+{
+  "name": "@galaxy-blackhole/gbh-terminal",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "type": "module",
+  "main": "lib/index.js",
+  "description": "Persistent PTY session seam for the Galaxy Blackhole — owner-scoped ids, backend registry, interactive sends, reads, signals, and awaited cleanup",
+  "scripts": {
+    "build": "bun run build.ts"
+  },
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./locale/*.json": "./locale/*.json",
+    "./package.json": "./package.json"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/dsh-agent": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-brand": "0.2.1-alpha.4",
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2"
+  },
+  "license": "MIT",
+  "gbh": {
+    "draft": "KHÔNG khai gbh.row — row là ROW LỒNG trong các GROUP `persistent-shell` (id `pty`) và `optional-persistent-terminals` (id `optional-terminal-registry`) của preset (luật §4d dòng 3). Gói MỘT MẶT: bundle gốc chỉ có lib/index.js (360 dòng, MỘT khối), không lib/client.js, không dsh.client. Muốn mount: overlay patch tầng NHÓM (gbh.nested). Gói đã port xong: lib/index.js 13.614 byte = bundle gốc, delta 0.",
+    "peers": [
+      "@deepseek-ai/cordis",
+      "@deepseek-ai/dsh-agent",
+      "@deepseek-ai/dsh-brand"
+    ],
+    "tests": [
+      "tests/host/terminal.test.ts"
+    ],
+    "reference": "apps/host/node_modules/@deepseek-ai/dsh-terminal (CHỈ ĐỌC — nguồn đối chiếu byte)",
+    "nested": {
+      "kind": "group",
+      "pluginId": "pty",
+      "stockId": "@deepseek-ai/dsh-terminal",
+      "presets": [
+        "persistent-shell",
+        "optional-persistent-terminals"
+      ]
+    },
+    "provenance": {
+      "stock": "@deepseek-ai/dsh-terminal",
+      "version": "0.2.1-alpha.4",
+      "sha": "d89bd6e304d0904dc3cd6c9fd50085be2e5eeaf8f1444f18a4c669b6e764ecb4"
+    }
+  }
+}

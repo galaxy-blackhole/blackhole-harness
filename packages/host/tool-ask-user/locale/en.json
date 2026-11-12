@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "Ask user",
+    "description": "The ask-user tool: lets the agent ask the user a question mid-turn, registered through the tools service"
+  }
+}

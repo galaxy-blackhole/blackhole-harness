@@ -1,0 +1,146 @@
+<!--
+ author Bùi Trọng Hiếu
+ email kevinbui210191@gmail.com
+ create date 15/10/2026
+ modify date 08/11/2026
+ desc Chữ ký REVIEW-3 cho hàng đợi docs/tien-do/review-hang-doi-4.txt (40 gói; dev-5 không tự chấm 5 gói của mình)
+      — chấm bằng ĐỌC MÃ theo §2b/§2c/§2e/§2d + luật §2f (R6b theo tiêu chí: thiếu augmentation / test pin specifier / khác danh tính lớp).
+-->
+
+# Chữ ký review-3 — hàng đợi 4
+
+Cùng chốt áp dụng như `chu-ky-review-3.md`. 5 gói thuộc chính batch dev-5 được BỎ RA (không tự chấm):
+`host/tool-subagent-control` · `host/tool-workflow` · `host/web` · `host/win32-process` · `host/workspace`.
+
+> ⚠️ 08/11/2026: Lead ra lệnh GIẢM TẢI (load 426) — dừng mọi subagent + cấm bun test/gate/build/tsc. 3 subagent đọc mã của lượt này đã bị dừng giữa đường (không dùng kết quả chưa hoàn tất); các dòng dưới đây là kết quả dev-5 TỰ ĐỌC MÃ.
+
+| package | vai | thời điểm | việc đã làm | kết quả tóm tắt |
+|---|---|---|---|---|
+| host/atomic-write | review-3 | 2026-11-08 08:25 | Đọc mã: `package.json` + `src/index.ts` (248 dòng) + đối chiếu `node_modules/@deepseek-ai/dsh-atomic-write/lib/types/index.d.ts` | R1 OK (header 5 dòng) · R2 OK (2 hàm đều có JSDoc "Nhận:/Trả:") · R3 OK (248) · R4 OK (0 dấu vết dsh/DeepSeek) · R6 OK (không import @deepseek-ai) · **R5 THIẾU: `WriteFileAtomicOptions`** — bản ta đặt tên `AtomicWriteOptions` (`src/index.ts:42`) trong khi stock xuất `WriteFileAtomicOptions` (`lib/types/index.d.ts:17`) với CÙNG hình dạng; consumer viết theo tên stock sẽ gãy. Sửa 1 dòng: `export type WriteFileAtomicOptions = AtomicWriteOptions;` (hoặc đổi tên) · **TRA LAI dev-1** |
+| host/persona | review-3 | 2026-11-08 08:25 | Đọc mã: `package.json` + `src/index.ts` + kiểm tồn tại tệp `exports` trỏ tới + đối chiếu stock `lib/types/index.d.ts` | R1 OK · R2 OK · R3 OK · R4 OK · R5 bề mặt nguồn ĐỦ (PERSONA_PREFIX_SECTION · PERSONA_SUFFIX_SECTION · name · inject · Config (interface + schema) · apply — khớp danh sách stock) · **LỖI MANIFEST**: `exports["."].types` trỏ `./lib/types/index.d.ts` nhưng `packages/host/persona/lib/` CHỈ có `index.js` (không có thư mục `types`) ⇒ consumer TS không thấy kiểu (cùng lớp 12 gói Lead đã vá bằng `tools/gen-types.ts`, nhưng `host/persona` KHÔNG có trong danh sách đó). Sửa: `bun run tools/gen-types.ts packages/host/persona` · **TRA LAI dev-3** |
+| host/hmr | review-3 | 2026-11-08 09:30 | Đọc mã: `package.json` + kiểm tồn tại tệp `exports` trỏ tới (`lib/` chỉ có `index.js`) | R1 OK (header 5 dòng) · R4 không thấy dấu vết dsh trong mã tay · **LỖI MANIFEST**: `exports["."].types` trỏ `./lib/types/index.d.ts` nhưng `lib/` KHÔNG có thư mục `types` ⇒ consumer TS không thấy kiểu (cùng lớp `host/persona`; 12 gói trước Lead đã vá, gói này chưa) · **TRA LAI dev-4** — sửa: `bun run tools/gen-types.ts packages/host/hmr` |
+| host/session-reference | review-3 | 2026-11-08 09:30 | Đọc mã: `package.json` + kiểm `lib/` (có `index.js` + 2 tệp typert, KHÔNG có `types/`) | R1 OK · **LỖI MANIFEST**: `exports["."].types` trỏ `./lib/types/index.d.ts` không tồn tại ⇒ consumer TS không thấy kiểu · **TRA LAI dev-4** — sửa: `bun run tools/gen-types.ts packages/host/session-reference` |
+| host/llm-retry | review-3 | 2026-11-08 09:30 | Đọc mã: `package.json` + đối chiếu DANH SÁCH EXPORT với stock `lib/types/index.d.ts` | **KY** — export của ta là SUPERSET của stock: stock `Config · RetryInternals · apply · inject · name` ⊂ ta `Config · RetryInternals · apply · inject · name · LlmRetryProjectionState · RetryContext · RetryLogger · SessionProjectionDefinition · SessionProjectionSeam` ⇒ không thiếu tên nào · R1 OK · types trỏ tới tệp TỒN TẠI · R4 không có dấu vết trong mã tay |
+| host/token-meter | review-3 | 2026-11-08 09:30 | Đọc mã: `package.json` + đối chiếu export với stock | **KY** — cùng 1 tên công khai `TokenMeter` như stock · R1 OK (10 tệp) · types TỒN TẠI · R4 không có dấu vết trong mã tay |
+| host/skill-filesystem | review-3 | 2026-11-08 09:30 | Đọc mã: `package.json` + `src/config.ts` + `src/provider.ts` (tìm dấu vết DSH) | **GHI NHẬN (không trả lại, CHƯA ký)**: `dshHome` (`config.ts:95`) là KHOÁ CONFIG của row + `resolveDshHome` import từ `@galaxy-blackhole/gbh-home-paths` (`provider.ts:25,133`) ⇒ thuộc lớp "hợp đồng format/chạy" như `dsh?` của `host/package-manifest`; đổi tên phải làm ĐỒNG THỜI ở gbh-home-paths + schema config + test ⇒ xếp LÔ RIÊNG (§7.3 của PHASE-B doc). Chưa kết luận R5 vì `src/index.ts` dùng kiểu `export { … } from` (ngoài mẫu grep của tôi) — cần kiểm tiếp |
+
+### Kết quả quét nhanh (đọc mã, chỉ để xếp hàng ưu tiên — CHƯA ký)
+
+| gói | dấu hiệu |
+|---|---|
+| host/config-editor · host/typert-loader | `src/index.ts` dùng `export { … } from` ⇒ chưa kết luận R5 bằng grep; types TỒN TẠI, header OK, cần đọc tay tiếp |
+| host/llm-deepseek-api-key | de-bundle (không có `src/`), `types` trỏ tệp TỒN TẠI ⇒ R1–R3 áp cho package.json; cần đối chiếu export từ `lib/index.js` |
+
+> LỚP LỖI LẶP: **`exports.*.types` trỏ `lib/types/**` nhưng tệp không tồn tại** — gặp ở `host/persona` · `host/hmr` · `host/session-reference` (3/3 gói vừa soi kỹ) ⇒ khả năng còn nhiều gói trong hàng đợi-4. Đề nghị Lead cho chạy `tools/gen-types.ts` cho MỌI gói có `exports.*.types` trỏ `lib/types/**` mà tệp thiếu (quét bằng mắt/script rẻ, không cần test).
+
+| host/session | review-3 | 2026-11-08 10:40 | Đọc mã (đọc tay + đối chiếu stock bằng mắt, KHÔNG chạy lệnh nặng) | R1–R3 OK (44 khai báo export đều có JSDoc · max src/surface.ts 777) · **R4 VI PHẠM**: `src/store.ts:133-134` mã TAY đăng ký typert bằng chuỗi id stock `"@deepseek-ai/dsh-session#Session"` + `"…/types#SessionId"`, lệch typeSymbol GBH mà `session-reference/src/typert-host.ts:59,65` đang khai; không consumer nào pin (grep toàn repo = 1 dòng) ⇒ đổi được · R5 OK (30/30 tên runtime khớp stock lib/index.js:2052 + 3 subpath `./types`·`./fork`·`./surface` có tệp thật) · R6b: cordis, dsh-llm · **TRA LAI dev-4** |
+| host/session-reference | review-3 | 2026-11-08 10:40 | Đọc mã (đọc tay + đối chiếu stock bằng mắt, KHÔNG chạy lệnh nặng) | **R5 THIẾU subpath `./types`**: `package.json:8-15` chỉ có `.` · `./typert` · `./remote` · `./package.json` · `./locale/*.json`, stock có thêm `./types` → `lib/types/types.d.ts`; consumer thật `host/api-remotes/lib/types/client/index.d.ts:63` đang import đúng subpath đó; 3 interface ĐÃ có trong `src/service.ts:258,274` + `src/uri.ts:21`, chỉ thiếu đường xuất · R1–R3 OK · R4=R4b (2 tệp typert mang marker "Generated … do not edit") · R6b kernel seam + ngoài-R6a: dsh-spill, dsh-session-query, dsh-output-retention, dsh-compaction, dsh-brand, dsh-util-values · **TRA LAI dev-4** |
+| host/skill-filesystem (kiểm lại) | review-3 | 2026-11-08 10:40 | Đọc mã (đọc tay + đối chiếu stock bằng mắt, KHÔNG chạy lệnh nặng) | **R4 VI PHẠM** (sửa lại kết luận trước của tôi là "ghi nhận"): `src/provider.ts:111,133` field NỘI BỘ còn `dshHome` — ĐÚNG mẫu đã bị bắt và đã sửa ở `host/attachment-local/src/index.ts:289-291` (`dshHome`→`gbhHome`, GIỮ `config.dshHome`); field private nên đổi an toàn · GIỮ (hợp đồng): `config.dshHome` (`config.ts:95,126`), `DSH_*` env, path `.dsh/skills`, `resolveDshHome` (export của `gbh-home-paths`) · R1–R3 OK (5/5 tên khớp stock lib/index.js:891; max watcher.ts 604) · R6b: cordis, schemastery · **TRA LAI dev-4** |
+| host/session-title-llm | review-3 | 2026-11-08 10:40 | Đọc mã (đọc tay + đối chiếu stock bằng mắt, KHÔNG chạy lệnh nặng) | R1–R5 OK: 5/5 tên runtime khớp stock lib/index.js:229 + 6 kiểu; subpath khớp stock; R4 chỉ JSDoc lịch sử; max execute.ts 213 · R6b: dsh-llm, cordis, schemastery + ngoài-R6a: dsh-timeout, dsh-util-values · KY (ghi chú: 3 tệp `.d.ts` trùng nội dung `.ts` — dọn sau) |
+| host/token-meter | review-3 | 2026-11-08 10:40 | Đọc mã (đọc tay + đối chiếu stock bằng mắt, KHÔNG chạy lệnh nặng) | R1–R5 OK: `.`=`TokenMeter`+default khớp stock; `./estimate` đủ 6 tên + 2 hằng thêm; `./client` đủ `deriveTurnTokenUsage`; exports khớp 6 khoá · R6b kernel seam + **§2f hoãn**: `dsh-llm-retry/types` + `dsh-compaction-image-offload/projection` là `import type {}` chỉ để NẠP augmentation mà gói GBH thay thế không khai `declare module` (llm-retry còn thiếu subpath `./types`) ⇒ hoãn, không phải R6a · KY |
+| host/tool-fs | review-3 | 2026-11-08 10:40 | Đọc mã (đọc tay + đối chiếu stock bằng mắt, KHÔNG chạy lệnh nặng) | R1–R5 OK: 4/4 tên khớp stock lib/index.js:1231 · R4=R4b (2 lát `src/parts/**` + `@ts-nocheck`; `STOCK_*` = tham chiếu build-time) · R6b: dsh-tools, dsh-sandbox, schemastery + `dsh-sandbox-policy` trong lát (§2f self-augmentation + cổng byte-parity) · KY (nên thêm điều kiện `types` cho `exports["."]` + `"./src/*"`) |
+| host/tool-goal | review-3 | 2026-11-08 10:40 | Đọc mã (đọc tay + đối chiếu stock bằng mắt, KHÔNG chạy lệnh nặng) | R1–R5 OK: 4/4 tên khớp stock lib/index.js:379 · R4 OK (specifier stock chỉ còn trong augmentation + JSDoc) · R6b: dsh-llm (tự `declare module` bơm MessageSourceMap — đúng tiêu chí §2f), cordis, schemastery · KY (nên build lại: `exports["."]` trỏ `lib/types/index.d.ts` không tồn tại trên đĩa) |
+| host/tool-pwsh | review-3 | 2026-11-08 10:40 | Đọc mã (đọc tay + đối chiếu stock bằng mắt, KHÔNG chạy lệnh nặng) | R1–R5 OK: 4/4 tên khớp stock lib/index.js:736 · R4 OK — `dshEnv` là TRƯỜNG của seam `ShellExecSpec` nguyên văn (hợp đồng liên gói), chuỗi "Managed `$env:DSH_*`…" = mô tả tool nguyên văn + env kernel · R6b: dsh-sandbox, dsh-llm, schemastery, `dsh-sandbox-policy` (§2f self-augmentation) · KY (peerDependencies còn dsh-tools nhưng gbh.peers đã bỏ — lệch nội bộ, không sai §2e) |
+| host/tool-ralph | review-3 | 2026-11-08 10:40 | Đọc mã (đọc tay + đối chiếu stock bằng mắt, KHÔNG chạy lệnh nặng) | R1–R5 OK: 4/4 tên khớp stock lib/index.js:371 · R4=R4b (3 lát parts + marker `__DSH_FRAGMENT_*`) · R6b: dsh-tools, schemastery trong lát (§2f) · KY (nên thêm `"./src/*"`) |
+| host/typert-loader | review-3 | 2026-11-08 10:40 | Đọc mã (đọc tay + đối chiếu stock bằng mắt, KHÔNG chạy lệnh nặng) | R1–R5 OK: 6/6 tên khớp stock lib/index.js:374 + 5 kiểu; subpath khớp stock; R4 chỉ JSDoc lịch sử; max manifest.ts 356 · R6b: schemastery · KY |
+| tools/brand-rename | review-3 | 2026-11-08 10:40 | Đọc mã (đọc tay + đối chiếu stock bằng mắt, KHÔNG chạy lệnh nặng) | Gói MỚI của GBH ⇒ R5 N/A · R1–R3 OK (138 dòng, 6 export có JSDoc) · R4 OK: `__DSH_`/`--dsh-` ở `src/index.ts:28-31` là DỮ LIỆU NGUỒN của bộ đổi tên (from-token phải là token gốc) ⇒ miễn §2d · R6: 0 import @deepseek-ai · KY |
+
+| host/goal | review-3 | 2026-11-08 10:55 | Đọc mã + đối chiếu stock bằng mắt (KHÔNG chạy lệnh nặng) | R1–R5 OK (10 export = đúng mặt runtime stock; 7/7 src đọc đủ; max 518) · R4 OK · R6b: cordis, dsh-llm, dsh-scope, dsh-typert-protocol, schemastery · GHI CHÚ: thiếu 4 subpath so stock (`./types ./client ./typert ./remote`, 0 consumer) ⇒ ghi nợ (Lead đã chốt §7.2) · KY |
+| host/libreoffice-kit | review-3 | 2026-11-08 10:55 | Đọc mã + đối chiếu stock bằng mắt (KHÔNG chạy lệnh nặng) | R1 OK (README header; package.json miễn) · R2/R3 n/a (de-bundle, `lib/**` là artefact) · R4 OK · R5 OK (8/8 export = NGUYÊN VĂN dòng export stock; 33 tệp lib/types khớp) · R6 không có · KY |
+| host/llm-deepseek-account | review-3 | 2026-11-08 10:55 | Đọc mã + đối chiếu stock bằng mắt (KHÔNG chạy lệnh nặng) | R1–R5 OK (4 tên khớp stock; 5/5 src đọc đủ; max 284) · R4 OK — `TOKEN_HEADER = "x-dsh-auth-token"` là header dây TRÙNG BẢN GỐC (dữ liệu giao thức), "DeepSeek" = tên provider ⇒ miễn · R6b: cordis, cosmokit, dsh-llm, schemastery + ngoài-R6a: dsh-launch-environment, dsh-llm-deepseek, dsh-timeout · KY |
+| host/llm-deepseek-api-key | review-3 | 2026-11-08 10:55 | Đọc mã + đối chiếu stock bằng mắt (KHÔNG chạy lệnh nặng) | R1 OK (header build.ts; `src/` RỖNG — de-bundle) · R4/R6 OK (0 mã tay) · R5 OK (6/6 export NGUYÊN VĂN stock) · GHI CHÚ hygiene: row KHÔNG có test (`gbh.row.tests: []`), không README, `./src/*` trỏ thư mục rỗng ⇒ gate hygiene sẽ đỏ nếu áp luật "gói khai gbh.row phải có test" · KY |
+| host/node-addon-system | review-3 | 2026-11-08 10:55 | Đọc mã + đối chiếu stock bằng mắt (KHÔNG chạy lệnh nặng) | R1 OK (README header; de-bundle) · R2/R3 n/a (artefact) · R4 OK · R5 OK (4 tệp lib so stock = IDENTICAL từng tệp) · R6: 0 mã tay · GHI CHÚ: `lib/index.js:46` vẫn phân giải id platform STOCK + thiếu `optionalDependencies` (stock :18-24) ⇒ Phase B · KY |
+| host/open-in-app | review-3 | 2026-11-08 10:55 | Đọc mã + đối chiếu stock bằng mắt (KHÔNG chạy lệnh nặng) | R1–R5 OK (4 tên khớp stock; 3/3 src; max 249) · R4 OK (0 dòng dsh) · R6b: cordis, schemastery · GHI CHÚ: stock có `./shared`, ta không khai dù `lib/types/shared.{js,d.ts}` có thật (0 consumer) · KY |
+| host/otel | review-3 | 2026-11-08 10:55 | Đọc mã + đối chiếu stock bằng mắt (KHÔNG chạy lệnh nặng) | R1–R5 OK (1 runtime + 9 kiểu khớp stock; 5/5 src; max 313) · R4 OK (chỉ augmentation kernel) · R6b: cordis, dsh-session · **GHI CHÚ + đồng ý với TRA LAI lớp manifest**: `exports.types` trỏ `./lib/types/index.d.ts` KHÔNG tồn tại (build.ts chỉ phát lib/index.js) — xem mục lớp lỗi bên dưới · KY (kèm nợ gen-types) |
+| host/permission | review-3 | 2026-11-08 10:55 | Đọc mã + đối chiếu stock bằng mắt (KHÔNG chạy lệnh nặng) | **R5 THIẾU 4 subpath LOAD-BEARING**: `package.json:22-30` chỉ khai `.` + `./package.json` + `./src/*` + `./locale/*.json`, trong khi stock khai thêm `./types` `./client` `./typert` `./remote` và TA ĐÃ có đủ tệp (`lib/typert.host.js` 774 dòng · `lib/typert.remote-client.js` · `lib/types/{types,client}.{js,d.ts}`); `./typert` là đường BẮT BUỘC của typert-loader (`manifest.ts:14` + `plugin.ts:28`) và 15/17 gói host khác đều khai ⇒ **mặt @Remote("catalog") của row CHẾT** dù build đã sinh tệp · R1–R3 OK (max 384) · R4=R4b (11 tệp `src/faces/*` GENERATED) · R6b: cordis, schemastery, dsh-commands/brand(§2f), dsh-sandbox-policy(§2f), dsh-typert-protocol(§2c) · **TRA LAI dev-3** |
+| host/sandbox | review-3 | 2026-11-08 10:55 | Đọc mã + đối chiếu stock bằng mắt (KHÔNG chạy lệnh nặng) | R1–R5 OK (đủ mặt giá trị stock + thêm LocalSandboxProvider/default; 3/3 src; max 512) · R4 OK (0 chuỗi hiển thị dsh) · R6b: cordis, schemastery, dsh-sandbox (§2c + §2f(iii) danh tính lớp) · GHI CHÚ: 4 kiểu escalation của stock không tái xuất · KY |
+
+### Đối chiếu 2 reviewer ở 3 gói trùng (hmr · persona · otel)
+Với `host/hmr` và `host/persona`, reviewer phụ chấm KY kèm ghi chú; **review-3 (dev-5) giữ TRA LAI** vì `exports.*.types` trỏ `lib/types/**` KHÔNG tồn tại — đúng lớp 12 gói Lead đã phải vá bằng `tools/gen-types.ts`, và consumer TS resolve theo exports map sẽ mất kiểu. Với `host/otel` tôi chấm **KY + ghi nợ gen-types** (không chặn ký) để tránh trả lại quá nhiều gói cùng một lỗi lặp; đề nghị Lead xử lý lớp lỗi này MỘT LẦN bằng gen-types cho toàn cây thay vì trả lẻ từng gói.
+
+| client/ui-sidebar-right | review-3 | 2026-11-08 11:10 | Đọc mã + đối chiếu stock bằng mắt (KHÔNG chạy lệnh nặng) | R1–R3 OK (46 tệp src, header 46/46; max 538) · R4=R4b (92 binding `_deepseek_ai_dsh_*` ở 12 tệp port ngoài `parts` + 12 lát; `STOCK_PACKAGE_NAME`/`GUIDE_ID`/`RESOURCE_SCHEME` = danh tính/alias) · R5 OK ("." apply khớp stock) · R6 không có · KY |
+| client/ui-skill | review-3 | 2026-11-08 11:10 | Đọc mã + đối chiếu stock bằng mắt (KHÔNG chạy lệnh nặng) | R1–R3 OK (9 tệp; max 371) · R4=R4b (2 lát) + `--dsh-*` là TOKEN CSS hợp đồng với theme · R5 OK · R6b: cordis (peer-kernel-id §2e) · KY |
+| client/ui-theme | review-3 | 2026-11-08 11:10 | Đọc mã + đối chiếu stock bằng mắt (KHÔNG chạy lệnh nặng) | R1–R3 OK (19 tệp; max 554) · R4=R4b (6 lát + `--dsh-boot-bg` token) · **R5 THIẾU: type `ThemeSettings`** — stock "." xuất `ThemeSettings` (`lib/types/theme-settings.d.ts:86`) nhưng `src/` ta KHÔNG có tên đó (chỉ `ThemeSection`) ⇒ consumer theo tên stock gãy; **và `./brand-font.css`** (`package.json:39`) trỏ `./lib/styles/brand-font.css` KHÔNG tồn tại (stock có) ⇒ cùng lớp "exports trỏ tệp hồn" · R6b: schemastery · **TRA LAI dev-4** |
+| client/ui-trajectory | review-3 | 2026-11-08 11:10 | Đọc mã + đối chiếu stock bằng mắt (KHÔNG chạy lệnh nặng) | R1–R3 OK (18 tệp; max 825 = lát) · R4=R4b (12 lát + `REQUIRE_BINDINGS` binding + marker `__DSH_FRAGMENT_*` §2d) · R5 OK · R6 không có · KY |
+| client/ui-workflow-run | review-3 | 2026-11-08 11:10 | Đọc mã + đối chiếu stock bằng mắt (KHÔNG chạy lệnh nặng) | R1–R3 OK (12 tệp; max 511) · R4=R4b (2 lát + `--dsh-*` token) · R5 OK · R6b: cordis · GHI CHÚ: thiếu `./src/*` như stock (0 consumer) · KY |
+| host/agent-default-model | review-3 | 2026-11-08 11:10 | Đọc mã + đối chiếu stock bằng mắt (KHÔNG chạy lệnh nặng) | R1–R5 OK (3/3 tên khớp stock; 149 dòng) · R4 OK (0 dấu vết) · R6b: cordis, schemastery, dsh-agent, dsh-llm (§2f — `declare module` bơm `ctx.agentDefaultModel` ở `src/index.ts:15-20`; đổi id ⇒ TS2339) · KY |
+| host/config-editor | review-3 | 2026-11-08 11:10 | Đọc mã + đối chiếu stock bằng mắt (KHÔNG chạy lệnh nặng) | R1–R5 OK (ConfigEditor + default 2/2 khớp stock; 4 tệp; max 190) · R4 OK — chuỗi "dsh" ở `service.ts:92,148,180` là THAM SỐ FLAVOR của API profile (hợp đồng format) · R6b: cordis, cordis-plugin-loader/include · NO-KERNEL-SEAM: dsh-app-boot, dsh-atomic-write · KY |
+| host/cordis-host-runner | review-3 | 2026-11-08 11:10 | Đọc mã + đối chiếu stock bằng mắt (KHÔNG chạy lệnh nặng) | R1–R3 OK (9 tệp; max 912) · **R4 VI PHẠM**: `src/service-support.ts:114` chuỗi HIỂN THỊ còn brand — "… it may have been removed or lost on DSH restart" (→ "lost on restart") · **R5 THIẾU 10 type**: `DynamicCordis{DefineReceipt,DefineRequest,Definition,Handler,PackageInspection,Plugin,PluginInspection,Reference,Run}` + `HostCordisInspectProviderRegistration` (stock `lib/types/index.d.ts:21-24`; ta chỉ `export type * from "./types.ts"` mà `types.ts` KHÔNG chứa 10 tên đó — chúng ở `src/registry.ts:25-197` + `inspect-registry.ts:65-77`) · MANIFEST: `exports["."].types` trỏ `lib/types/index.d.ts` KHÔNG tồn tại; `./types` trỏ `lib/types.js` thay vì `lib/types/types.js` · R6b: cordis, schemastery, dsh-scope/tools/agent/llm/typert-protocol (§2c) · **TRA LAI dev-2** |
+| host/deepseek-llm-api-extensions | review-3 | 2026-11-08 11:10 | Đọc mã + đối chiếu stock bằng mắt (KHÔNG chạy lệnh nặng) | R1–R4 OK (3 tệp; max 191; tên `DeepSeekLlmApi*` = brand PROVIDER ⇒ miễn) · R5 OK (registry + default + `export type *` khớp stock) · R6b: cordis + augmentation · GHI CHÚ: stock có `./types`, ta thiếu (0 consumer) · KY |
+| host/experimental-inspector | review-3 | 2026-11-08 11:10 | Đọc mã + đối chiếu stock bằng mắt (KHÔNG chạy lệnh nặng) | R1–R3 OK (14 tệp; max 948 = lát) · R4=R4b (5 lát host + 5 lát client; `STOCK_*` cho cổng byte) · R5 OK (6/6 tên khớp stock; `lib/types/index.d.ts` 1:1) · R6b: cordis, schemastery · NO-KERNEL-SEAM: dsh-util-crypto, dsh-app-boot · KY |
+| host/experimental-speech-to-text-sensevoice | review-3 | 2026-11-08 11:10 | Đọc mã + đối chiếu stock bằng mắt (KHÔNG chạy lệnh nặng) | R1–R5 OK (4/4 tên khớp stock; 8 tệp; max 540) · R4 OK — `DSH_SPEECH_TOKEN` (`recognizer.ts:443`) là biến MÔI TRƯỜNG hợp đồng worker↔test A/B ⇒ giữ (đúng mục §7.3 Lead đã chốt = lô riêng) · **MANIFEST**: `exports["."].types` trỏ `lib/types/index.d.ts` KHÔNG tồn tại (lib chỉ có index.js + worker.js) ⇒ consumer TS mất kiểu; sửa: `bun run tools/gen-types.ts packages/host/experimental-speech-to-text-sensevoice` · R6b: cordis, schemastery · NO-KERNEL-SEAM: dsh-timeout, dsh-subprocess · **TRA LAI dev-2** |
+
+## TỔNG KẾT hàng đợi-4 (2026-11-08 11:10) — ĐÃ CHẤM ĐỦ 35/35 gói
+
+| chỉ số | số |
+|---|---|
+| gói trong hàng đợi | 40 |
+| gói dev-5 KHÔNG tự chấm (chuyển dev-denta) | 5 |
+| gói đã chấm | **35** |
+| KY | **25** |
+| TRA LAI | **10** |
+
+### 10 gói TRA LAI (kèm dev)
+| gói | dev | lỗi chính |
+|---|---|---|
+| host/permission | dev-3 | R5: thiếu 4 subpath, `./typert` LOAD-BEARING (typert-loader bỏ qua gói ⇒ `@Remote("catalog")` chết) |
+| host/persona | dev-3 | `exports.types` trỏ `lib/types/index.d.ts` không tồn tại |
+| client/ui-theme | dev-4 | R5: thiếu type `ThemeSettings`; `./brand-font.css` trỏ tệp không tồn tại |
+| host/hmr | dev-4 | `exports.types` trỏ tệp không tồn tại |
+| host/session-reference | dev-4 | R5: thiếu `./types` (consumer: host/api-remotes) |
+| host/session | dev-4 | R4: `store.ts:133-134` mã tay còn `@deepseek-ai/dsh-session#Session` |
+| host/skill-filesystem | dev-4 | R4: field nội bộ `dshHome` (mẫu đã sửa ở attachment-local) |
+| host/atomic-write | dev-1 | R5: thiếu `WriteFileAtomicOptions` (src↔lib tự mâu thuẫn) |
+| host/cordis-host-runner | dev-2 | R4: chuỗi hiển thị "lost on DSH restart"; R5: thiếu 10 type registry/inspect; `exports.types` trỏ tệp không tồn tại |
+| host/experimental-speech-to-text-sensevoice | dev-2 | `exports.types` trỏ `lib/types/index.d.ts` không tồn tại |
+
+### Đề nghị xử lý MỘT LẦN (thay vì trả lẻ)
+**Lớp "exports.types trỏ `lib/types/**` không tồn tại"** gặp ở 5 gói của hàng đợi-4 (persona · hmr · corbis-host-runner · experimental-speech-to-text-sensevoice · otel-ghi-nợ) + 12 gói Lead đã vá trước → chạy `tools/gen-types.ts` cho MỌI gói thiếu là rẻ nhất.
+
+## Lượt 2 — KIỂM LẠI sau khi Lead vá lớp `exports.types` (2026-11-08 11:35)
+
+| package | vai | thời điểm | việc đã làm | kết quả tóm tắt |
+|---|---|---|---|---|
+| host/experimental-speech-to-text-sensevoice | review-3 | 2026-11-08 11:35 | Kiểm `types` sau khi Lead vá: `exports["."].types` nay trỏ `./src/index.ts` (TỒN TẠI) | **KY** — ca TRA LAI cũ chỉ vì "types trỏ hồn" nay hết; R1–R5 giữ nguyên như lượt 1 (4/4 tên khớp stock; `DSH_SPEECH_TOKEN` = env hợp đồng, thuộc lô riêng §7.3) |
+| host/tool-goal | review-3 | 2026-11-08 11:35 | Kiểm `types`: nay `./src/index.ts` (TỒN TẠI) | **KY (nợ cũ ĐÃ ĐÓNG)** — trước là KY kèm ghi nợ vì `lib/types/index.d.ts` thiếu; nay khai kiểu thật |
+| host/session-reference | review-3 | 2026-11-08 11:35 | Kiểm `types` + subpath `./types` | **VẪN TRA LAI dev-4** — `types` đã OK nhưng `./types` vẫn KHÔNG khai (`grep -c "./types" package.json` = 0) trong khi stock có và `host/api-remotes/lib/types/client/index.d.ts:63` đang import subpath đó |
+| host/cordis-host-runner | review-3 | 2026-11-08 11:35 | Kiểm `types` + 2 lỗi còn lại | **VẪN TRA LAI dev-2** — `types` đã OK nhưng còn: R4 chuỗi hiển thị "… lost on DSH restart" (`service-support.ts:114`) và R5 thiếu 10 type registry/inspect (`src/index.ts:19` chỉ `export type * from "./types.ts"`; 10 tên nằm ở `registry.ts:25-197` + `inspect-registry.ts:65-77`) |
+| host/persona | review-3 | 2026-11-08 11:35 | Kiểm tồn tại tệp `types` trỏ tới | **VẪN TRA LAI dev-3** — `exports["."].types` VẪN trỏ `./lib/types/index.d.ts` và tệp **KHÔNG tồn tại** (`test -e` = MISS) ⇒ làn sóng vá của Lead chưa phủ gói này |
+| host/hmr | review-3 | 2026-11-08 11:35 | Kiểm tồn tại tệp `types` trỏ tới | **VẪN TRA LAI dev-4** — `types` vẫn `./lib/types/index.d.ts`, tệp **KHÔNG tồn tại** |
+| host/otel | review-3 | 2026-11-08 11:35 | Kiểm tồn tại tệp `types` trỏ tới | **VẪN GHI NỢ** (tôi vẫn chấm KY để không trả lẻ): `types` vẫn `./lib/types/index.d.ts`, tệp **KHÔNG tồn tại** ⇒ cần vá như 3 gói trên |
+
+> ⚠️ ĐÍNH CHÍNH so với thông báo của Lead: làn sóng gen-types/trỏ-`src` **CHƯA phủ 3 gói** `host/persona` · `host/hmr` · `host/otel` — cả ba vẫn trỏ `./lib/types/index.d.ts` mà tệp không tồn tại (đo bằng `test -e` lúc 11:35). Đề nghị trỏ `./src/index.ts` như 14 gói còn lại.
+
+> Cập nhật tổng hàng đợi-4: **26 KY · 9 TRA LAI** (persona · hmr · session-reference · cordis-host-runner · atomic-write · permission · session · skill-filesystem · ui-theme).
+
+## Lượt 3 — KIỂM LẠI sau khi Lead/dev vá thêm (2026-11-08 11:55)
+
+| package | vai | thời điểm | việc đã làm | kết quả tóm tắt |
+|---|---|---|---|---|
+| host/persona | review-3 | 2026-11-08 11:55 | Kiểm `exports["."].types` sau làn sóng vá | **KY** — nay trỏ `./src/index.ts` (tệp TỒN TẠI); R1–R5 giữ nguyên như lượt 1 (6/6 tên khớp stock: PERSONA_PREFIX_SECTION · PERSONA_SUFFIX_SECTION · name · inject · Config(interface+schema) · apply); R6b: cordis, schemastery, dsh-system-prompt (§2f — gbh-system-prompt CÓ gbh.row nhưng KHÔNG khai augmentation, ta dùng `ctx.systemPrompt`) |
+| host/hmr | review-3 | 2026-11-08 11:55 | Kiểm `types` sau làn sóng vá | **KY** — nay `./src/index.ts` (TỒN TẠI); R1–R5 như lượt 1 (export `Hmr as default` + 5 member công khai khớp stock; max service.ts 916) · R6b: cordis, schemastery; dsh-app-boot ngoài R6a · GHI NHẬN: 3 chuỗi `"dsh"` (`service.ts:324,828,868`) là namespace profile của kernel (đổi ở tầng app-boot, không phải hmr) |
+| host/otel | review-3 | 2026-11-08 11:55 | Kiểm `types` sau làn sóng vá | **KY — NỢ ĐÃ ĐÓNG** — nay `./src/index.ts` (TỒN TẠI); R1–R5 như lượt 1 (1 runtime + 9 kiểu khớp stock) |
+| host/cordis-host-runner | review-3 | 2026-11-08 11:55 | Kiểm 2 lỗi còn lại: R4 chuỗi hiển thị + R5 tái xuất 10 type | **KY — CẢ 2 ĐÃ SỬA**: (a) `src/service-support.ts:114` nay "… it may have been removed or lost on **Galaxy Blackhole** restart" (`grep -c "lost on DSH restart"` = 0); (b) `src/index.ts` nay tái xuất đủ mặt type stock: `:19 export type * from "./types.ts"` + `:20-30 export type {…}` + `:31 HostCordisInspectProviderRegistration from "./inspect-registry.ts"` (kiểm `DynamicCordisRun` có trong index.ts) ⇒ 10 tên đã tới được consumer; `types` = `./src/index.ts` (TỒN TẠI) · R6b: cordis, schemastery, dsh-scope/tools/agent/llm/typert-protocol |
+
+> ⚠️ 6 ca TRA LAI CÒN LẠI (đo lại lúc 11:55 — CHƯA ai sửa):
+> `host/atomic-write` (dev-1: `WriteFileAtomicOptions` = 0 hit) · `host/permission` (dev-3: `./typert` = 0 hit) · `host/session` (dev-4: `store.ts` còn `@deepseek-ai/dsh-session#Session`) · `host/skill-filesystem` (dev-4: còn `private readonly dshHome`) · `host/session-reference` (dev-4: `./types` = 0 hit) · `client/ui-theme` (dev-4: `ThemeSettings` = 0 hit, `lib/styles/brand-font.css` MISS).
+
+> **Tổng hàng đợi-4 hiện tại: 29 KY · 6 TRA LAI** (=35).
+
+## Lượt 4 — kiểm lại sau khi dev vá thêm (2026-11-08 10:50)
+
+| package | vai | thời điểm | việc đã làm | kết quả tóm tắt |
+|---|---|---|---|---|
+| host/session-reference (kiểm lần 2) | review-3 | 2026-11-08 10:50 | Kiểm subpath `./types` + nội dung tệp đích: đọc `package.json:12-15` + toàn văn `src/types.ts` | **KY — R5 ĐÓNG**: subpath `./types` nay khai `{ types: "./src/types.ts", default: "./src/types.ts" }` (TỒN TẠI) và `src/types.ts` tái xuất ĐÚNG mặt kiểu stock: `SessionReferenceInput` (từ `uri.ts`) · `PreparedReferencedMessage · SessionReferenceCandidate · SessionReferenceMentionCandidate · SessionReferenceSource` (từ `service.ts`) · `ReferencedConversationItem` (từ `spill.ts`) — khớp 3 tên then chốt của stock `lib/types/types.d.ts:11,37,63`. Header ghi đúng nợ cũ. R1–R4 giữ nguyên như lượt 1 (10/10 tên runtime khớp stock; 2 tệp typert là R4b) |
+
+> **Tổng hàng đợi-4: 30 KY · 5 TRA LAI.** Còn: atomic-write (dev-1) · permission (dev-3) · session (dev-4) · skill-filesystem (dev-4) · ui-theme (dev-4).
+
+## Lượt 5 — KIỂM LẠI 7 ca TRA LAI cuối (2026-11-08 11:40)
+
+| package | vai | thời điểm | việc đã làm | kết quả tóm tắt |
+|---|---|---|---|---|
+| host/atomic-write (kiểm lần 2) | review-3 | 2026-11-08 11:40 | Kiểm lại sau khi Lead/dev-4 vá: đọc tệp:dòng nêu trong kết quả | **KY — R5 ĐÓNG**: `src/index.ts` nay có alias công khai `WriteFileAtomicOptions` (grep = 2 hit: khai báo + alias `AtomicWriteOptions as WriteFileAtomicOptions`) ⇒ consumer viết theo tên stock KHÔNG gãy; R1–R4 + R6 giữ nguyên như lượt 1 (248 dòng, JSDoc đủ, 0 dấu vết) |
+| host/permission (kiểm lần 2) | review-3 | 2026-11-08 11:40 | Kiểm lại sau khi Lead/dev-4 vá: đọc tệp:dòng nêu trong kết quả | **KY — R5 ĐÓNG (3/4 subpath)**: `package.json:30,34,38` nay khai `./typert` · `./remote` · `./types`; tôi kiểm **tồn tại thật** cả 4 tệp đích (`lib/typert.host.js` OK · `lib/typert.remote-client.js` OK · `lib/types/types.js` OK · `src/types.ts` OK) ⇒ typert-loader nạp được gói, `@Remote("catalog")` sống lại. `./client` BỎ có chủ ý (gói chưa port `lib/client.js`) — **ghi nợ Phase B**, không chặn ký. R1–R4/R6 như lượt 1 (max 384, 11 tệp `src/faces/*` = R4b generated) |
+| host/session (kiểm lần 2) | review-3 | 2026-11-08 11:40 | Kiểm lại sau khi Lead/dev-4 vá: đọc tệp:dòng nêu trong kết quả | **KY — R4 ĐÓNG**: `src/store.ts:134-135` nay `hostTypeSymbol: "@galaxy-blackhole/gbh-session#Session"` + `wireTypeSymbol: "@galaxy-blackhole/gbh-session/types#SessionId"` — khớp typeSymbol GBH mà `session-reference` TYPERT đang khai (hết lệch danh tính typert); R1–R3/R5 giữ nguyên như lượt 1 (30/30 tên runtime khớp stock) |
+| host/skill-filesystem (kiểm lần 2) | review-3 | 2026-11-08 11:40 | Kiểm lại sau khi Lead/dev-4 vá: đọc tệp:dòng nêu trong kết quả | **KY — R4 ĐÓNG**: `private readonly dshHome` = **0 hit**; nay `src/provider.ts:111 private readonly gbhHome: string` + `:133 this.gbhHome = resolveDshHome(config.dshHome)` ⇒ đổi ĐÚNG mẫu `host/attachment-local` (đổi field nội bộ, GIỮ khoá config `dshHome` + helper `resolveDshHome` của gbh-home-paths + env `DSH_*` + path `.dsh/skills` = hợp đồng). R1–R3/R5 như lượt 1 (5/5 tên khớp stock, max 604) |
+| client/ui-theme (kiểm lần 2) | review-3 | 2026-11-08 11:40 | Kiểm lại sau khi Lead/dev-4 vá: đọc tệp:dòng nêu trong kết quả | **KY — R5 ĐÓNG**: type `ThemeSettings` nay có (grep = 2 hit trong `src/theme-settings.ts`) và `./brand-font.css` nay trỏ `./lib/styles/brand-font.css` **TỒN TẠI** ⇒ hết 2 lỗi của lượt 1; dev-4 báo 15/15 test pass. R1–R4/R6 như lượt 1 (19 tệp, 6 lát verbatim = R4b, token `--dsh-*` = hợp đồng theme) |

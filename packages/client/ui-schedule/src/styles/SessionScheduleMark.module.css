@@ -1,0 +1,8 @@
+/**
+ * author Bùi Trọng Hiếu
+ * email kevinbui210191@gmail.com
+ * create date 15/10/2026
+ * modify date 18/10/2026
+ * desc CSS SessionScheduleMark cua row ui-schedule — NGUYEN VAN ban goc (tien to hash giu nguyen)
+ */
+.mBt53q_mark{width:16px;height:20px;color:var(--dsw-alias-label-tertiary);flex:none;justify-content:center;align-items:center;display:inline-flex}.mBt53q_tasks{flex-direction:column;gap:8px;display:flex}.mBt53q_task{align-items:flex-start;gap:8px;min-width:0;display:flex}.mBt53q_taskIcon{color:#cfd3d6;flex:none;align-items:center;height:16px;display:inline-flex}.mBt53q_taskBody{flex-direction:column;gap:2px;min-width:0;display:flex}.mBt53q_taskName{color:#fff;overflow-wrap:break-word;font-size:12px;line-height:16px}.mBt53q_taskTiming{color:#cfd3d6;font-size:12px;line-height:16px}.mBt53q_taskRelative{color:#adb2b8;overflow-wrap:anywhere}.mBt53q_omitted{color:#adb2b8;font-size:12px;line-height:16px}.mBt53q_visuallyHidden{clip:rect(0 0 0 0);white-space:nowrap;width:1px;height:1px;position:absolute;overflow:hidden}

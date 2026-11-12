@@ -1,0 +1,58 @@
+{
+  "name": "@galaxy-blackhole/gbh-commands",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "type": "module",
+  "main": "lib/index.js",
+  "description": "Bản viết lại của Galaxy Blackhole cho row commands của DSH (@deepseek-ai/dsh-commands): sổ đăng ký lệnh do plugin sở hữu, dùng chung cho mọi adapter UI tương tác (commands/list · commands/execute · vòng đời command/run–command/done).",
+  "scripts": {
+    "build": "bun run build.ts"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2",
+    "@deepseek-ai/dsh-scope": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-typert-protocol": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-attachment": "0.2.1-alpha.4"
+  },
+  "devDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2",
+    "@deepseek-ai/dsh-scope": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-typert-protocol": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-attachment": "0.2.1-alpha.4"
+  },
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "default": "./lib/index.js"
+    },
+    "./package.json": "./package.json",
+    "./src/*": "./src/*",
+    "./locale/*.json": "./locale/*.json",
+    "./brand": {
+      "types": "./src/brand.ts",
+      "default": "./lib/brand.js"
+    }
+  },
+  "gbh": {
+    "peers": [
+      "@deepseek-ai/cordis",
+      "@deepseek-ai/dsh-scope",
+      "@deepseek-ai/dsh-typert-protocol",
+      "@deepseek-ai/dsh-attachment"
+    ],
+    "tests": [
+      "tests/host/commands.test.ts"
+    ],
+    "row": {
+      "id": "commands",
+      "tests": [
+        "tests/host/commands.test.ts"
+      ]
+    },
+    "provenance": {
+      "stock": "@deepseek-ai/dsh-commands"
+    }
+  },
+  "license": "MIT",
+  "types": "src/index.ts"
+}

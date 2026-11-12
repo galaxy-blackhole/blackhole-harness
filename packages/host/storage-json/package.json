@@ -1,0 +1,50 @@
+{
+  "name": "@galaxy-blackhole/gbh-storage-json",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "type": "module",
+  "main": "lib/index.js",
+  "description": "Bản viết lại của Galaxy Blackhole cho row storage-json của DSH (@deepseek-ai/dsh-storage-json): backend KV lưu bằng tệp JSON — mỗi đơn vị một tài liệu người-đọc-được dưới gốc đã cấu hình (cả đơn vị trong MỘT tệp, hoặc một tài liệu cho mỗi bản ghi), công bố bằng ghi-đè nguyên tử; đăng ký làm backend `json` trên kho lưu trữ.",
+  "scripts": {
+    "build": "bun run build.ts"
+  },
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./package.json": "./package.json",
+    "./src/*": "./src/*",
+    "./locale/*.json": "./locale/*.json"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2",
+    "@deepseek-ai/schemastery": "~3.18.5-alpha.2"
+  },
+  "devDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2",
+    "@deepseek-ai/schemastery": "~3.18.5-alpha.2"
+  },
+  "license": "MIT",
+  "gbh": {
+    "peers": [
+      "@deepseek-ai/cordis",
+      "@deepseek-ai/schemastery"
+    ],
+    "row": {
+      "id": "storage-json",
+      "config": {
+        "root": {
+          "js": "dshHomePath('storages')"
+        }
+      },
+      "tests": [
+        "tests/host/storage-json.test.ts"
+      ]
+    },
+    "provenance": {
+      "stock": "@deepseek-ai/dsh-storage-json"
+    }
+  },
+  "types": "lib/types/index.d.ts"
+}

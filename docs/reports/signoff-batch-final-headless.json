@@ -1,0 +1,18 @@
+{
+  "dev": "tm-client-debundle",
+  "owner": "tm-client-debundle",
+  "evidence": [
+    "**BUNDLE PATCH — không row, không mount** (44 dòng `cordis.patch.yml`, `dsh.bundle.patch`); build 2 entry (`.` + `./startup`) + copy nguyên văn chunk `json-stream-BA-F3lfb.js`; exports mirror stock",
+    "**REVIEWER TỰ ĐO cmp 3 artifact với stock — BYTE-IDENTICAL cả 3**: `lib/index.js` **14.646 B** sha `5402e990dd` · `json-stream-BA-F3lfb.js` **10.055 B** sha `b6ede8da01` · `startup.js` **4.471 B** sha `66bb82dc44` (= stock từng byte)",
+    "provenance reviewer đọc trực tiếp: stock `@deepseek-ai/dsh-headless@0.2.1-alpha.4` · patchLines **44** · headerLines **6** · replacements **[]** · `stockSha256` = `bodySha256` = `f4d5f53f070089a7…` (thân === stock) · hostFiles index 387 / json-stream 280 / startup 93",
+    "reviewer tự chạy `tests/host/headless.test.ts` = **9 pass / 0 fail / 29 expect** (khớp số Lead)",
+    "app xác nhận khi ký: (3) **79 entry** · (5) **0** · (10) **367 file khớp repo** · entry gốc **0** — LANH",
+    "không mount nên không cần rollback; đây là gói cuối trong danh sách X"
+  ],
+  "packages": [
+    {
+      "dsh": "@deepseek-ai/dsh-headless",
+      "gbh": "gbh-headless"
+    }
+  ]
+}

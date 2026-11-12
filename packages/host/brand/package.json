@@ -1,0 +1,41 @@
+{
+  "name": "@galaxy-blackhole/gbh-brand",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "type": "module",
+  "main": "lib/index.js",
+  "description": "Stateless branded primitive types for the Galaxy Blackhole",
+  "scripts": {
+    "build": "bun run build.ts"
+  },
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "default": "./lib/index.js"
+    },
+    "./package.json": "./package.json",
+    "./src/*": "./src/*"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2"
+  },
+  "devDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2"
+  },
+  "license": "MIT",
+  "gbh": {
+    "draft": "19/10/2026 — GÓI THƯ VIỆN, KHÔNG PHẢI ROW: bản gốc 32 dòng, 2 hàm thuần (brandString · brandNumber), không có apply ⇒ không có row nào để thay. Không khai gbh.row (tiền lệ atomic-write/util-crypto).",
+    "peers": [
+      "@deepseek-ai/cordis"
+    ],
+    "tests": [
+      "tests/host/brand.test.ts"
+    ],
+    "provenance": {
+      "stock": "@deepseek-ai/dsh-brand",
+      "version": "0.2.1-alpha.4",
+      "sha": "14feb59256b891982b2017d73ed03ee65e2a7365f48e4902a856acb0e52d5eb0"
+    }
+  },
+  "types": "src/index.ts"
+}

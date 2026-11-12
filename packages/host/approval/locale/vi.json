@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "user-approval",
+    "description": "Điểm nối phê duyệt người dùng (ctx.approval) cho Galaxy Blackhole: các quyết định cấp quyền một lần được chuyển tới những answerer đã được ghép qua waterfall approval/request, mặc định fail-closed."
+  }
+}

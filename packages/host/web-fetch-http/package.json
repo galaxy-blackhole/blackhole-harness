@@ -1,0 +1,73 @@
+{
+  "name": "@galaxy-blackhole/gbh-web-fetch-http",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "type": "module",
+  "main": "lib/index.js",
+  "description": "Anonymous public HTTP(S) fetch provider for the Galaxy Blackhole web capability seam (ctx.web)",
+  "scripts": {
+    "build": "bun run build.ts"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2",
+    "@deepseek-ai/dsh-http-proxy": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-timeout": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-web": "0.2.1-alpha.4",
+    "@deepseek-ai/schemastery": "~3.18.5-alpha.2",
+    "ipaddr.js": "^2.5.0",
+    "undici": "8.11.2"
+  },
+  "devDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2",
+    "@deepseek-ai/dsh-http-proxy": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-timeout": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-web": "0.2.1-alpha.4",
+    "@deepseek-ai/schemastery": "~3.18.5-alpha.2",
+    "ipaddr.js": "^2.5.0",
+    "undici": "8.11.2"
+  },
+  "gbh": {
+    "peers": [
+      "@deepseek-ai/cordis",
+      "@deepseek-ai/dsh-http-proxy",
+      "@deepseek-ai/dsh-timeout",
+      "@deepseek-ai/dsh-web",
+      "@deepseek-ai/schemastery",
+      "ipaddr.js",
+      "undici"
+    ],
+    "tests": [
+      "tests/host/web-fetch-http.test.ts"
+    ],
+    "row": {
+      "id": "web-fetch-http",
+      "moduleIds": [
+        "@galaxy-blackhole/gbh-web-fetch-http"
+      ],
+      "aliases": [
+        "@deepseek-ai/dsh-web-fetch-http"
+      ],
+      "hostAliases": [
+        "@deepseek-ai/dsh-web-fetch-http"
+      ],
+      "tests": [
+        "tests/host/web-fetch-http.test.ts"
+      ]
+    },
+    "provenance": {
+      "stock": "@deepseek-ai/dsh-web-fetch-http",
+      "version": "0.2.1-alpha.4",
+      "sha": "489fef91b0c11c063029ea7aed27b312817570b9c3177aeaa44983b9a25aedcd"
+    }
+  },
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./package.json": "./package.json",
+    "./src/*": "./src/*",
+    "./locale/*.json": "./locale/*.json"
+  },
+  "types": "lib/types/index.d.ts"
+}

@@ -1,0 +1,105 @@
+{
+  "name": "@galaxy-blackhole/gbh-session-reference",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "type": "module",
+  "main": "lib/index.js",
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "default": "./lib/index.js"
+    },
+    "./types": {
+      "types": "./src/types.ts",
+      "default": "./lib/index.js"
+    },
+    "./typert": "./lib/typert.host.js",
+    "./remote": "./lib/typert.remote-client.js",
+    "./package.json": "./package.json",
+    "./locale/*.json": "./locale/*.json",
+    "./src/*": "./src/*"
+  },
+  "description": "Cross-session snapshot references and durable untrusted model context (ctx.sessionReferenceResolver)",
+  "scripts": {
+    "build": "bun run build.ts"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2",
+    "@deepseek-ai/dsh-agent": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-compaction": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-llm": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-output-retention": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-session": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-session-projection": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-session-projection-cache": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-session-query": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-session-title": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-spill": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-subagent": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-system-prompt": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-typert-protocol": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-brand": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-util-values": "0.2.1-alpha.4",
+    "@deepseek-ai/schemastery": "~3.18.5-alpha.2",
+    "zod": "4.4.3"
+  },
+  "devDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2",
+    "@deepseek-ai/dsh-agent": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-compaction": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-llm": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-output-retention": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-session": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-session-projection": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-session-projection-cache": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-session-query": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-session-title": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-spill": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-subagent": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-system-prompt": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-typert-protocol": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-brand": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-util-values": "0.2.1-alpha.4",
+    "@deepseek-ai/schemastery": "~3.18.5-alpha.2",
+    "zod": "4.4.3"
+  },
+  "license": "MIT",
+  "gbh": {
+    "peers": [
+      "@deepseek-ai/cordis",
+      "@deepseek-ai/dsh-agent",
+      "@deepseek-ai/dsh-compaction",
+      "@deepseek-ai/dsh-llm",
+      "@deepseek-ai/dsh-output-retention",
+      "@deepseek-ai/dsh-session",
+      "@deepseek-ai/dsh-session-projection",
+      "@deepseek-ai/dsh-session-projection-cache",
+      "@deepseek-ai/dsh-session-query",
+      "@deepseek-ai/dsh-session-title",
+      "@deepseek-ai/dsh-spill",
+      "@deepseek-ai/dsh-subagent",
+      "@deepseek-ai/dsh-system-prompt",
+      "@deepseek-ai/dsh-typert-protocol",
+      "@deepseek-ai/dsh-brand",
+      "@deepseek-ai/dsh-util-values",
+      "@deepseek-ai/schemastery",
+      "zod"
+    ],
+    "tests": [
+      "tests/host/session-reference.test.ts",
+      "tests/host/session-reference-typert.test.ts"
+    ],
+    "row": {
+      "id": "session-reference",
+      "tests": [
+        "tests/host/session-reference.test.ts"
+      ]
+    },
+    "provenance": {
+      "stock": "@deepseek-ai/dsh-session-reference",
+      "version": "0.2.1-alpha.4",
+      "sha": "f17a18280d3c1843d13b71f94a14b95fcd571955e7729fbac977411df386cf1b"
+    }
+  },
+  "types": "src/index.ts"
+}

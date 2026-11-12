@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "session-checkpoint-policy",
+    "description": "Lưu ảnh chụp phiên trước mỗi yêu cầu model và trước thao tác công cụ có thể gây ảnh hưởng bên ngoài."
+  }
+}

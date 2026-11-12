@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "api-workspace-files",
+    "description": "Dịch vụ tệp của workspace và nhà cung cấp tài nguyên cho Client: đọc có giới hạn, liệt kê thư mục và metadata trực tiếp qua namespace Remote workspaceFiles."
+  }
+}

@@ -1,0 +1,990 @@
+		var module = { exports: {} };
+		var exports = module.exports;
+		Object.defineProperty(exports, Symbol.toStringTag, { value: "Module" });
+		let zod = require("zod");
+		let react_jsx_runtime = require("react/jsx-runtime");
+		let react = require("react");
+		let _deepseek_ai_dsh_client_ui_primitives = require("@galaxy-blackhole/gbh-client-ui-primitives");
+		let _deepseek_ai_dsh_client_store = require("@galaxy-blackhole/gbh-client-store");
+		let _deepseek_ai_dsh_api_gateway_client = require("@galaxy-blackhole/gbh-host-typert-gateway/client");
+		//#region ../../typert/protocol/src/remote-info.ts
+		/**
+		* Retain one generated definition per endpoint without constructing parsers or projections.
+		* The class instance builds its shared descriptor/method index on first access;
+		* input schemas and JSON Schema projections are cached only when requested.
+		* @param spec - compiler-produced method facts and Zod factories.
+		* @param zod - the generated artifact's Zod runtime for named-input parsers.
+		* @returns a lazy, mountable info instance with no registration or transport effects.
+		*/
+		function createTypertRemoteInfo(spec, zod) {
+			return new RemoteInfo(spec, zod);
+		}
+		var RemoteInfo = class {
+			spec;
+			zod;
+			index;
+			constructor(spec, zod) {
+				this.spec = spec;
+				this.zod = zod;
+			}
+			get package() {
+				return this.spec.package;
+			}
+			get descriptors() {
+				return this.resolve().descriptors;
+			}
+			get methods() {
+				return this.resolve().methods;
+			}
+			resolve() {
+				if (this.index !== void 0) return this.index;
+				const zod = this.zod;
+				const descriptors = [];
+				const methods = Object.create(null);
+				for (const [endpoint, definition] of Object.entries(this.spec.methods)) {
+					const separator = endpoint.indexOf("/");
+					const namespace = endpoint.slice(0, separator);
+					const method = endpoint.slice(separator + 1);
+					const parameters = definition.parameters.map((parameter) => ({
+						...parameter,
+						wire: parameter.wire ?? parameter.name
+					}));
+					const descriptor = {
+						...definition,
+						id: `${this.spec.package}#${endpoint}`,
+						namespace,
+						method,
+						parameters,
+						result: definition.result.description === void 0 ? definition.result : new ResultValue(definition.result)
+					};
+					if (definition.invocation.kind === "direct") {
+						const inputs = [];
+						methods[endpoint] = Object.assign(descriptor, {
+							input(options) {
+								const strict = options?.strict === true;
+								return inputs[strict ? 1 : 0] ??= new NamedInput(parameters, strict, zod);
+							},
+							invoke(remote, input, signal) {
+								const named = input;
+								const values = parameters.map((parameter) => named[parameter.wire]);
+								if (definition.cancellation !== void 0) values.push(signal);
+								const receiver = Reflect.get(remote, namespace);
+								return Reflect.get(receiver, method).apply(receiver, values);
+							}
+						});
+					}
+					descriptors.push(descriptor);
+				}
+				return this.index = {
+					descriptors,
+					methods
+				};
+			}
+		};
+		function optional(parameter) {
+			return parameter.source === "json" && parameter.acceptsUndefined === true;
+		}
+		var NamedInput = class {
+			parameters;
+			strict;
+			zod;
+			schema;
+			projection;
+			constructor(parameters, strict, zod) {
+				this.parameters = parameters;
+				this.strict = strict;
+				this.zod = zod;
+			}
+			codec(parameter) {
+				return this.strict ? parameter.strictCodec : parameter.codec;
+			}
+			create = () => this.schema ??= this.zod.strictObject(Object.fromEntries(this.parameters.map((parameter) => {
+				const value = this.codec(parameter).create();
+				return [parameter.wire, optional(parameter) ? value.optional() : value.nonoptional()];
+			})));
+			get jsonSchema() {
+				return this.project().jsonSchema;
+			}
+			get jsonSchemaError() {
+				return this.project().jsonSchemaError;
+			}
+			project() {
+				if (this.projection !== void 0) return this.projection;
+				const unavailable = this.parameters.find((parameter) => this.codec(parameter).jsonSchema === void 0);
+				if (unavailable !== void 0) return this.projection = { jsonSchemaError: this.codec(unavailable).jsonSchemaError ?? `No JSON Schema for parameter ${unavailable.wire}` };
+				return this.projection = { jsonSchema: {
+					type: "object",
+					properties: Object.fromEntries(this.parameters.map((parameter) => [parameter.wire, {
+						...this.codec(parameter).jsonSchema,
+						...parameter.description === void 0 ? {} : { description: parameter.description }
+					}])),
+					required: this.parameters.filter((parameter) => !optional(parameter)).map((parameter) => parameter.wire),
+					additionalProperties: false
+				} };
+			}
+		};
+		var ResultValue = class {
+			spec;
+			projection;
+			constructor(spec) {
+				this.spec = spec;
+			}
+			get mode() {
+				return this.spec.mode;
+			}
+			get typeSymbol() {
+				return this.spec.typeSymbol;
+			}
+			get create() {
+				return this.spec.create;
+			}
+			get decode() {
+				return this.spec.decode;
+			}
+			get encode() {
+				return this.spec.encode;
+			}
+			get description() {
+				return this.spec.description;
+			}
+			get jsonSchemaError() {
+				return this.spec.jsonSchemaError;
+			}
+			get jsonSchema() {
+				if (this.projection === void 0) {
+					const schema = this.spec.jsonSchema;
+					this.projection = { value: schema === void 0 ? void 0 : {
+						...schema,
+						description: this.spec.description
+					} };
+				}
+				return this.projection.value;
+			}
+		};
+		//#endregion
+		//#region ../api-speech-to-text/lib/typert.remote-client.js
+		let _deepseek_ai_dsh_experimental_api_speech_to_text_speech_cancelPreparation_parameter_0$schema$value;
+		const _deepseek_ai_dsh_experimental_api_speech_to_text_speech_cancelPreparation_parameter_0$schema = () => _deepseek_ai_dsh_experimental_api_speech_to_text_speech_cancelPreparation_parameter_0$schema$value ??= zod.z.string();
+		let _deepseek_ai_dsh_experimental_api_speech_to_text_speech_cancelPreparation_result$schema$value;
+		const _deepseek_ai_dsh_experimental_api_speech_to_text_speech_cancelPreparation_result$schema = () => _deepseek_ai_dsh_experimental_api_speech_to_text_speech_cancelPreparation_result$schema$value ??= zod.z.void();
+		let _deepseek_ai_dsh_experimental_api_speech_to_text_speech_catalog_result$schema$value;
+		const _deepseek_ai_dsh_experimental_api_speech_to_text_speech_catalog_result$schema = () => _deepseek_ai_dsh_experimental_api_speech_to_text_speech_catalog_result$schema$value ??= zod.z.object({
+			"maxAudioBytes": zod.z.number().readonly(),
+			"maxDurationSeconds": zod.z.number().readonly(),
+			"providers": zod.z.array(zod.z.object({
+				"preparation": zod.z.union([
+					zod.z.object({
+						"phase": zod.z.union([
+							zod.z.literal("cancelled"),
+							zod.z.literal("ready"),
+							zod.z.literal("unprepared"),
+							zod.z.literal("standby")
+						]).readonly(),
+						"step": zod.z.union([
+							zod.z.literal("check"),
+							zod.z.literal("model"),
+							zod.z.literal("vad"),
+							zod.z.literal("verify"),
+							zod.z.literal("load")
+						]).readonly().optional(),
+						"steps": zod.z.array(zod.z.object({
+							"kind": zod.z.union([
+								zod.z.literal("check"),
+								zod.z.literal("model"),
+								zod.z.literal("vad"),
+								zod.z.literal("verify"),
+								zod.z.literal("load")
+							]).readonly(),
+							"status": zod.z.union([
+								zod.z.literal("cancelled"),
+								zod.z.literal("failed"),
+								zod.z.literal("running"),
+								zod.z.literal("pending"),
+								zod.z.literal("complete")
+							]).readonly(),
+							"startedAt": zod.z.number().readonly().optional()
+						})).readonly().optional()
+					}),
+					zod.z.object({
+						"phase": zod.z.literal("downloading").readonly(),
+						"resource": zod.z.string().readonly(),
+						"completedBytes": zod.z.number().readonly(),
+						"totalBytes": zod.z.number().readonly().optional(),
+						"step": zod.z.union([
+							zod.z.literal("check"),
+							zod.z.literal("model"),
+							zod.z.literal("vad"),
+							zod.z.literal("verify"),
+							zod.z.literal("load")
+						]).readonly().optional(),
+						"steps": zod.z.array(zod.z.object({
+							"kind": zod.z.union([
+								zod.z.literal("check"),
+								zod.z.literal("model"),
+								zod.z.literal("vad"),
+								zod.z.literal("verify"),
+								zod.z.literal("load")
+							]).readonly(),
+							"status": zod.z.union([
+								zod.z.literal("cancelled"),
+								zod.z.literal("failed"),
+								zod.z.literal("running"),
+								zod.z.literal("pending"),
+								zod.z.literal("complete")
+							]).readonly(),
+							"startedAt": zod.z.number().readonly().optional()
+						})).readonly().optional()
+					}),
+					zod.z.object({
+						"phase": zod.z.union([
+							zod.z.literal("checking"),
+							zod.z.literal("loading"),
+							zod.z.literal("waking"),
+							zod.z.literal("cancelling")
+						]).readonly(),
+						"startedAt": zod.z.number().readonly(),
+						"step": zod.z.union([
+							zod.z.literal("check"),
+							zod.z.literal("model"),
+							zod.z.literal("vad"),
+							zod.z.literal("verify"),
+							zod.z.literal("load")
+						]).readonly().optional(),
+						"steps": zod.z.array(zod.z.object({
+							"kind": zod.z.union([
+								zod.z.literal("check"),
+								zod.z.literal("model"),
+								zod.z.literal("vad"),
+								zod.z.literal("verify"),
+								zod.z.literal("load")
+							]).readonly(),
+							"status": zod.z.union([
+								zod.z.literal("cancelled"),
+								zod.z.literal("failed"),
+								zod.z.literal("running"),
+								zod.z.literal("pending"),
+								zod.z.literal("complete")
+							]).readonly(),
+							"startedAt": zod.z.number().readonly().optional()
+						})).readonly().optional()
+					}),
+					zod.z.object({
+						"phase": zod.z.literal("failed").readonly(),
+						"message": zod.z.string().readonly(),
+						"download": zod.z.object({
+							"resource": zod.z.string().readonly(),
+							"source": zod.z.string().readonly(),
+							"reason": zod.z.union([
+								zod.z.literal("network"),
+								zod.z.literal("storage"),
+								zod.z.literal("unknown"),
+								zod.z.literal("dns"),
+								zod.z.literal("timeout"),
+								zod.z.literal("certificate"),
+								zod.z.literal("http"),
+								zod.z.literal("integrity")
+							]).readonly(),
+							"code": zod.z.string().readonly().optional(),
+							"status": zod.z.number().readonly().optional()
+						}).readonly().optional(),
+						"step": zod.z.union([
+							zod.z.literal("check"),
+							zod.z.literal("model"),
+							zod.z.literal("vad"),
+							zod.z.literal("verify"),
+							zod.z.literal("load")
+						]).readonly().optional(),
+						"steps": zod.z.array(zod.z.object({
+							"kind": zod.z.union([
+								zod.z.literal("check"),
+								zod.z.literal("model"),
+								zod.z.literal("vad"),
+								zod.z.literal("verify"),
+								zod.z.literal("load")
+							]).readonly(),
+							"status": zod.z.union([
+								zod.z.literal("cancelled"),
+								zod.z.literal("failed"),
+								zod.z.literal("running"),
+								zod.z.literal("pending"),
+								zod.z.literal("complete")
+							]).readonly(),
+							"startedAt": zod.z.number().readonly().optional()
+						})).readonly().optional()
+					})
+				]).readonly(),
+				"id": zod.z.string().readonly(),
+				"name": zod.z.string().readonly(),
+				"location": zod.z.union([zod.z.literal("host-local"), zod.z.literal("cloud")]).readonly(),
+				"languages": zod.z.array(zod.z.string()).readonly().describe("Accepted language hints, including automatic detection when supported."),
+				"setupEstimate": zod.z.object({
+					"recommendedDiskBytes": zod.z.number().readonly(),
+					"expectedMemoryBytes": zod.z.number().readonly(),
+					"minimumMinutes": zod.z.number().readonly(),
+					"maximumMinutes": zod.z.number().readonly()
+				}).readonly().optional(),
+				"downloadSources": zod.z.array(zod.z.string()).readonly().optional().describe("Origins offered for an explicit preparation download; omitted or empty when no choice applies.")
+			})).readonly(),
+			"selection": zod.z.object({
+				"providerId": zod.z.string().readonly(),
+				"language": zod.z.string().readonly()
+			}).readonly()
+		});
+		let _deepseek_ai_dsh_experimental_api_speech_to_text_speech_configure_parameter_0$schema$value;
+		const _deepseek_ai_dsh_experimental_api_speech_to_text_speech_configure_parameter_0$schema = () => _deepseek_ai_dsh_experimental_api_speech_to_text_speech_configure_parameter_0$schema$value ??= zod.z.object({
+			"providerId": zod.z.string().readonly().optional(),
+			"language": zod.z.string().readonly().optional()
+		});
+		let _deepseek_ai_dsh_experimental_api_speech_to_text_speech_configure_result$schema$value;
+		const _deepseek_ai_dsh_experimental_api_speech_to_text_speech_configure_result$schema = () => _deepseek_ai_dsh_experimental_api_speech_to_text_speech_configure_result$schema$value ??= zod.z.void();
+		let _deepseek_ai_dsh_experimental_api_speech_to_text_speech_follow_result$schema$value;
+		const _deepseek_ai_dsh_experimental_api_speech_to_text_speech_follow_result$schema = () => _deepseek_ai_dsh_experimental_api_speech_to_text_speech_follow_result$schema$value ??= zod.z.object({
+			"maxAudioBytes": zod.z.number().readonly(),
+			"maxDurationSeconds": zod.z.number().readonly(),
+			"providers": zod.z.array(zod.z.object({
+				"preparation": zod.z.union([
+					zod.z.object({
+						"phase": zod.z.union([
+							zod.z.literal("cancelled"),
+							zod.z.literal("ready"),
+							zod.z.literal("unprepared"),
+							zod.z.literal("standby")
+						]).readonly(),
+						"step": zod.z.union([
+							zod.z.literal("check"),
+							zod.z.literal("model"),
+							zod.z.literal("vad"),
+							zod.z.literal("verify"),
+							zod.z.literal("load")
+						]).readonly().optional(),
+						"steps": zod.z.array(zod.z.object({
+							"kind": zod.z.union([
+								zod.z.literal("check"),
+								zod.z.literal("model"),
+								zod.z.literal("vad"),
+								zod.z.literal("verify"),
+								zod.z.literal("load")
+							]).readonly(),
+							"status": zod.z.union([
+								zod.z.literal("cancelled"),
+								zod.z.literal("failed"),
+								zod.z.literal("running"),
+								zod.z.literal("pending"),
+								zod.z.literal("complete")
+							]).readonly(),
+							"startedAt": zod.z.number().readonly().optional()
+						})).readonly().optional()
+					}),
+					zod.z.object({
+						"phase": zod.z.literal("downloading").readonly(),
+						"resource": zod.z.string().readonly(),
+						"completedBytes": zod.z.number().readonly(),
+						"totalBytes": zod.z.number().readonly().optional(),
+						"step": zod.z.union([
+							zod.z.literal("check"),
+							zod.z.literal("model"),
+							zod.z.literal("vad"),
+							zod.z.literal("verify"),
+							zod.z.literal("load")
+						]).readonly().optional(),
+						"steps": zod.z.array(zod.z.object({
+							"kind": zod.z.union([
+								zod.z.literal("check"),
+								zod.z.literal("model"),
+								zod.z.literal("vad"),
+								zod.z.literal("verify"),
+								zod.z.literal("load")
+							]).readonly(),
+							"status": zod.z.union([
+								zod.z.literal("cancelled"),
+								zod.z.literal("failed"),
+								zod.z.literal("running"),
+								zod.z.literal("pending"),
+								zod.z.literal("complete")
+							]).readonly(),
+							"startedAt": zod.z.number().readonly().optional()
+						})).readonly().optional()
+					}),
+					zod.z.object({
+						"phase": zod.z.union([
+							zod.z.literal("checking"),
+							zod.z.literal("loading"),
+							zod.z.literal("waking"),
+							zod.z.literal("cancelling")
+						]).readonly(),
+						"startedAt": zod.z.number().readonly(),
+						"step": zod.z.union([
+							zod.z.literal("check"),
+							zod.z.literal("model"),
+							zod.z.literal("vad"),
+							zod.z.literal("verify"),
+							zod.z.literal("load")
+						]).readonly().optional(),
+						"steps": zod.z.array(zod.z.object({
+							"kind": zod.z.union([
+								zod.z.literal("check"),
+								zod.z.literal("model"),
+								zod.z.literal("vad"),
+								zod.z.literal("verify"),
+								zod.z.literal("load")
+							]).readonly(),
+							"status": zod.z.union([
+								zod.z.literal("cancelled"),
+								zod.z.literal("failed"),
+								zod.z.literal("running"),
+								zod.z.literal("pending"),
+								zod.z.literal("complete")
+							]).readonly(),
+							"startedAt": zod.z.number().readonly().optional()
+						})).readonly().optional()
+					}),
+					zod.z.object({
+						"phase": zod.z.literal("failed").readonly(),
+						"message": zod.z.string().readonly(),
+						"download": zod.z.object({
+							"resource": zod.z.string().readonly(),
+							"source": zod.z.string().readonly(),
+							"reason": zod.z.union([
+								zod.z.literal("network"),
+								zod.z.literal("storage"),
+								zod.z.literal("unknown"),
+								zod.z.literal("dns"),
+								zod.z.literal("timeout"),
+								zod.z.literal("certificate"),
+								zod.z.literal("http"),
+								zod.z.literal("integrity")
+							]).readonly(),
+							"code": zod.z.string().readonly().optional(),
+							"status": zod.z.number().readonly().optional()
+						}).readonly().optional(),
+						"step": zod.z.union([
+							zod.z.literal("check"),
+							zod.z.literal("model"),
+							zod.z.literal("vad"),
+							zod.z.literal("verify"),
+							zod.z.literal("load")
+						]).readonly().optional(),
+						"steps": zod.z.array(zod.z.object({
+							"kind": zod.z.union([
+								zod.z.literal("check"),
+								zod.z.literal("model"),
+								zod.z.literal("vad"),
+								zod.z.literal("verify"),
+								zod.z.literal("load")
+							]).readonly(),
+							"status": zod.z.union([
+								zod.z.literal("cancelled"),
+								zod.z.literal("failed"),
+								zod.z.literal("running"),
+								zod.z.literal("pending"),
+								zod.z.literal("complete")
+							]).readonly(),
+							"startedAt": zod.z.number().readonly().optional()
+						})).readonly().optional()
+					})
+				]).readonly(),
+				"id": zod.z.string().readonly(),
+				"name": zod.z.string().readonly(),
+				"location": zod.z.union([zod.z.literal("host-local"), zod.z.literal("cloud")]).readonly(),
+				"languages": zod.z.array(zod.z.string()).readonly().describe("Accepted language hints, including automatic detection when supported."),
+				"setupEstimate": zod.z.object({
+					"recommendedDiskBytes": zod.z.number().readonly(),
+					"expectedMemoryBytes": zod.z.number().readonly(),
+					"minimumMinutes": zod.z.number().readonly(),
+					"maximumMinutes": zod.z.number().readonly()
+				}).readonly().optional(),
+				"downloadSources": zod.z.array(zod.z.string()).readonly().optional().describe("Origins offered for an explicit preparation download; omitted or empty when no choice applies.")
+			})).readonly(),
+			"selection": zod.z.object({
+				"providerId": zod.z.string().readonly(),
+				"language": zod.z.string().readonly()
+			}).readonly()
+		});
+		let _deepseek_ai_dsh_experimental_api_speech_to_text_speech_prepare_parameter_0$schema$value;
+		const _deepseek_ai_dsh_experimental_api_speech_to_text_speech_prepare_parameter_0$schema = () => _deepseek_ai_dsh_experimental_api_speech_to_text_speech_prepare_parameter_0$schema$value ??= zod.z.string();
+		let _deepseek_ai_dsh_experimental_api_speech_to_text_speech_prepare_parameter_1$schema$value;
+		const _deepseek_ai_dsh_experimental_api_speech_to_text_speech_prepare_parameter_1$schema = () => _deepseek_ai_dsh_experimental_api_speech_to_text_speech_prepare_parameter_1$schema$value ??= zod.z.union([zod.z.undefined(), zod.z.object({ "downloadSource": zod.z.string().readonly().optional().describe("One advertised origin; providers reject unavailable sources and use a manual choice without fallback.") })]);
+		let _deepseek_ai_dsh_experimental_api_speech_to_text_speech_prepare_result$schema$value;
+		const _deepseek_ai_dsh_experimental_api_speech_to_text_speech_prepare_result$schema = () => _deepseek_ai_dsh_experimental_api_speech_to_text_speech_prepare_result$schema$value ??= zod.z.void();
+		let _deepseek_ai_dsh_experimental_api_speech_to_text_speech_transcribe_parameter_0$schema$value;
+		const _deepseek_ai_dsh_experimental_api_speech_to_text_speech_transcribe_parameter_0$schema = () => _deepseek_ai_dsh_experimental_api_speech_to_text_speech_transcribe_parameter_0$schema$value ??= zod.z.object({
+			"audioBase64": zod.z.string().readonly(),
+			"providerId": zod.z.string().readonly().optional(),
+			"language": zod.z.string().readonly().optional()
+		});
+		let _deepseek_ai_dsh_experimental_api_speech_to_text_speech_transcribe_result$schema$value;
+		const _deepseek_ai_dsh_experimental_api_speech_to_text_speech_transcribe_result$schema = () => _deepseek_ai_dsh_experimental_api_speech_to_text_speech_transcribe_result$schema$value ??= zod.z.object({
+			"text": zod.z.string().readonly(),
+			"audioSeconds": zod.z.number().readonly(),
+			"inferenceSeconds": zod.z.number().readonly()
+		});
+		let _deepseek_ai_dsh_experimental_api_speech_to_text_speech_cancelPreparation_parameter_0_strict$schema$value;
+		const _deepseek_ai_dsh_experimental_api_speech_to_text_speech_cancelPreparation_parameter_0_strict$schema = () => _deepseek_ai_dsh_experimental_api_speech_to_text_speech_cancelPreparation_parameter_0_strict$schema$value ??= zod.z.string();
+		let _deepseek_ai_dsh_experimental_api_speech_to_text_speech_configure_parameter_0_strict$schema$value;
+		const _deepseek_ai_dsh_experimental_api_speech_to_text_speech_configure_parameter_0_strict$schema = () => _deepseek_ai_dsh_experimental_api_speech_to_text_speech_configure_parameter_0_strict$schema$value ??= zod.z.strictObject({
+			"providerId": zod.z.string().readonly().optional(),
+			"language": zod.z.string().readonly().optional()
+		});
+		let _deepseek_ai_dsh_experimental_api_speech_to_text_speech_prepare_parameter_0_strict$schema$value;
+		const _deepseek_ai_dsh_experimental_api_speech_to_text_speech_prepare_parameter_0_strict$schema = () => _deepseek_ai_dsh_experimental_api_speech_to_text_speech_prepare_parameter_0_strict$schema$value ??= zod.z.string();
+		let _deepseek_ai_dsh_experimental_api_speech_to_text_speech_prepare_parameter_1_strict$schema$value;
+		const _deepseek_ai_dsh_experimental_api_speech_to_text_speech_prepare_parameter_1_strict$schema = () => _deepseek_ai_dsh_experimental_api_speech_to_text_speech_prepare_parameter_1_strict$schema$value ??= zod.z.union([zod.z.undefined(), zod.z.strictObject({ "downloadSource": zod.z.string().readonly().optional().describe("One advertised origin; providers reject unavailable sources and use a manual choice without fallback.") })]);
+		let _deepseek_ai_dsh_experimental_api_speech_to_text_speech_transcribe_parameter_0_strict$schema$value;
+		const _deepseek_ai_dsh_experimental_api_speech_to_text_speech_transcribe_parameter_0_strict$schema = () => _deepseek_ai_dsh_experimental_api_speech_to_text_speech_transcribe_parameter_0_strict$schema$value ??= zod.z.strictObject({
+			"audioBase64": zod.z.string().readonly(),
+			"providerId": zod.z.string().readonly().optional(),
+			"language": zod.z.string().readonly().optional()
+		});
+		const TYPERT_REMOTE = createTypertRemoteInfo({
+			package: "@deepseek-ai/dsh-experimental-api-speech-to-text",
+			methods: {
+				"speech/cancelPreparation": {
+					service: "speechController",
+					description: "Explicitly cancel resource preparation.",
+					invocation: { kind: "direct" },
+					parameters: [{
+						name: "providerId",
+						description: "selected recognizer.",
+						source: "json",
+						codec: {
+							mode: "strict",
+							typeSymbol: "@deepseek-ai/dsh-experimental-speech-to-text/types#SpeechProviderId",
+							create: _deepseek_ai_dsh_experimental_api_speech_to_text_speech_cancelPreparation_parameter_0$schema,
+							jsonSchema: { "type": "string" }
+						},
+						strictCodec: {
+							mode: "strict",
+							typeSymbol: "@deepseek-ai/dsh-experimental-speech-to-text/types#SpeechProviderId",
+							create: _deepseek_ai_dsh_experimental_api_speech_to_text_speech_cancelPreparation_parameter_0_strict$schema,
+							jsonSchema: { "type": "string" }
+						}
+					}],
+					result: {
+						mode: "strict",
+						typeSymbol: "@deepseek-ai/dsh-experimental-api-speech-to-text#speech/cancelPreparation:result",
+						create: _deepseek_ai_dsh_experimental_api_speech_to_text_speech_cancelPreparation_result$schema,
+						description: "after the preparation task settles.",
+						jsonSchemaError: "typert tool schema: unsupported void value"
+					},
+					sourceLocation: {
+						"file": "packages/experimental/api-speech-to-text/src/index.ts",
+						"line": 80,
+						"column": 3
+					}
+				},
+				"speech/catalog": {
+					service: "speechController",
+					description: "Read provider choices without preparing a recognizer.",
+					invocation: { kind: "direct" },
+					parameters: [],
+					result: {
+						mode: "strict",
+						typeSymbol: "@deepseek-ai/dsh-experimental-api-speech-to-text/types#SpeechCatalog",
+						create: _deepseek_ai_dsh_experimental_api_speech_to_text_speech_catalog_result$schema,
+						description: "available providers, resolved default, and recording limits.",
+						jsonSchema: {
+							"type": "object",
+							"properties": {
+								"maxAudioBytes": { "type": "number" },
+								"maxDurationSeconds": { "type": "number" },
+								"providers": {
+									"type": "array",
+									"items": {
+										"type": "object",
+										"properties": {
+											"preparation": { "oneOf": [
+												{
+													"type": "object",
+													"properties": {
+														"phase": {
+															"type": "string",
+															"enum": [
+																"cancelled",
+																"ready",
+																"unprepared",
+																"standby"
+															]
+														},
+														"step": {
+															"type": "string",
+															"enum": [
+																"check",
+																"model",
+																"vad",
+																"verify",
+																"load"
+															]
+														},
+														"steps": {
+															"type": "array",
+															"items": {
+																"type": "object",
+																"properties": {
+																	"kind": {
+																		"type": "string",
+																		"enum": [
+																			"check",
+																			"model",
+																			"vad",
+																			"verify",
+																			"load"
+																		]
+																	},
+																	"status": {
+																		"type": "string",
+																		"enum": [
+																			"cancelled",
+																			"failed",
+																			"running",
+																			"pending",
+																			"complete"
+																		]
+																	},
+																	"startedAt": { "type": "number" }
+																},
+																"required": ["kind", "status"],
+																"additionalProperties": true
+															}
+														}
+													},
+													"required": ["phase"],
+													"additionalProperties": true
+												},
+												{
+													"type": "object",
+													"properties": {
+														"phase": {
+															"type": "string",
+															"const": "downloading"
+														},
+														"resource": { "type": "string" },
+														"completedBytes": { "type": "number" },
+														"totalBytes": { "type": "number" },
+														"step": {
+															"type": "string",
+															"enum": [
+																"check",
+																"model",
+																"vad",
+																"verify",
+																"load"
+															]
+														},
+														"steps": {
+															"type": "array",
+															"items": {
+																"type": "object",
+																"properties": {
+																	"kind": {
+																		"type": "string",
+																		"enum": [
+																			"check",
+																			"model",
+																			"vad",
+																			"verify",
+																			"load"
+																		]
+																	},
+																	"status": {
+																		"type": "string",
+																		"enum": [
+																			"cancelled",
+																			"failed",
+																			"running",
+																			"pending",
+																			"complete"
+																		]
+																	},
+																	"startedAt": { "type": "number" }
+																},
+																"required": ["kind", "status"],
+																"additionalProperties": true
+															}
+														}
+													},
+													"required": [
+														"phase",
+														"resource",
+														"completedBytes"
+													],
+													"additionalProperties": true
+												},
+												{
+													"type": "object",
+													"properties": {
+														"phase": {
+															"type": "string",
+															"enum": [
+																"checking",
+																"loading",
+																"waking",
+																"cancelling"
+															]
+														},
+														"startedAt": { "type": "number" },
+														"step": {
+															"type": "string",
+															"enum": [
+																"check",
+																"model",
+																"vad",
+																"verify",
+																"load"
+															]
+														},
+														"steps": {
+															"type": "array",
+															"items": {
+																"type": "object",
+																"properties": {
+																	"kind": {
+																		"type": "string",
+																		"enum": [
+																			"check",
+																			"model",
+																			"vad",
+																			"verify",
+																			"load"
+																		]
+																	},
+																	"status": {
+																		"type": "string",
+																		"enum": [
+																			"cancelled",
+																			"failed",
+																			"running",
+																			"pending",
+																			"complete"
+																		]
+																	},
+																	"startedAt": { "type": "number" }
+																},
+																"required": ["kind", "status"],
+																"additionalProperties": true
+															}
+														}
+													},
+													"required": ["phase", "startedAt"],
+													"additionalProperties": true
+												},
+												{
+													"type": "object",
+													"properties": {
+														"phase": {
+															"type": "string",
+															"const": "failed"
+														},
+														"message": { "type": "string" },
+														"download": {
+															"type": "object",
+															"properties": {
+																"resource": { "type": "string" },
+																"source": { "type": "string" },
+																"reason": {
+																	"type": "string",
+																	"enum": [
+																		"network",
+																		"storage",
+																		"unknown",
+																		"dns",
+																		"timeout",
+																		"certificate",
+																		"http",
+																		"integrity"
+																	]
+																},
+																"code": { "type": "string" },
+																"status": { "type": "number" }
+															},
+															"required": [
+																"resource",
+																"source",
+																"reason"
+															],
+															"additionalProperties": true
+														},
+														"step": {
+															"type": "string",
+															"enum": [
+																"check",
+																"model",
+																"vad",
+																"verify",
+																"load"
+															]
+														},
+														"steps": {
+															"type": "array",
+															"items": {
+																"type": "object",
+																"properties": {
+																	"kind": {
+																		"type": "string",
+																		"enum": [
+																			"check",
+																			"model",
+																			"vad",
+																			"verify",
+																			"load"
+																		]
+																	},
+																	"status": {
+																		"type": "string",
+																		"enum": [
+																			"cancelled",
+																			"failed",
+																			"running",
+																			"pending",
+																			"complete"
+																		]
+																	},
+																	"startedAt": { "type": "number" }
+																},
+																"required": ["kind", "status"],
+																"additionalProperties": true
+															}
+														}
+													},
+													"required": ["phase", "message"],
+													"additionalProperties": true
+												}
+											] },
+											"id": { "type": "string" },
+											"name": { "type": "string" },
+											"location": {
+												"type": "string",
+												"enum": ["host-local", "cloud"]
+											},
+											"languages": {
+												"type": "array",
+												"items": { "type": "string" },
+												"description": "Accepted language hints, including automatic detection when supported."
+											},
+											"setupEstimate": {
+												"type": "object",
+												"properties": {
+													"recommendedDiskBytes": { "type": "number" },
+													"expectedMemoryBytes": { "type": "number" },
+													"minimumMinutes": { "type": "number" },
+													"maximumMinutes": { "type": "number" }
+												},
+												"required": [
+													"recommendedDiskBytes",
+													"expectedMemoryBytes",
+													"minimumMinutes",
+													"maximumMinutes"
+												],
+												"additionalProperties": true
+											},
+											"downloadSources": {
+												"type": "array",
+												"items": { "type": "string" },
+												"description": "Origins offered for an explicit preparation download; omitted or empty when no choice applies."
+											}
+										},
+										"required": [
+											"preparation",
+											"id",
+											"name",
+											"location",
+											"languages"
+										],
+										"additionalProperties": true
+									}
+								},
+								"selection": {
+									"type": "object",
+									"properties": {
+										"providerId": { "type": "string" },
+										"language": { "type": "string" }
+									},
+									"required": ["providerId", "language"],
+									"additionalProperties": true
+								}
+							},
+							"required": [
+								"maxAudioBytes",
+								"maxDurationSeconds",
+								"providers",
+								"selection"
+							],
+							"additionalProperties": true
+						}
+					},
+					sourceLocation: {
+						"file": "packages/experimental/api-speech-to-text/src/index.ts",
+						"line": 44,
+						"column": 3
+					}
+				},
+				"speech/configure": {
+					service: "speechController",
+					description: "Persist the user's recognition preferences.",
+					invocation: { kind: "direct" },
+					parameters: [{
+						name: "patch",
+						description: "changed preference fields.",
+						source: "json",
+						codec: {
+							mode: "strict",
+							typeSymbol: "@deepseek-ai/dsh-experimental-speech-to-text/types#SpeechSelectionPatch",
+							create: _deepseek_ai_dsh_experimental_api_speech_to_text_speech_configure_parameter_0$schema,
+							jsonSchema: {
+								"type": "object",
+								"properties": {
+									"providerId": { "type": "string" },
+									"language": { "type": "string" }
+								},
+								"required": [],
+								"additionalProperties": true
+							}
+						},
+						strictCodec: {
+							mode: "strict",
+							typeSymbol: "@deepseek-ai/dsh-experimental-speech-to-text/types#SpeechSelectionPatch",
+							create: _deepseek_ai_dsh_experimental_api_speech_to_text_speech_configure_parameter_0_strict$schema,
+							jsonSchema: {
+								"type": "object",
+								"properties": {
+									"providerId": { "type": "string" },
+									"language": { "type": "string" }
+								},
+								"required": [],
+								"additionalProperties": false
+							}
+						}
+					}],
+					result: {
+						mode: "strict",
+						typeSymbol: "@deepseek-ai/dsh-experimental-api-speech-to-text#speech/configure:result",
+						create: _deepseek_ai_dsh_experimental_api_speech_to_text_speech_configure_result$schema,
+						description: "after preferences are saved.",
+						jsonSchemaError: "typert tool schema: unsupported void value"
+					},
+					sourceLocation: {
+						"file": "packages/experimental/api-speech-to-text/src/index.ts",
+						"line": 64,
+						"column": 3
+					}
+				},
+				"speech/follow": {
+					service: "speechController",
+					description: "Follow provider readiness independently of Session and preparation lifetimes.",
+					mode: "stream",
+					invocation: { kind: "direct" },
+					parameters: [],
+					cancellation: { parameter: "signal" },
+					result: {
+						mode: "strict",
+						typeSymbol: "@deepseek-ai/dsh-experimental-api-speech-to-text/types#SpeechCatalog",
+						create: _deepseek_ai_dsh_experimental_api_speech_to_text_speech_follow_result$schema,
+						description: "initial and subsequent complete readiness snapshots.",
+						jsonSchema: {
+							"type": "object",
+							"properties": {
+								"maxAudioBytes": { "type": "number" },
+								"maxDurationSeconds": { "type": "number" },
+								"providers": {
+									"type": "array",
+									"items": {
+										"type": "object",

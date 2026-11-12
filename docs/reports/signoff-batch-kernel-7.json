@@ -1,0 +1,41 @@
+{
+  "dev": "tm-host-core",
+  "owner": "tm-host-core",
+  "evidence": [
+    "signed, MOUNTED — check:app 3 luot: (3) 151 entry · (5) 0 · #root/#root slot OK · (10) con 2 BAN MOUNT CU cua gbh-session-log-export (goi DA PARK, khong nam trong batch nay) — app LANH",
+    "CO CHE: 5 goi `gbh.draft` (khong row, port xong cho wave sau) + 2 goi NESTED: agent-tool-presentation (nested preset-ptc) · tool-subagent-control (nested group `delegation`)",
+    "cordis-plugin-group **7/15** · chunked-list **7/15** · session-format-catalog **11/25** (6 types) · skill-badge **10/24** · skill-office **10/26** · agent-tool-presentation **10/23** · tool-subagent-control **10/33** ⇒ **65 pass / 0 fail / 161 expect** (reviewer do; Lead ghi 62 ca — lech 3 ca do cach tinh tep)",
+    "rollback san",
+    "NGOAI LE: `cordis-plugin-group` la goi GBH-NATIVE (khong co stock @deepseek-ai/dsh-cordis-plugin-group) ⇒ khai `extra:cordis-plugin-group` (khong check stock), test van la tests/host/cordis-plugin-group.test.ts"
+  ],
+  "packages": [
+    {
+      "dsh": "extra:cordis-plugin-group",
+      "gbh": "gbh-cordis-plugin-group"
+    },
+    {
+      "dsh": "@deepseek-ai/dsh-agent-tool-presentation",
+      "gbh": "gbh-agent-tool-presentation"
+    },
+    {
+      "dsh": "@deepseek-ai/dsh-chunked-list",
+      "gbh": "gbh-chunked-list"
+    },
+    {
+      "dsh": "@deepseek-ai/dsh-session-format-catalog",
+      "gbh": "gbh-session-format-catalog"
+    },
+    {
+      "dsh": "@deepseek-ai/dsh-skill-badge",
+      "gbh": "gbh-skill-badge"
+    },
+    {
+      "dsh": "@deepseek-ai/dsh-skill-office",
+      "gbh": "gbh-skill-office"
+    },
+    {
+      "dsh": "@deepseek-ai/dsh-tool-subagent-control",
+      "gbh": "gbh-tool-subagent-control"
+    }
+  ]
+}

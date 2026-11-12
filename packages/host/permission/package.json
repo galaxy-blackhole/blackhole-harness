@@ -1,0 +1,83 @@
+{
+  "name": "@galaxy-blackhole/gbh-permission",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "type": "module",
+  "main": "lib/index.js",
+  "description": "Bản viết lại của Galaxy Blackhole cho row permission của DSH (@deepseek-ai/dsh-permission-presets): preset quyền hướng người dùng (ctx.permissionPresets) — MỘT bảng preset gộp chế độ sandbox với chính sách duyệt, ghi qua đúng đường ghi của từng núm, cộng catalog tiến trình, chiếu phiên `permissions`, preset Auto chỉ-sống-theo-tích hợp và lệnh `/permission`.",
+  "scripts": {
+    "build": "bun run build.ts"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2",
+    "@deepseek-ai/schemastery": "~3.18.5-alpha.2",
+    "@deepseek-ai/dsh-commands": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-sandbox-policy": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-typert-protocol": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-user-approval": "0.2.1-alpha.4"
+  },
+  "dependencies": {
+    "zod": "^4.4.3"
+  },
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./package.json": "./package.json",
+    "./src/*": "./src/*",
+    "./locale/*.json": "./locale/*.json",
+    "./typert": {
+      "types": "./lib/typert.host.d.ts",
+      "default": "./lib/typert.host.js"
+    },
+    "./remote": {
+      "types": "./lib/typert.remote-client.d.ts",
+      "default": "./lib/typert.remote-client.js"
+    },
+    "./types": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    }
+  },
+  "license": "MIT",
+  "gbh": {
+    "provenance": {
+      "stock": "@deepseek-ai/dsh-permission-presets"
+    },
+    "peers": [
+      "@deepseek-ai/cordis",
+      "@deepseek-ai/schemastery",
+      "@deepseek-ai/dsh-commands",
+      "@deepseek-ai/dsh-sandbox-policy",
+      "@deepseek-ai/dsh-typert-protocol",
+      "@deepseek-ai/dsh-user-approval"
+    ],
+    "tests": [
+      "tests/host/permission.test.ts"
+    ],
+    "row": {
+      "id": "permission",
+      "config": {
+        "presets": {
+          "read-only": {
+            "sandbox": "read-only",
+            "approval": "ask"
+          },
+          "workspace-write": {
+            "sandbox": "workspace-write",
+            "approval": "ask"
+          },
+          "danger-full-access": {
+            "sandbox": "danger-full-access",
+            "approval": "never"
+          }
+        }
+      },
+      "tests": [
+        "tests/host/permission.test.ts"
+      ]
+    }
+  },
+  "types": "lib/types/index.d.ts"
+}

@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "compaction-image-offload",
+    "description": "Thay ảnh trong lịch sử vượt ngân sách ảnh của model bằng tham chiếu attachment rồi thử lại request."
+  }
+}

@@ -1,0 +1,17 @@
+/*
+ author Bùi Trọng Hiếu
+ email kevinbui210191@gmail.com
+ create date 15/10/2026
+ modify date 18/10/2026
+ desc CSS PlanModeControl cua row ui-plan — NGUYEN VAN ban goc (hash rS3zOq_)
+*/
+
+.rS3zOq_wrap{align-items:center;gap:6px;display:inline-flex}
+.rS3zOq_chip{border-radius:var(--dsw-radius-sm);background:var(--dsw-alias-state-business-tertiary);min-width:34px;height:28px;color:var(--dsw-alias-state-business-primary);cursor:pointer;border:none;align-items:center;gap:4px;padding:0 8px;font-size:13px;font-weight:500;line-height:20px;display:inline-flex}
+.rS3zOq_chip:hover:not(:disabled){background:color-mix(in srgb, var(--dsw-alias-state-business-tertiary), var(--dsw-alias-state-business-primary) 6%)}
+.rS3zOq_chip:focus-visible{outline:var(--dsw-focus-ring-width) solid var(--dsw-focus-ring-color,var(--dsw-alias-state-business-primary));outline-offset:2px}
+.rS3zOq_chip:disabled{opacity:.6;cursor:default}
+.rS3zOq_glyph{color:currentColor;flex:none;width:14px;height:14px;display:inline-flex}
+.rS3zOq_hoverGlyph,.rS3zOq_chip:hover:not(:disabled) .rS3zOq_restGlyph,.rS3zOq_chip:focus-visible .rS3zOq_restGlyph{display:none}
+.rS3zOq_chip:hover:not(:disabled) .rS3zOq_hoverGlyph,.rS3zOq_chip:focus-visible .rS3zOq_hoverGlyph{display:block}
+.rS3zOq_error{color:var(--dsw-alias-state-error-primary);font-size:12px;line-height:18px}

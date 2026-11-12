@@ -1,0 +1,44 @@
+{
+  "name": "@galaxy-blackhole/gbh-tool-worktree",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "type": "module",
+  "main": "lib/index.js",
+  "description": "Bản viết lại của Galaxy Blackhole cho row tool-worktree của DSH (@deepseek-ai/dsh-experimental-tool-worktree): tool create_worktree đăng ký lên sổ tool của kernel, uỷ quyền tạo nhánh + worktree và đổi thư mục phiên cho seam worktrees.",
+  "scripts": {
+    "build": "bun run build.ts"
+  },
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./package.json": "./package.json",
+    "./src/*": "./src/*",
+    "./locale/*.json": "./locale/*.json"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2",
+    "@deepseek-ai/dsh-tools": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-experimental-worktree": "0.2.1-alpha.4"
+  },
+  "devDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2",
+    "@deepseek-ai/dsh-tools": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-experimental-worktree": "0.2.1-alpha.4"
+  },
+  "gbh": {
+    "peers": [
+      "@deepseek-ai/dsh-tools",
+      "@deepseek-ai/dsh-experimental-worktree"
+    ],
+    "row": {
+      "id": "tool-worktree",
+      "ownedByBundle": true,
+      "tests": [
+        "tests/host/tool-worktree.test.ts"
+      ]
+    }
+  },
+  "types": "src/index.ts"
+}

@@ -1,0 +1,91 @@
+{
+  "name": "@galaxy-blackhole/gbh-api-workspace-files",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "type": "module",
+  "main": "lib/index.js",
+  "description": "Workspace file service and Client resource provider: bounded reads, directory listing, and live metadata over the workspaceFiles Remote namespace",
+  "scripts": {
+    "build": "bun run build.ts"
+  },
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./types": {
+      "types": "./lib/types/types.d.ts",
+      "default": "./lib/types/types.js"
+    },
+    "./client": {
+      "types": "./lib/types/client/index.d.ts",
+      "default": "./lib/client.js"
+    },
+    "./typert": {
+      "types": "./lib/typert.host.d.ts",
+      "default": "./lib/typert.host.js"
+    },
+    "./remote": {
+      "types": "./lib/typert.remote-client.d.ts",
+      "default": "./lib/typert.remote-client.js"
+    },
+    "./package.json": "./package.json",
+    "./src/*": "./src/*",
+    "./locale/*.json": "./locale/*.json"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2",
+    "@deepseek-ai/dsh-deque": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-typert-protocol": "0.2.1-alpha.4",
+    "@deepseek-ai/schemastery": "~3.18.5-alpha.2"
+  },
+  "devDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2",
+    "@deepseek-ai/dsh-deque": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-typert-protocol": "0.2.1-alpha.4",
+    "@deepseek-ai/schemastery": "~3.18.5-alpha.2"
+  },
+  "license": "MIT",
+  "gbh": {
+    "draft": "DA de-bundle lai theo khuon api-session-controller (19/10/2026): 4 artefact — host byte-identical (4 lat, 25.087 B) + client (6 lat) + typert.host (1 lat) + typert.remote-client (1 lat), ca 3 artefact sau qua cong ownership. Ban viet tay cu giu trong src-handwritten/. Row CHUA khai: cho boot-smoke + dong README §4 cua Lead.",
+    "tests": [
+      "tests/host/api-workspace-files.test.ts",
+      "tests/host/api-workspace-files-halves.test.ts"
+    ],
+    "peers": [
+      "@deepseek-ai/cordis",
+      "@deepseek-ai/dsh-deque",
+      "@deepseek-ai/dsh-typert-protocol",
+      "@deepseek-ai/schemastery"
+    ],
+    "row": {
+      "id": "workspace-files",
+      "aliases": [
+        "@deepseek-ai/dsh-api-workspace-files"
+      ],
+      "moduleIds": [
+        "@galaxy-blackhole/gbh-api-workspace-files"
+      ],
+      "tests": [
+        "tests/host/api-workspace-files.test.ts"
+      ],
+      "stockId": "@deepseek-ai/dsh-api-workspace-files"
+    },
+    "provenance": {
+      "stock": "@deepseek-ai/dsh-api-workspace-files",
+      "version": "0.2.1-alpha.4",
+      "sha": "de67777d792d3a5d90b4d9441b11e54e887b2c3f0156d61d0dd1ada562743c3f",
+      "shaFile": "lib/client.js"
+    }
+  },
+  "dsh": {
+    "client": {
+      "inject": [
+        "@galaxy-blackhole/gbh-host-typert-gateway",
+        "@galaxy-blackhole/gbh-client-resources"
+      ],
+      "platform": "web"
+    }
+  },
+  "types": "lib/types/index.d.ts"
+}

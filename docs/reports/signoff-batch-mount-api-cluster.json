@@ -1,0 +1,32 @@
+{
+  "dev": "tm-client-ui-a",
+  "owner": "tm-client-ui-a",
+  "evidence": [
+    "signed, MOUNTED — check:app 11/11 BA LUOT LIEN TIEP; artifact + test do REVIEWER TU DO (build trong thu muc goi, exit 0)",
+    "**3 luot check:app lien tiep DAT 11/11** — (3) **149 entry** · (5) **0** · #root 47.584 / 46 slot / 0 console / 0 pageerror · (9) 0/80 · (10) **349 file khop repo** · (11) HMR",
+    "CO CHE: row TOP-LEVEL hai mat (patch `disabled: true` + insert ours aliases), dump ENABLED — theo khuon ADR 0004 §11",
+    "api-terminal-controller: index **36.403 B** sha `0cefb34efc` · client **37.547 B** `02410cdde3` · typert.host **90.246 B** `40bdbf44ae` · remote **37.603 B** `46d1d5014a` · test **39 pass/213 expect**",
+    "api-workspace-files: index **25.087 B** `1d633aaf12` · client **15.891 B** `6775f2eec9` · typert.host **43.382 B** `0a4eb720c3` · remote **35.348 B** `807692da43` · test **28 pass/198 expect**",
+    "api-remote-access: index **17.165 B** `a912d21fcf` · client **25.180 B** `f80ecb9074` · typert.host **17.203 B** `ea3721898c` · remote **5.887 B** `2b6d925897` · test **30 pass/278 expect**",
+    "api-job-controller: index **14.215 B** `e1c9bbfd55` · client **12.035 B** `7667d9714c` · typert.host **31.532 B** `bdcc2eb679` · remote **25.333 B** `244da46d64` · test **30 pass/301 expect**",
+    "stale guard 4 goi da duoc owner sua — test xanh 0 fail; rollback san"
+  ],
+  "packages": [
+    {
+      "dsh": "@deepseek-ai/dsh-api-terminal-controller",
+      "gbh": "gbh-api-terminal-controller"
+    },
+    {
+      "dsh": "@deepseek-ai/dsh-api-workspace-files",
+      "gbh": "gbh-api-workspace-files"
+    },
+    {
+      "dsh": "@deepseek-ai/dsh-api-remote-access",
+      "gbh": "gbh-api-remote-access"
+    },
+    {
+      "dsh": "@deepseek-ai/dsh-api-job-controller",
+      "gbh": "gbh-api-job-controller"
+    }
+  ]
+}

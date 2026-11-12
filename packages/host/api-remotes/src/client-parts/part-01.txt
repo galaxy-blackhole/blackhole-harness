@@ -1,0 +1,1000 @@
+		var module = { exports: {} };
+		var exports = module.exports;
+		Object.defineProperty(exports, Symbol.toStringTag, { value: "Module" });
+		let zod = require("zod");
+		//#region ../../typert/protocol/lib/types/remote-info.js
+		/** Lazy assembly of generated Remote definitions using caller-supplied Zod; no runtime imports. */
+		/**
+		* Retain one generated definition per endpoint without constructing parsers or projections.
+		* The class instance builds its shared descriptor/method index on first access;
+		* input schemas and JSON Schema projections are cached only when requested.
+		* @param spec - compiler-produced method facts and Zod factories.
+		* @param zod - the generated artifact's Zod runtime for named-input parsers.
+		* @returns a lazy, mountable info instance with no registration or transport effects.
+		*/
+		function createTypertRemoteInfo(spec, zod) {
+			return new RemoteInfo(spec, zod);
+		}
+		var RemoteInfo = class {
+			spec;
+			zod;
+			index;
+			constructor(spec, zod) {
+				this.spec = spec;
+				this.zod = zod;
+			}
+			get package() {
+				return this.spec.package;
+			}
+			get descriptors() {
+				return this.resolve().descriptors;
+			}
+			get methods() {
+				return this.resolve().methods;
+			}
+			resolve() {
+				if (this.index !== void 0) return this.index;
+				const zod = this.zod;
+				const descriptors = [];
+				const methods = Object.create(null);
+				for (const [endpoint, definition] of Object.entries(this.spec.methods)) {
+					const separator = endpoint.indexOf("/");
+					const namespace = endpoint.slice(0, separator);
+					const method = endpoint.slice(separator + 1);
+					const parameters = definition.parameters.map((parameter) => ({
+						...parameter,
+						wire: parameter.wire ?? parameter.name
+					}));
+					const descriptor = {
+						...definition,
+						id: `${this.spec.package}#${endpoint}`,
+						namespace,
+						method,
+						parameters,
+						result: definition.result.description === void 0 ? definition.result : new ResultValue(definition.result)
+					};
+					if (definition.invocation.kind === "direct") {
+						const inputs = [];
+						methods[endpoint] = Object.assign(descriptor, {
+							input(options) {
+								const strict = options?.strict === true;
+								return inputs[strict ? 1 : 0] ??= new NamedInput(parameters, strict, zod);
+							},
+							invoke(remote, input, signal) {
+								const named = input;
+								const values = parameters.map((parameter) => named[parameter.wire]);
+								if (definition.cancellation !== void 0) values.push(signal);
+								const receiver = Reflect.get(remote, namespace);
+								return Reflect.get(receiver, method).apply(receiver, values);
+							}
+						});
+					}
+					descriptors.push(descriptor);
+				}
+				return this.index = {
+					descriptors,
+					methods
+				};
+			}
+		};
+		function optional(parameter) {
+			return parameter.source === "json" && parameter.acceptsUndefined === true;
+		}
+		var NamedInput = class {
+			parameters;
+			strict;
+			zod;
+			schema;
+			projection;
+			constructor(parameters, strict, zod) {
+				this.parameters = parameters;
+				this.strict = strict;
+				this.zod = zod;
+			}
+			codec(parameter) {
+				return this.strict ? parameter.strictCodec : parameter.codec;
+			}
+			create = () => this.schema ??= this.zod.strictObject(Object.fromEntries(this.parameters.map((parameter) => {
+				const value = this.codec(parameter).create();
+				return [parameter.wire, optional(parameter) ? value.optional() : value.nonoptional()];
+			})));
+			get jsonSchema() {
+				return this.project().jsonSchema;
+			}
+			get jsonSchemaError() {
+				return this.project().jsonSchemaError;
+			}
+			project() {
+				if (this.projection !== void 0) return this.projection;
+				const unavailable = this.parameters.find((parameter) => this.codec(parameter).jsonSchema === void 0);
+				if (unavailable !== void 0) return this.projection = { jsonSchemaError: this.codec(unavailable).jsonSchemaError ?? `No JSON Schema for parameter ${unavailable.wire}` };
+				return this.projection = { jsonSchema: {
+					type: "object",
+					properties: Object.fromEntries(this.parameters.map((parameter) => [parameter.wire, {
+						...this.codec(parameter).jsonSchema,
+						...parameter.description === void 0 ? {} : { description: parameter.description }
+					}])),
+					required: this.parameters.filter((parameter) => !optional(parameter)).map((parameter) => parameter.wire),
+					additionalProperties: false
+				} };
+			}
+		};
+		var ResultValue = class {
+			spec;
+			projection;
+			constructor(spec) {
+				this.spec = spec;
+			}
+			get mode() {
+				return this.spec.mode;
+			}
+			get typeSymbol() {
+				return this.spec.typeSymbol;
+			}
+			get create() {
+				return this.spec.create;
+			}
+			get decode() {
+				return this.spec.decode;
+			}
+			get encode() {
+				return this.spec.encode;
+			}
+			get description() {
+				return this.spec.description;
+			}
+			get jsonSchemaError() {
+				return this.spec.jsonSchemaError;
+			}
+			get jsonSchema() {
+				if (this.projection === void 0) {
+					const schema = this.spec.jsonSchema;
+					this.projection = { value: schema === void 0 ? void 0 : {
+						...schema,
+						description: this.spec.description
+					} };
+				}
+				return this.projection.value;
+			}
+		};
+		//#endregion
+		//#region ../../client/product-analytics/lib/typert.remote-client.js
+		let _deepseek_ai_dsh_client_product_analytics_productAnalytics_enabled_result$schema$value;
+		const _deepseek_ai_dsh_client_product_analytics_productAnalytics_enabled_result$schema = () => _deepseek_ai_dsh_client_product_analytics_productAnalytics_enabled_result$schema$value ??= zod.z.boolean();
+		let _deepseek_ai_dsh_client_product_analytics_productAnalytics_report_parameter_0$schema$value;
+		const _deepseek_ai_dsh_client_product_analytics_productAnalytics_report_parameter_0$schema = () => _deepseek_ai_dsh_client_product_analytics_productAnalytics_report_parameter_0$schema$value ??= zod.z.union([
+			zod.z.object({
+				"eventName": zod.z.literal("desktop_app_launch"),
+				"attributes": zod.z.record(zod.z.string(), zod.z.never()),
+				"timestamp": zod.z.number()
+			}),
+			zod.z.object({
+				"eventName": zod.z.literal("auth_page_view"),
+				"attributes": zod.z.record(zod.z.string(), zod.z.never()),
+				"timestamp": zod.z.number()
+			}),
+			zod.z.object({
+				"eventName": zod.z.literal("auth_page_click"),
+				"attributes": zod.z.object({ "button_name": zod.z.union([zod.z.literal("sign_in"), zod.z.literal("api-key")]) }),
+				"timestamp": zod.z.number()
+			}),
+			zod.z.object({
+				"eventName": zod.z.literal("api_key_save_click"),
+				"attributes": zod.z.record(zod.z.string(), zod.z.never()),
+				"timestamp": zod.z.number()
+			}),
+			zod.z.object({
+				"eventName": zod.z.literal("onboarding_page_view"),
+				"attributes": zod.z.object({ "page_name": zod.z.union([
+					zod.z.literal("onboarding_welcome"),
+					zod.z.literal("onboarding_recharge"),
+					zod.z.literal("onboarding_use_case"),
+					zod.z.literal("onboarding_process")
+				]) }),
+				"timestamp": zod.z.number()
+			}),
+			zod.z.object({
+				"eventName": zod.z.literal("onboarding_page_click"),
+				"attributes": zod.z.object({
+					"page_name": zod.z.union([
+						zod.z.literal("onboarding_welcome"),
+						zod.z.literal("onboarding_recharge"),
+						zod.z.literal("onboarding_use_case"),
+						zod.z.literal("onboarding_process")
+					]),
+					"button_name": zod.z.union([
+						zod.z.literal("next"),
+						zod.z.literal("back"),
+						zod.z.literal("skip"),
+						zod.z.literal("charge"),
+						zod.z.literal("later"),
+						zod.z.literal("continue")
+					]),
+					"selected_content": zod.z.union([
+						zod.z.literal("office"),
+						zod.z.literal("code"),
+						zod.z.literal("code_office"),
+						zod.z.literal("focus_result"),
+						zod.z.literal("key_detail"),
+						zod.z.literal("full_process")
+					]).optional()
+				}),
+				"timestamp": zod.z.number()
+			}),
+			zod.z.object({
+				"eventName": zod.z.literal("onboarding_popup_view"),
+				"attributes": zod.z.object({ "popup_name": zod.z.union([zod.z.literal("skip_charge"), zod.z.literal("skip_setting")]) }),
+				"timestamp": zod.z.number()
+			}),
+			zod.z.object({
+				"eventName": zod.z.literal("onboarding_popup_click"),
+				"attributes": zod.z.object({
+					"popup_name": zod.z.union([zod.z.literal("skip_charge"), zod.z.literal("skip_setting")]),
+					"button_name": zod.z.union([
+						zod.z.literal("charge"),
+						zod.z.literal("know"),
+						zod.z.literal("enter"),
+						zod.z.literal("setting"),
+						zod.z.literal("close")
+					])
+				}),
+				"timestamp": zod.z.number()
+			}),
+			zod.z.object({
+				"eventName": zod.z.literal("desktop_upgrade_click"),
+				"attributes": zod.z.record(zod.z.string(), zod.z.never()),
+				"timestamp": zod.z.number()
+			}),
+			zod.z.object({
+				"eventName": zod.z.literal("desktop_upgrade_download_result"),
+				"attributes": zod.z.object({
+					"is_success": zod.z.boolean(),
+					"error_reason": zod.z.string().optional()
+				}),
+				"timestamp": zod.z.number()
+			}),
+			zod.z.object({
+				"eventName": zod.z.literal("desktop_upgrade_install_restart_click"),
+				"attributes": zod.z.record(zod.z.string(), zod.z.never()),
+				"timestamp": zod.z.number()
+			}),
+			zod.z.object({
+				"eventName": zod.z.literal("send_button_click"),
+				"attributes": zod.z.object({
+					"session_id": zod.z.string().optional(),
+					"model_name": zod.z.string().optional(),
+					"thinking_effort": zod.z.string().optional(),
+					"run_mode": zod.z.union([
+						zod.z.literal("goal"),
+						zod.z.literal("plan"),
+						zod.z.literal("default")
+					]),
+					"msg_type": zod.z.union([
+						zod.z.literal("queue"),
+						zod.z.literal("steer"),
+						zod.z.literal("default")
+					])
+				}),
+				"timestamp": zod.z.number()
+			}),
+			zod.z.object({
+				"eventName": zod.z.literal("model_switch"),
+				"attributes": zod.z.object({
+					"session_id": zod.z.string().optional(),
+					"switch_from": zod.z.string(),
+					"switch_to": zod.z.string()
+				}),
+				"timestamp": zod.z.number()
+			}),
+			zod.z.object({
+				"eventName": zod.z.literal("thinking_level_switch"),
+				"attributes": zod.z.object({
+					"session_id": zod.z.string().optional(),
+					"switch_from": zod.z.string(),
+					"switch_to": zod.z.string(),
+					"model_name": zod.z.string()
+				}),
+				"timestamp": zod.z.number()
+			}),
+			zod.z.object({
+				"eventName": zod.z.literal("context_compression"),
+				"attributes": zod.z.object({
+					"session_id": zod.z.string(),
+					"trigger_type": zod.z.union([zod.z.literal("auto"), zod.z.literal("manual")])
+				}),
+				"timestamp": zod.z.number()
+			}),
+			zod.z.object({
+				"eventName": zod.z.literal("branch_session_click"),
+				"attributes": zod.z.object({
+					"session_id": zod.z.string(),
+					"parent_session_id": zod.z.string(),
+					"parent_message_id": zod.z.string().optional(),
+					"click_position": zod.z.union([zod.z.literal("footer"), zod.z.literal("sidebar")])
+				}),
+				"timestamp": zod.z.number()
+			}),
+			zod.z.object({
+				"eventName": zod.z.literal("sidebar_menu_click"),
+				"attributes": zod.z.object({ "menu_name": zod.z.union([zod.z.literal("plugin"), zod.z.literal("cron")]) }),
+				"timestamp": zod.z.number()
+			}),
+			zod.z.object({
+				"eventName": zod.z.literal("plugin_toggle"),
+				"attributes": zod.z.object({
+					"plugin_name": zod.z.string(),
+					"plugin_type": zod.z.union([zod.z.literal("plugin"), zod.z.literal("bundle")]),
+					"is_enabled": zod.z.boolean(),
+					"is_builtin": zod.z.boolean()
+				}),
+				"timestamp": zod.z.number()
+			}),
+			zod.z.object({
+				"eventName": zod.z.literal("plugin_add_button_click"),
+				"attributes": zod.z.record(zod.z.string(), zod.z.never()),
+				"timestamp": zod.z.number()
+			}),
+			zod.z.object({
+				"eventName": zod.z.literal("plugin_install_click"),
+				"attributes": zod.z.object({ "input_value": zod.z.string() }),
+				"timestamp": zod.z.number()
+			}),
+			zod.z.object({
+				"eventName": zod.z.literal("install_plugin_result"),
+				"attributes": zod.z.object({
+					"input_value": zod.z.string(),
+					"is_success": zod.z.boolean(),
+					"error_reason": zod.z.string().optional(),
+					"duration": zod.z.number(),
+					"plugin_name": zod.z.string().optional()
+				}),
+				"timestamp": zod.z.number()
+			}),
+			zod.z.object({
+				"eventName": zod.z.literal("confirm_uninstall_plugin"),
+				"attributes": zod.z.object({ "plugin_name": zod.z.string() }),
+				"timestamp": zod.z.number()
+			})
+		]);
+		let _deepseek_ai_dsh_client_product_analytics_productAnalytics_report_result$schema$value;
+		const _deepseek_ai_dsh_client_product_analytics_productAnalytics_report_result$schema = () => _deepseek_ai_dsh_client_product_analytics_productAnalytics_report_result$schema$value ??= zod.z.void();
+		let _deepseek_ai_dsh_client_product_analytics_productAnalytics_watchPolicy_result$schema$value;
+		const _deepseek_ai_dsh_client_product_analytics_productAnalytics_watchPolicy_result$schema = () => _deepseek_ai_dsh_client_product_analytics_productAnalytics_watchPolicy_result$schema$value ??= zod.z.boolean();
+		let _deepseek_ai_dsh_client_product_analytics_productAnalytics_report_parameter_0_strict$schema$value;
+		const _deepseek_ai_dsh_client_product_analytics_productAnalytics_report_parameter_0_strict$schema = () => _deepseek_ai_dsh_client_product_analytics_productAnalytics_report_parameter_0_strict$schema$value ??= zod.z.union([
+			zod.z.strictObject({
+				"eventName": zod.z.literal("desktop_app_launch"),
+				"attributes": zod.z.record(zod.z.string(), zod.z.never()),
+				"timestamp": zod.z.number()
+			}),
+			zod.z.strictObject({
+				"eventName": zod.z.literal("auth_page_view"),
+				"attributes": zod.z.record(zod.z.string(), zod.z.never()),
+				"timestamp": zod.z.number()
+			}),
+			zod.z.strictObject({
+				"eventName": zod.z.literal("auth_page_click"),
+				"attributes": zod.z.strictObject({ "button_name": zod.z.union([zod.z.literal("sign_in"), zod.z.literal("api-key")]) }),
+				"timestamp": zod.z.number()
+			}),
+			zod.z.strictObject({
+				"eventName": zod.z.literal("api_key_save_click"),
+				"attributes": zod.z.record(zod.z.string(), zod.z.never()),
+				"timestamp": zod.z.number()
+			}),
+			zod.z.strictObject({
+				"eventName": zod.z.literal("onboarding_page_view"),
+				"attributes": zod.z.strictObject({ "page_name": zod.z.union([
+					zod.z.literal("onboarding_welcome"),
+					zod.z.literal("onboarding_recharge"),
+					zod.z.literal("onboarding_use_case"),
+					zod.z.literal("onboarding_process")
+				]) }),
+				"timestamp": zod.z.number()
+			}),
+			zod.z.strictObject({
+				"eventName": zod.z.literal("onboarding_page_click"),
+				"attributes": zod.z.strictObject({
+					"page_name": zod.z.union([
+						zod.z.literal("onboarding_welcome"),
+						zod.z.literal("onboarding_recharge"),
+						zod.z.literal("onboarding_use_case"),
+						zod.z.literal("onboarding_process")
+					]),
+					"button_name": zod.z.union([
+						zod.z.literal("next"),
+						zod.z.literal("back"),
+						zod.z.literal("skip"),
+						zod.z.literal("charge"),
+						zod.z.literal("later"),
+						zod.z.literal("continue")
+					]),
+					"selected_content": zod.z.union([
+						zod.z.literal("office"),
+						zod.z.literal("code"),
+						zod.z.literal("code_office"),
+						zod.z.literal("focus_result"),
+						zod.z.literal("key_detail"),
+						zod.z.literal("full_process")
+					]).optional()
+				}),
+				"timestamp": zod.z.number()
+			}),
+			zod.z.strictObject({
+				"eventName": zod.z.literal("onboarding_popup_view"),
+				"attributes": zod.z.strictObject({ "popup_name": zod.z.union([zod.z.literal("skip_charge"), zod.z.literal("skip_setting")]) }),
+				"timestamp": zod.z.number()
+			}),
+			zod.z.strictObject({
+				"eventName": zod.z.literal("onboarding_popup_click"),
+				"attributes": zod.z.strictObject({
+					"popup_name": zod.z.union([zod.z.literal("skip_charge"), zod.z.literal("skip_setting")]),
+					"button_name": zod.z.union([
+						zod.z.literal("charge"),
+						zod.z.literal("know"),
+						zod.z.literal("enter"),
+						zod.z.literal("setting"),
+						zod.z.literal("close")
+					])
+				}),
+				"timestamp": zod.z.number()
+			}),
+			zod.z.strictObject({
+				"eventName": zod.z.literal("desktop_upgrade_click"),
+				"attributes": zod.z.record(zod.z.string(), zod.z.never()),
+				"timestamp": zod.z.number()
+			}),
+			zod.z.strictObject({
+				"eventName": zod.z.literal("desktop_upgrade_download_result"),
+				"attributes": zod.z.strictObject({
+					"is_success": zod.z.boolean(),
+					"error_reason": zod.z.string().optional()
+				}),
+				"timestamp": zod.z.number()
+			}),
+			zod.z.strictObject({
+				"eventName": zod.z.literal("desktop_upgrade_install_restart_click"),
+				"attributes": zod.z.record(zod.z.string(), zod.z.never()),
+				"timestamp": zod.z.number()
+			}),
+			zod.z.strictObject({
+				"eventName": zod.z.literal("send_button_click"),
+				"attributes": zod.z.strictObject({
+					"session_id": zod.z.string().optional(),
+					"model_name": zod.z.string().optional(),
+					"thinking_effort": zod.z.string().optional(),
+					"run_mode": zod.z.union([
+						zod.z.literal("goal"),
+						zod.z.literal("plan"),
+						zod.z.literal("default")
+					]),
+					"msg_type": zod.z.union([
+						zod.z.literal("queue"),
+						zod.z.literal("steer"),
+						zod.z.literal("default")
+					])
+				}),
+				"timestamp": zod.z.number()
+			}),
+			zod.z.strictObject({
+				"eventName": zod.z.literal("model_switch"),
+				"attributes": zod.z.strictObject({
+					"session_id": zod.z.string().optional(),
+					"switch_from": zod.z.string(),
+					"switch_to": zod.z.string()
+				}),
+				"timestamp": zod.z.number()
+			}),
+			zod.z.strictObject({
+				"eventName": zod.z.literal("thinking_level_switch"),
+				"attributes": zod.z.strictObject({
+					"session_id": zod.z.string().optional(),
+					"switch_from": zod.z.string(),
+					"switch_to": zod.z.string(),
+					"model_name": zod.z.string()
+				}),
+				"timestamp": zod.z.number()
+			}),
+			zod.z.strictObject({
+				"eventName": zod.z.literal("context_compression"),
+				"attributes": zod.z.strictObject({
+					"session_id": zod.z.string(),
+					"trigger_type": zod.z.union([zod.z.literal("auto"), zod.z.literal("manual")])
+				}),
+				"timestamp": zod.z.number()
+			}),
+			zod.z.strictObject({
+				"eventName": zod.z.literal("branch_session_click"),
+				"attributes": zod.z.strictObject({
+					"session_id": zod.z.string(),
+					"parent_session_id": zod.z.string(),
+					"parent_message_id": zod.z.string().optional(),
+					"click_position": zod.z.union([zod.z.literal("footer"), zod.z.literal("sidebar")])
+				}),
+				"timestamp": zod.z.number()
+			}),
+			zod.z.strictObject({
+				"eventName": zod.z.literal("sidebar_menu_click"),
+				"attributes": zod.z.strictObject({ "menu_name": zod.z.union([zod.z.literal("plugin"), zod.z.literal("cron")]) }),
+				"timestamp": zod.z.number()
+			}),
+			zod.z.strictObject({
+				"eventName": zod.z.literal("plugin_toggle"),
+				"attributes": zod.z.strictObject({
+					"plugin_name": zod.z.string(),
+					"plugin_type": zod.z.union([zod.z.literal("plugin"), zod.z.literal("bundle")]),
+					"is_enabled": zod.z.boolean(),
+					"is_builtin": zod.z.boolean()
+				}),
+				"timestamp": zod.z.number()
+			}),
+			zod.z.strictObject({
+				"eventName": zod.z.literal("plugin_add_button_click"),
+				"attributes": zod.z.record(zod.z.string(), zod.z.never()),
+				"timestamp": zod.z.number()
+			}),
+			zod.z.strictObject({
+				"eventName": zod.z.literal("plugin_install_click"),
+				"attributes": zod.z.strictObject({ "input_value": zod.z.string() }),
+				"timestamp": zod.z.number()
+			}),
+			zod.z.strictObject({
+				"eventName": zod.z.literal("install_plugin_result"),
+				"attributes": zod.z.strictObject({
+					"input_value": zod.z.string(),
+					"is_success": zod.z.boolean(),
+					"error_reason": zod.z.string().optional(),
+					"duration": zod.z.number(),
+					"plugin_name": zod.z.string().optional()
+				}),
+				"timestamp": zod.z.number()
+			}),
+			zod.z.strictObject({
+				"eventName": zod.z.literal("confirm_uninstall_plugin"),
+				"attributes": zod.z.strictObject({ "plugin_name": zod.z.string() }),
+				"timestamp": zod.z.number()
+			})
+		]);
+		const TYPERT_REMOTE$25 = createTypertRemoteInfo({
+			package: "@deepseek-ai/dsh-client-product-analytics",
+			methods: {
+				"productAnalytics/enabled": {
+					service: "productAnalytics",
+					description: "Read the collection policy.",
+					invocation: { kind: "direct" },
+					parameters: [],
+					result: {
+						mode: "strict",
+						typeSymbol: "@deepseek-ai/dsh-client-product-analytics#productAnalytics/enabled:result",
+						create: _deepseek_ai_dsh_client_product_analytics_productAnalytics_enabled_result$schema,
+						description: "whether this Host currently accepts Desktop analytics.",
+						jsonSchema: { "type": "boolean" }
+					},
+					sourceLocation: {
+						"file": "packages/client/product-analytics/src/index.ts",
+						"line": 67,
+						"column": 3
+					}
+				},
+				"productAnalytics/report": {
+					service: "productAnalytics",
+					description: "Submit selected Desktop fields with cached static environment and fresh identity. The first intake waits for bounded environment queries; concurrent intakes share them. Missing identity is omitted; failed environment fields carry fixed reasons.",
+					invocation: { kind: "direct" },
+					parameters: [{
+						name: "event",
+						description: "typed product event without message contents or credentials.",
+						source: "json",
+						codec: {
+							mode: "strict",
+							typeSymbol: "@deepseek-ai/dsh-client-product-analytics/types#ProductEvent",
+							create: _deepseek_ai_dsh_client_product_analytics_productAnalytics_report_parameter_0$schema,
+							jsonSchemaError: "typert tool schema: unsupported never value"
+						},
+						strictCodec: {
+							mode: "strict",
+							typeSymbol: "@deepseek-ai/dsh-client-product-analytics/types#ProductEvent",
+							create: _deepseek_ai_dsh_client_product_analytics_productAnalytics_report_parameter_0_strict$schema,
+							jsonSchemaError: "typert tool schema: unsupported never value"
+						}
+					}],
+					result: {
+						mode: "strict",
+						typeSymbol: "@deepseek-ai/dsh-client-product-analytics#productAnalytics/report:result",
+						create: _deepseek_ai_dsh_client_product_analytics_productAnalytics_report_result$schema,
+						description: "after local submission; no delivery or warehouse acknowledgement.",
+						jsonSchemaError: "typert tool schema: unsupported void value"
+					},
+					sourceLocation: {
+						"file": "packages/client/product-analytics/src/index.ts",
+						"line": 100,
+						"column": 9
+					}
+				},
+				"productAnalytics/watchPolicy": {
+					service: "productAnalytics",
+					description: "Stream the effective policy initially and after live configuration edits.",
+					mode: "stream",
+					invocation: { kind: "direct" },
+					parameters: [],
+					cancellation: { parameter: "signal" },
+					result: {
+						mode: "strict",
+						typeSymbol: "@deepseek-ai/dsh-client-product-analytics#productAnalytics/watchPolicy:result",
+						create: _deepseek_ai_dsh_client_product_analytics_productAnalytics_watchPolicy_result$schema,
+						description: "current policy values until cancellation or service disposal.",
+						jsonSchema: { "type": "boolean" }
+					},
+					sourceLocation: {
+						"file": "packages/client/product-analytics/src/index.ts",
+						"line": 75,
+						"column": 10
+					}
+				}
+			}
+		}, zod.z);
+		//#endregion
+		//#region ../../preset/agent-preset-registry/lib/typert.remote-client.js
+		let _deepseek_ai_dsh_agent_preset_registry_agentPresets_list_result$schema$value;
+		const _deepseek_ai_dsh_agent_preset_registry_agentPresets_list_result$schema = () => _deepseek_ai_dsh_agent_preset_registry_agentPresets_list_result$schema$value ??= zod.z.object({ "presets": zod.z.array(zod.z.object({
+			"id": zod.z.string().readonly().describe("Stable identifier; also the label's fallback."),
+			"isDefault": zod.z.boolean().readonly().describe("Whether a session naming no preset composes this one."),
+			"name": zod.z.string().readonly().optional().describe("Display name the preset published."),
+			"description": zod.z.string().readonly().optional().describe("One sentence on what this preset is for."),
+			"broken": zod.z.string().readonly().optional().describe("Why this preset cannot compose a session; absent when it can.")
+		})).readonly().describe("Every current declaration, including activation failures.") });
+		let _deepseek_ai_dsh_agent_preset_registry_agentPresets_read_parameter_0$schema$value;
+		const _deepseek_ai_dsh_agent_preset_registry_agentPresets_read_parameter_0$schema = () => _deepseek_ai_dsh_agent_preset_registry_agentPresets_read_parameter_0$schema$value ??= zod.z.string();
+		let _deepseek_ai_dsh_agent_preset_registry_agentPresets_read_result$schema$value;
+		const _deepseek_ai_dsh_agent_preset_registry_agentPresets_read_result$schema = () => _deepseek_ai_dsh_agent_preset_registry_agentPresets_read_result$schema$value ??= zod.z.object({
+			"agentPreset": zod.z.string().readonly().describe("The preset the composition belongs to."),
+			"content": zod.z.string().readonly().describe("The declared child plugin list as entry-list YAML, `!!js` expressions included."),
+			"name": zod.z.string().readonly().optional().describe("Display name the preset published."),
+			"description": zod.z.string().readonly().optional().describe("One sentence on what this preset is for.")
+		});
+		let _deepseek_ai_dsh_agent_preset_registry_agentPresets_select_parameter_0$schema$value;
+		const _deepseek_ai_dsh_agent_preset_registry_agentPresets_select_parameter_0$schema = () => _deepseek_ai_dsh_agent_preset_registry_agentPresets_select_parameter_0$schema$value ??= zod.z.string();
+		let _deepseek_ai_dsh_agent_preset_registry_agentPresets_select_parameter_1$schema$value;
+		const _deepseek_ai_dsh_agent_preset_registry_agentPresets_select_parameter_1$schema = () => _deepseek_ai_dsh_agent_preset_registry_agentPresets_select_parameter_1$schema$value ??= zod.z.string();
+		let _deepseek_ai_dsh_agent_preset_registry_agentPresets_select_result$schema$value;
+		const _deepseek_ai_dsh_agent_preset_registry_agentPresets_select_result$schema = () => _deepseek_ai_dsh_agent_preset_registry_agentPresets_select_result$schema$value ??= zod.z.string();
+		let _deepseek_ai_dsh_agent_preset_registry_agentPresets_read_parameter_0_strict$schema$value;
+		const _deepseek_ai_dsh_agent_preset_registry_agentPresets_read_parameter_0_strict$schema = () => _deepseek_ai_dsh_agent_preset_registry_agentPresets_read_parameter_0_strict$schema$value ??= zod.z.string();
+		let _deepseek_ai_dsh_agent_preset_registry_agentPresets_select_parameter_0_strict$schema$value;
+		const _deepseek_ai_dsh_agent_preset_registry_agentPresets_select_parameter_0_strict$schema = () => _deepseek_ai_dsh_agent_preset_registry_agentPresets_select_parameter_0_strict$schema$value ??= zod.z.string();
+		let _deepseek_ai_dsh_agent_preset_registry_agentPresets_select_parameter_1_strict$schema$value;
+		const _deepseek_ai_dsh_agent_preset_registry_agentPresets_select_parameter_1_strict$schema = () => _deepseek_ai_dsh_agent_preset_registry_agentPresets_select_parameter_1_strict$schema$value ??= zod.z.string();
+		const TYPERT_REMOTE$24 = createTypertRemoteInfo({
+			package: "@deepseek-ai/dsh-agent-preset-registry",
+			methods: {
+				"agentPresets/list": {
+					service: "agentPresets",
+					description: "Read the selection roster.",
+					implementation: "remoteExportList",
+					invocation: { kind: "direct" },
+					parameters: [],
+					result: {
+						mode: "strict",
+						typeSymbol: "@deepseek-ai/dsh-agent-preset-registry/types#AgentPresetRoster",
+						create: _deepseek_ai_dsh_agent_preset_registry_agentPresets_list_result$schema,
+						description: "Current presets, each marked when it is the default.",
+						jsonSchema: {
+							"type": "object",
+							"properties": { "presets": {
+								"type": "array",
+								"items": {
+									"type": "object",
+									"properties": {
+										"id": {
+											"type": "string",
+											"description": "Stable identifier; also the label's fallback."
+										},
+										"isDefault": {
+											"type": "boolean",
+											"description": "Whether a session naming no preset composes this one."
+										},
+										"name": {
+											"type": "string",
+											"description": "Display name the preset published."
+										},
+										"description": {
+											"type": "string",
+											"description": "One sentence on what this preset is for."
+										},
+										"broken": {
+											"type": "string",
+											"description": "Why this preset cannot compose a session; absent when it can."
+										}
+									},
+									"required": ["id", "isDefault"],
+									"additionalProperties": true
+								},
+								"description": "Every current declaration, including activation failures."
+							} },
+							"required": ["presets"],
+							"additionalProperties": true
+						}
+					},
+					sourceLocation: {
+						"file": "packages/preset/agent-preset-registry/src/index.ts",
+						"line": 195,
+						"column": 9
+					}
+				},
+				"agentPresets/read": {
+					service: "agentPresets",
+					description: "Read one declaration's child plugin list as YAML, for viewing only.",
+					implementation: "readDocument",
+					invocation: { kind: "direct" },
+					parameters: [{
+						name: "agentPreset",
+						description: "Preset identity.",
+						source: "json",
+						codec: {
+							mode: "strict",
+							typeSymbol: "@deepseek-ai/dsh-agent-preset-registry#agentPresets/read:agentPreset",
+							create: _deepseek_ai_dsh_agent_preset_registry_agentPresets_read_parameter_0$schema,
+							jsonSchema: { "type": "string" }
+						},
+						strictCodec: {
+							mode: "strict",
+							typeSymbol: "@deepseek-ai/dsh-agent-preset-registry#agentPresets/read:agentPreset",
+							create: _deepseek_ai_dsh_agent_preset_registry_agentPresets_read_parameter_0_strict$schema,
+							jsonSchema: { "type": "string" }
+						}
+					}],
+					result: {
+						mode: "strict",
+						typeSymbol: "@deepseek-ai/dsh-agent-preset-registry/types#AgentPresetDocument",
+						create: _deepseek_ai_dsh_agent_preset_registry_agentPresets_read_result$schema,
+						description: "The declared composition beside its published metadata.",
+						jsonSchema: {
+							"type": "object",
+							"properties": {
+								"agentPreset": {
+									"type": "string",
+									"description": "The preset the composition belongs to."
+								},
+								"content": {
+									"type": "string",
+									"description": "The declared child plugin list as entry-list YAML, `!!js` expressions included."
+								},
+								"name": {
+									"type": "string",
+									"description": "Display name the preset published."
+								},
+								"description": {
+									"type": "string",
+									"description": "One sentence on what this preset is for."
+								}
+							},
+							"required": ["agentPreset", "content"],
+							"additionalProperties": true
+						}
+					},
+					sourceLocation: {
+						"file": "packages/preset/agent-preset-registry/src/index.ts",
+						"line": 218,
+						"column": 3
+					}
+				},
+				"agentPresets/select": {
+					service: "agentPresets",
+					description: "Select a preset before a session starts its first turn. A Session whose log records the preset and whose Agent runs its current revision keeps its composition; nothing is logged or announced.",
+					invocation: { kind: "direct" },
+					scope: {
+						context: "agent",
+						wire: "agentId"
+					},
+					parameters: [{
+						name: "agent",
+						wire: "agentId",
+						description: "Target Agent.",
+						source: "lookup",
+						lookup: "agent",
+						codec: {
+							mode: "strict",
+							typeSymbol: "@deepseek-ai/dsh-session/types#SessionId",
+							create: _deepseek_ai_dsh_agent_preset_registry_agentPresets_select_parameter_0$schema,
+							jsonSchema: { "type": "string" }
+						},
+						strictCodec: {
+							mode: "strict",
+							typeSymbol: "@deepseek-ai/dsh-session/types#SessionId",
+							create: _deepseek_ai_dsh_agent_preset_registry_agentPresets_select_parameter_0_strict$schema,
+							jsonSchema: { "type": "string" }
+						}
+					}, {
+						name: "agentPreset",
+						description: "Requested identity.",
+						source: "json",
+						codec: {
+							mode: "strict",
+							typeSymbol: "@deepseek-ai/dsh-agent-preset-registry#agentPresets/select:agentPreset",
+							create: _deepseek_ai_dsh_agent_preset_registry_agentPresets_select_parameter_1$schema,
+							jsonSchema: { "type": "string" }
+						},
+						strictCodec: {
+							mode: "strict",
+							typeSymbol: "@deepseek-ai/dsh-agent-preset-registry#agentPresets/select:agentPreset",
+							create: _deepseek_ai_dsh_agent_preset_registry_agentPresets_select_parameter_1_strict$schema,
+							jsonSchema: { "type": "string" }
+						}
+					}],
+					result: {
+						mode: "strict",
+						typeSymbol: "@deepseek-ai/dsh-agent-preset-registry#agentPresets/select:result",
+						create: _deepseek_ai_dsh_agent_preset_registry_agentPresets_select_result$schema,
+						description: "Committed preset identity.",
+						jsonSchema: { "type": "string" }
+					},
+					sourceLocation: {
+						"file": "packages/preset/agent-preset-registry/src/index.ts",
+						"line": 349,
+						"column": 9
+					}
+				}
+			}
+		}, zod.z);
+		//#endregion
+		//#region ../../interaction/user-questions/lib/typert.remote-client.js
+		let _deepseek_ai_dsh_user_questions_userQuestions_answer_parameter_0$schema$value;
+		const _deepseek_ai_dsh_user_questions_userQuestions_answer_parameter_0$schema = () => _deepseek_ai_dsh_user_questions_userQuestions_answer_parameter_0$schema$value ??= zod.z.string();
+		let _deepseek_ai_dsh_user_questions_userQuestions_answer_parameter_1$schema$value;
+		const _deepseek_ai_dsh_user_questions_userQuestions_answer_parameter_1$schema = () => _deepseek_ai_dsh_user_questions_userQuestions_answer_parameter_1$schema$value ??= zod.z.string();
+		let _deepseek_ai_dsh_user_questions_userQuestions_answer_parameter_2$schema$value;
+		const _deepseek_ai_dsh_user_questions_userQuestions_answer_parameter_2$schema = () => _deepseek_ai_dsh_user_questions_userQuestions_answer_parameter_2$schema$value ??= zod.z.object({ "answers": zod.z.array(zod.z.object({
+			"id": zod.z.string().describe("The answered question id."),
+			"selected": zod.z.array(zod.z.string()).describe("Selected option labels. May accompany custom text for a multi-select question."),
+			"custom": zod.z.string().optional().describe("Optional free-text \"Other\" answer.")
+		})).describe("Structured answers keyed by question id.") });
+		let _deepseek_ai_dsh_user_questions_userQuestions_answer_result$schema$value;
+		const _deepseek_ai_dsh_user_questions_userQuestions_answer_result$schema = () => _deepseek_ai_dsh_user_questions_userQuestions_answer_result$schema$value ??= zod.z.boolean();
+		let _deepseek_ai_dsh_user_questions_userQuestions_attachWait_parameter_0$schema$value;
+		const _deepseek_ai_dsh_user_questions_userQuestions_attachWait_parameter_0$schema = () => _deepseek_ai_dsh_user_questions_userQuestions_attachWait_parameter_0$schema$value ??= zod.z.string();
+		let _deepseek_ai_dsh_user_questions_userQuestions_attachWait_parameter_1$schema$value;
+		const _deepseek_ai_dsh_user_questions_userQuestions_attachWait_parameter_1$schema = () => _deepseek_ai_dsh_user_questions_userQuestions_attachWait_parameter_1$schema$value ??= zod.z.string();
+		let _deepseek_ai_dsh_user_questions_userQuestions_attachWait_result$schema$value;
+		const _deepseek_ai_dsh_user_questions_userQuestions_attachWait_result$schema = () => _deepseek_ai_dsh_user_questions_userQuestions_attachWait_result$schema$value ??= zod.z.object({ "remainingMs": zod.z.number() });
+		let _deepseek_ai_dsh_user_questions_userQuestions_answer_parameter_0_strict$schema$value;
+		const _deepseek_ai_dsh_user_questions_userQuestions_answer_parameter_0_strict$schema = () => _deepseek_ai_dsh_user_questions_userQuestions_answer_parameter_0_strict$schema$value ??= zod.z.string();
+		let _deepseek_ai_dsh_user_questions_userQuestions_answer_parameter_1_strict$schema$value;
+		const _deepseek_ai_dsh_user_questions_userQuestions_answer_parameter_1_strict$schema = () => _deepseek_ai_dsh_user_questions_userQuestions_answer_parameter_1_strict$schema$value ??= zod.z.string();
+		let _deepseek_ai_dsh_user_questions_userQuestions_answer_parameter_2_strict$schema$value;
+		const _deepseek_ai_dsh_user_questions_userQuestions_answer_parameter_2_strict$schema = () => _deepseek_ai_dsh_user_questions_userQuestions_answer_parameter_2_strict$schema$value ??= zod.z.strictObject({ "answers": zod.z.array(zod.z.strictObject({
+			"id": zod.z.string().describe("The answered question id."),
+			"selected": zod.z.array(zod.z.string()).describe("Selected option labels. May accompany custom text for a multi-select question."),
+			"custom": zod.z.string().optional().describe("Optional free-text \"Other\" answer.")
+		})).describe("Structured answers keyed by question id.") });
+		let _deepseek_ai_dsh_user_questions_userQuestions_attachWait_parameter_0_strict$schema$value;
+		const _deepseek_ai_dsh_user_questions_userQuestions_attachWait_parameter_0_strict$schema = () => _deepseek_ai_dsh_user_questions_userQuestions_attachWait_parameter_0_strict$schema$value ??= zod.z.string();
+		let _deepseek_ai_dsh_user_questions_userQuestions_attachWait_parameter_1_strict$schema$value;
+		const _deepseek_ai_dsh_user_questions_userQuestions_attachWait_parameter_1_strict$schema = () => _deepseek_ai_dsh_user_questions_userQuestions_attachWait_parameter_1_strict$schema$value ??= zod.z.string();
+		const TYPERT_REMOTE$23 = createTypertRemoteInfo({
+			package: "@deepseek-ai/dsh-user-questions",
+			methods: {
+				"userQuestions/answer": {
+					service: "userQuestions",
+					description: "Answer a continued question. The reply is steered into the agent as a user message whose source names the call; that message is also the record that closes the question in the projection.",
+					invocation: { kind: "direct" },
+					scope: {
+						context: "agent",
+						wire: "agentId"
+					},
+					parameters: [
+						{
+							name: "agent",
+							wire: "agentId",
+							description: "Live root agent for the owning Session.",
+							source: "lookup",
+							lookup: "agent",
+							codec: {
+								mode: "strict",
+								typeSymbol: "@deepseek-ai/dsh-session/types#SessionId",
+								create: _deepseek_ai_dsh_user_questions_userQuestions_answer_parameter_0$schema,
+								jsonSchema: { "type": "string" }
+							},
+							strictCodec: {
+								mode: "strict",
+								typeSymbol: "@deepseek-ai/dsh-session/types#SessionId",
+								create: _deepseek_ai_dsh_user_questions_userQuestions_answer_parameter_0_strict$schema,
+								jsonSchema: { "type": "string" }
+							}
+						},
+						{
+							name: "callId",
+							description: "Continued question identity.",
+							source: "json",
+							codec: {
+								mode: "strict",
+								typeSymbol: "@deepseek-ai/dsh-llm/brand#ToolCallId",
+								create: _deepseek_ai_dsh_user_questions_userQuestions_answer_parameter_1$schema,
+								jsonSchema: { "type": "string" }
+							},
+							strictCodec: {
+								mode: "strict",
+								typeSymbol: "@deepseek-ai/dsh-llm/brand#ToolCallId",
+								create: _deepseek_ai_dsh_user_questions_userQuestions_answer_parameter_1_strict$schema,
+								jsonSchema: { "type": "string" }
+							}
+						},
+						{
+							name: "answer",
+							description: "Complete structured answer batch, one item per question of the call.",
+							source: "json",
+							codec: {
+								mode: "strict",
+								typeSymbol: "@deepseek-ai/dsh-user-questions/types#AskUserQuestionAnswer",
+								create: _deepseek_ai_dsh_user_questions_userQuestions_answer_parameter_2$schema,
+								jsonSchema: {
+									"type": "object",
+									"properties": { "answers": {
+										"type": "array",
+										"items": {
+											"type": "object",
+											"properties": {
+												"id": {
+													"type": "string",
+													"description": "The answered question id."
+												},
+												"selected": {
+													"type": "array",
+													"items": { "type": "string" },
+													"description": "Selected option labels. May accompany custom text for a multi-select question."
+												},
+												"custom": {
+													"type": "string",
+													"description": "Optional free-text \"Other\" answer."
+												}
+											},
+											"required": ["id", "selected"],
+											"additionalProperties": true
+										},
+										"description": "Structured answers keyed by question id."
+									} },
+									"required": ["answers"],
+									"additionalProperties": true
+								}
+							},
+							strictCodec: {
+								mode: "strict",
+								typeSymbol: "@deepseek-ai/dsh-user-questions/types#AskUserQuestionAnswer",
+								create: _deepseek_ai_dsh_user_questions_userQuestions_answer_parameter_2_strict$schema,
+								jsonSchema: {
+									"type": "object",
+									"properties": { "answers": {
+										"type": "array",
+										"items": {
+											"type": "object",
+											"properties": {
+												"id": {
+													"type": "string",
+													"description": "The answered question id."
+												},
+												"selected": {
+													"type": "array",
+													"items": { "type": "string" },
+													"description": "Selected option labels. May accompany custom text for a multi-select question."
+												},
+												"custom": {
+													"type": "string",
+													"description": "Optional free-text \"Other\" answer."
+												}
+											},
+											"required": ["id", "selected"],
+											"additionalProperties": false
+										},
+										"description": "Structured answers keyed by question id."
+									} },
+									"required": ["answers"],
+									"additionalProperties": false
+								}
+							}
+						}
+					],
+					result: {
+						mode: "strict",
+						typeSymbol: "@deepseek-ai/dsh-user-questions#userQuestions/answer:result",
+						create: _deepseek_ai_dsh_user_questions_userQuestions_answer_result$schema,
+						description: "Whether the question is still continued; an accepted reply stays queued until the agent admits its user message.",
+						jsonSchema: { "type": "boolean" }
+					},

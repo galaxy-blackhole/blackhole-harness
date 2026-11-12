@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "session-log-deepseek",
+    "description": "Khi được bật, tải nhật ký phiên lên DeepSeek kèm yêu cầu tới API model chính thức."
+  }
+}

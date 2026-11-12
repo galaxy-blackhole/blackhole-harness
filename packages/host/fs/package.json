@@ -1,0 +1,49 @@
+{
+  "name": "@galaxy-blackhole/gbh-fs",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "type": "module",
+  "main": "lib/index.js",
+  "description": "Abstract filesystem capability seam (ctx.fs) for the Galaxy Blackhole — vocabulary types, the FileSystem service (text IO + optional version-guarded atomic mutations), and the fs/* policy event vocabulary",
+  "scripts": {
+    "build": "bun run build.ts"
+  },
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/dsh-brand": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-llm": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-sandbox": "0.2.1-alpha.4",
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2"
+  },
+  "devDependencies": {
+    "@deepseek-ai/dsh-brand": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-llm": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-sandbox": "0.2.1-alpha.4",
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2"
+  },
+  "license": "MIT",
+  "gbh": {
+    "provenance": {
+      "stock": "@deepseek-ai/dsh-fs",
+      "version": "0.2.1-alpha.4",
+      "sha": "b165659f1eff0607222a7fe761bc56bae03fec8337c2e25affd064a3047dacb9"
+    },
+    "tests": [
+      "tests/host/host-utils-cluster.test.ts",
+      "tests/host/sandbox-seam-ab.test.ts"
+    ],
+    "peers": [
+      "@deepseek-ai/dsh-brand",
+      "@deepseek-ai/dsh-llm",
+      "@deepseek-ai/dsh-sandbox",
+      "@deepseek-ai/cordis"
+    ],
+    "draft": "19/10/2026 — GÓI THƯ VIỆN (0 dòng name trong dump 2026-10-18T01-31-57; matrix: khong co dong) ⇒ consumer inline, không khai gbh.row/gbh.nested."
+  }
+}

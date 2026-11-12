@@ -1,0 +1,50 @@
+{
+  "name": "@galaxy-blackhole/gbh-agent-default-model",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "type": "module",
+  "main": "lib/index.js",
+  "description": "Bản viết lại của Galaxy Blackhole cho row agent-default-model của DSH (@deepseek-ai/dsh-agent-default-model): dịch vụ agentDefaultModel — chọn model MẶC ĐỊNH dùng chung cho mọi điểm vào Agent, đọc tham chiếu Config SỐNG trong currentSelection() và ghi lựa chọn ĐẦY ĐỦ vào profile qua seam configEditor trong saveSelection().",
+  "scripts": {
+    "build": "bun run build.ts"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2",
+    "@deepseek-ai/schemastery": "~3.18.5-alpha.2",
+    "@deepseek-ai/dsh-llm": "0.2.1-alpha.4"
+  },
+  "devDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2",
+    "@deepseek-ai/dsh-agent": "0.2.1-alpha.4",
+    "@deepseek-ai/schemastery": "~3.18.5-alpha.2"
+  },
+  "license": "MIT",
+  "gbh": {
+    "peers": [
+      "@deepseek-ai/dsh-llm"
+    ],
+    "row": {
+      "id": "agent-default-model",
+      "config": {
+        "provider": "auto",
+        "model": "deepseek-v4.1-flash"
+      },
+      "tests": [
+        "tests/host/agent-default-model.test.ts"
+      ]
+    },
+    "provenance": {
+      "stock": "@deepseek-ai/dsh-agent-default-model"
+    }
+  },
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./package.json": "./package.json",
+    "./src/*": "./src/*",
+    "./locale/*.json": "./locale/*.json"
+  },
+  "types": "lib/types/index.d.ts"
+}

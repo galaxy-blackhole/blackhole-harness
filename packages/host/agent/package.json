@@ -1,0 +1,51 @@
+{
+  "name": "@galaxy-blackhole/gbh-agent",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "type": "module",
+  "main": "lib/index.js",
+  "description": "Bản viết lại của Galaxy Blackhole cho row agent của DSH (@deepseek-ai/dsh-agent): dịch vụ ctx.agents — sổ agent đang sống, uỷ quyền factory tạo/resume, phạm vi initiator theo tiến trình, cùng từ vựng sự kiện agent và ba helper phái sinh (dispatch · model-selection · consumed-work).",
+  "scripts": {
+    "build": "bun run build.ts"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2",
+    "@deepseek-ai/dsh-llm": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-scope": "0.2.1-alpha.4"
+  },
+  "devDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2",
+    "@deepseek-ai/dsh-llm": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-scope": "0.2.1-alpha.4"
+  },
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./package.json": "./package.json",
+    "./src/*": "./src/*",
+    "./locale/*.json": "./locale/*.json"
+  },
+  "gbh": {
+    "peers": [
+      "@deepseek-ai/cordis",
+      "@deepseek-ai/dsh-llm",
+      "@deepseek-ai/dsh-scope"
+    ],
+    "tests": [
+      "tests/host/agent.test.ts"
+    ],
+    "row": {
+      "id": "agent",
+      "tests": [
+        "tests/host/agent.test.ts"
+      ]
+    },
+    "provenance": {
+      "stock": "@deepseek-ai/dsh-agent"
+    }
+  },
+  "license": "MIT",
+  "types": "lib/types/index.d.ts"
+}

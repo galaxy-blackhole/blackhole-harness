@@ -1,0 +1,42 @@
+{
+  "name": "@galaxy-blackhole/gbh-sandbox-local",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "type": "module",
+  "main": "lib/index.js",
+  "description": "Bản sao 1:1 (nguyên văn lib/) của @deepseek-ai/dsh-sandbox-local — sandbox cục bộ: thực thi lệnh trong thư mục làm việc với chính sách hộp cát.",
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./src/*": "./src/*",
+    "./package.json": "./package.json",
+    "./locale/*.json": "./locale/*.json"
+  },
+  "license": "MIT",
+  "gbh": {
+    "tests": [
+      "tests/host/sandbox-local.test.ts"
+    ],
+    "debundled": true,
+    "provenance": {
+      "stock": "@deepseek-ai/dsh-sandbox-local",
+      "stockVersion": "0.2.1-alpha.4",
+      "stockLines": 556,
+      "peerDependencies": [
+        "@deepseek-ai/cordis",
+        "@deepseek-ai/dsh-llm",
+        "@deepseek-ai/dsh-sandbox",
+        "@deepseek-ai/dsh-session"
+      ],
+      "row": "sandbox"
+    }
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2",
+    "@deepseek-ai/dsh-llm": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-sandbox": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-session": "0.2.1-alpha.4"
+  }
+}

@@ -1,0 +1,51 @@
+{
+  "name": "@galaxy-blackhole/gbh-llm-retry",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "type": "module",
+  "main": "lib/index.js",
+  "description": "Bản viết lại của Galaxy Blackhole cho row llm-retry của DSH (@deepseek-ai/dsh-llm-retry): chính sách thử lại request LLM theo provider.",
+  "scripts": {
+    "build": "bun run build.ts"
+  },
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./package.json": "./package.json",
+    "./locale/*.json": "./locale/*.json"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2",
+    "@deepseek-ai/schemastery": "~3.18.5-alpha.2"
+  },
+  "dependencies": {
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2",
+    "@deepseek-ai/schemastery": "~3.18.5-alpha.2"
+  },
+  "license": "MIT",
+  "gbh": {
+    "peers": [
+      "@deepseek-ai/cordis",
+      "@deepseek-ai/schemastery"
+    ],
+    "row": {
+      "id": "llm-retry",
+      "inject": [
+        "agents",
+        "sessionProjections"
+      ],
+      "tests": [
+        "tests/host/llm-retry.test.ts"
+      ]
+    },
+    "provenance": {
+      "stock": "@deepseek-ai/dsh-llm-retry"
+    }
+  },
+  "types": "lib/types/index.d.ts"
+}

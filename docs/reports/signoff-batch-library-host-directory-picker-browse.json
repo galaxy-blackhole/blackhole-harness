@@ -1,0 +1,17 @@
+{
+  "dev": "tm-client-debundle",
+  "owner": "tm-client-debundle",
+  "evidence": [
+    "**LIBRARY — KHÔNG MOUNT** (không `gbh.row`, không `gbh.nested`; khớp 2 nguồn: package metadata + dump)",
+    "stock `@deepseek-ai/dsh-host-directory-picker-browse` @ `0.2.1-alpha.4` · provenance do reviewer đọc trực tiếp: **stockLines 234** · stockChars 9.296 · exports `[\".\", \"./package.json\", \"./src/*\", \"./locale/*.json\"]` · localeBytes en 59 / zh 158 · seam 'interface hẹp cục bộ (không import tĩnh @deepseek-ai/*)'",
+    "reviewer tự chạy `tests/host/host-directory-picker-browse.test.ts` = **13 pass / 0 fail / 50 expect** (khớp số Lead)",
+    "app khi ký: (3) **79 entry** · (5) **0** · entry gốc **0** — LANH; ghi chú (10) đang có 1 bản mount cũ của `gbh-client-ui-trajectory…` (gói KHÁC, không thuộc batch này, đang được rebuild)",
+    "rollback: không mount ⇒ không cần"
+  ],
+  "packages": [
+    {
+      "dsh": "@deepseek-ai/dsh-host-directory-picker-browse",
+      "gbh": "gbh-host-directory-picker-browse"
+    }
+  ]
+}

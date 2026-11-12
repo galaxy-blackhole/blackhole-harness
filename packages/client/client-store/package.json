@@ -1,0 +1,32 @@
+{
+  "name": "@galaxy-blackhole/gbh-client-store",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "type": "module",
+  "main": "lib/index.js",
+  "description": "Port tuong duong hanh vi cua @deepseek-ai/dsh-client-store (engine store khong phu thuoc ngoai): createSnapshotStore, defineStore, notifySubscribers, shallowEqual.",
+  "scripts": {
+    "build": "bun run build.ts"
+  },
+  "gbh": {
+    "draft": "Goi THU VIEN client (khong co row mount): chi cap module ao qua bang module cua trang. Khong khai gbh.row de tooling auto-mount khong import nham nhu plugin host (P0 boot r90/r91).",
+    "provenance": {
+      "stock": "@deepseek-ai/dsh-client-store",
+      "stockVersion": "0.2.1-alpha.4"
+    }
+  },
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./src/*": "./src/*",
+    "./package.json": "./package.json"
+  },
+  "peerDependencies": {},
+  "dsh": {
+    "client": {
+      "platform": "web"
+    }
+  }
+}

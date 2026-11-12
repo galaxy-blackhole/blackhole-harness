@@ -1,0 +1,39 @@
+{
+  "name": "@galaxy-blackhole/gbh-scope",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "type": "module",
+  "main": "lib/index.js",
+  "description": "Scoped-context registration primitive (scope tags, scope-filtered event dispatch) for the Galaxy Blackhole",
+  "scripts": {
+    "build": "bun run build.ts"
+  },
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2"
+  },
+  "devDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2"
+  },
+  "license": "MIT",
+  "gbh": {
+    "provenance": {
+      "stock": "@deepseek-ai/dsh-scope",
+      "version": "0.2.1-alpha.4",
+      "sha": "2829df71d76e08941457d4dd173eac60783e55354921137c8b75e8b5c0d2ecca"
+    },
+    "draft": "19/10/2026 — GÓI THƯ VIỆN: KHÔNG có row trong dump .parity/dumps/2026-10-18T01-31-57 (0 dòng name: '@deepseek-ai/dsh-scope') và KHÔNG có dòng trong docs/PARITY-MATRIX.md ⇒ consumer inline; không khai gbh.row/gbh.nested.",
+    "tests": [
+      "tests/host/session-format-cluster.test.ts"
+    ],
+    "peers": [
+      "@deepseek-ai/cordis"
+    ]
+  }
+}

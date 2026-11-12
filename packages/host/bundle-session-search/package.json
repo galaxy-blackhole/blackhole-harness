@@ -1,0 +1,53 @@
+{
+  "name": "@galaxy-blackhole/gbh-session-search",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "type": "module",
+  "description": "Tìm kiếm trong lịch sử phiên và sự kiện của phiên.",
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./cordis.patch.yml": "./cordis.patch.yml",
+    "./package.json": "./package.json",
+    "./locale/*.json": "./locale/*.json"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    }
+  },
+  "license": "MIT",
+  "gbh": {
+    "provenance": {
+      "stock": "@deepseek-ai/dsh-experimental-session-search",
+      "stockVersion": "0.2.1-alpha.4",
+      "patch": "./cordis.patch.yml",
+      "patchLines": 14,
+      "replacements": [
+        {
+          "stock": "@deepseek-ai/dsh-tool-session-query",
+          "ours": "@galaxy-blackhole/gbh-tool-session-query",
+          "count": 1
+        },
+        {
+          "stock": "@deepseek-ai/dsh-session-query-sqlite",
+          "ours": "@galaxy-blackhole/gbh-session-query-sqlite",
+          "count": 1
+        }
+      ],
+      "headerLines": 6,
+      "sha": "8e609bb71c20b858c77f0e9f90bb1319db8477b13f9f965f1a1e18524bf50881",
+      "shaFile": "lib/index.js",
+      "version": "0.2.1-alpha.4"
+    },
+    "tests": [
+      "tests/host/bundle-profile-patches.test.ts"
+    ]
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2"
+  },
+  "icon": "./icon.svg"
+}

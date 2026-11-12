@@ -1,0 +1,21 @@
+{
+  "name": "@galaxy-blackhole/gbh-node-addon-system-darwin-x64",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "description": "Addon he thong cho darwin-x64 (khong phai ma).",
+  "license": "BSD-3-Clause",
+  "os": [
+    "darwin"
+  ],
+  "cpu": [
+    "x64"
+  ],
+  "gbh": {
+    "provenance": {
+      "stock": "@deepseek-ai/node-addon-system-darwin-x64",
+      "version": "0.1.2",
+      "sha": "71ebcb1b09e60ea36a16225278c5ea2a726301311cf2211bca832cba82fc7a23"
+    },
+    "draft": "Ban sao 1:1 tu goi goc - chua co dong nao trong bang doi chieu (khong khai gbh.row)."
+  }
+}

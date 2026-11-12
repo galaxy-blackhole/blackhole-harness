@@ -1,0 +1,92 @@
+{
+  "name": "@galaxy-blackhole/gbh-experimental-inspector",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "type": "module",
+  "main": "lib/index.js",
+  "description": "Experimental cross-realm CDP hub for Host debugging and Client Runtime inspection",
+  "scripts": {
+    "build": "bun run build.ts"
+  },
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./client": "./lib/client.js",
+    "./locale/*.json": "./locale/*.json",
+    "./package.json": "./package.json"
+  },
+  "dependencies": {},
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2",
+    "@deepseek-ai/dsh-app-boot": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-util-crypto": "0.2.1-alpha.4",
+    "@deepseek-ai/schemastery": "~3.18.5-alpha.2",
+    "open": "^11.0.2",
+    "serve-static": "^2.2.1",
+    "ws": "^8.21.3"
+  },
+  "devDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2",
+    "@deepseek-ai/dsh-app-boot": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-util-crypto": "0.2.1-alpha.4",
+    "@deepseek-ai/schemastery": "~3.18.5-alpha.2",
+    "open": "^11.0.2",
+    "serve-static": "^2.2.1",
+    "ws": "^8.21.3"
+  },
+  "license": "MIT",
+  "dsh": {
+    "client": {
+      "inject": [],
+      "platform": "web",
+      "immediately": true
+    }
+  },
+  "gbh": {
+    "peers": [
+      "@deepseek-ai/cordis",
+      "@deepseek-ai/dsh-app-boot",
+      "@deepseek-ai/dsh-util-crypto",
+      "@deepseek-ai/schemastery",
+      "open",
+      "serve-static",
+      "ws"
+    ],
+    "tests": [
+      "tests/host/experimental-inspector.test.ts",
+      "tests/host/experimental-inspector-codec.test.ts",
+      "tests/host/experimental-inspector-faces.test.ts",
+      "tests/host/experimental-inspector-collision.test.ts"
+    ],
+    "row": {
+      "id": "experimental-inspector",
+      "config": {
+        "captureFetch": true
+      },
+      "tests": [
+        "tests/host/experimental-inspector.test.ts",
+        "tests/host/experimental-inspector-codec.test.ts",
+        "tests/host/experimental-inspector-faces.test.ts",
+        "tests/host/experimental-inspector-collision.test.ts"
+      ],
+      "hostAliases": [
+        "@deepseek-ai/dsh-experimental-inspector"
+      ],
+      "aliases": [
+        "@deepseek-ai/dsh-experimental-inspector"
+      ],
+      "moduleIds": [
+        "@galaxy-blackhole/gbh-experimental-inspector"
+      ],
+      "ownedByBundle": true
+    },
+    "provenance": {
+      "stock": "@deepseek-ai/dsh-experimental-inspector",
+      "version": "0.2.1-alpha.4",
+      "sha": "9645de2c58d93510227236b52bc36c61258dfb62f88ef8c596726ee4b6dba1ff",
+      "shaFile": "lib/client.js"
+    }
+  }
+}

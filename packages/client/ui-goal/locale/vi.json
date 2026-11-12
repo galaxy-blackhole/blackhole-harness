@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "ui-goal",
+    "description": "Bề mặt mục tiêu phiên: GoalBar neo trên composer, đọc từ projection goal của phiên."
+  }
+}

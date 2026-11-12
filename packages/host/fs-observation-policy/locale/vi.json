@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "fs-observation-policy",
+    "description": "Bắt buộc đọc tệp trước khi sửa và xác nhận lại khi tệp đã thay đổi."
+  }
+}

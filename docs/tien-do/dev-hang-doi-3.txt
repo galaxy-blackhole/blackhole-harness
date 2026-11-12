@@ -1,0 +1,14 @@
+host/session-stats
+host/session-telemetry
+host/session-title-all-prompts-llm
+host/session-title-first-prompt-llm
+host/settings-controller
+host/shell
+host/shell-env
+host/skill
+host/skill-badge
+host/skill-office
+host/spill
+host/storage
+host/storage-domain
+host/subagent

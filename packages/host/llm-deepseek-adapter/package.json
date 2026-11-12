@@ -1,0 +1,63 @@
+{
+  "name": "@galaxy-blackhole/gbh-llm-deepseek-adapter",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "type": "module",
+  "main": "lib/index.js",
+  "description": "Library adapter that speaks the DeepSeek chat-completion API for the llm service.",
+  "scripts": {
+    "build": "bun run build.ts"
+  },
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./package.json": "./package.json",
+    "./src/*": "./src/*"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2",
+    "@deepseek-ai/dsh-anonymous-user-id": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-atomic-write": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-attachment": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-deepseek-llm-api-extensions": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-fs": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-home-paths": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-launch-environment": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-llm": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-timeout": "0.2.1-alpha.4",
+    "@deepseek-ai/cordis-plugin-loader": "1.0.6"
+  },
+  "devDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2",
+    "@deepseek-ai/dsh-anonymous-user-id": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-atomic-write": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-attachment": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-deepseek-llm-api-extensions": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-fs": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-home-paths": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-launch-environment": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-llm": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-timeout": "0.2.1-alpha.4",
+    "@deepseek-ai/cordis-plugin-loader": "1.0.6",
+    "@deepseek-ai/cosmokit": "1.8.6",
+    "@deepseek-ai/dsh-brand": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-util-values": "0.2.1-alpha.4",
+    "@deepseek-ai/schemastery": "~3.18.5-alpha.2"
+  },
+  "license": "MIT",
+  "gbh": {
+    "draft": "GÓI THƯ VIỆN, KHÔNG PHẢI ROW: bản gốc @deepseek-ai/dsh-llm-deepseek có 40 export GIÁ TRỊ + không có apply/name ⇒ không có row nào trong cây plugin để thay, và bản thân nó KHÔNG đăng ký provider/service nào (provider 'deepseek' do packages/host/llm-deepseek + llm-deepseek-account đăng ký qua registerDeepSeekProvider). Đã kiểm trùng tên TRƯỚC khi viết: không có service/provider nào trùng. Tên gói là gbh-llm-deepseek-adapter vì gbh-llm-deepseek đã là bản của dsh-llm-deepseek-api-key. Consumer hiện vẫn import bundle DSH — việc chuyển consumer là task riêng (tiền lệ task-13).",
+    "tests": [
+      "tests/host/llm-deepseek-adapter.test.ts"
+    ],
+    "reference": "apps/host/node_modules/@deepseek-ai/dsh-llm-deepseek (CHỈ ĐỌC — nguồn đối chiếu byte)",
+    "provenance": {
+      "stock": "@deepseek-ai/dsh-llm-deepseek"
+    }
+  },
+  "dependencies": {
+    "eventsource-parser": "^3.0.3"
+  }
+}

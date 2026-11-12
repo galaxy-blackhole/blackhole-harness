@@ -1,0 +1,18 @@
+{
+  "dev": "tm-host-session",
+  "owner": "tm-host-session",
+  "evidence": [
+    "signed, MOUNTED — check:app 11/11, lab 0 did-not-activate, boot-smoke DAT",
+    "test stale DA SUA boi chu goi — reviewer tu chay lai: **25 pass / 0 fail / 48 expect** (khong con ca 'row PARKED' cu)",
+    "artifact build lai exit 0 (index.js) · export **5 = 5** (`AgentLoop` · `AgentLoop as default` · `DEFAULT_MAX_PARALLEL_TOOL_CALLS` · `CONFIGURED_AGENT_IDENTITIES_KEY` · `turnBoundaryProjectionDefinition`) va **`default === AgentLoop`**",
+    "**check:app DAT 11/11** (do lai 2 luot, so giong nhau): (3) **137 entry** · (5) **0** · (8) #root 47.181 / 46 slot / 0 console / 0 pageerror · (9) **0/80** · (11) HMR",
+    "**lab:row home CACH LY: #root 22.204 · 0 console · 0 pageerror · 0 did-not-activate**",
+    "dev/owner tam ghi tm-host-session (chua co entry cu) — Lead sua 2 dong neu khac; rollback san"
+  ],
+  "packages": [
+    {
+      "dsh": "@deepseek-ai/dsh-agent-loop",
+      "gbh": "gbh-host-agent-loop"
+    }
+  ]
+}

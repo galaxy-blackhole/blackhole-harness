@@ -1,0 +1,47 @@
+{
+  "name": "@galaxy-blackhole/gbh-client-ui-session-delete",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "type": "module",
+  "main": "lib/index.js",
+  "description": "Sidebar session menu item that deletes a stored session for good, with a confirmation dialog",
+  "scripts": {
+    "build": "bun run build.ts"
+  },
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./client": "./lib/client.js",
+    "./package.json": "./package.json"
+  },
+  "dsh": {
+    "client": {
+      "inject": [
+        "@deepseek-ai/dsh-api-remotes",
+        "@deepseek-ai/dsh-api-session-controller",
+        "@deepseek-ai/dsh-client-locale",
+        "@galaxy-blackhole/gbh-client-ui-primitives",
+        "@deepseek-ai/dsh-client-ui-workspace"
+      ],
+      "platform": "web"
+    }
+  },
+  "gbh": {
+    "row": {
+      "id": "ui-session-delete",
+      "moduleIds": [
+        "@galaxy-blackhole/gbh-client-ui-session-delete"
+      ],
+      "aliases": [],
+      "tests": [
+        "tests/client/ui-session-delete.test.ts"
+      ]
+    },
+    "tests": [
+      "tests/client/ui-session-delete.test.ts"
+    ]
+  },
+  "types": "lib/types/index.d.ts"
+}

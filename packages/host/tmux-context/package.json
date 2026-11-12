@@ -1,0 +1,57 @@
+{
+  "name": "@galaxy-blackhole/gbh-tmux-context",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "type": "module",
+  "main": "lib/index.js",
+  "description": "Opt-in durable per-step context with this agent's tmux pane and window location",
+  "scripts": {
+    "build": "bun run build.ts"
+  },
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/dsh-agent": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-shell": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-session": "0.2.1-alpha.4",
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2",
+    "@deepseek-ai/dsh-session-projection": "0.2.1-alpha.4",
+    "@deepseek-ai/schemastery": "~3.18.5-alpha.2",
+    "zod": "4.4.3"
+  },
+  "devDependencies": {
+    "@deepseek-ai/dsh-agent": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-shell": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-session": "0.2.1-alpha.4",
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2",
+    "@deepseek-ai/dsh-session-projection": "0.2.1-alpha.4",
+    "@deepseek-ai/schemastery": "~3.18.5-alpha.2",
+    "zod": "4.4.3"
+  },
+  "license": "MIT",
+  "gbh": {
+    "provenance": {
+      "stock": "@deepseek-ai/dsh-tmux-context",
+      "version": "0.2.1-alpha.4",
+      "sha": "52f3325bc4d98051315a2951db179efcfe3a51af3291e2b2279004c922f947f9"
+    },
+    "tests": [
+      "tests/host/host-utils-cluster.test.ts"
+    ],
+    "peers": [
+      "@deepseek-ai/dsh-agent",
+      "@deepseek-ai/dsh-shell",
+      "@deepseek-ai/dsh-session",
+      "@deepseek-ai/cordis",
+      "@deepseek-ai/dsh-session-projection",
+      "@deepseek-ai/schemastery",
+      "zod"
+    ],
+    "draft": "19/10/2026 — GÓI THƯ VIỆN (0 dòng name trong dump 2026-10-18T01-31-57; matrix: khong co dong) ⇒ consumer inline, không khai gbh.row/gbh.nested."
+  }
+}

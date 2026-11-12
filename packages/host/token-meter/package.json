@@ -1,0 +1,83 @@
+{
+  "name": "@galaxy-blackhole/gbh-token-meter",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "type": "module",
+  "main": "lib/index.js",
+  "description": "Replay-aware token measurement service (ctx.tokenMeter) for the Galaxy Blackhole",
+  "scripts": {
+    "build": "bun run build.ts"
+  },
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "default": "./lib/index.js"
+    },
+    "./estimate": {
+      "types": "./src/estimate.ts",
+      "default": "./lib/estimate.js"
+    },
+    "./client": {
+      "types": "./src/client.ts",
+      "default": "./lib/client.js"
+    },
+    "./package.json": "./package.json",
+    "./src/*": "./src/*",
+    "./locale/*.json": "./locale/*.json"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2",
+    "@deepseek-ai/dsh-compaction": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-compaction-image-offload": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-llm": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-llm-retry": "0.2.1-alpha.4",
+    "@deepseek-ai/schemastery": "~3.18.5-alpha.2",
+    "@deepseek-ai/dsh-session": "0.2.1-alpha.4",
+    "zod": "4.4.3"
+  },
+  "devDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2",
+    "@deepseek-ai/dsh-compaction": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-compaction-image-offload": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-llm": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-llm-retry": "0.2.1-alpha.4",
+    "@deepseek-ai/schemastery": "~3.18.5-alpha.2",
+    "@deepseek-ai/dsh-session": "0.2.1-alpha.4",
+    "zod": "4.4.3"
+  },
+  "license": "MIT",
+  "gbh": {
+    "peers": [
+      "@deepseek-ai/cordis",
+      "@deepseek-ai/dsh-compaction",
+      "@deepseek-ai/dsh-compaction-image-offload",
+      "@deepseek-ai/dsh-llm",
+      "@deepseek-ai/dsh-llm-retry",
+      "@deepseek-ai/schemastery",
+      "@deepseek-ai/dsh-session",
+      "zod"
+    ],
+    "tests": [
+      "tests/host/token-meter.test.ts"
+    ],
+    "draft": "19/10/2026 — CHƯA khai gbh.row (sẽ khai lại khi xong): row 'token-meter' gốc là TOP-LEVEL ĐANG BẬT, một mặt (dsh: null; exports['./client'] chỉ là re-export 6 dòng browser-safe ⇒ mount được, không mất nửa client), service key 'tokenMeter' chưa ai dùng, row không có config trong dump ⇒ gbh.row = { id: 'token-meter', tests: [...] } là hợp lệ. Hiện src/index.ts (service, vùng 667-876 của bundle gốc) CHƯA được port ⇒ khai gbh.row lúc này sẽ làm check:rows ĐỎ (đúng sự cố Wave B: khai row trước khi có src/index.ts).",
+    "row": {
+      "id": "token-meter",
+      "moduleIds": [
+        "@galaxy-blackhole/gbh-token-meter"
+      ],
+      "aliases": [
+        "@deepseek-ai/dsh-token-meter"
+      ],
+      "tests": [
+        "tests/host/token-meter.test.ts"
+      ]
+    },
+    "provenance": {
+      "stock": "@deepseek-ai/dsh-token-meter",
+      "version": "0.2.1-alpha.4",
+      "sha": "b76a27f84d1f733c4a760e36fcc0491f807b32d51055703feb0fed1643cc2e05"
+    }
+  },
+  "types": "lib/types/index.d.ts"
+}

@@ -1,0 +1,30 @@
+/*
+ * author Bùi Trọng Hiếu
+ * email kevinbui210191@gmail.com
+ * create date 15/10/2026
+ * modify date 17/10/2026
+ * desc CSS Module cua the skill (SkillRow) — tap luat giu nguyen tu ban goc, chi doi tien to lop
+ */
+
+/* eslint-disable */
+.gbhSkill_card{flex-direction:column;display:flex}
+.gbhSkill_row{height:calc(24px + var(--dsh-content-font-delta,0px));min-width:0;color:var(--dsw-alias-label-tertiary);align-items:center;transition:color .1s;display:flex;position:relative;overflow:hidden}
+.gbhSkill_leading{width:calc(16px + var(--dsh-content-font-delta,0px));height:calc(16px + var(--dsh-content-font-delta,0px));color:inherit;flex:none;justify-content:center;align-items:center;margin-right:6px;display:inline-flex;position:relative}
+.gbhSkill_chevron{color:inherit}
+.gbhSkill_iconIdle{opacity:1;transition:opacity .1s;display:inline-flex}
+.gbhSkill_chevronHover{opacity:0;margin:auto;transition:opacity .1s;position:absolute;inset:0}
+.gbhSkill_iconIdle{opacity:0}
+.gbhSkill_chevronHover{opacity:1}
+.gbhSkill_title{font-size:var(--dsh-content-font-size-secondary,13px);line-height:calc(24px + var(--dsh-content-font-delta,0px));flex:none}
+.gbhSkill_separator{background:var(--dsw-alias-label-caption);border-radius:1px;flex:none;width:2px;height:2px;margin:0 8px}
+.gbhSkill_summary{text-overflow:ellipsis;white-space:nowrap;min-width:0;font-size:var(--dsh-content-font-size-secondary,13px);line-height:calc(24px + var(--dsh-content-font-delta,0px));flex:auto;overflow:hidden}
+.gbhSkill_errorSummary{color:var(--dsw-alias-state-error-primary)}
+.gbhSkill_stoppedSummary{color:var(--dsw-alias-state-warn-label)}
+.gbhSkill_bodyWrap{flex-direction:column;display:flex}
+.gbhSkill_instructionsCard{border:.5px solid var(--dsw-alias-border-l1);border-radius:var(--dsw-radius-lg);background:var(--dsw-alias-markdown-code-block);flex-direction:column;max-height:260px;margin:4px 0 4px 4px;display:flex;overflow:hidden}
+.gbhSkill_instructionsHeader{border-bottom:.5px solid var(--dsw-alias-border-l2);background:var(--dsw-alias-markdown-code-block-banner);color:var(--dsw-alias-label-caption);text-transform:uppercase;letter-spacing:.04em;flex:none;padding:8px 12px;font-size:11px;font-weight:500;line-height:16px}
+.gbhSkill_instructions{white-space:pre-wrap;overflow-wrap:anywhere;min-height:0;font:var(--dsw-font-markdown-code-block-small);color:var(--dsw-alias-label-secondary);margin:0;padding:10px 12px 12px;overflow:auto}
+.gbhSkill_inspectButton{border:.5px solid var(--dsw-alias-border-l4);corner-shape:round;background:var(--dsw-alias-bg-base);color:var(--dsw-alias-label-secondary);cursor:pointer;opacity:0;border-radius:999px;align-self:flex-start;align-items:center;gap:4px;margin:4px 0 2px 4px;padding:2px 8px;font-size:11px;line-height:16px;transition:opacity .1s;display:inline-flex}
+.gbhSkill_visuallyHidden{clip:rect(0 0 0 0);white-space:nowrap;width:1px;height:1px;position:absolute;overflow:hidden}
+.gbhSkill_inspectButton{transition:none}
+

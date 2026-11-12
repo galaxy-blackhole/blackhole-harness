@@ -1,0 +1,48 @@
+{
+  "name": "@galaxy-blackhole/gbh-client-ui-session",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "type": "module",
+  "main": "lib/index.js",
+  "description": "Bản viết lại của Galaxy Blackhole cho row ui-session của DSH (@deepseek-ai/dsh-client-ui-session).",
+  "scripts": {
+    "build": "bun run build.ts"
+  },
+  "gbh": {
+    "row": {
+      "id": "ui-session",
+      "moduleIds": [
+        "@galaxy-blackhole/gbh-client-ui-session"
+      ],
+      "tests": [
+        "tests/client/ui-session.test.ts"
+      ],
+      "aliases": [
+        "@deepseek-ai/dsh-client-ui-session"
+      ]
+    },
+    "provenance": {
+      "stock": "@deepseek-ai/dsh-client-ui-session"
+    }
+  },
+  "exports": {
+    "./locale/*.json": "./locale/*.json",
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./client": "./lib/client.js"
+  },
+  "dsh": {
+    "client": {
+      "inject": [
+        "@deepseek-ai/dsh-api-remote-access",
+        "@deepseek-ai/dsh-api-remotes",
+        "@deepseek-ai/dsh-api-session-controller",
+        "@deepseek-ai/dsh-client-ui-renderer"
+      ],
+      "platform": "web"
+    }
+  },
+  "types": "lib/types/index.d.ts"
+}

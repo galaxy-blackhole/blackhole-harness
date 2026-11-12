@@ -1,0 +1,19 @@
+{
+  "dev": "tm-host-core",
+  "owner": "tm-host-core",
+  "evidence": [
+    "signed, MOUNTED — check:app 11/11 ba lượt liên tiếp (30s/lượt), lab 0 did-not-activate, boot-smoke DAT",
+    "reviewer tm-reviewer TU DO (app giu yen, khong boot lai): **3 lượt check:app cach nhau 30s deu DAT 11/11** — (1) 113.798 B · (2) __GBH_BOOT__ có · (3) **135 entry** · (4) 11 batch/release 0.1.0 · (5) **0** 'did not activate' · (7) 135/72 · (8) #root **47.181** / **46 slot** / **0 console** / **0 pageerror** · (9) **0/80** · (10) **209 file** khớp repo · (11) HMR OK; dump MỚI **336 entry**",
+    "row đã mount thật: patch `~/.galaxy/blackhole/app.patch.yml` có `disabled: true` cho row stock + insert bản ta (aliases @deepseek-ai/...); dump có entry bản ta ENABLED — kiểm bằng mắt trên dump mới",
+    "lab:row home CACH LY cua reviewer: #root **22.204** · **0 console · 0 pageerror · 0 overlay · 0 did-not-activate**",
+    "rollback san: doi `gbh.row` -> `gbh.row_unmounted_ly_do` (1 dong) roi boot lai",
+    "goi `gbh-api-remotes` (row api-remotes): patch dòng 148-155 có `api-remotes-ours` aliases @deepseek-ai/dsh-api-remotes · dump 336 entry ENABLED",
+    "artifact (build lai): index export **3=3** (`API_REMOTE_FORWARDED_EVENTS`·`apply`·`inject`) · **client.js 1.083.964 B** vs gốc 1.083.959 (**+5 B**) sha `03251950…` · bundle client **1 id ta / 0 id gốc** · reviewer tu chay test 19 pass / 57 expect"
+  ],
+  "packages": [
+    {
+      "dsh": "@deepseek-ai/dsh-api-remotes",
+      "gbh": "gbh-api-remotes"
+    }
+  ]
+}

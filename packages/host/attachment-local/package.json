@@ -1,0 +1,51 @@
+{
+  "name": "@galaxy-blackhole/gbh-attachment-local",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "type": "module",
+  "main": "lib/index.js",
+  "description": "Private content-addressed GBH_HOME attachment storage",
+  "scripts": {
+    "build": "bun run build.ts"
+  },
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./locale/*.json": "./locale/*.json",
+    "./package.json": "./package.json"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/dsh-attachment": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-home-paths": "0.2.1-alpha.4",
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2"
+  },
+  "license": "MIT",
+  "gbh": {
+    "tests": [
+      "tests/host/attachment-local.test.ts"
+    ],
+    "peers": [
+      "@deepseek-ai/dsh-attachment",
+      "@deepseek-ai/dsh-home-paths",
+      "@deepseek-ai/dsh-lazy-require",
+      "sharp"
+    ],
+    "row": {
+      "id": "attachment-local",
+      "moduleIds": [
+        "@galaxy-blackhole/gbh-attachment-local"
+      ],
+      "tests": [
+        "tests/host/attachment-local.test.ts"
+      ]
+    },
+    "provenance": {
+      "stock": "@deepseek-ai/dsh-attachment-local",
+      "version": "0.2.1-alpha.4",
+      "sha": "cd39685581b4573a453c6126f8ce73da0bf1257c378827ebb431d6d4064f7662"
+    }
+  },
+  "types": "lib/types/index.d.ts"
+}

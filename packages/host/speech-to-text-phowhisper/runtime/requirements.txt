@@ -1,0 +1,14 @@
+# author Bùi Trọng Hiếu
+# email kevinbui210191@gmail.com
+# create date 10/11/2026
+# modify date 10/11/2026
+# desc Ghim phien ban runtime Python cho provider PhoWhisper (voice) — cai bang:
+#      python3 -m venv <home>/voice-venv && <venv>/bin/pip install -r requirements.txt
+# 10/11/2026 (Lead): torch 2.2.2 la ban CUOI con wheel cho macOS x86_64; transformers phai <= 4.44 vi
+#   tu 4.45 tro di transformers chan torch.load khi torch < 2.6 (CVE-2025-32434) => khong nap duoc
+#   PhoWhisper (.bin). Cap nay da do: LOAD OK 1.543.304.960 tham so.
+torch==2.2.2
+transformers==4.44.2
+soundfile>=0.12
+numpy<2
+huggingface_hub>=0.23

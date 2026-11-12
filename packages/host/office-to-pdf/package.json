@@ -1,0 +1,68 @@
+{
+  "name": "@galaxy-blackhole/gbh-office-to-pdf",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "type": "module",
+  "main": "lib/index.js",
+  "description": "Shared Office-to-PDF conversion with bounded queues and caching",
+  "scripts": {
+    "build": "bun run build.ts"
+  },
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./package.json": "./package.json",
+    "./src/*": "./src/*",
+    "./locale/*.json": "./locale/*.json"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2",
+    "@deepseek-ai/dsh-brand": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-typert-protocol": "0.2.1-alpha.4",
+    "@deepseek-ai/libreoffice-kit": "^0.1.5",
+    "@deepseek-ai/schemastery": "~3.18.5-alpha.2"
+  },
+  "devDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2",
+    "@deepseek-ai/dsh-brand": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-typert-protocol": "0.2.1-alpha.4",
+    "@deepseek-ai/libreoffice-kit": "^0.1.5",
+    "@deepseek-ai/schemastery": "~3.18.5-alpha.2"
+  },
+  "license": "MIT",
+  "gbh": {
+    "tests": [
+      "tests/host/office-to-pdf.test.ts"
+    ],
+    "peers": [
+      "@deepseek-ai/cordis",
+      "@deepseek-ai/dsh-brand",
+      "@deepseek-ai/dsh-typert-protocol",
+      "@deepseek-ai/libreoffice-kit",
+      "@deepseek-ai/schemastery"
+    ],
+    "provenance": {
+      "stock": "@deepseek-ai/dsh-office-to-pdf",
+      "version": "0.2.1-alpha.4",
+      "sha": "74cf9df9ab605a7675797ee1304d7af7059e97e90c3728ce4e40fbd2333fd7b8"
+    },
+    "row": {
+      "id": "office-to-pdf",
+      "moduleIds": [
+        "@galaxy-blackhole/gbh-office-to-pdf"
+      ],
+      "aliases": [
+        "@deepseek-ai/dsh-office-to-pdf"
+      ],
+      "hostAliases": [
+        "@deepseek-ai/dsh-office-to-pdf"
+      ],
+      "tests": [
+        "tests/host/office-to-pdf.test.ts"
+      ]
+    }
+  },
+  "types": "lib/types/index.d.ts"
+}

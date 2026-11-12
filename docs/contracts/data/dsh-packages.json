@@ -1,0 +1,4806 @@
+{
+ "schema": 2,
+ "generatedAt": "2026-10-17",
+ "sources": {
+  "dump": ".parity/dumps/2026-10-17T05-37-06/ours.yml",
+  "dumpLines": 1392,
+  "upstream": "~/tmp/galaxy-blackhole/dsh-upstream/packages",
+  "pluginsDoc": "galaxy-blackhole/docs-blackhole/DSH-PLUGINS.md"
+ },
+ "counts": {
+  "rows": 205,
+  "distinctNames": 199,
+  "basePackages": 195,
+  "allIdLines": 323,
+  "nestedIdLines": 118,
+  "disabledRows": 41
+ },
+ "rows": [
+  {
+   "line": 2,
+   "index": 0,
+   "id": "tool-plugin-manager",
+   "name": "@deepseek-ai/dsh-plugin-manager/tools",
+   "base": "@deepseek-ai/dsh-plugin-manager",
+   "sub": "tools",
+   "disabled": true,
+   "configKeys": [],
+   "group": "boot",
+   "desc": "Enable profile plugins and install, remove or select bundles from the Web sidebar or an agent.",
+   "ctxKeys": [],
+   "deps": [
+    "cordis",
+    "cordis-plugin-loader",
+    "dsh-app-boot",
+    "dsh-atomic-write",
+    "dsh-brand",
+    "dsh-hmr",
+    "dsh-host-plugin-inventory",
+    "dsh-sandbox"
+   ]
+  },
+  {
+   "line": 5,
+   "index": 1,
+   "id": "plugin-manager",
+   "name": "@deepseek-ai/dsh-plugin-manager",
+   "base": "@deepseek-ai/dsh-plugin-manager",
+   "sub": "",
+   "disabled": true,
+   "configKeys": [],
+   "group": "boot",
+   "desc": "Enable profile plugins and install, remove or select bundles from the Web sidebar or an agent.",
+   "ctxKeys": [],
+   "deps": [
+    "cordis",
+    "cordis-plugin-loader",
+    "dsh-app-boot",
+    "dsh-atomic-write",
+    "dsh-brand",
+    "dsh-hmr",
+    "dsh-host-plugin-inventory",
+    "dsh-sandbox"
+   ]
+  },
+  {
+   "line": 8,
+   "index": 2,
+   "id": "timer",
+   "name": "@deepseek-ai/cordis-plugin-timer",
+   "base": "@deepseek-ai/cordis-plugin-timer",
+   "sub": "",
+   "disabled": false,
+   "configKeys": [],
+   "group": "",
+   "desc": "",
+   "ctxKeys": [
+    "ctx.debounce",
+    "ctx.interval",
+    "ctx.setInterval",
+    "ctx.setTimeout",
+    "ctx.throttle",
+    "ctx.timeout"
+   ],
+   "deps": [
+    "cordis"
+   ]
+  },
+  {
+   "line": 10,
+   "index": 3,
+   "id": "hmr",
+   "name": "@deepseek-ai/dsh-hmr",
+   "base": "@deepseek-ai/dsh-hmr",
+   "sub": "",
+   "disabled": true,
+   "configKeys": [
+    "root"
+   ],
+   "group": "boot",
+   "desc": "Reload plugin code and profile configuration through one coordinated queue.",
+   "ctxKeys": [
+    "ctx.hmr",
+    "ctx.loader"
+   ],
+   "deps": [
+    "cordis",
+    "cordis-plugin-include",
+    "cordis-plugin-loader",
+    "cordis-plugin-timer",
+    "dsh-app-boot",
+    "dsh-cmdline"
+   ]
+  },
+  {
+   "line": 15,
+   "index": 4,
+   "id": "llm",
+   "name": "@deepseek-ai/dsh-llm",
+   "base": "@deepseek-ai/dsh-llm",
+   "sub": "",
+   "disabled": false,
+   "configKeys": [],
+   "group": "llm",
+   "desc": "The provider-neutral model-call service for users and maintainers streaming requests, registering provider adapters, or resolving model metadata.",
+   "ctxKeys": [
+    "ctx.llm"
+   ],
+   "deps": [
+    "cordis",
+    "dsh-brand",
+    "dsh-timeout",
+    "dsh-typert-protocol",
+    "dsh-util-crypto",
+    "dsh-util-values"
+   ]
+  },
+  {
+   "line": 17,
+   "index": 5,
+   "id": "deepseek-llm-api-extensions",
+   "name": "@deepseek-ai/dsh-deepseek-llm-api-extensions",
+   "base": "@deepseek-ai/dsh-deepseek-llm-api-extensions",
+   "sub": "",
+   "disabled": false,
+   "configKeys": [],
+   "group": "llm",
+   "desc": "Official DeepSeek request-extension registry for provider plugins contributing lifecycle-owned top-level API fields.",
+   "ctxKeys": [
+    "ctx.deepseekLlmApiExtensions"
+   ],
+   "deps": [
+    "cordis"
+   ]
+  },
+  {
+   "line": 19,
+   "index": 6,
+   "id": "session",
+   "name": "@deepseek-ai/dsh-session",
+   "base": "@deepseek-ai/dsh-session",
+   "sub": "",
+   "disabled": false,
+   "configKeys": [],
+   "group": "core",
+   "desc": "The event-sourced session log and in-memory store for users and maintainers building, inspecting, or extending the durable record behind every agent interaction.",
+   "ctxKeys": [
+    "ctx.sessionProjections",
+    "ctx.sessions"
+   ],
+   "deps": [
+    "cordis",
+    "dsh-brand",
+    "dsh-llm",
+    "dsh-scope",
+    "dsh-util-values"
+   ]
+  },
+  {
+   "line": 22,
+   "index": 7,
+   "id": "session-log-deepseek",
+   "name": "@deepseek-ai/dsh-session-log-deepseek",
+   "base": "@deepseek-ai/dsh-session-log-deepseek",
+   "sub": "",
+   "disabled": true,
+   "configKeys": [],
+   "group": "session",
+   "desc": "Incremental canonical session-log upload for deployments enabling official DeepSeek request metadata.",
+   "ctxKeys": [
+    "ctx.deepseekLlmApiExtensions",
+    "ctx.sessions"
+   ],
+   "deps": [
+    "cordis",
+    "dsh-brand",
+    "dsh-deepseek-llm-api-extensions",
+    "dsh-session",
+    "dsh-util-values"
+   ]
+  },
+  {
+   "line": 26,
+   "index": 8,
+   "id": "typert",
+   "name": "@deepseek-ai/dsh-typert-registry",
+   "base": "@deepseek-ai/dsh-typert-registry",
+   "sub": "",
+   "disabled": false,
+   "configKeys": [],
+   "group": "typert",
+   "desc": "The runtime Typert registry: stores generated package reflection, lazy Zod schema factories, and Remote invocation descriptors, and resolves them for consumers.",
+   "ctxKeys": [
+    "ctx.typert"
+   ],
+   "deps": [
+    "cordis"
+   ]
+  },
+  {
+   "line": 28,
+   "index": 9,
+   "id": "typert-loader",
+   "name": "@deepseek-ai/dsh-typert-loader",
+   "base": "@deepseek-ai/dsh-typert-loader",
+   "sub": "",
+   "disabled": false,
+   "configKeys": [],
+   "group": "typert",
+   "desc": "Loader integration for generated Typert artifacts: how mounted packages automatically contribute their host-face reflection and schemas to the runtime registry.",
+   "ctxKeys": [
+    "ctx.typert"
+   ],
+   "deps": [
+    "cordis",
+    "cordis-plugin-loader",
+    "dsh-typert-registry"
+   ]
+  },
+  {
+   "line": 30,
+   "index": 10,
+   "id": "typert-gateway",
+   "name": "@deepseek-ai/dsh-api-gateway",
+   "base": "@deepseek-ai/dsh-api-gateway",
+   "sub": "",
+   "disabled": false,
+   "configKeys": [],
+   "group": "api",
+   "desc": "Typed Client-to-Host calls and streams: dispatch, validation, cancellation, reconnection, and forwarded Host events.",
+   "ctxKeys": [
+    "ctx.appReady",
+    "ctx.connection",
+    "ctx.invocation",
+    "ctx.remote",
+    "ctx.remoteAccess",
+    "ctx.typert",
+    "ctx.typertGateway"
+   ],
+   "deps": [
+    "cordis",
+    "dsh-deque",
+    "dsh-timeout",
+    "dsh-typert-protocol"
+   ]
+  },
+  {
+   "line": 32,
+   "index": 11,
+   "id": "remote-access",
+   "name": "@deepseek-ai/dsh-api-remote-access",
+   "base": "@deepseek-ai/dsh-api-remote-access",
+   "sub": "",
+   "disabled": false,
+   "configKeys": [],
+   "group": "api",
+   "desc": "Method-level Remote access control for non-owner Peers: role-based policy decisions, list filtering, and the per-Peer access snapshot.",
+   "ctxKeys": [
+    "ctx.remoteAccess",
+    "ctx.webServer"
+   ],
+   "deps": [
+    "cordis",
+    "dsh-typert-protocol"
+   ]
+  },
+  {
+   "line": 34,
+   "index": 12,
+   "id": "session-title",
+   "name": "@deepseek-ai/dsh-session-title",
+   "base": "@deepseek-ai/dsh-session-title",
+   "sub": "",
+   "disabled": false,
+   "configKeys": [
+    "fallbackMaxBytes",
+    "fallbackMaxWords",
+    "maxTitleBytes"
+   ],
+   "group": "session",
+   "desc": "Log-backed session titles for users and maintainers choosing a title source, configuring the service, or debugging title state.",
+   "ctxKeys": [
+    "ctx.sessionProjections",
+    "ctx.sessionTitle"
+   ],
+   "deps": [
+    "cordis",
+    "dsh-agent",
+    "dsh-brand",
+    "dsh-llm",
+    "dsh-session",
+    "dsh-session-projection",
+    "dsh-util-values"
+   ]
+  },
+  {
+   "line": 41,
+   "index": 13,
+   "id": "session-title-llm",
+   "name": "@deepseek-ai/dsh-session-title-first-prompt-llm",
+   "base": "@deepseek-ai/dsh-session-title-first-prompt-llm",
+   "sub": "",
+   "disabled": true,
+   "configKeys": [
+    "maxInputBytes",
+    "maxOutputTokens",
+    "targetCjkCharacters",
+    "targetWords",
+    "timeoutMs"
+   ],
+   "group": "session",
+   "desc": "First-message LLM session-title provider for users and maintainers choosing a title strategy or debugging automatic title generation.",
+   "ctxKeys": [
+    "ctx.llm",
+    "ctx.sessionTitle"
+   ],
+   "deps": [
+    "cordis",
+    "dsh-llm",
+    "dsh-session",
+    "dsh-session-title",
+    "dsh-session-title-llm",
+    "dsh-util-values"
+   ]
+  },
+  {
+   "line": 51,
+   "index": 14,
+   "id": "user-questions",
+   "name": "@deepseek-ai/dsh-user-questions",
+   "base": "@deepseek-ai/dsh-user-questions",
+   "sub": "",
+   "disabled": false,
+   "configKeys": [],
+   "group": "interaction",
+   "desc": "Waterfall-based question and answer service for tools, permission plugins, local answerers, and Agent-scoped Web interactions.",
+   "ctxKeys": [
+    "ctx.userQuestions"
+   ],
+   "deps": [
+    "cordis",
+    "dsh-agent",
+    "dsh-llm",
+    "dsh-scope",
+    "dsh-session",
+    "dsh-session-projection",
+    "dsh-typert-protocol"
+   ]
+  },
+  {
+   "line": 53,
+   "index": 15,
+   "id": "agent",
+   "name": "@deepseek-ai/dsh-agent",
+   "base": "@deepseek-ai/dsh-agent",
+   "sub": "",
+   "disabled": false,
+   "configKeys": [],
+   "group": "core",
+   "desc": "The Agent handle, live registry, process-local initiator scope, and agent/* event vocabulary for plugins, UI, and orchestrators building or extending agents.",
+   "ctxKeys": [
+    "ctx.agents"
+   ],
+   "deps": [
+    "cordis",
+    "dsh-llm",
+    "dsh-scope",
+    "dsh-session",
+    "dsh-session-projection",
+    "dsh-system-prompt",
+    "dsh-typert-protocol",
+    "dsh-util-values"
+   ]
+  },
+  {
+   "line": 55,
+   "index": 16,
+   "id": "plugin-package-inventory-deepseek",
+   "name": "@deepseek-ai/dsh-plugin-package-inventory-deepseek",
+   "base": "@deepseek-ai/dsh-plugin-package-inventory-deepseek",
+   "sub": "",
+   "disabled": false,
+   "configKeys": [],
+   "group": "llm",
+   "desc": "Active Loader package inventory metadata for deployments sending official DeepSeek requests.",
+   "ctxKeys": [
+    "ctx.agentPresets",
+    "ctx.deepseekLlmApiExtensions",
+    "ctx.pluginPackages"
+   ],
+   "deps": [
+    "cordis",
+    "cordis-plugin-loader",
+    "dsh-agent",
+    "dsh-agent-preset-registry",
+    "dsh-brand",
+    "dsh-deepseek-llm-api-extensions",
+    "dsh-session"
+   ]
+  },
+  {
+   "line": 58,
+   "index": 17,
+   "id": "agent-default-model",
+   "name": "@deepseek-ai/dsh-agent-default-model",
+   "base": "@deepseek-ai/dsh-agent-default-model",
+   "sub": "",
+   "disabled": false,
+   "configKeys": [
+    "model",
+    "provider"
+   ],
+   "group": "core",
+   "desc": "The deployment default model selection for users and maintainers choosing, configuring, or debugging which model freshly created agents start on.",
+   "ctxKeys": [
+    "ctx.agentDefaultModel"
+   ],
+   "deps": [
+    "cordis",
+    "dsh-agent",
+    "dsh-config-editor",
+    "dsh-llm"
+   ]
+  },
+  {
+   "line": 64,
+   "index": 18,
+   "id": "jobs",
+   "name": "@deepseek-ai/dsh-jobs-local",
+   "base": "@deepseek-ai/dsh-jobs-local",
+   "sub": "",
+   "disabled": false,
+   "configKeys": [],
+   "group": "jobs",
+   "desc": "The process-local background-job registry for users and maintainers composing, sizing, or debugging in-process jobs: per-owner admission, lifecycle, and teardown.",
+   "ctxKeys": [
+    "ctx.jobs"
+   ],
+   "deps": [
+    "cordis",
+    "dsh-agent",
+    "dsh-jobs",
+    "dsh-scope",
+    "dsh-timeout"
+   ]
+  },
+  {
+   "line": 66,
+   "index": 19,
+   "id": "llm-retry",
+   "name": "@deepseek-ai/dsh-llm-retry",
+   "base": "@deepseek-ai/dsh-llm-retry",
+   "sub": "",
+   "disabled": false,
+   "configKeys": [],
+   "group": "llm",
+   "desc": "The retry executor for users and maintainers configuring provider-routed model-request recovery at durable agent-step boundaries.",
+   "ctxKeys": [
+    "ctx.llm"
+   ],
+   "deps": [
+    "cordis",
+    "dsh-agent",
+    "dsh-brand",
+    "dsh-llm",
+    "dsh-session",
+    "dsh-session-projection",
+    "dsh-timeout"
+   ]
+  },
+  {
+   "line": 68,
+   "index": 20,
+   "id": "config-editor",
+   "name": "@deepseek-ai/dsh-config-editor",
+   "base": "@deepseek-ai/dsh-config-editor",
+   "sub": "",
+   "disabled": true,
+   "configKeys": [],
+   "group": "boot",
+   "desc": "Save active profile configuration and apply it through Loader.",
+   "ctxKeys": [
+    "ctx.configEditor"
+   ],
+   "deps": [
+    "cordis",
+    "cordis-plugin-include",
+    "cordis-plugin-loader",
+    "dsh-app-boot",
+    "dsh-atomic-write",
+    "dsh-hmr"
+   ]
+  },
+  {
+   "line": 71,
+   "index": 21,
+   "id": "settings",
+   "name": "@deepseek-ai/dsh-settings",
+   "base": "@deepseek-ai/dsh-settings",
+   "sub": "",
+   "disabled": true,
+   "configKeys": [],
+   "group": "settings",
+   "desc": "Inspect and edit live plugin configuration through Config-derived forms.",
+   "ctxKeys": [
+    "ctx.fiber",
+    "ctx.inject"
+   ],
+   "deps": [
+    "cordis",
+    "cordis-plugin-loader",
+    "dsh-brand",
+    "dsh-config-editor",
+    "dsh-session",
+    "dsh-util-values"
+   ]
+  },
+  {
+   "line": 74,
+   "index": 22,
+   "id": "authorization",
+   "name": "@deepseek-ai/dsh-authorization",
+   "base": "@deepseek-ai/dsh-authorization",
+   "sub": "",
+   "disabled": false,
+   "configKeys": [],
+   "group": "credentials",
+   "desc": "The authorization flow registry for users and maintainers who obtain credentials that configuration cannot supply, because getting one means a conversation with a human.",
+   "ctxKeys": [
+    "ctx.authorization",
+    "ctx.credentials"
+   ],
+   "deps": [
+    "cordis",
+    "dsh-credentials",
+    "dsh-llm"
+   ]
+  },
+  {
+   "line": 76,
+   "index": 23,
+   "id": "deepseek-account",
+   "name": "@deepseek-ai/dsh-deepseek-account-platform",
+   "base": "@deepseek-ai/dsh-deepseek-account-platform",
+   "sub": "",
+   "disabled": false,
+   "configKeys": [
+    "desktopPlatform"
+   ],
+   "group": "credentials",
+   "desc": "Sign in through the system browser and keep the account credential in the existing local credential store. Local cancellation prevents late callbacks and exchange responses from signing the user in.",
+   "ctxKeys": [],
+   "deps": [
+    "cordis",
+    "dsh-authorization",
+    "dsh-credentials",
+    "dsh-deepseek-account",
+    "dsh-host-webserver"
+   ]
+  },
+  {
+   "line": 83,
+   "index": 24,
+   "id": "credentials",
+   "name": "@deepseek-ai/dsh-credentials-local",
+   "base": "@deepseek-ai/dsh-credentials-local",
+   "sub": "",
+   "disabled": false,
+   "configKeys": [
+    "path"
+   ],
+   "group": "credentials",
+   "desc": "The file-backed credentials provider for users and maintainers choosing, configuring, or debugging the local credential store and its environment layering.",
+   "ctxKeys": [
+    "ctx.credentials"
+   ],
+   "deps": [
+    "cordis",
+    "dsh-atomic-write",
+    "dsh-credentials",
+    "dsh-home-paths",
+    "dsh-launch-environment"
+   ]
+  },
+  {
+   "line": 87,
+   "index": 25,
+   "id": "llm-pi-ai",
+   "name": "@deepseek-ai/dsh-llm-pi-ai",
+   "base": "@deepseek-ai/dsh-llm-pi-ai",
+   "sub": "",
+   "disabled": false,
+   "configKeys": [
+    "providers"
+   ],
+   "group": "llm",
+   "desc": "The pi-ai-backed multi-provider adapter for users and maintainers routing the harness LLM service through pi-ai catalogs and hand-declared gateways.",
+   "ctxKeys": [
+    "ctx.llm"
+   ],
+   "deps": [
+    "cordis",
+    "cordis-plugin-loader",
+    "dsh-attachment",
+    "dsh-authorization",
+    "dsh-brand",
+    "dsh-credentials",
+    "dsh-fs",
+    "dsh-launch-environment"
+   ]
+  },
+  {
+   "line": 125,
+   "index": 26,
+   "id": "session-persistence-jsonl",
+   "name": "@deepseek-ai/dsh-session-persistence-jsonl",
+   "base": "@deepseek-ai/dsh-session-persistence-jsonl",
+   "sub": "",
+   "disabled": false,
+   "configKeys": [
+    "root"
+   ],
+   "group": "session",
+   "desc": "The shipped JSONL session-persistence backend for deployments and maintainers choosing, configuring, or debugging per-session durable logs with optional Zstandard compression.",
+   "ctxKeys": [
+    "ctx.plugin",
+    "ctx.sessionPersistence"
+   ],
+   "deps": [
+    "cordis",
+    "dsh-llm",
+    "dsh-session",
+    "dsh-session-format",
+    "dsh-session-format-catalog",
+    "dsh-session-format-v3-to-v4",
+    "dsh-session-persistence"
+   ]
+  },
+  {
+   "line": 129,
+   "index": 27,
+   "id": "attachment-local",
+   "name": "@deepseek-ai/dsh-attachment-local",
+   "base": "@deepseek-ai/dsh-attachment-local",
+   "sub": "",
+   "disabled": false,
+   "configKeys": [],
+   "group": "attachment",
+   "desc": "Local storage for your attached images below DSH_HOME, for users and maintainers choosing or debugging where image attachments are kept.",
+   "ctxKeys": [
+    "ctx.attachments"
+   ],
+   "deps": [
+    "cordis",
+    "dsh-attachment",
+    "dsh-home-paths",
+    "dsh-lazy-require"
+   ]
+  },
+  {
+   "line": 131,
+   "index": 28,
+   "id": "session-query-sqlite",
+   "name": "@deepseek-ai/dsh-session-query-sqlite",
+   "base": "@deepseek-ai/dsh-session-query-sqlite",
+   "sub": "",
+   "disabled": false,
+   "configKeys": [
+    "openAt",
+    "path"
+   ],
+   "group": "session-query",
+   "desc": "The SQLite FTS5 full-text search backend for session history, for deployments and maintainers choosing, configuring, or debugging full-text search over the query service.",
+   "ctxKeys": [
+    "ctx.sessionQuery"
+   ],
+   "deps": [
+    "cordis",
+    "dsh-session",
+    "dsh-session-persistence",
+    "dsh-session-query"
+   ]
+  },
+  {
+   "line": 136,
+   "index": 29,
+   "id": "working-directory",
+   "name": "@deepseek-ai/dsh-working-directory",
+   "base": "@deepseek-ai/dsh-working-directory",
+   "sub": "",
+   "disabled": false,
+   "configKeys": [],
+   "group": "session",
+   "desc": "Change one Session’s working directory while existing processes retain theirs. The selected directory survives replay and appears in user context. A missing directory restores the original project when it remains available.",
+   "ctxKeys": [
+    "ctx.workingDirectory"
+   ],
+   "deps": [
+    "cordis",
+    "dsh-agent",
+    "dsh-fs",
+    "dsh-llm",
+    "dsh-session",
+    "dsh-session-projection",
+    "dsh-system-prompt"
+   ]
+  },
+  {
+   "line": 138,
+   "index": 30,
+   "id": "tool-working-directory",
+   "name": "@deepseek-ai/dsh-tool-working-directory",
+   "base": "@deepseek-ai/dsh-tool-working-directory",
+   "sub": "",
+   "disabled": false,
+   "configKeys": [],
+   "group": "session",
+   "desc": "Read the Session’s current directory or enter an existing directory with the same tool. Relative changes use the current directory. The returned absolute path can be passed to other tools.",
+   "ctxKeys": [],
+   "deps": [
+    "cordis",
+    "dsh-tools",
+    "dsh-working-directory"
+   ]
+  },
+  {
+   "line": 140,
+   "index": 31,
+   "id": "session-projection",
+   "name": "@deepseek-ai/dsh-session-projection",
+   "base": "@deepseek-ai/dsh-session-projection",
+   "sub": "",
+   "disabled": false,
+   "configKeys": [],
+   "group": "session",
+   "desc": "The session-projection registry for developers serving whole current values of log-derived per-session state to client carriers, and for maintainers of the drive contract.",
+   "ctxKeys": [
+    "ctx.effect",
+    "ctx.get",
+    "ctx.inject",
+    "ctx.sessionProjections"
+   ],
+   "deps": [
+    "cordis",
+    "dsh-session"
+   ]
+  },
+  {
+   "line": 142,
+   "index": 32,
+   "id": "storage",
+   "name": "@deepseek-ai/dsh-storage",
+   "base": "@deepseek-ai/dsh-storage",
+   "sub": "",
+   "disabled": false,
+   "configKeys": [],
+   "group": "storage",
+   "desc": "Storage hub (ctx.storage) for compositions and maintainers choosing, mounting, or debugging named storage backends and data-form facilities.",
+   "ctxKeys": [
+    "ctx.storage",
+    "ctx.storageDomain"
+   ],
+   "deps": [
+    "cordis"
+   ]
+  },
+  {
+   "line": 144,
+   "index": 33,
+   "id": "storage-json",
+   "name": "@deepseek-ai/dsh-storage-json",
+   "base": "@deepseek-ai/dsh-storage-json",
+   "sub": "",
+   "disabled": false,
+   "configKeys": [
+    "root"
+   ],
+   "group": "storage",
+   "desc": "JSON storage backend for hosts and maintainers choosing, configuring, or debugging whole-unit and per-record files under a configured root.",
+   "ctxKeys": [
+    "ctx.storage"
+   ],
+   "deps": [
+    "cordis",
+    "dsh-storage"
+   ]
+  },
+  {
+   "line": 148,
+   "index": 34,
+   "id": "storage-domain",
+   "name": "@deepseek-ai/dsh-storage-domain",
+   "base": "@deepseek-ai/dsh-storage-domain",
+   "sub": "",
+   "disabled": false,
+   "configKeys": [
+    "backend"
+   ],
+   "group": "storage",
+   "desc": "Domain data form (ctx.storageDomain) for hosts and maintainers choosing, mounting, or debugging schema-validated, change-emitting KV domains over storage backends.",
+   "ctxKeys": [
+    "ctx.effect",
+    "ctx.storageDomain"
+   ],
+   "deps": [
+    "cordis",
+    "dsh-storage"
+   ]
+  },
+  {
+   "line": 152,
+   "index": 35,
+   "id": "session-projection-cache",
+   "name": "@deepseek-ai/dsh-session-projection-cache",
+   "base": "@deepseek-ai/dsh-session-projection-cache",
+   "sub": "",
+   "disabled": false,
+   "configKeys": [
+    "writeEveryEvents",
+    "writeIntervalMs"
+   ],
+   "group": "session",
+   "desc": "The persisted session-projection cache for deployments and maintainers choosing, configuring, or debugging durable checkpoints, zero-I/O list reads, and accelerated cold projection folds.",
+   "ctxKeys": [
+    "ctx.sessionProjections"
+   ],
+   "deps": [
+    "cordis",
+    "dsh-session",
+    "dsh-session-projection",
+    "dsh-storage-domain",
+    "dsh-util-values"
+   ]
+  },
+  {
+   "line": 157,
+   "index": 36,
+   "id": "otel",
+   "name": "@deepseek-ai/dsh-otel",
+   "base": "@deepseek-ai/dsh-otel",
+   "sub": "",
+   "disabled": false,
+   "configKeys": [],
+   "group": "telemetry",
+   "desc": "Create independent OTLP reporting channels through the shared Cordis OTel service.",
+   "ctxKeys": [
+    "ctx.otel"
+   ],
+   "deps": [
+    "cordis",
+    "dsh-session"
+   ]
+  },
+  {
+   "line": 160,
+   "index": 37,
+   "id": "session-telemetry-otel",
+   "name": "@deepseek-ai/dsh-session-telemetry-otel",
+   "base": "@deepseek-ai/dsh-session-telemetry-otel",
+   "sub": "",
+   "disabled": false,
+   "configKeys": [
+    "mode"
+   ],
+   "group": "session",
+   "desc": "OpenTelemetry session-telemetry backend for deployments choosing a mode, configuring the exporter, or tracing what leaves the machine.",
+   "ctxKeys": [
+    "ctx.sessionTelemetry"
+   ],
+   "deps": [
+    "cordis",
+    "dsh-anonymous-user-id",
+    "dsh-command-feedback",
+    "dsh-llm",
+    "dsh-message-feedback",
+    "dsh-otel",
+    "dsh-session",
+    "dsh-session-telemetry"
+   ]
+  },
+  {
+   "line": 165,
+   "index": 38,
+   "id": "subprocess",
+   "name": "@deepseek-ai/dsh-subprocess-local",
+   "base": "@deepseek-ai/dsh-subprocess-local",
+   "sub": "",
+   "disabled": false,
+   "configKeys": [],
+   "group": "subprocess",
+   "desc": "The local host provider for the subprocess service: run OS-owned managed ranges and real terminal sessions on the host machine, with explicit weaker fallbacks.",
+   "ctxKeys": [],
+   "deps": [
+    "cordis",
+    "dsh-lazy-require",
+    "dsh-subprocess",
+    "dsh-timeout",
+    "dsh-win32-process"
+   ]
+  },
+  {
+   "line": 167,
+   "index": 39,
+   "id": "sandbox",
+   "name": "@deepseek-ai/dsh-sandbox-local",
+   "base": "@deepseek-ai/dsh-sandbox-local",
+   "sub": "",
+   "disabled": false,
+   "configKeys": [],
+   "group": "sandbox",
+   "desc": "Local per-platform sandbox backends for users and maintainers choosing, configuring, or debugging process confinement on Linux, macOS, or Windows.",
+   "ctxKeys": [
+    "ctx.sandbox"
+   ],
+   "deps": [
+    "cordis",
+    "dsh-llm",
+    "dsh-sandbox",
+    "dsh-sandbox-windows-acl",
+    "dsh-session",
+    "dsh-util-values"
+   ]
+  },
+  {
+   "line": 169,
+   "index": 40,
+   "id": "sandbox-policy",
+   "name": "@deepseek-ai/dsh-sandbox-policy",
+   "base": "@deepseek-ai/dsh-sandbox-policy",
+   "sub": "",
+   "disabled": false,
+   "configKeys": [
+    "mode",
+    "workspaceRoot"
+   ],
+   "group": "sandbox",
+   "desc": "The shared per-call sandbox policy resolver and current model context for users and maintainers composing, configuring, or debugging file-effect policy across enforcing capabilities.",
+   "ctxKeys": [],
+   "deps": [
+    "cordis",
+    "dsh-agent",
+    "dsh-sandbox",
+    "dsh-session",
+    "dsh-session-projection",
+    "dsh-system-prompt"
+   ]
+  },
+  {
+   "line": 174,
+   "index": 41,
+   "id": "bash-sandbox",
+   "name": "@deepseek-ai/dsh-bash-sandbox",
+   "base": "@deepseek-ai/dsh-bash-sandbox",
+   "sub": "",
+   "disabled": true,
+   "configKeys": [
+    "timeoutMs"
+   ],
+   "group": "shell",
+   "desc": "The sandbox-consuming Bash executor for deployments and maintainers choosing, configuring, or debugging confined command execution with denial and escalation facts.",
+   "ctxKeys": [
+    "ctx.sandbox",
+    "ctx.sandboxPolicy",
+    "ctx.shell"
+   ],
+   "deps": [
+    "cordis",
+    "dsh-bash-local",
+    "dsh-sandbox",
+    "dsh-sandbox-policy",
+    "dsh-shell"
+   ]
+  },
+  {
+   "line": 179,
+   "index": 42,
+   "id": "pwsh-sandbox",
+   "name": "@deepseek-ai/dsh-pwsh-sandbox",
+   "base": "@deepseek-ai/dsh-pwsh-sandbox",
+   "sub": "",
+   "disabled": true,
+   "configKeys": [],
+   "group": "shell",
+   "desc": "The sandbox-consuming PowerShell executor for deployments and maintainers choosing, configuring, or debugging confined PowerShell command execution with denial facts.",
+   "ctxKeys": [
+    "ctx.sandbox",
+    "ctx.sandboxPolicy",
+    "ctx.shell"
+   ],
+   "deps": [
+    "cordis",
+    "dsh-pwsh-local",
+    "dsh-sandbox",
+    "dsh-sandbox-policy",
+    "dsh-shell"
+   ]
+  },
+  {
+   "line": 182,
+   "index": 43,
+   "id": "approval",
+   "name": "@deepseek-ai/dsh-user-approval",
+   "base": "@deepseek-ai/dsh-user-approval",
+   "sub": "",
+   "disabled": false,
+   "configKeys": [
+    "policy"
+   ],
+   "group": "interaction",
+   "desc": "Channel-neutral one-shot approval seam for users and maintainers composing answerers, setting policy, or debugging fail-closed permission decisions.",
+   "ctxKeys": [
+    "ctx.approval"
+   ],
+   "deps": [
+    "cordis",
+    "dsh-agent",
+    "dsh-brand",
+    "dsh-llm",
+    "dsh-scope",
+    "dsh-session",
+    "dsh-system-prompt"
+   ]
+  },
+  {
+   "line": 188,
+   "index": 44,
+   "id": "permission",
+   "name": "@deepseek-ai/dsh-permission-presets",
+   "base": "@deepseek-ai/dsh-permission-presets",
+   "sub": "",
+   "disabled": false,
+   "configKeys": [
+    "presets"
+   ],
+   "group": "interaction",
+   "desc": "User-facing permission presets for users and maintainers choosing, configuring, or debugging the Permissions selector that bundles sandbox mode with an approval policy.",
+   "ctxKeys": [
+    "ctx.commands",
+    "ctx.permissionPresets",
+    "ctx.sessionProjections",
+    "ctx.shell"
+   ],
+   "deps": [
+    "cordis",
+    "dsh-commands",
+    "dsh-sandbox",
+    "dsh-sandbox-policy",
+    "dsh-session",
+    "dsh-session-projection",
+    "dsh-shell",
+    "dsh-typert-protocol"
+   ]
+  },
+  {
+   "line": 201,
+   "index": 45,
+   "id": "shell-env",
+   "name": "@deepseek-ai/dsh-shell-env",
+   "base": "@deepseek-ai/dsh-shell-env",
+   "sub": "",
+   "disabled": false,
+   "configKeys": [],
+   "group": "shell",
+   "desc": "The managed DSH_* shell environment for users and maintainers choosing, configuring, or extending the environment every model shell call runs with.",
+   "ctxKeys": [
+    "ctx.shell",
+    "ctx.shellEnv"
+   ],
+   "deps": [
+    "cordis",
+    "dsh-app-boot",
+    "dsh-home-paths",
+    "dsh-shell",
+    "dsh-tools"
+   ]
+  },
+  {
+   "line": 204,
+   "index": 46,
+   "id": "tool-bash",
+   "name": "@deepseek-ai/dsh-tool-bash",
+   "base": "@deepseek-ai/dsh-tool-bash",
+   "sub": "",
+   "disabled": true,
+   "configKeys": [],
+   "group": "shell",
+   "desc": "The model-facing bash tool for users and maintainers choosing, configuring, or debugging one-shot command execution, background jobs, and sandbox escalation.",
+   "ctxKeys": [
+    "ctx.approval",
+    "ctx.jobs",
+    "ctx.sandboxPolicy",
+    "ctx.shell"
+   ],
+   "deps": [
+    "cordis",
+    "dsh-agent",
+    "dsh-jobs",
+    "dsh-llm",
+    "dsh-sandbox",
+    "dsh-sandbox-policy",
+    "dsh-shell",
+    "dsh-shell-env"
+   ]
+  },
+  {
+   "line": 207,
+   "index": 47,
+   "id": "tool-pwsh",
+   "name": "@deepseek-ai/dsh-tool-pwsh",
+   "base": "@deepseek-ai/dsh-tool-pwsh",
+   "sub": "",
+   "disabled": true,
+   "configKeys": [],
+   "group": "shell",
+   "desc": "The model-facing pwsh tool for users and maintainers choosing, configuring, or debugging one-shot PowerShell execution, background jobs, and sandbox escalation on Windows.",
+   "ctxKeys": [
+    "ctx.jobs",
+    "ctx.shell"
+   ],
+   "deps": [
+    "cordis",
+    "dsh-agent",
+    "dsh-jobs",
+    "dsh-llm",
+    "dsh-sandbox",
+    "dsh-sandbox-policy",
+    "dsh-shell",
+    "dsh-shell-env"
+   ]
+  },
+  {
+   "line": 210,
+   "index": 48,
+   "id": "tool-jobs",
+   "name": "@deepseek-ai/dsh-tool-jobs",
+   "base": "@deepseek-ai/dsh-tool-jobs",
+   "sub": "",
+   "disabled": true,
+   "configKeys": [],
+   "group": "jobs",
+   "desc": "The model-facing background-job controls for users and maintainers choosing, configuring, or debugging job_output, job_list, job_kill, and completion notices.",
+   "ctxKeys": [
+    "ctx.agents",
+    "ctx.jobs",
+    "ctx.systemPrompt",
+    "ctx.tools"
+   ],
+   "deps": [
+    "cordis",
+    "dsh-agent",
+    "dsh-jobs",
+    "dsh-llm",
+    "dsh-output-retention",
+    "dsh-system-prompt",
+    "dsh-tools"
+   ]
+  },
+  {
+   "line": 214,
+   "index": 49,
+   "id": "fs-observation-policy",
+   "name": "@deepseek-ai/dsh-fs-observation-policy",
+   "base": "@deepseek-ai/dsh-fs-observation-policy",
+   "sub": "",
+   "disabled": false,
+   "configKeys": [],
+   "group": "fs",
+   "desc": "The read-before-edit filesystem policy plugin for deployments and maintainers choosing or debugging guarded write and edit behavior.",
+   "ctxKeys": [
+    "ctx.fs",
+    "ctx.fsPolicy"
+   ],
+   "deps": [
+    "cordis",
+    "dsh-fs"
+   ]
+  },
+  {
+   "line": 217,
+   "index": 50,
+   "id": "tool-fs",
+   "name": "@deepseek-ai/dsh-tool-fs",
+   "base": "@deepseek-ai/dsh-tool-fs",
+   "sub": "",
+   "disabled": true,
+   "configKeys": [],
+   "group": "fs",
+   "desc": "The model-facing read, read_image, write, and edit tools for users and maintainers composing or debugging filesystem access for agents.",
+   "ctxKeys": [
+    "ctx.attachments",
+    "ctx.emit",
+    "ctx.fs",
+    "ctx.tools",
+    "ctx.waterfall"
+   ],
+   "deps": [
+    "cordis",
+    "dsh-attachment",
+    "dsh-fs",
+    "dsh-llm",
+    "dsh-sandbox",
+    "dsh-sandbox-policy",
+    "dsh-session",
+    "dsh-system-prompt"
+   ]
+  },
+  {
+   "line": 220,
+   "index": 51,
+   "id": "tool-fs-search",
+   "name": "@deepseek-ai/dsh-tool-fs-search",
+   "base": "@deepseek-ai/dsh-tool-fs-search",
+   "sub": "",
+   "disabled": true,
+   "configKeys": [
+    "sampleOverCapGlobResults"
+   ],
+   "group": "fs",
+   "desc": "The model-facing glob and grep discovery tools for users and maintainers composing or debugging workspace search for agents.",
+   "ctxKeys": [
+    "ctx.fs",
+    "ctx.subprocess",
+    "ctx.tools"
+   ],
+   "deps": [
+    "cordis",
+    "dsh-llm",
+    "dsh-output-retention",
+    "dsh-session",
+    "dsh-spill",
+    "dsh-subprocess",
+    "dsh-system-prompt",
+    "dsh-timeout"
+   ]
+  },
+  {
+   "line": 225,
+   "index": 52,
+   "id": "agent-instructions",
+   "name": "@deepseek-ai/dsh-agent-instructions",
+   "base": "@deepseek-ai/dsh-agent-instructions",
+   "sub": "",
+   "disabled": true,
+   "configKeys": [
+    "maxBytes"
+   ],
+   "group": "context",
+   "desc": "Workspace-instruction context for users and maintainers enabling, sizing, or debugging AGENTS.md/CLAUDE.md loading and refresh.",
+   "ctxKeys": [
+    "ctx.fs"
+   ],
+   "deps": [
+    "cordis",
+    "dsh-agent",
+    "dsh-fs",
+    "dsh-home-paths",
+    "dsh-llm",
+    "dsh-session",
+    "dsh-session-projection",
+    "dsh-tools"
+   ]
+  },
+  {
+   "line": 231,
+   "index": 53,
+   "id": "skill",
+   "name": "@deepseek-ai/dsh-skill",
+   "base": "@deepseek-ai/dsh-skill",
+   "sub": "",
+   "disabled": false,
+   "configKeys": [],
+   "group": "skill",
+   "desc": "The skill provider registry for users and maintainers choosing, configuring, or debugging how skills from any source are merged, resolved, and loaded.",
+   "ctxKeys": [
+    "ctx.skills"
+   ],
+   "deps": [
+    "cordis",
+    "dsh-llm",
+    "dsh-scope",
+    "dsh-util-values"
+   ]
+  },
+  {
+   "line": 234,
+   "index": 54,
+   "id": "skill-filesystem",
+   "name": "@deepseek-ai/dsh-skill-filesystem",
+   "base": "@deepseek-ai/dsh-skill-filesystem",
+   "sub": "",
+   "disabled": true,
+   "configKeys": [],
+   "group": "skill",
+   "desc": "The local filesystem skill provider for users and maintainers authoring local skills or configuring how project, custom, and user skill roots are discovered and watched.",
+   "ctxKeys": [
+    "ctx.fs",
+    "ctx.skills"
+   ],
+   "deps": [
+    "cordis",
+    "dsh-fs",
+    "dsh-home-paths",
+    "dsh-skill"
+   ]
+  },
+  {
+   "line": 237,
+   "index": 55,
+   "id": "tool-skill",
+   "name": "@deepseek-ai/dsh-tool-skill",
+   "base": "@deepseek-ai/dsh-tool-skill",
+   "sub": "",
+   "disabled": true,
+   "configKeys": [],
+   "group": "skill",
+   "desc": "The model-facing skill catalog and loader tool for users and maintainers understanding what agents see, or configuring the session skill catalog.",
+   "ctxKeys": [
+    "ctx.agents",
+    "ctx.skills",
+    "ctx.tools"
+   ],
+   "deps": [
+    "cordis",
+    "dsh-agent",
+    "dsh-llm",
+    "dsh-skill",
+    "dsh-tools",
+    "dsh-working-directory"
+   ]
+  },
+  {
+   "line": 241,
+   "index": 56,
+   "id": "commands",
+   "name": "@deepseek-ai/dsh-commands",
+   "base": "@deepseek-ai/dsh-commands",
+   "sub": "",
+   "disabled": false,
+   "configKeys": [],
+   "group": "interaction",
+   "desc": "Human slash-command registry for interactive UIs: plugin-owned commands that run directly against an agent without creating a model message, for users and maintainers composing or extending command surfaces.",
+   "ctxKeys": [
+    "ctx.commands"
+   ],
+   "deps": [
+    "cordis",
+    "dsh-agent",
+    "dsh-attachment",
+    "dsh-brand",
+    "dsh-llm",
+    "dsh-scope",
+    "dsh-session",
+    "dsh-typert-protocol"
+   ]
+  },
+  {
+   "line": 244,
+   "index": 57,
+   "id": "command-feedback",
+   "name": "@deepseek-ai/dsh-command-feedback",
+   "base": "@deepseek-ai/dsh-command-feedback",
+   "sub": "",
+   "disabled": true,
+   "configKeys": [],
+   "group": "feedback",
+   "desc": "Session feedback: the `/feedback` command, the `sessionFeedback` Host Remote behind the Web feedback dialog, and the fixed category taxonomy; for users and maintainers choosing, composing, or debugging feedback capture.",
+   "ctxKeys": [
+    "ctx.sessions"
+   ],
+   "deps": [
+    "cordis",
+    "dsh-anonymous-user-id",
+    "dsh-commands",
+    "dsh-session",
+    "dsh-typert-protocol"
+   ]
+  },
+  {
+   "line": 248,
+   "index": 58,
+   "id": "goal",
+   "name": "@deepseek-ai/dsh-goal",
+   "base": "@deepseek-ai/dsh-goal",
+   "sub": "",
+   "disabled": false,
+   "configKeys": [],
+   "group": "goal",
+   "desc": "The persisted same-session goal service for users and maintainers choosing, configuring, or debugging one durable completion objective per session.",
+   "ctxKeys": [
+    "ctx.goals",
+    "ctx.sessionProjections"
+   ],
+   "deps": [
+    "cordis",
+    "dsh-agent",
+    "dsh-brand",
+    "dsh-llm",
+    "dsh-scope",
+    "dsh-session",
+    "dsh-session-projection",
+    "dsh-typert-protocol"
+   ]
+  },
+  {
+   "line": 250,
+   "index": 59,
+   "id": "goal-round-driver",
+   "name": "@deepseek-ai/dsh-goal-round-driver",
+   "base": "@deepseek-ai/dsh-goal-round-driver",
+   "sub": "",
+   "disabled": false,
+   "configKeys": [],
+   "group": "goal",
+   "desc": "The same-session continuation driver for users and maintainers choosing, composing, or debugging automatic goal rounds.",
+   "ctxKeys": [
+    "ctx.sessions"
+   ],
+   "deps": [
+    "cordis",
+    "dsh-agent",
+    "dsh-goal",
+    "dsh-llm",
+    "dsh-session",
+    "dsh-subagent"
+   ]
+  },
+  {
+   "line": 253,
+   "index": 60,
+   "id": "command-goal",
+   "name": "@deepseek-ai/dsh-command-goal",
+   "base": "@deepseek-ai/dsh-command-goal",
+   "sub": "",
+   "disabled": true,
+   "configKeys": [],
+   "group": "goal",
+   "desc": "The human-facing /goal slash command for users and maintainers choosing, composing, or debugging goal control in UI command planes.",
+   "ctxKeys": [
+    "ctx.commands"
+   ],
+   "deps": [
+    "cordis",
+    "dsh-commands",
+    "dsh-goal",
+    "dsh-llm"
+   ]
+  },
+  {
+   "line": 256,
+   "index": 61,
+   "id": "plan-mode",
+   "name": "@deepseek-ai/dsh-plan-mode",
+   "base": "@deepseek-ai/dsh-plan-mode",
+   "sub": "",
+   "disabled": true,
+   "configKeys": [
+    "section"
+   ],
+   "group": "plan",
+   "desc": "Plan mode for users and maintainers choosing, configuring, or debugging the per-agent planning feature with deployment guidance, a /plan command, and a user-reviewed exit.",
+   "ctxKeys": [
+    "ctx.planMode",
+    "ctx.sessionProjections"
+   ],
+   "deps": [
+    "cordis",
+    "dsh-agent",
+    "dsh-brand",
+    "dsh-commands",
+    "dsh-llm",
+    "dsh-session",
+    "dsh-session-projection",
+    "dsh-system-prompt"
+   ]
+  },
+  {
+   "line": 308,
+   "index": 62,
+   "id": "token-meter",
+   "name": "@deepseek-ai/dsh-token-meter",
+   "base": "@deepseek-ai/dsh-token-meter",
+   "sub": "",
+   "disabled": false,
+   "configKeys": [],
+   "group": "llm",
+   "desc": "Replay-aware token and context-pressure measurement for users and maintainers sizing prompts or building compaction and occupancy displays.",
+   "ctxKeys": [
+    "ctx.llm",
+    "ctx.sessionProjections",
+    "ctx.tokenMeter"
+   ],
+   "deps": [
+    "cordis",
+    "dsh-compaction",
+    "dsh-compaction-image-offload",
+    "dsh-llm",
+    "dsh-llm-retry",
+    "dsh-session",
+    "dsh-session-projection",
+    "dsh-util-values"
+   ]
+  },
+  {
+   "line": 311,
+   "index": 63,
+   "id": "compaction-basic",
+   "name": "@deepseek-ai/dsh-compaction-basic",
+   "base": "@deepseek-ai/dsh-compaction-basic",
+   "sub": "",
+   "disabled": true,
+   "configKeys": [],
+   "group": "compaction",
+   "desc": "Automatic conversation condensation for deployments choosing, tuning, or debugging how older history is summarized as token pressure builds.",
+   "ctxKeys": [
+    "ctx.llm",
+    "ctx.tokenMeter"
+   ],
+   "deps": [
+    "cordis",
+    "dsh-agent",
+    "dsh-commands",
+    "dsh-compaction",
+    "dsh-compaction-tool-result-pruner",
+    "dsh-llm",
+    "dsh-session",
+    "dsh-token-meter"
+   ]
+  },
+  {
+   "line": 314,
+   "index": 64,
+   "id": "command-compact",
+   "name": "@deepseek-ai/dsh-command-compact",
+   "base": "@deepseek-ai/dsh-command-compact",
+   "sub": "",
+   "disabled": true,
+   "configKeys": [],
+   "group": "compaction",
+   "desc": "The on-demand /compact command for interactive compositions: what it does, what you see, and how to mount it.",
+   "ctxKeys": [
+    "ctx.commands"
+   ],
+   "deps": [
+    "cordis",
+    "dsh-commands",
+    "dsh-compaction"
+   ]
+  },
+  {
+   "line": 318,
+   "index": 65,
+   "id": "subagent",
+   "name": "@deepseek-ai/dsh-subagent",
+   "base": "@deepseek-ai/dsh-subagent",
+   "sub": "",
+   "disabled": false,
+   "configKeys": [],
+   "group": "subagent",
+   "desc": "The subagent delegation seam for users and maintainers choosing a provider backend, composing delegation tools, or debugging child-agent runs.",
+   "ctxKeys": [],
+   "deps": [
+    "cordis",
+    "dsh-agent",
+    "dsh-agent-preset-registry",
+    "dsh-attachment",
+    "dsh-brand",
+    "dsh-chunked-list",
+    "dsh-llm",
+    "dsh-permission-presets"
+   ]
+  },
+  {
+   "line": 320,
+   "index": 66,
+   "id": "subagent-spawn-in-process",
+   "name": "@deepseek-ai/dsh-subagent-spawn-in-process",
+   "base": "@deepseek-ai/dsh-subagent-spawn-in-process",
+   "sub": "",
+   "disabled": false,
+   "configKeys": [
+    "providerName"
+   ],
+   "group": "subagent",
+   "desc": "In-process spawn subagent backend for users and maintainers choosing, configuring, or debugging fresh-child delegation.",
+   "ctxKeys": [
+    "ctx.subagents"
+   ],
+   "deps": [
+    "cordis",
+    "dsh-subagent"
+   ]
+  },
+  {
+   "line": 324,
+   "index": 67,
+   "id": "subagent-fork-in-process",
+   "name": "@deepseek-ai/dsh-subagent-fork-in-process",
+   "base": "@deepseek-ai/dsh-subagent-fork-in-process",
+   "sub": "",
+   "disabled": false,
+   "configKeys": [
+    "providerName"
+   ],
+   "group": "subagent",
+   "desc": "In-process fork subagent backend for users and maintainers choosing, configuring, or debugging children seeded with the parent's completed turns.",
+   "ctxKeys": [
+    "ctx.subagents"
+   ],
+   "deps": [
+    "cordis",
+    "dsh-agent",
+    "dsh-session",
+    "dsh-subagent"
+   ]
+  },
+  {
+   "line": 329,
+   "index": 68,
+   "id": "tool-subagent-control",
+   "name": "@deepseek-ai/dsh-tool-subagent-control",
+   "base": "@deepseek-ai/dsh-tool-subagent-control",
+   "sub": "",
+   "disabled": true,
+   "configKeys": [],
+   "group": "subagent",
+   "desc": "Global send_message, interrupt_agent, and list_agents tools for users and maintainers composing or debugging continuable-child control.",
+   "ctxKeys": [
+    "ctx.subagents"
+   ],
+   "deps": [
+    "cordis",
+    "dsh-brand",
+    "dsh-llm",
+    "dsh-session",
+    "dsh-subagent",
+    "dsh-tools",
+    "dsh-util-values"
+   ]
+  },
+  {
+   "line": 332,
+   "index": 69,
+   "id": "tool-subagent-list-agents",
+   "name": "@deepseek-ai/dsh-tool-subagent-control/list-agents",
+   "base": "@deepseek-ai/dsh-tool-subagent-control",
+   "sub": "list-agents",
+   "disabled": true,
+   "configKeys": [],
+   "group": "subagent",
+   "desc": "Global send_message, interrupt_agent, and list_agents tools for users and maintainers composing or debugging continuable-child control.",
+   "ctxKeys": [
+    "ctx.subagents"
+   ],
+   "deps": [
+    "cordis",
+    "dsh-brand",
+    "dsh-llm",
+    "dsh-session",
+    "dsh-subagent",
+    "dsh-tools",
+    "dsh-util-values"
+   ]
+  },
+  {
+   "line": 335,
+   "index": 70,
+   "id": "tool-subagent",
+   "name": "@deepseek-ai/dsh-tool-subagent",
+   "base": "@deepseek-ai/dsh-tool-subagent",
+   "sub": "",
+   "disabled": true,
+   "configKeys": [
+    "provider",
+    "toolName"
+   ],
+   "group": "subagent",
+   "desc": "Model-facing subagent delegation tool for users and maintainers configuring, composing, or debugging delegation over a subagent provider.",
+   "ctxKeys": [
+    "ctx.llm",
+    "ctx.subagents"
+   ],
+   "deps": [
+    "cordis",
+    "dsh-agent",
+    "dsh-agent-preset-registry",
+    "dsh-llm",
+    "dsh-scope",
+    "dsh-session",
+    "dsh-session-projection",
+    "dsh-subagent"
+   ]
+  },
+  {
+   "line": 341,
+   "index": 71,
+   "id": "tool-subagent-fork",
+   "name": "@deepseek-ai/dsh-tool-subagent",
+   "base": "@deepseek-ai/dsh-tool-subagent",
+   "sub": "",
+   "disabled": true,
+   "configKeys": [
+    "provider",
+    "toolName"
+   ],
+   "group": "subagent",
+   "desc": "Model-facing subagent delegation tool for users and maintainers configuring, composing, or debugging delegation over a subagent provider.",
+   "ctxKeys": [
+    "ctx.llm",
+    "ctx.subagents"
+   ],
+   "deps": [
+    "cordis",
+    "dsh-agent",
+    "dsh-agent-preset-registry",
+    "dsh-llm",
+    "dsh-scope",
+    "dsh-session",
+    "dsh-session-projection",
+    "dsh-subagent"
+   ]
+  },
+  {
+   "line": 348,
+   "index": 72,
+   "id": "ptc-runtime",
+   "name": "@deepseek-ai/dsh-ptc-runtime-node",
+   "base": "@deepseek-ai/dsh-ptc-runtime-node",
+   "sub": "",
+   "disabled": false,
+   "configKeys": [],
+   "group": "ptc-runtime",
+   "desc": "Run TypeScript programs in fresh Node processes with the session filesystem sandbox, managed cleanup, and configurable execution and output limits.",
+   "ctxKeys": [
+    "ctx.sandbox",
+    "ctx.subprocess"
+   ],
+   "deps": [
+    "cordis",
+    "dsh-fs",
+    "dsh-ptc-runtime",
+    "dsh-sandbox",
+    "dsh-sandbox-policy",
+    "dsh-session",
+    "dsh-subprocess",
+    "dsh-timeout"
+   ]
+  },
+  {
+   "line": 351,
+   "index": 73,
+   "id": "workflow-ptc",
+   "name": "@deepseek-ai/dsh-workflow-ptc",
+   "base": "@deepseek-ai/dsh-workflow-ptc",
+   "sub": "",
+   "disabled": true,
+   "configKeys": [
+    "provider"
+   ],
+   "group": "workflow",
+   "desc": "Run workflow orchestration through the shared sandboxed PTC Node process runtime, with workflow hooks, subagent routing and caller-owned cancellation.",
+   "ctxKeys": [
+    "ctx.subagents"
+   ],
+   "deps": [
+    "cordis",
+    "dsh-agent",
+    "dsh-brand",
+    "dsh-llm",
+    "dsh-ptc-runtime",
+    "dsh-sandbox",
+    "dsh-sandbox-policy",
+    "dsh-session"
+   ]
+  },
+  {
+   "line": 356,
+   "index": 74,
+   "id": "tool-workflow",
+   "name": "@deepseek-ai/dsh-tool-workflow",
+   "base": "@deepseek-ai/dsh-tool-workflow",
+   "sub": "",
+   "disabled": true,
+   "configKeys": [],
+   "group": "workflow",
+   "desc": "The model-facing workflow tool: run a JavaScript orchestration script that fans out subagents, for users and maintainers choosing or configuring model-driven orchestration.",
+   "ctxKeys": [
+    "ctx.jobs",
+    "ctx.workflowEngine"
+   ],
+   "deps": [
+    "cordis",
+    "dsh-agent",
+    "dsh-jobs",
+    "dsh-llm",
+    "dsh-session",
+    "dsh-system-prompt",
+    "dsh-tools",
+    "dsh-workflow"
+   ]
+  },
+  {
+   "line": 360,
+   "index": 75,
+   "id": "timeout-policy",
+   "name": "@deepseek-ai/dsh-tool-call-timeout-policy",
+   "base": "@deepseek-ai/dsh-tool-call-timeout-policy",
+   "sub": "",
+   "disabled": false,
+   "configKeys": [],
+   "group": "guard",
+   "desc": "Cooperative time limit for cancellation-aware tool calls, mapping a settled timeout to a clear model error for users and maintainers choosing or debugging the plugin.",
+   "ctxKeys": [
+    "ctx.tools"
+   ],
+   "deps": [
+    "cordis",
+    "dsh-llm",
+    "dsh-timeout",
+    "dsh-tools"
+   ]
+  },
+  {
+   "line": 362,
+   "index": 76,
+   "id": "spill-local",
+   "name": "@deepseek-ai/dsh-spill-local",
+   "base": "@deepseek-ai/dsh-spill-local",
+   "sub": "",
+   "disabled": false,
+   "configKeys": [],
+   "group": "spill",
+   "desc": "The local filesystem spill backend: how spilled text is saved to private session-scoped files and retrieved with read or grep.",
+   "ctxKeys": [
+    "ctx.spillStore"
+   ],
+   "deps": [
+    "cordis",
+    "dsh-spill"
+   ]
+  },
+  {
+   "line": 364,
+   "index": 77,
+   "id": "spill-policy",
+   "name": "@deepseek-ai/dsh-spill-policy",
+   "base": "@deepseek-ai/dsh-spill-policy",
+   "sub": "",
+   "disabled": false,
+   "configKeys": [
+    "maxInlineTokens"
+   ],
+   "group": "spill",
+   "desc": "Tool-result retention with a shared text/image token budget and readable recovery files.",
+   "ctxKeys": [],
+   "deps": [
+    "cordis",
+    "dsh-attachment",
+    "dsh-fs",
+    "dsh-llm",
+    "dsh-output-retention",
+    "dsh-session",
+    "dsh-spill",
+    "dsh-token-meter"
+   ]
+  },
+  {
+   "line": 368,
+   "index": 78,
+   "id": "session-checkpoint-policy",
+   "name": "@deepseek-ai/dsh-session-checkpoint-policy",
+   "base": "@deepseek-ai/dsh-session-checkpoint-policy",
+   "sub": "",
+   "disabled": false,
+   "configKeys": [],
+   "group": "session",
+   "desc": "Semantic session durability checkpoints for users and maintainers deploying persisted agents that must not lose a model request or tool side effect on crash.",
+   "ctxKeys": [
+    "ctx.sessionPersistence"
+   ],
+   "deps": [
+    "cordis",
+    "dsh-agent",
+    "dsh-llm",
+    "dsh-session",
+    "dsh-session-persistence",
+    "dsh-tools"
+   ]
+  },
+  {
+   "line": 371,
+   "index": 79,
+   "id": "tool-result-pruner",
+   "name": "@deepseek-ai/dsh-compaction-tool-result-pruner",
+   "base": "@deepseek-ai/dsh-compaction-tool-result-pruner",
+   "sub": "",
+   "disabled": true,
+   "configKeys": [
+    "headChars",
+    "tailChars",
+    "thresholdChars"
+   ],
+   "group": "compaction",
+   "desc": "Tool-output trimming for deployments composing compaction: choosing size limits or debugging why oversized tool results get shortened.",
+   "ctxKeys": [
+    "ctx.tokenMeter"
+   ],
+   "deps": [
+    "cordis",
+    "dsh-compaction",
+    "dsh-llm",
+    "dsh-session",
+    "dsh-token-meter",
+    "dsh-util-values"
+   ]
+  },
+  {
+   "line": 379,
+   "index": 80,
+   "id": "image-offload",
+   "name": "@deepseek-ai/dsh-compaction-image-offload",
+   "base": "@deepseek-ai/dsh-compaction-image-offload",
+   "sub": "",
+   "disabled": false,
+   "configKeys": [],
+   "group": "compaction",
+   "desc": "The image offload executor for deployments composing compaction: what happens when an image-capable route rejects a request as over its image budget.",
+   "ctxKeys": [],
+   "deps": [
+    "cordis",
+    "dsh-agent",
+    "dsh-compaction",
+    "dsh-llm",
+    "dsh-session",
+    "dsh-util-values"
+   ]
+  },
+  {
+   "line": 382,
+   "index": 81,
+   "id": "tool-todo",
+   "name": "@deepseek-ai/dsh-tool-todo",
+   "base": "@deepseek-ai/dsh-tool-todo",
+   "sub": "",
+   "disabled": true,
+   "configKeys": [
+    "allowParallelInProgress"
+   ],
+   "group": "todo",
+   "desc": "The model-facing todo_write tool over the DeepSeek Harness session log: whole-list replacement, per-session ownership, and the todos projection, for users and maintainers choosing, configuring, or debugging the tool.",
+   "ctxKeys": [
+    "ctx.sessionProjections"
+   ],
+   "deps": [
+    "cordis",
+    "dsh-agent",
+    "dsh-session",
+    "dsh-session-projection",
+    "dsh-tools"
+   ]
+  },
+  {
+   "line": 387,
+   "index": 82,
+   "id": "tool-goal",
+   "name": "@deepseek-ai/dsh-tool-goal",
+   "base": "@deepseek-ai/dsh-tool-goal",
+   "sub": "",
+   "disabled": true,
+   "configKeys": [],
+   "group": "goal",
+   "desc": "The model-facing goal tools for users and maintainers choosing, composing, or debugging get_goal, create_goal, and update_goal.",
+   "ctxKeys": [],
+   "deps": [
+    "cordis",
+    "dsh-agent",
+    "dsh-goal",
+    "dsh-llm",
+    "dsh-session",
+    "dsh-session-projection",
+    "dsh-system-prompt",
+    "dsh-tools"
+   ]
+  },
+  {
+   "line": 391,
+   "index": 83,
+   "id": "repeat-tool-reminder",
+   "name": "@deepseek-ai/dsh-repeat-tool-reminder",
+   "base": "@deepseek-ai/dsh-repeat-tool-reminder",
+   "sub": "",
+   "disabled": false,
+   "configKeys": [
+    "argumentsPreviewChars",
+    "thresholds"
+   ],
+   "group": "guard",
+   "desc": "Advisory loop-hygiene guard that nudges the model out of identical tool-call loops, for users and maintainers choosing, configuring, or debugging the plugin.",
+   "ctxKeys": [
+    "ctx.tools"
+   ],
+   "deps": [
+    "cordis",
+    "dsh-agent",
+    "dsh-tools"
+   ]
+  },
+  {
+   "line": 400,
+   "index": 84,
+   "id": "web",
+   "name": "@deepseek-ai/dsh-web",
+   "base": "@deepseek-ai/dsh-web",
+   "sub": "",
+   "disabled": false,
+   "configKeys": [
+    "fetchProvider",
+    "searchProvider"
+   ],
+   "group": "web",
+   "desc": "The web access service (ctx.web): how deployments and plugin authors search the web and fetch URLs through interchangeable providers, with one selection policy and error vocabulary.",
+   "ctxKeys": [
+    "ctx.web"
+   ],
+   "deps": [
+    "cordis",
+    "dsh-llm"
+   ]
+  },
+  {
+   "line": 405,
+   "index": 85,
+   "id": "web-search-deepseek",
+   "name": "@deepseek-ai/dsh-web-search-deepseek",
+   "base": "@deepseek-ai/dsh-web-search-deepseek",
+   "sub": "",
+   "disabled": true,
+   "configKeys": [
+    "apiKeyEnv"
+   ],
+   "group": "web",
+   "desc": "The DeepSeek-backed search provider for ctx.web: how deployments mount native DeepSeek web search through the Anthropic-compatible Messages API, with per-search credential resolution.",
+   "ctxKeys": [
+    "ctx.credentials",
+    "ctx.deepseekAccount",
+    "ctx.web"
+   ],
+   "deps": [
+    "cordis",
+    "dsh-agent",
+    "dsh-credentials",
+    "dsh-deepseek-account",
+    "dsh-launch-environment",
+    "dsh-session",
+    "dsh-web"
+   ]
+  },
+  {
+   "line": 411,
+   "index": 86,
+   "id": "web-fetch-http",
+   "name": "@deepseek-ai/dsh-web-fetch-http",
+   "base": "@deepseek-ai/dsh-web-fetch-http",
+   "sub": "",
+   "disabled": false,
+   "configKeys": [],
+   "group": "web",
+   "desc": "The anonymous public HTTP(S) fetch backend for ctx.web: how deployments mount bounded, safe URL retrieval with same-origin redirects and text-only decoding.",
+   "ctxKeys": [
+    "ctx.web"
+   ],
+   "deps": [
+    "cordis",
+    "dsh-http-proxy",
+    "dsh-timeout",
+    "dsh-web"
+   ]
+  },
+  {
+   "line": 414,
+   "index": 87,
+   "id": "tool-web",
+   "name": "@deepseek-ai/dsh-tool-web",
+   "base": "@deepseek-ai/dsh-tool-web",
+   "sub": "",
+   "disabled": true,
+   "configKeys": [
+    "fetch",
+    "searchTimeoutMs"
+   ],
+   "group": "web",
+   "desc": "The model-facing web tools (web_search, web_fetch) over ctx.web: how deployments enable, configure, and observe the search and fetch tools the model sees.",
+   "ctxKeys": [
+    "ctx.tools",
+    "ctx.web"
+   ],
+   "deps": [
+    "cordis",
+    "dsh-llm",
+    "dsh-system-prompt",
+    "dsh-tools",
+    "dsh-util-values",
+    "dsh-web"
+   ]
+  },
+  {
+   "line": 421,
+   "index": 88,
+   "id": "mcp-resources",
+   "name": "@deepseek-ai/dsh-mcp-resources",
+   "base": "@deepseek-ai/dsh-mcp-resources",
+   "sub": "",
+   "disabled": false,
+   "configKeys": [],
+   "group": "mcp",
+   "desc": "Discover and read MCP resources on demand with shared tools, explicit server selection, and agent-scoped access.",
+   "ctxKeys": [],
+   "deps": [
+    "cordis",
+    "dsh-llm",
+    "dsh-scope",
+    "dsh-system-prompt",
+    "dsh-tools",
+    "dsh-util-values"
+   ]
+  },
+  {
+   "line": 424,
+   "index": 89,
+   "id": "tools",
+   "name": "@deepseek-ai/dsh-tools",
+   "base": "@deepseek-ai/dsh-tools",
+   "sub": "",
+   "disabled": false,
+   "configKeys": [
+    "mode"
+   ],
+   "group": "core",
+   "desc": "The tool registry and execution pipeline for tool authors and maintainers registering, restricting, presenting, or debugging model-facing tools.",
+   "ctxKeys": [
+    "ctx.ptcRuntime",
+    "ctx.tools"
+   ],
+   "deps": [
+    "cordis",
+    "dsh-agent",
+    "dsh-brand",
+    "dsh-llm",
+    "dsh-ptc-runtime",
+    "dsh-sandbox",
+    "dsh-sandbox-policy",
+    "dsh-scope"
+   ]
+  },
+  {
+   "line": 428,
+   "index": 90,
+   "id": "system-prompt",
+   "name": "@deepseek-ai/dsh-system-prompt",
+   "base": "@deepseek-ai/dsh-system-prompt",
+   "sub": "",
+   "disabled": false,
+   "configKeys": [
+    "personaPrefix"
+   ],
+   "group": "core",
+   "desc": "System-prompt assembly for users and maintainers adding prompt sections, variables, tool-schema sources, or configuring the model-facing prompt.",
+   "ctxKeys": [
+    "ctx.systemPrompt",
+    "ctx.tools"
+   ],
+   "deps": [
+    "cordis",
+    "dsh-llm",
+    "dsh-scope"
+   ]
+  },
+  {
+   "line": 433,
+   "index": 91,
+   "id": "agent-loop",
+   "name": "@deepseek-ai/dsh-agent-loop",
+   "base": "@deepseek-ai/dsh-agent-loop",
+   "sub": "",
+   "disabled": false,
+   "configKeys": [
+    "agents"
+   ],
+   "group": "core",
+   "desc": "The default agent driver for users and maintainers choosing, configuring, or debugging how agents are created and how turns and steps run.",
+   "ctxKeys": [
+    "ctx.agents",
+    "ctx.llm",
+    "ctx.sessionPersistence"
+   ],
+   "deps": [
+    "cordis",
+    "dsh-agent",
+    "dsh-brand",
+    "dsh-llm",
+    "dsh-scope",
+    "dsh-session",
+    "dsh-session-persistence",
+    "dsh-session-projection"
+   ]
+  },
+  {
+   "line": 437,
+   "index": 92,
+   "id": "fs-sandbox",
+   "name": "@deepseek-ai/dsh-fs-sandbox",
+   "base": "@deepseek-ai/dsh-fs-sandbox",
+   "sub": "",
+   "disabled": false,
+   "configKeys": [],
+   "group": "fs",
+   "desc": "The sandbox-enforcing ctx.fs backend for deployments and maintainers confining model file mutations to a session workspace.",
+   "ctxKeys": [
+    "ctx.fs",
+    "ctx.sandboxPolicy",
+    "ctx.shell"
+   ],
+   "deps": [
+    "cordis",
+    "dsh-fs",
+    "dsh-fs-local",
+    "dsh-sandbox",
+    "dsh-sandbox-policy"
+   ]
+  },
+  {
+   "line": 440,
+   "index": 93,
+   "id": "llm-deepseek",
+   "name": "@deepseek-ai/dsh-llm-deepseek-api-key",
+   "base": "@deepseek-ai/dsh-llm-deepseek-api-key",
+   "sub": "",
+   "disabled": true,
+   "configKeys": [],
+   "group": "llm",
+   "desc": "DeepSeek api-key authentication and model discovery.",
+   "ctxKeys": [],
+   "deps": [
+    "cordis",
+    "cordis-plugin-loader",
+    "dsh-credentials",
+    "dsh-launch-environment",
+    "dsh-llm",
+    "dsh-llm-deepseek"
+   ]
+  },
+  {
+   "line": 444,
+   "index": 94,
+   "id": "llm-deepseek-account",
+   "name": "@deepseek-ai/dsh-llm-deepseek-account",
+   "base": "@deepseek-ai/dsh-llm-deepseek-account",
+   "sub": "",
+   "disabled": false,
+   "configKeys": [],
+   "group": "llm",
+   "desc": "DeepSeek account authentication, model listing, and model gating.",
+   "ctxKeys": [],
+   "deps": [
+    "cordis",
+    "cordis-plugin-loader",
+    "dsh-deepseek-account",
+    "dsh-launch-environment",
+    "dsh-llm",
+    "dsh-llm-deepseek",
+    "dsh-timeout",
+    "dsh-util-values"
+   ]
+  },
+  {
+   "line": 447,
+   "index": 95,
+   "id": "desktop-product-telemetry",
+   "name": "@deepseek-ai/dsh-host-product-telemetry-otel",
+   "base": "@deepseek-ai/dsh-host-product-telemetry-otel",
+   "sub": "",
+   "disabled": true,
+   "configKeys": [
+    "endpoint",
+    "exportTimeoutMillis",
+    "scheduledDelayMillis",
+    "serviceName",
+    "serviceVersion",
+    "shutdownTimeoutMillis",
+    "timeoutMillis"
+   ],
+   "group": "host",
+   "desc": "Configure explicit product usage events, OTLP/HTTP routing, batching, and shutdown limits.",
+   "ctxKeys": [
+    "ctx.otel"
+   ],
+   "deps": [
+    "cordis",
+    "dsh-otel"
+   ]
+  },
+  {
+   "line": 458,
+   "index": 96,
+   "id": "product-analytics",
+   "name": "@deepseek-ai/dsh-client-product-analytics",
+   "base": "@deepseek-ai/dsh-client-product-analytics",
+   "sub": "",
+   "disabled": true,
+   "configKeys": [
+    "appVersion",
+    "enabled"
+   ],
+   "group": "client",
+   "desc": "Configure Desktop product analytics, identity fields, and event timing without collecting Web usage.",
+   "ctxKeys": [],
+   "deps": [
+    "cordis",
+    "dsh-typert-protocol"
+   ]
+  },
+  {
+   "line": 465,
+   "index": 97,
+   "id": "subagent-model-selection-settings",
+   "name": "@deepseek-ai/dsh-tool-subagent/model-selection-settings",
+   "base": "@deepseek-ai/dsh-tool-subagent",
+   "sub": "model-selection-settings",
+   "disabled": false,
+   "configKeys": [
+    "allowedModels",
+    "enabled"
+   ],
+   "group": "subagent",
+   "desc": "Model-facing subagent delegation tool for users and maintainers configuring, composing, or debugging delegation over a subagent provider.",
+   "ctxKeys": [
+    "ctx.llm",
+    "ctx.subagents"
+   ],
+   "deps": [
+    "cordis",
+    "dsh-agent",
+    "dsh-agent-preset-registry",
+    "dsh-llm",
+    "dsh-scope",
+    "dsh-session",
+    "dsh-session-projection",
+    "dsh-subagent"
+   ]
+  },
+  {
+   "line": 473,
+   "index": 98,
+   "id": "message-feedback",
+   "name": "@deepseek-ai/dsh-message-feedback",
+   "base": "@deepseek-ai/dsh-message-feedback",
+   "sub": "",
+   "disabled": false,
+   "configKeys": [
+    "maxNoteBytes"
+   ],
+   "group": "feedback",
+   "desc": "Canonical Session-log ratings, categories, and notes for finalized assistant messages.",
+   "ctxKeys": [],
+   "deps": [
+    "cordis",
+    "dsh-brand",
+    "dsh-command-feedback",
+    "dsh-llm",
+    "dsh-session",
+    "dsh-session-persistence",
+    "dsh-typert-protocol"
+   ]
+  },
+  {
+   "line": 477,
+   "index": 99,
+   "id": "session-log-download",
+   "name": "@deepseek-ai/dsh-session-log-export",
+   "base": "@deepseek-ai/dsh-session-log-export",
+   "sub": "",
+   "disabled": false,
+   "configKeys": [],
+   "group": "session-query",
+   "desc": "Web Session-log ZIP export: Host streaming, the authenticated download route, the Session Header action, and the /export command.",
+   "ctxKeys": [],
+   "deps": [
+    "cordis",
+    "dsh-brand",
+    "dsh-session",
+    "dsh-session-format",
+    "dsh-session-persistence"
+   ]
+  },
+  {
+   "line": 479,
+   "index": 100,
+   "id": "open-in-app",
+   "name": "@deepseek-ai/dsh-host-open-in-app",
+   "base": "@deepseek-ai/dsh-host-open-in-app",
+   "sub": "",
+   "disabled": false,
+   "configKeys": [
+    "iconTimeoutMs",
+    "launchWatchMs",
+    "probeTimeoutMs"
+   ],
+   "group": "host",
+   "desc": "Host half of open-in-app: resolving installed editors, Git GUIs, terminals, and file managers to verified launchers on macOS, Windows, and Linux, and serving the catalog, icons, and launch endpoint as three webServer routes.",
+   "ctxKeys": [
+    "ctx.subprocess",
+    "ctx.webServer"
+   ],
+   "deps": [
+    "cordis",
+    "dsh-launch-environment",
+    "dsh-native-command",
+    "dsh-subprocess"
+   ]
+  },
+  {
+   "line": 485,
+   "index": 101,
+   "id": "ui-open-in-app",
+   "name": "@deepseek-ai/dsh-client-ui-open-in-app",
+   "base": "@deepseek-ai/dsh-client-ui-open-in-app",
+   "sub": "",
+   "disabled": false,
+   "configKeys": [],
+   "group": "client",
+   "desc": "Web \\\"Open In...\\\" controls: the Session-header split button launching the remembered application on the workspace directory, and the document preview's default-application open and reveal controls for one file.",
+   "ctxKeys": [],
+   "deps": [
+    "cordis"
+   ]
+  },
+  {
+   "line": 487,
+   "index": 102,
+   "id": "workspace",
+   "name": "@deepseek-ai/dsh-workspace",
+   "base": "@deepseek-ai/dsh-workspace",
+   "sub": "",
+   "disabled": false,
+   "configKeys": [],
+   "group": "workspace",
+   "desc": "Workspace entity registry (ctx.workspaceRegistry) for hosts choosing, mounting, or debugging durable workspace records and header-validated session membership.",
+   "ctxKeys": [
+    "ctx.workspaceRegistry"
+   ],
+   "deps": [
+    "cordis",
+    "dsh-brand",
+    "dsh-session",
+    "dsh-session-persistence",
+    "dsh-storage",
+    "dsh-storage-domain",
+    "dsh-typert-protocol"
+   ]
+  },
+  {
+   "line": 489,
+   "index": 103,
+   "id": "session-reference",
+   "name": "@deepseek-ai/dsh-session-reference",
+   "base": "@deepseek-ai/dsh-session-reference",
+   "sub": "",
+   "disabled": false,
+   "configKeys": [],
+   "group": "context",
+   "desc": "Cross-session snapshot references and durable untrusted model context, for users and maintainers enabling or debugging ctx.sessionReferenceResolver.",
+   "ctxKeys": [
+    "ctx.get",
+    "ctx.remote",
+    "ctx.sessionQuery",
+    "ctx.sessionReferenceResolver"
+   ],
+   "deps": [
+    "cordis",
+    "dsh-agent",
+    "dsh-brand",
+    "dsh-compaction",
+    "dsh-llm",
+    "dsh-output-retention",
+    "dsh-session",
+    "dsh-session-projection"
+   ]
+  },
+  {
+   "line": 491,
+   "index": 104,
+   "id": "file-reference-local",
+   "name": "@deepseek-ai/dsh-file-reference-local",
+   "base": "@deepseek-ai/dsh-file-reference-local",
+   "sub": "",
+   "disabled": false,
+   "configKeys": [],
+   "group": "context",
+   "desc": "Local-workspace @file completion provider for users and maintainers enabling, sizing, or debugging ctx.fileReferences discovery.",
+   "ctxKeys": [
+    "ctx.fileReferences"
+   ],
+   "deps": [
+    "cordis",
+    "dsh-agent",
+    "dsh-file-reference",
+    "dsh-system-prompt",
+    "dsh-tools",
+    "dsh-working-directory"
+   ]
+  },
+  {
+   "line": 493,
+   "index": 105,
+   "id": "session-stats",
+   "name": "@deepseek-ai/dsh-session-stats",
+   "base": "@deepseek-ai/dsh-session-stats",
+   "sub": "",
+   "disabled": false,
+   "configKeys": [],
+   "group": "session",
+   "desc": "Whole-log conversation counts and wall times for clients and maintainers choosing, composing, or debugging the sessionStats projection unit.",
+   "ctxKeys": [],
+   "deps": [
+    "cordis",
+    "dsh-llm",
+    "dsh-session",
+    "dsh-session-projection"
+   ]
+  },
+  {
+   "line": 495,
+   "index": 106,
+   "id": "session-turn-outline",
+   "name": "@deepseek-ai/dsh-session-turn-outline",
+   "base": "@deepseek-ai/dsh-session-turn-outline",
+   "sub": "",
+   "disabled": false,
+   "configKeys": [],
+   "group": "session",
+   "desc": "Whole-log turn outline for clients and maintainers composing or debugging the turnOutline projection unit behind full-session turn navigation.",
+   "ctxKeys": [],
+   "deps": [
+    "cordis",
+    "dsh-llm",
+    "dsh-session",
+    "dsh-session-projection"
+   ]
+  },
+  {
+   "line": 497,
+   "index": 107,
+   "id": "directory-picker",
+   "name": "@deepseek-ai/dsh-host-directory-picker-auto",
+   "base": "@deepseek-ai/dsh-host-directory-picker-auto",
+   "sub": "",
+   "disabled": false,
+   "configKeys": [],
+   "group": "host",
+   "desc": "Adaptive chooser of the directory-picker seam: resolves the web GUI host's situation once at boot and mounts the matching native or browse backend.",
+   "ctxKeys": [
+    "ctx.directoryPicker"
+   ],
+   "deps": [
+    "cordis",
+    "cordis-plugin-loader",
+    "dsh-client-connection",
+    "dsh-client-ui-directory-picker-browse",
+    "dsh-client-ui-directory-picker-native",
+    "dsh-host-directory-picker-browse",
+    "dsh-host-directory-picker-native",
+    "dsh-host-webserver"
+   ]
+  },
+  {
+   "line": 499,
+   "index": 108,
+   "id": "plugin-inventory",
+   "name": "@deepseek-ai/dsh-host-plugin-inventory",
+   "base": "@deepseek-ai/dsh-host-plugin-inventory",
+   "sub": "",
+   "disabled": false,
+   "configKeys": [],
+   "group": "host",
+   "desc": "Read-only projection of the current Cordis Loader plugin state with each agent preset's composition beside it: the pluginInventory service and its pluginInventory/list Remote for web GUI host clients.",
+   "ctxKeys": [
+    "ctx.get",
+    "ctx.loader"
+   ],
+   "deps": [
+    "cordis",
+    "cordis-plugin-loader",
+    "dsh-agent-preset-registry",
+    "dsh-brand",
+    "dsh-typert-protocol"
+   ]
+  },
+  {
+   "line": 501,
+   "index": 109,
+   "id": "session-controller",
+   "name": "@deepseek-ai/dsh-api-session-controller",
+   "base": "@deepseek-ai/dsh-api-session-controller",
+   "sub": "",
+   "disabled": false,
+   "configKeys": [],
+   "group": "api",
+   "desc": "Host and Client session control: create, resume, prompt, follow history, and project live session state.",
+   "ctxKeys": [
+    "ctx.attachments",
+    "ctx.fs",
+    "ctx.invocation",
+    "ctx.plugin",
+    "ctx.remoteAccess",
+    "ctx.sessionController"
+   ],
+   "deps": [
+    "cordis",
+    "dsh-agent",
+    "dsh-agent-default-model",
+    "dsh-agent-preset-registry",
+    "dsh-api-gateway",
+    "dsh-attachment",
+    "dsh-brand",
+    "dsh-client-connection"
+   ]
+  },
+  {
+   "line": 503,
+   "index": 110,
+   "id": "job-controller",
+   "name": "@deepseek-ai/dsh-api-job-controller",
+   "base": "@deepseek-ai/dsh-api-job-controller",
+   "sub": "",
+   "disabled": false,
+   "configKeys": [],
+   "group": "api",
+   "desc": "Host and Client job control: the roster one session can see and one job's retained output, mirrored to the browser without touching the model's consuming cursor, and a kill on a human's behalf.",
+   "ctxKeys": [
+    "ctx.jobController",
+    "ctx.jobs",
+    "ctx.remote"
+   ],
+   "deps": [
+    "cordis",
+    "dsh-typert-protocol"
+   ]
+  },
+  {
+   "line": 505,
+   "index": 111,
+   "id": "terminal-controller",
+   "name": "@deepseek-ai/dsh-api-terminal-controller",
+   "base": "@deepseek-ai/dsh-api-terminal-controller",
+   "sub": "",
+   "disabled": false,
+   "configKeys": [],
+   "group": "api",
+   "desc": "Interactive user terminals with execution-environment shell defaults, bounded screen recovery and typed Remote control.",
+   "ctxKeys": [
+    "ctx.subprocess"
+   ],
+   "deps": [
+    "cordis",
+    "dsh-deque",
+    "dsh-lazy-require",
+    "dsh-subprocess",
+    "dsh-typert-protocol",
+    "dsh-util-values"
+   ]
+  },
+  {
+   "line": 507,
+   "index": 112,
+   "id": "workspace-files",
+   "name": "@deepseek-ai/dsh-api-workspace-files",
+   "base": "@deepseek-ai/dsh-api-workspace-files",
+   "sub": "",
+   "disabled": false,
+   "configKeys": [],
+   "group": "api",
+   "desc": "Workspace file service for the web GUI: bounded reads and target-scoped filesystem watches, plus directory listing inside the Session workspace root.",
+   "ctxKeys": [
+    "ctx.fs",
+    "ctx.resources"
+   ],
+   "deps": [
+    "cordis",
+    "dsh-deque",
+    "dsh-typert-protocol"
+   ]
+  },
+  {
+   "line": 509,
+   "index": 113,
+   "id": "schedule",
+   "name": "@deepseek-ai/dsh-schedule",
+   "base": "@deepseek-ai/dsh-schedule",
+   "sub": "",
+   "disabled": false,
+   "configKeys": [],
+   "group": "schedule",
+   "desc": "Host-wide durable reminders and shared Session-bound task management.",
+   "ctxKeys": [],
+   "deps": [
+    "cordis",
+    "dsh-agent",
+    "dsh-api-session-controller",
+    "dsh-brand",
+    "dsh-llm",
+    "dsh-session",
+    "dsh-session-persistence",
+    "dsh-session-projection"
+   ]
+  },
+  {
+   "line": 511,
+   "index": 114,
+   "id": "ui-settings-account",
+   "name": "@deepseek-ai/dsh-client-ui-settings-account",
+   "base": "@deepseek-ai/dsh-client-ui-settings-account",
+   "sub": "",
+   "disabled": false,
+   "configKeys": [],
+   "group": "client",
+   "desc": "Account settings display DeepSeek login state and offer browser authorization and cancellation; the sidebar account menu provides Platform sign-out.",
+   "ctxKeys": [],
+   "deps": [
+    "cordis"
+   ]
+  },
+  {
+   "line": 513,
+   "index": 115,
+   "id": "account-controller",
+   "name": "@deepseek-ai/dsh-api-account-controller",
+   "base": "@deepseek-ai/dsh-api-account-controller",
+   "sub": "",
+   "disabled": false,
+   "configKeys": [],
+   "group": "api",
+   "desc": "Account screens use authenticated Remote commands and a snapshot stream. The controller exposes login state without returning tokens or PKCE secrets.",
+   "ctxKeys": [],
+   "deps": [
+    "cordis",
+    "dsh-agent",
+    "dsh-deepseek-account",
+    "dsh-typert-protocol"
+   ]
+  },
+  {
+   "line": 515,
+   "index": 116,
+   "id": "settings-controller",
+   "name": "@deepseek-ai/dsh-api-settings-controller",
+   "base": "@deepseek-ai/dsh-api-settings-controller",
+   "sub": "",
+   "disabled": false,
+   "configKeys": [],
+   "group": "api",
+   "desc": "Host Remote owner for settings and credential configuration surfaces, including redacted reads, writes, credential references, and native document opening.",
+   "ctxKeys": [
+    "ctx.remote"
+   ],
+   "deps": [
+    "cordis",
+    "dsh-agent-preset-registry",
+    "dsh-credentials",
+    "dsh-native-command",
+    "dsh-session",
+    "dsh-settings",
+    "dsh-typert-protocol"
+   ]
+  },
+  {
+   "line": 517,
+   "index": 117,
+   "id": "workspace-controller",
+   "name": "@deepseek-ai/dsh-api-workspace-controller",
+   "base": "@deepseek-ai/dsh-api-workspace-controller",
+   "sub": "",
+   "disabled": false,
+   "configKeys": [],
+   "group": "api",
+   "desc": "Host and Client workspace control: mutate workspace navigation and follow its complete projection.",
+   "ctxKeys": [
+    "ctx.directoryPickerController",
+    "ctx.remote",
+    "ctx.remoteAccess",
+    "ctx.workspaceController"
+   ],
+   "deps": [
+    "cordis",
+    "dsh-api-gateway",
+    "dsh-client-connection",
+    "dsh-deque",
+    "dsh-host-directory-picker",
+    "dsh-native-command",
+    "dsh-session",
+    "dsh-storage-domain"
+   ]
+  },
+  {
+   "line": 519,
+   "index": 118,
+   "id": "cordis-host-runner",
+   "name": "@deepseek-ai/dsh-cordis-host-runner",
+   "base": "@deepseek-ai/dsh-cordis-host-runner",
+   "sub": "",
+   "disabled": false,
+   "configKeys": [],
+   "group": "extensions",
+   "desc": "Host half of dynamic Cordis packages for agents and maintainers choosing, composing, or debugging the registry, sandbox, and run round trip.",
+   "ctxKeys": [
+    "ctx.bash",
+    "ctx.cordisInspect",
+    "ctx.dynamicCordisRunner",
+    "ctx.fs",
+    "ctx.remote",
+    "ctx.web"
+   ],
+   "deps": [
+    "cordis",
+    "dsh-agent",
+    "dsh-brand",
+    "dsh-llm",
+    "dsh-scope",
+    "dsh-session",
+    "dsh-tools",
+    "dsh-typert-protocol"
+   ]
+  },
+  {
+   "line": 521,
+   "index": 119,
+   "id": "cordis-inspect-providers",
+   "name": "@deepseek-ai/dsh-tool-cordis/host",
+   "base": "@deepseek-ai/dsh-tool-cordis",
+   "sub": "host",
+   "disabled": false,
+   "configKeys": [],
+   "group": "extensions",
+   "desc": "Read-only runtime API discovery for agents developing and configuring installed Harness plugins.",
+   "ctxKeys": [],
+   "deps": [
+    "cordis",
+    "cordis-plugin-loader",
+    "dsh-agent",
+    "dsh-app-boot",
+    "dsh-cordis-host-runner",
+    "dsh-tools"
+   ]
+  },
+  {
+   "line": 523,
+   "index": 120,
+   "id": "web-startup",
+   "name": "@deepseek-ai/dsh-web-app/startup",
+   "base": "@deepseek-ai/dsh-web-app",
+   "sub": "startup",
+   "disabled": false,
+   "configKeys": [],
+   "group": "bundle",
+   "desc": "The browser GUI for dsh: interactive chat, model and settings management, and session history, for users running the dsh web surface.",
+   "ctxKeys": [
+    "ctx.webStartup"
+   ],
+   "deps": [
+    "cordis",
+    "cordis-plugin-loader",
+    "dsh-agent-instructions",
+    "dsh-agent-preset",
+    "dsh-agent-preset-registry",
+    "dsh-agent-tool-presentation",
+    "dsh-api-account-controller",
+    "dsh-api-job-controller"
+   ]
+  },
+  {
+   "line": 525,
+   "index": 121,
+   "id": "webserver",
+   "name": "@deepseek-ai/dsh-host-webserver",
+   "base": "@deepseek-ai/dsh-host-webserver",
+   "sub": "",
+   "disabled": false,
+   "configKeys": [
+    "compression",
+    "compressionLevel",
+    "compressionThresholdBytes",
+    "host",
+    "port",
+    "tls"
+   ],
+   "group": "host",
+   "desc": "The web GUI host's HTTP server: named-route and upgrade registration, an optional TLS listener, index transforms, and the single fallback seat that serves the Web shell's SPA dist.",
+   "ctxKeys": [
+    "ctx.webServer"
+   ],
+   "deps": [
+    "cordis"
+   ]
+  },
+  {
+   "line": 536,
+   "index": 122,
+   "id": "web-runtime",
+   "name": "@deepseek-ai/dsh-web-app",
+   "base": "@deepseek-ai/dsh-web-app",
+   "sub": "",
+   "disabled": false,
+   "configKeys": [
+    "openBrowser",
+    "printUrl",
+    "publicUrl",
+    "surfaceContext"
+   ],
+   "group": "bundle",
+   "desc": "The browser GUI for dsh: interactive chat, model and settings management, and session history, for users running the dsh web surface.",
+   "ctxKeys": [
+    "ctx.webStartup"
+   ],
+   "deps": [
+    "cordis",
+    "cordis-plugin-loader",
+    "dsh-agent-instructions",
+    "dsh-agent-preset",
+    "dsh-agent-preset-registry",
+    "dsh-agent-tool-presentation",
+    "dsh-api-account-controller",
+    "dsh-api-job-controller"
+   ]
+  },
+  {
+   "line": 545,
+   "index": 123,
+   "id": "harness-dev-context",
+   "name": "@deepseek-ai/dsh-harness-dev-context",
+   "base": "@deepseek-ai/dsh-harness-dev-context",
+   "sub": "",
+   "disabled": false,
+   "configKeys": [],
+   "group": "context",
+   "desc": "Model context for users and maintainers of the Web GUI that names the DeepSeek Harness checkout and GUI URL without letting either change the system prompt.",
+   "ctxKeys": [],
+   "deps": [
+    "cordis",
+    "dsh-agent",
+    "dsh-session",
+    "dsh-session-projection",
+    "dsh-system-prompt"
+   ]
+  },
+  {
+   "line": 547,
+   "index": 124,
+   "id": "client-hmr",
+   "name": "@deepseek-ai/dsh-client-hmr",
+   "base": "@deepseek-ai/dsh-client-hmr",
+   "sub": "",
+   "disabled": false,
+   "configKeys": [],
+   "group": "client",
+   "desc": "Live graph synchronization and development bundle reloads for Web client plugins.",
+   "ctxKeys": [],
+   "deps": [
+    "cordis"
+   ]
+  },
+  {
+   "line": 549,
+   "index": 125,
+   "id": "modules",
+   "name": "@deepseek-ai/dsh-client-modules",
+   "base": "@deepseek-ai/dsh-client-modules",
+   "sub": "",
+   "disabled": false,
+   "configKeys": [],
+   "group": "client",
+   "desc": "Client module system for the web GUI: the host composes the boot graph and serves plugin bundles, and the browser loads them lazily, for users and maintainers composing or debugging client plugins.",
+   "ctxKeys": [
+    "ctx.clientModules",
+    "ctx.modules"
+   ],
+   "deps": [
+    "cordis"
+   ]
+  },
+  {
+   "line": 551,
+   "index": 126,
+   "id": "connection",
+   "name": "@deepseek-ai/dsh-client-connection",
+   "base": "@deepseek-ai/dsh-client-connection",
+   "sub": "",
+   "disabled": false,
+   "configKeys": [
+    "trustedHosts"
+   ],
+   "group": "client",
+   "desc": "Browser-host wire layer for the web GUI: Remote RPC, event-stream delivery with reconnect, exact Fetch routes, the /api HTTP bridge, and the browser-trust fence.",
+   "ctxKeys": [
+    "ctx.connection",
+    "ctx.credentials"
+   ],
+   "deps": [
+    "cordis",
+    "dsh-credentials",
+    "dsh-scope"
+   ]
+  },
+  {
+   "line": 557,
+   "index": 127,
+   "id": "file-upload",
+   "name": "@deepseek-ai/dsh-client-file-upload",
+   "base": "@deepseek-ai/dsh-client-file-upload",
+   "sub": "",
+   "disabled": false,
+   "configKeys": [],
+   "group": "client",
+   "desc": "Session-addressed browser file uploads with streaming intake, progress, cancellation, and staged receipts for later prompts.",
+   "ctxKeys": [
+    "ctx.attachments",
+    "ctx.fileUpload",
+    "ctx.fileUploads"
+   ],
+   "deps": [
+    "cordis",
+    "dsh-brand",
+    "dsh-typert-protocol"
+   ]
+  },
+  {
+   "line": 559,
+   "index": 128,
+   "id": "api-remotes",
+   "name": "@deepseek-ai/dsh-api-remotes",
+   "base": "@deepseek-ai/dsh-api-remotes",
+   "sub": "",
+   "disabled": false,
+   "configKeys": [],
+   "group": "api",
+   "desc": "Application Remote assembly: selects typed Host capabilities and forwarded events for Client consumers.",
+   "ctxKeys": [
+    "ctx.remote",
+    "ctx.typertGateway"
+   ],
+   "deps": [
+    "cordis",
+    "dsh-deque",
+    "dsh-scope",
+    "dsh-util-values"
+   ]
+  },
+  {
+   "line": 561,
+   "index": 129,
+   "id": "cordis-client-runner",
+   "name": "@deepseek-ai/dsh-cordis-client-runner",
+   "base": "@deepseek-ai/dsh-cordis-client-runner",
+   "sub": "",
+   "disabled": false,
+   "configKeys": [],
+   "group": "extensions",
+   "desc": "Browser half of dynamic Cordis packages for users and maintainers choosing, composing, or debugging how a page answers run requests and loads browser-half code.",
+   "ctxKeys": [
+    "ctx.dynamicCordisRunner"
+   ],
+   "deps": [
+    "cordis"
+   ]
+  },
+  {
+   "line": 563,
+   "index": 130,
+   "id": "ui-theme",
+   "name": "@deepseek-ai/dsh-client-ui-theme",
+   "base": "@deepseek-ai/dsh-client-ui-theme",
+   "sub": "",
+   "disabled": false,
+   "configKeys": [],
+   "group": "client",
+   "desc": "Theme, font-size, and font-family settings for the dsh web client: --dsw-* token stylesheets, ThemeRuntime state, General settings rows, and the pre-plugin bootstrap.",
+   "ctxKeys": [
+    "ctx.theme"
+   ],
+   "deps": [
+    "cordis"
+   ]
+  },
+  {
+   "line": 565,
+   "index": 131,
+   "id": "locale",
+   "name": "@deepseek-ai/dsh-client-locale",
+   "base": "@deepseek-ai/dsh-client-locale",
+   "sub": "",
+   "disabled": false,
+   "configKeys": [],
+   "group": "client",
+   "desc": "Localization for the web GUI: the zh/en preference, browser-derived fallback, typed namespace dictionaries, and the framework translation seat, for users and plugin authors.",
+   "ctxKeys": [
+    "ctx.effect",
+    "ctx.locale",
+    "ctx.slots"
+   ],
+   "deps": [
+    "cordis"
+   ]
+  },
+  {
+   "line": 567,
+   "index": 132,
+   "id": "shortcuts",
+   "name": "@deepseek-ai/dsh-client-shortcuts",
+   "base": "@deepseek-ai/dsh-client-shortcuts",
+   "sub": "",
+   "disabled": false,
+   "configKeys": [],
+   "group": "client",
+   "desc": "Customize application keyboard commands for each device",
+   "ctxKeys": [
+    "ctx.effect",
+    "ctx.shortcuts"
+   ],
+   "deps": [
+    "cordis",
+    "dsh-util-crypto",
+    "dsh-util-values"
+   ]
+  },
+  {
+   "line": 569,
+   "index": 133,
+   "id": "ui-shortcuts",
+   "name": "@deepseek-ai/dsh-client-ui-shortcuts",
+   "base": "@deepseek-ai/dsh-client-ui-shortcuts",
+   "sub": "",
+   "disabled": false,
+   "configKeys": [],
+   "group": "client",
+   "desc": "Browse the commands available in the current window and find them by action, English alias, or key",
+   "ctxKeys": [],
+   "deps": [
+    "cordis"
+   ]
+  },
+  {
+   "line": 571,
+   "index": 134,
+   "id": "ui-layout",
+   "name": "@deepseek-ai/dsh-client-ui-layout",
+   "base": "@deepseek-ai/dsh-client-ui-layout",
+   "sub": "",
+   "disabled": false,
+   "configKeys": [],
+   "group": "client",
+   "desc": "Shell layout for the Web GUI: the three-column AppFrame whose right column is a track for an edge-anchored panel, the panel-geometry service, and theme presentation; for users and maintainers of the window chrome.",
+   "ctxKeys": [
+    "ctx.layout"
+   ],
+   "deps": [
+    "cordis"
+   ]
+  },
+  {
+   "line": 573,
+   "index": 135,
+   "id": "ui-renderer",
+   "name": "@deepseek-ai/dsh-client-ui-renderer",
+   "base": "@deepseek-ai/dsh-client-ui-renderer",
+   "sub": "",
+   "disabled": false,
+   "configKeys": [],
+   "group": "client",
+   "desc": "Browser UI renderer: React bindings for ordinary Slots and reusable Component Factories, ctx.uiRenderer, and the assembled dsh web application root.",
+   "ctxKeys": [
+    "ctx.uiRenderer"
+   ],
+   "deps": [
+    "cordis"
+   ]
+  },
+  {
+   "line": 575,
+   "index": 136,
+   "id": "ui-session",
+   "name": "@deepseek-ai/dsh-client-ui-session",
+   "base": "@deepseek-ai/dsh-client-ui-session",
+   "sub": "",
+   "disabled": false,
+   "configKeys": [],
+   "group": "client",
+   "desc": "React and Slot adapters for Session Controller lists, interaction state, and per-session context.",
+   "ctxKeys": [],
+   "deps": [
+    "cordis"
+   ]
+  },
+  {
+   "line": 577,
+   "index": 137,
+   "id": "resources",
+   "name": "@deepseek-ai/dsh-client-resources",
+   "base": "@deepseek-ai/dsh-client-resources",
+   "sub": "",
+   "disabled": false,
+   "configKeys": [],
+   "group": "client",
+   "desc": "Client resource model: protocol-registered providers turn URL addresses into live values that any slot component reads through the useResource standard hook.",
+   "ctxKeys": [
+    "ctx.effect",
+    "ctx.resources",
+    "ctx.slots"
+   ],
+   "deps": [
+    "cordis"
+   ]
+  },
+  {
+   "line": 579,
+   "index": 138,
+   "id": "ui-sidebar",
+   "name": "@deepseek-ai/dsh-client-ui-sidebar",
+   "base": "@deepseek-ai/dsh-client-ui-sidebar",
+   "sub": "",
+   "disabled": false,
+   "configKeys": [],
+   "group": "client",
+   "desc": "Sidebar shell plugin for the dsh web client: brand row, New Session action, collapse control, scroll-aware region seat, and bottom-pinned Settings seat.",
+   "ctxKeys": [],
+   "deps": [
+    "cordis"
+   ]
+  },
+  {
+   "line": 581,
+   "index": 139,
+   "id": "ui-sidebar-right",
+   "name": "@deepseek-ai/dsh-client-ui-sidebar-right",
+   "base": "@deepseek-ai/dsh-client-ui-sidebar-right",
+   "sub": "",
+   "disabled": false,
+   "configKeys": [],
+   "group": "client",
+   "desc": "The right Sidebar of the dsh web client: one docking surface per session, two presentations, the navigation controller ctx.sidebarRight, the tab-type registry ctx.sidebarRightTabs, and the Tab domain.",
+   "ctxKeys": [
+    "ctx.effect",
+    "ctx.layout",
+    "ctx.sidebarRight",
+    "ctx.sidebarRightTabs",
+    "ctx.slots"
+   ],
+   "deps": [
+    "cordis"
+   ]
+  },
+  {
+   "line": 583,
+   "index": 140,
+   "id": "office-to-pdf",
+   "name": "@deepseek-ai/dsh-office-to-pdf",
+   "base": "@deepseek-ai/dsh-office-to-pdf",
+   "sub": "",
+   "disabled": false,
+   "configKeys": [],
+   "group": "document",
+   "desc": "Host Office conversion with the independently published LibreOffice kit.",
+   "ctxKeys": [
+    "ctx.officeToPdf"
+   ],
+   "deps": [
+    "cordis",
+    "dsh-brand",
+    "dsh-typert-protocol"
+   ]
+  },
+  {
+   "line": 585,
+   "index": 141,
+   "id": "ui-sidebar-documentpreview",
+   "name": "@deepseek-ai/dsh-client-ui-sidebar-documentpreview",
+   "base": "@deepseek-ai/dsh-client-ui-sidebar-documentpreview",
+   "sub": "",
+   "disabled": false,
+   "configKeys": [],
+   "group": "client",
+   "desc": "Document previews in the right Sidebar: shared file loading and controls, selectable Markdown, code, image, PDF, Office and HTML renderers, and plain-text fallback.",
+   "ctxKeys": [
+    "ctx.documentPreviews",
+    "ctx.sidebarRight",
+    "ctx.sidebarRightTabs",
+    "ctx.slots"
+   ],
+   "deps": [
+    "cordis"
+   ]
+  },
+  {
+   "line": 587,
+   "index": 142,
+   "id": "ui-sidebar-browser",
+   "name": "@deepseek-ai/dsh-client-ui-sidebar-browser",
+   "base": "@deepseek-ai/dsh-client-ui-sidebar-browser",
+   "sub": "",
+   "disabled": true,
+   "configKeys": [],
+   "group": "client",
+   "desc": "Right-Sidebar browser tabs for sandboxed HTTP(S) pages, including loopback services.",
+   "ctxKeys": [
+    "ctx.sidebarRight"
+   ],
+   "deps": [
+    "cordis"
+   ]
+  },
+  {
+   "line": 590,
+   "index": 143,
+   "id": "ui-sidebar-terminal",
+   "name": "@deepseek-ai/dsh-client-ui-sidebar-terminal",
+   "base": "@deepseek-ai/dsh-client-ui-sidebar-terminal",
+   "sub": "",
+   "disabled": false,
+   "configKeys": [],
+   "group": "client",
+   "desc": "Open, recover and control interactive shell tabs in the Web right sidebar.",
+   "ctxKeys": [],
+   "deps": [
+    "cordis"
+   ]
+  },
+  {
+   "line": 592,
+   "index": 144,
+   "id": "ui-sidebar-files",
+   "name": "@deepseek-ai/dsh-client-ui-sidebar-files",
+   "base": "@deepseek-ai/dsh-client-ui-sidebar-files",
+   "sub": "",
+   "disabled": false,
+   "configKeys": [],
+   "group": "client",
+   "desc": "The right Sidebar's file-tree tab type for the dsh web client: the session workspace root listed one level at a time over the wire, opening files into the Sidebar by resource address.",
+   "ctxKeys": [
+    "ctx.sidebarRightTabs"
+   ],
+   "deps": [
+    "cordis"
+   ]
+  },
+  {
+   "line": 594,
+   "index": 145,
+   "id": "ui-settings",
+   "name": "@deepseek-ai/dsh-client-ui-settings",
+   "base": "@deepseek-ai/dsh-client-ui-settings",
+   "sub": "",
+   "disabled": false,
+   "configKeys": [],
+   "group": "client",
+   "desc": "Settings domain base plugin: shared configuration forms, schema service, and the canonical settings slot-type contract for the dsh web client.",
+   "ctxKeys": [
+    "ctx.configForms",
+    "ctx.effect",
+    "ctx.settingsSchema"
+   ],
+   "deps": [
+    "cordis"
+   ]
+  },
+  {
+   "line": 597,
+   "index": 146,
+   "id": "ui-settings-general",
+   "name": "@deepseek-ai/dsh-client-ui-settings-general",
+   "base": "@deepseek-ai/dsh-client-ui-settings-general",
+   "sub": "",
+   "disabled": false,
+   "configKeys": [
+    "welcomeNoticeVersion"
+   ],
+   "group": "client",
+   "desc": "Settings shell, ownerless copy, and durable product-onboarding namespace for the dsh web client: the General section, trigger chrome, and onboarding ledger projection.",
+   "ctxKeys": [
+    "ctx.connection",
+    "ctx.get",
+    "ctx.modules",
+    "ctx.remote"
+   ],
+   "deps": [
+    "cordis"
+   ]
+  },
+  {
+   "line": 602,
+   "index": 147,
+   "id": "ui-settings-models",
+   "name": "@deepseek-ai/dsh-client-ui-settings-models",
+   "base": "@deepseek-ai/dsh-client-ui-settings-models",
+   "sub": "",
+   "disabled": false,
+   "configKeys": [],
+   "group": "client",
+   "desc": "Models settings and product-onboarding plugin for the dsh web client: provider rows, API-key management, model lists, and the DeepSeek first-run dialogs.",
+   "ctxKeys": [
+    "ctx.slots"
+   ],
+   "deps": [
+    "cordis"
+   ]
+  },
+  {
+   "line": 604,
+   "index": 148,
+   "id": "ui-plugin-manager",
+   "name": "@deepseek-ai/dsh-client-ui-plugin-manager",
+   "base": "@deepseek-ai/dsh-client-ui-plugin-manager",
+   "sub": "",
+   "disabled": false,
+   "configKeys": [],
+   "group": "client",
+   "desc": "Manage the profile's plugin bundles, their rows, and the plugins' configuration from the Web sidebar.",
+   "ctxKeys": [
+    "ctx.pluginNavigation",
+    "ctx.slots"
+   ],
+   "deps": [
+    "cordis",
+    "dsh-timeout",
+    "dsh-typert-protocol"
+   ]
+  },
+  {
+   "line": 606,
+   "index": 149,
+   "id": "ui-settings-plugin-inventory",
+   "name": "@deepseek-ai/dsh-client-ui-settings-plugin-inventory",
+   "base": "@deepseek-ai/dsh-client-ui-settings-plugin-inventory",
+   "sub": "",
+   "disabled": false,
+   "configKeys": [],
+   "group": "client",
+   "desc": "Scope-grouped read-only plugin inventory tab in Web Plugins settings for the dsh web client: agent-preset compositions first, the global plane behind a disclosure, search across both.",
+   "ctxKeys": [
+    "ctx.remote",
+    "ctx.slots"
+   ],
+   "deps": [
+    "cordis"
+   ]
+  },
+  {
+   "line": 608,
+   "index": 150,
+   "id": "ui-conversation",
+   "name": "@deepseek-ai/dsh-client-ui-conversation",
+   "base": "@deepseek-ai/dsh-client-ui-conversation",
+   "sub": "",
+   "disabled": false,
+   "configKeys": [],
+   "group": "client",
+   "desc": "Target-neutral conversation assembly and browser shell: event and view registries, per-session bindings, input state, slots, and temporary composer takeovers.",
+   "ctxKeys": [
+    "ctx.conversation",
+    "ctx.slots",
+    "ctx.uiConversation",
+    "ctx.uiSession"
+   ],
+   "deps": [
+    "cordis"
+   ]
+  },
+  {
+   "line": 610,
+   "index": 151,
+   "id": "ui-approval",
+   "name": "@deepseek-ai/dsh-client-ui-approval",
+   "base": "@deepseek-ai/dsh-client-ui-approval",
+   "sub": "",
+   "disabled": false,
+   "configKeys": [],
+   "group": "client",
+   "desc": "Browser approval UI that answers Host permission requests through the scoped interaction path.",
+   "ctxKeys": [
+    "ctx.uiSession"
+   ],
+   "deps": [
+    "cordis"
+   ]
+  },
+  {
+   "line": 612,
+   "index": 152,
+   "id": "ui-chat",
+   "name": "@deepseek-ai/dsh-client-ui-chat",
+   "base": "@deepseek-ai/dsh-client-ui-chat",
+   "sub": "",
+   "disabled": false,
+   "configKeys": [],
+   "group": "client",
+   "desc": "Browser Chat target that renders Session conversation nodes, historical images, actions, localization, and scroll state.",
+   "ctxKeys": [],
+   "deps": [
+    "cordis"
+   ]
+  },
+  {
+   "line": 615,
+   "index": 153,
+   "id": "ui-brand-official",
+   "name": "@deepseek-ai/dsh-client-ui-brand-official",
+   "base": "@deepseek-ai/dsh-client-ui-brand-official",
+   "sub": "",
+   "disabled": true,
+   "configKeys": [],
+   "group": "client",
+   "desc": "Official DeepSeek Harness brand occupants for the sidebar, active only in official builds; for users and maintainers choosing or replacing brand presentation.",
+   "ctxKeys": [
+    "ctx.slots"
+   ],
+   "deps": [
+    "cordis"
+   ]
+  },
+  {
+   "line": 619,
+   "index": 154,
+   "id": "ui-attachment",
+   "name": "@deepseek-ai/dsh-client-ui-attachment",
+   "base": "@deepseek-ai/dsh-client-ui-attachment",
+   "sub": "",
+   "disabled": false,
+   "configKeys": [],
+   "group": "client",
+   "desc": "Attachment presentation for the conversation UI: mixed draft-attachment rail, document drop target, history-image gallery, and original-image lightbox; for users and maintainers of the Web attachment experience.",
+   "ctxKeys": [
+    "ctx.slots"
+   ],
+   "deps": [
+    "cordis"
+   ]
+  },
+  {
+   "line": 621,
+   "index": 155,
+   "id": "ui-tool",
+   "name": "@deepseek-ai/dsh-client-ui-tool",
+   "base": "@deepseek-ai/dsh-client-ui-tool",
+   "sub": "",
+   "disabled": false,
+   "configKeys": [],
+   "group": "client",
+   "desc": "Client Tool presentation plugin for the dsh web client: whole-call tree composition, the keyed per-tool view slot, and the built-in atomic tool cards.",
+   "ctxKeys": [
+    "ctx.get",
+    "ctx.slots"
+   ],
+   "deps": [
+    "cordis"
+   ]
+  },
+  {
+   "line": 623,
+   "index": 156,
+   "id": "ui-cordis",
+   "name": "@deepseek-ai/dsh-client-ui-cordis",
+   "base": "@deepseek-ai/dsh-client-ui-cordis",
+   "sub": "",
+   "disabled": false,
+   "configKeys": [],
+   "group": "extensions",
+   "desc": "Historical Cordis cards and controls for process-local runner definitions.",
+   "ctxKeys": [
+    "ctx.dynamicCordisRunner"
+   ],
+   "deps": [
+    "cordis"
+   ]
+  },
+  {
+   "line": 625,
+   "index": 157,
+   "id": "ui-deliverables",
+   "name": "@deepseek-ai/dsh-client-ui-deliverables",
+   "base": "@deepseek-ai/dsh-client-ui-deliverables",
+   "sub": "",
+   "disabled": false,
+   "configKeys": [],
+   "group": "client",
+   "desc": "Changed files, deliveries, and clickable file references for the Web GUI: the changed-files card and delivery cards a finished turn ends with, the review tab that compares each changed file, and inline-code links in the closing prose; for users and maintainers of the deliverables experience.",
+   "ctxKeys": [
+    "ctx.sidebarRight"
+   ],
+   "deps": [
+    "cordis",
+    "dsh-typert-protocol"
+   ]
+  },
+  {
+   "line": 627,
+   "index": 158,
+   "id": "workspace-changes",
+   "name": "@deepseek-ai/dsh-workspace-changes",
+   "base": "@deepseek-ai/dsh-workspace-changes",
+   "sub": "",
+   "disabled": false,
+   "configKeys": [],
+   "group": "deliverables",
+   "desc": "Summarize each top-level turn's changed files from git working-tree snapshots and whole-file captures around file-tool edits, announce them with a workspace/changes Session event, and serve the summary and per-file comparisons while the Session lives; configuration, repository requirement, and coverage rules.",
+   "ctxKeys": [
+    "ctx.workspaceChanges"
+   ],
+   "deps": [
+    "cordis",
+    "dsh-agent",
+    "dsh-fs",
+    "dsh-session",
+    "dsh-subprocess",
+    "dsh-tools"
+   ]
+  },
+  {
+   "line": 629,
+   "index": 159,
+   "id": "ui-workspace",
+   "name": "@deepseek-ai/dsh-client-ui-workspace",
+   "base": "@deepseek-ai/dsh-client-ui-workspace",
+   "sub": "",
+   "disabled": false,
+   "configKeys": [],
+   "group": "client",
+   "desc": "Shared Workspace browser and picker plugin for the dsh web client: grouped or flat session rows, management actions, the slot-composed Session row actions, and directory picking.",
+   "ctxKeys": [
+    "ctx.effect",
+    "ctx.locale",
+    "ctx.slots",
+    "ctx.uiWorkspace"
+   ],
+   "deps": [
+    "cordis"
+   ]
+  },
+  {
+   "line": 631,
+   "index": 160,
+   "id": "ui-workflow-run",
+   "name": "@deepseek-ai/dsh-client-ui-workflow-run",
+   "base": "@deepseek-ai/dsh-client-ui-workflow-run",
+   "sub": "",
+   "disabled": false,
+   "configKeys": [],
+   "group": "client",
+   "desc": "Durable workflow-run Conversation Node for the dsh web client: reconstructs top-level workflow runs as independent chat nodes with nested member disclosure.",
+   "ctxKeys": [],
+   "deps": [
+    "cordis"
+   ]
+  },
+  {
+   "line": 633,
+   "index": 161,
+   "id": "ui-input-trigger",
+   "name": "@deepseek-ai/dsh-client-ui-input-trigger",
+   "base": "@deepseek-ai/dsh-client-ui-input-trigger",
+   "sub": "",
+   "disabled": false,
+   "configKeys": [],
+   "group": "client",
+   "desc": "Input trigger pipeline for the Web GUI: / and @ detection under the caret, the grouped candidate menu, and pick routing to registered sources; for users and maintainers of slash commands and references.",
+   "ctxKeys": [],
+   "deps": [
+    "cordis"
+   ]
+  },
+  {
+   "line": 635,
+   "index": 162,
+   "id": "ui-commands",
+   "name": "@deepseek-ai/dsh-client-ui-commands",
+   "base": "@deepseek-ai/dsh-client-ui-commands",
+   "sub": "",
+   "disabled": false,
+   "configKeys": [],
+   "group": "client",
+   "desc": "Client command API for the Web GUI: the / command source, three dispatch kinds, the per-session command directory, and popupSelect and action registration for business packages; for users and maintainers of slash commands.",
+   "ctxKeys": [
+    "ctx.commandUi"
+   ],
+   "deps": [
+    "cordis"
+   ]
+  },
+  {
+   "line": 637,
+   "index": 163,
+   "id": "ui-skill",
+   "name": "@deepseek-ai/dsh-client-ui-skill",
+   "base": "@deepseek-ai/dsh-client-ui-skill",
+   "sub": "",
+   "disabled": false,
+   "configKeys": [],
+   "group": "client",
+   "desc": "Web skill references and the dedicated skill tool row for the dsh web client: the /-triggered skill source and the skill call card.",
+   "ctxKeys": [],
+   "deps": [
+    "cordis"
+   ]
+  },
+  {
+   "line": 639,
+   "index": 164,
+   "id": "ui-subagent",
+   "name": "@deepseek-ai/dsh-client-ui-subagent",
+   "base": "@deepseek-ai/dsh-client-ui-subagent",
+   "sub": "",
+   "disabled": false,
+   "configKeys": [],
+   "group": "client",
+   "desc": "Subagent conversation catalog, continuation routing UI, and '@' reference source for the dsh web client.",
+   "ctxKeys": [
+    "ctx.sessions"
+   ],
+   "deps": [
+    "cordis"
+   ]
+  },
+  {
+   "line": 641,
+   "index": 165,
+   "id": "ui-reference",
+   "name": "@deepseek-ai/dsh-client-ui-reference",
+   "base": "@deepseek-ai/dsh-client-ui-reference",
+   "sub": "",
+   "disabled": false,
+   "configKeys": [],
+   "group": "client",
+   "desc": "Web @file and @session reference source for the composer: candidates, ordering, and atomic inline references (unified file/session picking).",
+   "ctxKeys": [
+    "ctx.fileReferences",
+    "ctx.sessionReferenceResolver"
+   ],
+   "deps": [
+    "cordis"
+   ]
+  },
+  {
+   "line": 643,
+   "index": 166,
+   "id": "ui-secret-mask",
+   "name": "@deepseek-ai/dsh-client-ui-secret-mask",
+   "base": "@deepseek-ai/dsh-client-ui-secret-mask",
+   "sub": "",
+   "disabled": false,
+   "configKeys": [],
+   "group": "client",
+   "desc": "Web display masking for recognized credentials in sent user text, with a per-value reveal control in interactive messages.",
+   "ctxKeys": [],
+   "deps": [
+    "cordis"
+   ]
+  },
+  {
+   "line": 645,
+   "index": 167,
+   "id": "ui-jobs",
+   "name": "@deepseek-ai/dsh-client-ui-jobs",
+   "base": "@deepseek-ai/dsh-client-ui-jobs",
+   "sub": "",
+   "disabled": false,
+   "configKeys": [],
+   "group": "client",
+   "desc": "The session-header background-job list: expandable streaming output panels, running/finished sections, and static rows for settled jobs without retained output.",
+   "ctxKeys": [
+    "ctx.jobs"
+   ],
+   "deps": [
+    "cordis"
+   ]
+  },
+  {
+   "line": 647,
+   "index": 168,
+   "id": "ui-schedule",
+   "name": "@deepseek-ai/dsh-client-ui-schedule",
+   "base": "@deepseek-ai/dsh-client-ui-schedule",
+   "sub": "",
+   "disabled": false,
+   "configKeys": [],
+   "group": "client",
+   "desc": "Web task management across Sessions and a current-Session reminder catalog.",
+   "ctxKeys": [
+    "ctx.sidebarRight",
+    "ctx.sidebarRightTabs",
+    "ctx.uiConversation"
+   ],
+   "deps": [
+    "cordis"
+   ]
+  },
+  {
+   "line": 649,
+   "index": 169,
+   "id": "ui-goal",
+   "name": "@deepseek-ai/dsh-client-ui-goal",
+   "base": "@deepseek-ai/dsh-client-ui-goal",
+   "sub": "",
+   "disabled": false,
+   "configKeys": [],
+   "group": "client",
+   "desc": "Goal surface for the Web GUI: the composer-context strip that shows the current goal and edits, pauses, resumes, or clears it; for users and maintainers of the goal experience.",
+   "ctxKeys": [
+    "ctx.remote"
+   ],
+   "deps": [
+    "cordis"
+   ]
+  },
+  {
+   "line": 652,
+   "index": 170,
+   "id": "ui-message-feedback",
+   "name": "@deepseek-ai/dsh-client-ui-message-feedback",
+   "base": "@deepseek-ai/dsh-client-ui-message-feedback",
+   "sub": "",
+   "disabled": true,
+   "configKeys": [],
+   "group": "client",
+   "desc": "The Web feedback surface: the Like/Dislike pair in the finalized assistant message's action row, the feedback dialog behind both ratings and `/feedback`, and its acknowledgement and failure toasts; for users and maintainers of the feedback experience.",
+   "ctxKeys": [
+    "ctx.commandUi",
+    "ctx.remote"
+   ],
+   "deps": [
+    "cordis"
+   ]
+  },
+  {
+   "line": 656,
+   "index": 171,
+   "id": "ui-model-selection",
+   "name": "@deepseek-ai/dsh-client-ui-model-selection",
+   "base": "@deepseek-ai/dsh-client-ui-model-selection",
+   "sub": "",
+   "disabled": false,
+   "configKeys": [],
+   "group": "client",
+   "desc": "Model selection for the Web GUI: the /model popup and the composer model seat over one per-session provider-grouped directory; for users and maintainers of model routing.",
+   "ctxKeys": [
+    "ctx.commandUi",
+    "ctx.modelDirectories"
+   ],
+   "deps": [
+    "cordis"
+   ]
+  },
+  {
+   "line": 658,
+   "index": 172,
+   "id": "ui-permission",
+   "name": "@deepseek-ai/dsh-client-ui-permission-presets",
+   "base": "@deepseek-ai/dsh-client-ui-permission-presets",
+   "sub": "",
+   "disabled": false,
+   "configKeys": [],
+   "group": "client",
+   "desc": "Permission preset surfaces for the Web GUI: the General settings default row and the /permission picker for the current session; for users and maintainers of permission policy.",
+   "ctxKeys": [
+    "ctx.commandUi",
+    "ctx.configForms"
+   ],
+   "deps": [
+    "cordis"
+   ]
+  },
+  {
+   "line": 660,
+   "index": 173,
+   "id": "ui-agent-preset",
+   "name": "@deepseek-ai/dsh-client-ui-agent-preset",
+   "base": "@deepseek-ai/dsh-client-ui-agent-preset",
+   "sub": "",
+   "disabled": false,
+   "configKeys": [],
+   "group": "client",
+   "desc": "Choose Agent presets and the new-task default in Web, read what each mode does and what it declares. Authoring is guided to Creator mode.",
+   "ctxKeys": [],
+   "deps": [
+    "cordis"
+   ]
+  },
+  {
+   "line": 662,
+   "index": 174,
+   "id": "ui-settings-session-log",
+   "name": "@deepseek-ai/dsh-client-ui-settings-session-log",
+   "base": "@deepseek-ai/dsh-client-ui-settings-session-log",
+   "sub": "",
+   "disabled": false,
+   "configKeys": [],
+   "group": "client",
+   "desc": "Control Session-log upload with DeepSeek API requests from General settings.",
+   "ctxKeys": [],
+   "deps": [
+    "cordis"
+   ]
+  },
+  {
+   "line": 664,
+   "index": 175,
+   "id": "ui-settings-plugins",
+   "name": "@deepseek-ai/dsh-client-ui-settings-plugins",
+   "base": "@deepseek-ai/dsh-client-ui-settings-plugins",
+   "sub": "",
+   "disabled": false,
+   "configKeys": [],
+   "group": "client",
+   "desc": "Built-in plugins settings section for the dsh web client: the Settings navigation entry and the tab chrome that feature-owned tabs register into.",
+   "ctxKeys": [],
+   "deps": [
+    "cordis"
+   ]
+  },
+  {
+   "line": 666,
+   "index": 176,
+   "id": "ui-settings-shell",
+   "name": "@deepseek-ai/dsh-client-ui-settings-shell",
+   "base": "@deepseek-ai/dsh-client-ui-settings-shell",
+   "sub": "",
+   "disabled": false,
+   "configKeys": [],
+   "group": "client",
+   "desc": "The shell executor's settings page on the dsh web client's Plugins page: the command timeout and the per-stream output cap of the shell namespace.",
+   "ctxKeys": [
+    "ctx.configForms"
+   ],
+   "deps": [
+    "cordis"
+   ]
+  },
+  {
+   "line": 668,
+   "index": 177,
+   "id": "ui-settings-agent-loop",
+   "name": "@deepseek-ai/dsh-client-ui-settings-agent-loop",
+   "base": "@deepseek-ai/dsh-client-ui-settings-agent-loop",
+   "sub": "",
+   "disabled": false,
+   "configKeys": [],
+   "group": "client",
+   "desc": "The agent loop's settings page on the dsh web client's Plugins page: the parallel tool-call cap of the agent-loop namespace.",
+   "ctxKeys": [
+    "ctx.configForms"
+   ],
+   "deps": [
+    "cordis"
+   ]
+  },
+  {
+   "line": 670,
+   "index": 178,
+   "id": "ui-settings-subagent",
+   "name": "@deepseek-ai/dsh-client-ui-settings-subagent",
+   "base": "@deepseek-ai/dsh-client-ui-settings-subagent",
+   "sub": "",
+   "disabled": false,
+   "configKeys": [],
+   "group": "client",
+   "desc": "The Subagent settings page on the dsh web client's Plugins page: delegation depth and capacity over the subagent namespace, and the models agents may choose over subagent-model-selection, on one page with one save.",
+   "ctxKeys": [
+    "ctx.configForms"
+   ],
+   "deps": [
+    "cordis"
+   ]
+  },
+  {
+   "line": 672,
+   "index": 179,
+   "id": "ui-settings-web-search",
+   "name": "@deepseek-ai/dsh-client-ui-settings-web-search",
+   "base": "@deepseek-ai/dsh-client-ui-settings-web-search",
+   "sub": "",
+   "disabled": false,
+   "configKeys": [],
+   "group": "client",
+   "desc": "The DeepSeek web-search provider's settings page on the dsh web client's Plugins page: its API key, endpoint, and per-request search budget.",
+   "ctxKeys": [
+    "ctx.configForms"
+   ],
+   "deps": [
+    "cordis"
+   ]
+  },
+  {
+   "line": 674,
+   "index": 180,
+   "id": "ui-plan",
+   "name": "@deepseek-ai/dsh-client-ui-plan",
+   "base": "@deepseek-ai/dsh-client-ui-plan",
+   "sub": "",
+   "disabled": false,
+   "configKeys": [],
+   "group": "client",
+   "desc": "Plan-mode status chip for the Web GUI: the composer control that shows plan mode is on and turns it off; for users and maintainers of plan mode.",
+   "ctxKeys": [
+    "ctx.remote",
+    "ctx.sidebarRight"
+   ],
+   "deps": [
+    "cordis"
+   ]
+  },
+  {
+   "line": 676,
+   "index": 181,
+   "id": "ui-user-questions",
+   "name": "@deepseek-ai/dsh-client-ui-user-questions",
+   "base": "@deepseek-ai/dsh-client-ui-user-questions",
+   "sub": "",
+   "disabled": false,
+   "configKeys": [],
+   "group": "client",
+   "desc": "Web ask_user_question feature for the dsh web client: the attached question card, timed wait, drafts, late replies, and the plan-review approval card.",
+   "ctxKeys": [],
+   "deps": [
+    "cordis"
+   ]
+  },
+  {
+   "line": 678,
+   "index": 182,
+   "id": "ui-trajectory",
+   "name": "@deepseek-ai/dsh-client-ui-trajectory",
+   "base": "@deepseek-ai/dsh-client-ui-trajectory",
+   "sub": "",
+   "disabled": false,
+   "configKeys": [],
+   "group": "client",
+   "desc": "Trajectory view for the dsh web client: a turn-aware event ledger with an interactive timing overview, registered into the conversation view ring.",
+   "ctxKeys": [],
+   "deps": [
+    "cordis"
+   ]
+  },
+  {
+   "line": 680,
+   "index": 183,
+   "id": "agent-preset-registry",
+   "name": "@deepseek-ai/dsh-agent-preset-registry",
+   "base": "@deepseek-ai/dsh-agent-preset-registry",
+   "sub": "",
+   "disabled": false,
+   "configKeys": [
+    "default"
+   ],
+   "group": "preset",
+   "desc": "Choose an Agent’s tools, prompt sections and skills through declarative presets. One process can run several compositions. Failed definitions remain visible, while existing Agents retain the composition they already use.",
+   "ctxKeys": [],
+   "deps": [
+    "cordis",
+    "cordis-plugin-include",
+    "cordis-plugin-loader",
+    "dsh-agent",
+    "dsh-app-boot",
+    "dsh-scope",
+    "dsh-session",
+    "dsh-session-projection"
+   ]
+  },
+  {
+   "line": 684,
+   "index": 184,
+   "id": "preset-standard",
+   "name": "@deepseek-ai/dsh-agent-preset",
+   "base": "@deepseek-ai/dsh-agent-preset",
+   "sub": "",
+   "disabled": false,
+   "configKeys": [
+    "id",
+    "order",
+    "plugins"
+   ],
+   "group": "preset",
+   "desc": "Define an Agent’s child plugins in ordinary Cordis YAML. Declare several presets and let sessions select one. Definitions load eagerly, and edits affect subsequently created Agents.",
+   "ctxKeys": [],
+   "deps": [
+    "cordis",
+    "cordis-plugin-loader",
+    "dsh-agent-preset-registry"
+   ]
+  },
+  {
+   "line": 848,
+   "index": 185,
+   "id": "preset-ptc",
+   "name": "@deepseek-ai/dsh-agent-preset",
+   "base": "@deepseek-ai/dsh-agent-preset",
+   "sub": "",
+   "disabled": false,
+   "configKeys": [
+    "id",
+    "order",
+    "plugins"
+   ],
+   "group": "preset",
+   "desc": "Define an Agent’s child plugins in ordinary Cordis YAML. Declare several presets and let sessions select one. Definitions load eagerly, and edits affect subsequently created Agents.",
+   "ctxKeys": [],
+   "deps": [
+    "cordis",
+    "cordis-plugin-loader",
+    "dsh-agent-preset-registry"
+   ]
+  },
+  {
+   "line": 1018,
+   "index": 186,
+   "id": "preset-minimal",
+   "name": "@deepseek-ai/dsh-agent-preset",
+   "base": "@deepseek-ai/dsh-agent-preset",
+   "sub": "",
+   "disabled": false,
+   "configKeys": [
+    "id",
+    "order",
+    "plugins"
+   ],
+   "group": "preset",
+   "desc": "Define an Agent’s child plugins in ordinary Cordis YAML. Declare several presets and let sessions select one. Definitions load eagerly, and edits affect subsequently created Agents.",
+   "ctxKeys": [],
+   "deps": [
+    "cordis",
+    "cordis-plugin-loader",
+    "dsh-agent-preset-registry"
+   ]
+  },
+  {
+   "line": 1115,
+   "index": 187,
+   "id": "preset-cordis",
+   "name": "@deepseek-ai/dsh-agent-preset",
+   "base": "@deepseek-ai/dsh-agent-preset",
+   "sub": "",
+   "disabled": false,
+   "configKeys": [
+    "id",
+    "order",
+    "plugins"
+   ],
+   "group": "preset",
+   "desc": "Define an Agent’s child plugins in ordinary Cordis YAML. Declare several presets and let sessions select one. Definitions load eagerly, and edits affect subsequently created Agents.",
+   "ctxKeys": [],
+   "deps": [
+    "cordis",
+    "cordis-plugin-loader",
+    "dsh-agent-preset-registry"
+   ]
+  },
+  {
+   "line": 1287,
+   "index": 188,
+   "id": "plugin-market",
+   "name": "@deepseek-ai/dsh-plugin-market",
+   "base": "@deepseek-ai/dsh-plugin-market",
+   "sub": "",
+   "disabled": true,
+   "configKeys": [],
+   "group": "boot",
+   "desc": "Host reader of the plugin market indexes a user configures, with installation status, compatibility, and the read-only plugin_market tool.",
+   "ctxKeys": [],
+   "deps": [
+    "cordis",
+    "cordis-plugin-loader",
+    "dsh-app-boot",
+    "dsh-package-manifest",
+    "dsh-plugin-manager",
+    "dsh-plugin-market-index",
+    "dsh-settings",
+    "dsh-timeout"
+   ]
+  },
+  {
+   "line": 1290,
+   "index": 189,
+   "id": "ui-plugin-market",
+   "name": "@deepseek-ai/dsh-client-ui-plugin-market",
+   "base": "@deepseek-ai/dsh-client-ui-plugin-market",
+   "sub": "",
+   "disabled": false,
+   "configKeys": [],
+   "group": "client",
+   "desc": "Discover tab of the Web Plugins page: search configured plugin market indexes, read an entry, and install it.",
+   "ctxKeys": [],
+   "deps": [
+    "cordis"
+   ]
+  },
+  {
+   "line": 1293,
+   "index": 190,
+   "id": "agent-team",
+   "name": "@deepseek-ai/dsh-experimental-agent-team",
+   "base": "@deepseek-ai/dsh-experimental-agent-team",
+   "sub": "",
+   "disabled": false,
+   "configKeys": [
+    "disposalTimeoutMs",
+    "maxMembers",
+    "maxMessageBytes",
+    "maxTasks"
+   ],
+   "group": "experimental",
+   "desc": "Run named teammates with direct inbox messages and a durable shared task board in experimental Team compositions.",
+   "ctxKeys": [
+    "ctx.agentTeams"
+   ],
+   "deps": [
+    "cordis",
+    "dsh-agent",
+    "dsh-brand",
+    "dsh-llm",
+    "dsh-session",
+    "dsh-session-persistence",
+    "dsh-session-projection",
+    "dsh-subagent"
+   ]
+  },
+  {
+   "line": 1300,
+   "index": 191,
+   "id": "tool-agent-team",
+   "name": "@deepseek-ai/dsh-experimental-tool-agent-team",
+   "base": "@deepseek-ai/dsh-experimental-tool-agent-team",
+   "sub": "",
+   "disabled": false,
+   "configKeys": [
+    "forkProvider",
+    "freshProvider"
+   ],
+   "group": "experimental",
+   "desc": "Nine tools that let the model create, message, and coordinate teammates, for compositions mounting the experimental Team plugins.",
+   "ctxKeys": [
+    "ctx.agentTeams"
+   ],
+   "deps": [
+    "cordis",
+    "dsh-agent",
+    "dsh-experimental-agent-team",
+    "dsh-session",
+    "dsh-system-prompt",
+    "dsh-tools"
+   ]
+  },
+  {
+   "line": 1305,
+   "index": 192,
+   "id": "ui-agent-team",
+   "name": "@deepseek-ai/dsh-experimental-client-ui-agent-team",
+   "base": "@deepseek-ai/dsh-experimental-client-ui-agent-team",
+   "sub": "",
+   "disabled": false,
+   "configKeys": [],
+   "group": "experimental",
+   "desc": "Use and debug the experimental Web Agent Teams roster, shared task board, and teammate navigation panel.",
+   "ctxKeys": [],
+   "deps": [
+    "cordis"
+   ]
+  },
+  {
+   "line": 1308,
+   "index": 193,
+   "id": "optional-persistent-terminals",
+   "name": "cordis:group",
+   "base": "cordis:group",
+   "sub": "",
+   "disabled": false,
+   "configKeys": [],
+   "group": "",
+   "desc": "",
+   "ctxKeys": [],
+   "deps": []
+  },
+  {
+   "line": 1327,
+   "index": 194,
+   "id": "optional-session-search",
+   "name": "cordis:group",
+   "base": "cordis:group",
+   "sub": "",
+   "disabled": false,
+   "configKeys": [],
+   "group": "",
+   "desc": "",
+   "ctxKeys": [],
+   "deps": []
+  },
+  {
+   "line": 1341,
+   "index": 195,
+   "id": "experimental-inspector",
+   "name": "@deepseek-ai/dsh-experimental-inspector",
+   "base": "@deepseek-ai/dsh-experimental-inspector",
+   "sub": "",
+   "disabled": true,
+   "configKeys": [
+    "captureFetch"
+   ],
+   "group": "experimental",
+   "desc": "Experimental Chrome DevTools inspection for Host and browser Client Cordis runtimes, including Console evaluation, Sources, Network capture, Elements trees, and a CDP-independent query API.",
+   "ctxKeys": [
+    "ctx.inspector"
+   ],
+   "deps": [
+    "cordis",
+    "dsh-app-boot",
+    "dsh-util-crypto"
+   ]
+  },
+  {
+   "line": 1346,
+   "index": 196,
+   "id": "session-inspector",
+   "name": "@deepseek-ai/dsh-experimental-session-inspector",
+   "base": "@deepseek-ai/dsh-experimental-session-inspector",
+   "sub": "",
+   "disabled": false,
+   "configKeys": [],
+   "group": "experimental",
+   "desc": "Virtualized raw Session log and Chat group/node tables with streamed delta rows, pagination, and update highlighting.",
+   "ctxKeys": [],
+   "deps": [
+    "cordis"
+   ]
+  },
+  {
+   "line": 1349,
+   "index": 197,
+   "id": "auto-review",
+   "name": "@deepseek-ai/dsh-experimental-auto-review",
+   "base": "@deepseek-ai/dsh-experimental-auto-review",
+   "sub": "",
+   "disabled": false,
+   "configKeys": [],
+   "group": "experimental",
+   "desc": "Add experimental per-call Auto review to a Web profile, using the current agent's model before tools execute with Full access.",
+   "ctxKeys": [],
+   "deps": [
+    "cordis",
+    "dsh-agent",
+    "dsh-agent-instructions",
+    "dsh-llm",
+    "dsh-permission-presets",
+    "dsh-session",
+    "dsh-tools",
+    "dsh-util-values"
+   ]
+  },
+  {
+   "line": 1352,
+   "index": 198,
+   "id": "worktree",
+   "name": "@deepseek-ai/dsh-experimental-worktree",
+   "base": "@deepseek-ai/dsh-experimental-worktree",
+   "sub": "",
+   "disabled": false,
+   "configKeys": [],
+   "group": "experimental",
+   "desc": "Create and enter a retained Git worktree under the calling Session file policy.",
+   "ctxKeys": [
+    "ctx.workingDirectory",
+    "ctx.worktrees"
+   ],
+   "deps": [
+    "cordis",
+    "dsh-agent",
+    "dsh-fs",
+    "dsh-sandbox",
+    "dsh-sandbox-policy",
+    "dsh-subprocess",
+    "dsh-timeout",
+    "dsh-working-directory"
+   ]
+  },
+  {
+   "line": 1354,
+   "index": 199,
+   "id": "tool-worktree",
+   "name": "@deepseek-ai/dsh-experimental-tool-worktree",
+   "base": "@deepseek-ai/dsh-experimental-tool-worktree",
+   "sub": "",
+   "disabled": false,
+   "configKeys": [],
+   "group": "experimental",
+   "desc": "Model tool that creates a new local Git worktree and changes the current Session directory.",
+   "ctxKeys": [],
+   "deps": [
+    "cordis",
+    "dsh-experimental-worktree",
+    "dsh-tools"
+   ]
+  },
+  {
+   "line": 1357,
+   "index": 200,
+   "id": "translator",
+   "name": "@deepseek-ai/dsh-experimental-translator",
+   "base": "@deepseek-ai/dsh-experimental-translator",
+   "sub": "",
+   "disabled": false,
+   "configKeys": [],
+   "group": "experimental",
+   "desc": "Machine translation through anonymous endpoints or optional native Flash, with reusable Session results.",
+   "ctxKeys": [
+    "ctx.translator"
+   ],
+   "deps": [
+    "cordis",
+    "cordis-plugin-loader",
+    "dsh-credentials",
+    "dsh-launch-environment",
+    "dsh-llm",
+    "dsh-session",
+    "dsh-session-persistence",
+    "dsh-timeout"
+   ]
+  },
+  {
+   "line": 1359,
+   "index": 201,
+   "id": "cot-translation",
+   "name": "@deepseek-ai/dsh-experimental-client-ui-cot-translation",
+   "base": "@deepseek-ai/dsh-experimental-client-ui-cot-translation",
+   "sub": "",
+   "disabled": false,
+   "configKeys": [
+    "provider",
+    "targetLanguage"
+   ],
+   "group": "experimental",
+   "desc": "Machine-translate expanded reasoning while retaining the original text and saved results.",
+   "ctxKeys": [],
+   "deps": [
+    "cordis",
+    "dsh-experimental-translator",
+    "dsh-typert-protocol"
+   ]
+  },
+  {
+   "line": 1365,
+   "index": 202,
+   "id": "optional-ralph",
+   "name": "cordis:group",
+   "base": "cordis:group",
+   "sub": "",
+   "disabled": false,
+   "configKeys": [],
+   "group": "",
+   "desc": "",
+   "ctxKeys": [],
+   "deps": []
+  },
+  {
+   "line": 1381,
+   "index": 203,
+   "id": "optional-session-title-all-prompts",
+   "name": "@deepseek-ai/dsh-session-title-all-prompts-llm",
+   "base": "@deepseek-ai/dsh-session-title-all-prompts-llm",
+   "sub": "",
+   "disabled": false,
+   "configKeys": [
+    "maxInputBytes",
+    "maxOutputTokens",
+    "targetCjkCharacters",
+    "targetWords",
+    "timeoutMs"
+   ],
+   "group": "experimental",
+   "desc": "All-messages LLM session-title provider for users and maintainers choosing a title strategy or debugging automatic title generation.",
+   "ctxKeys": [
+    "ctx.llm",
+    "ctx.sessionTitle"
+   ],
+   "deps": [
+    "cordis",
+    "dsh-llm",
+    "dsh-session",
+    "dsh-session-title",
+    "dsh-session-title-llm",
+    "dsh-util-values"
+   ]
+  },
+  {
+   "line": 1390,
+   "index": 204,
+   "id": "gbh-brand",
+   "name": "@galaxy-stack/gbh-brand",
+   "base": "@galaxy-stack/gbh-brand",
+   "sub": "",
+   "disabled": false,
+   "configKeys": [],
+   "group": "",
+   "desc": "",
+   "ctxKeys": [],
+   "deps": []
+  }
+ ],
+ "knownPlugins": [
+  "@deepseek-ai/dsh-acp",
+  "@deepseek-ai/dsh-acp-app",
+  "@deepseek-ai/dsh-agent",
+  "@deepseek-ai/dsh-agent-default-model",
+  "@deepseek-ai/dsh-agent-instructions",
+  "@deepseek-ai/dsh-agent-loop",
+  "@deepseek-ai/dsh-agent-preset",
+  "@deepseek-ai/dsh-agent-preset-registry",
+  "@deepseek-ai/dsh-agent-tool-presentation",
+  "@deepseek-ai/dsh-anonymous-user-id",
+  "@deepseek-ai/dsh-api-account-controller",
+  "@deepseek-ai/dsh-api-gateway",
+  "@deepseek-ai/dsh-api-job-controller",
+  "@deepseek-ai/dsh-api-remotes",
+  "@deepseek-ai/dsh-api-session-controller",
+  "@deepseek-ai/dsh-api-settings-controller",
+  "@deepseek-ai/dsh-api-terminal-controller",
+  "@deepseek-ai/dsh-api-workspace-controller",
+  "@deepseek-ai/dsh-api-workspace-files",
+  "@deepseek-ai/dsh-app-boot",
+  "@deepseek-ai/dsh-atomic-write",
+  "@deepseek-ai/dsh-attachment",
+  "@deepseek-ai/dsh-attachment-local",
+  "@deepseek-ai/dsh-authorization",
+  "@deepseek-ai/dsh-base",
+  "@deepseek-ai/dsh-bash-local",
+  "@deepseek-ai/dsh-bash-sandbox",
+  "@deepseek-ai/dsh-brand",
+  "@deepseek-ai/dsh-chunked-list",
+  "@deepseek-ai/dsh-client-connection",
+  "@deepseek-ai/dsh-client-file-upload",
+  "@deepseek-ai/dsh-client-hmr",
+  "@deepseek-ai/dsh-client-locale",
+  "@deepseek-ai/dsh-client-modules",
+  "@deepseek-ai/dsh-client-product-analytics",
+  "@deepseek-ai/dsh-client-resources",
+  "@deepseek-ai/dsh-client-shortcuts",
+  "@deepseek-ai/dsh-client-store",
+  "@deepseek-ai/dsh-client-ui-agent-preset",
+  "@deepseek-ai/dsh-client-ui-approval",
+  "@deepseek-ai/dsh-client-ui-attachment",
+  "@deepseek-ai/dsh-client-ui-brand-official",
+  "@deepseek-ai/dsh-client-ui-chat",
+  "@deepseek-ai/dsh-client-ui-commands",
+  "@deepseek-ai/dsh-client-ui-conversation",
+  "@deepseek-ai/dsh-client-ui-cordis",
+  "@deepseek-ai/dsh-client-ui-deliverables",
+  "@deepseek-ai/dsh-client-ui-directory-picker-browse",
+  "@deepseek-ai/dsh-client-ui-directory-picker-native",
+  "@deepseek-ai/dsh-client-ui-goal",
+  "@deepseek-ai/dsh-client-ui-input-trigger",
+  "@deepseek-ai/dsh-client-ui-jobs",
+  "@deepseek-ai/dsh-client-ui-layout",
+  "@deepseek-ai/dsh-client-ui-message-feedback",
+  "@deepseek-ai/dsh-client-ui-model-selection",
+  "@deepseek-ai/dsh-client-ui-open-in-app",
+  "@deepseek-ai/dsh-client-ui-permission-presets",
+  "@deepseek-ai/dsh-client-ui-plan",
+  "@deepseek-ai/dsh-client-ui-plugin-manager",
+  "@deepseek-ai/dsh-client-ui-primitives",
+  "@deepseek-ai/dsh-client-ui-reference",
+  "@deepseek-ai/dsh-client-ui-renderer",
+  "@deepseek-ai/dsh-client-ui-schedule",
+  "@deepseek-ai/dsh-client-ui-session",
+  "@deepseek-ai/dsh-client-ui-settings",
+  "@deepseek-ai/dsh-client-ui-settings-account",
+  "@deepseek-ai/dsh-client-ui-settings-agent-loop",
+  "@deepseek-ai/dsh-client-ui-settings-general",
+  "@deepseek-ai/dsh-client-ui-settings-models",
+  "@deepseek-ai/dsh-client-ui-settings-plugin-inventory",
+  "@deepseek-ai/dsh-client-ui-settings-plugins",
+  "@deepseek-ai/dsh-client-ui-settings-session-log",
+  "@deepseek-ai/dsh-client-ui-settings-shell",
+  "@deepseek-ai/dsh-client-ui-settings-subagent",
+  "@deepseek-ai/dsh-client-ui-settings-web-search",
+  "@deepseek-ai/dsh-client-ui-shortcuts",
+  "@deepseek-ai/dsh-client-ui-sidebar",
+  "@deepseek-ai/dsh-client-ui-sidebar-browser",
+  "@deepseek-ai/dsh-client-ui-sidebar-documentpreview",
+  "@deepseek-ai/dsh-client-ui-sidebar-files",
+  "@deepseek-ai/dsh-client-ui-sidebar-right",
+  "@deepseek-ai/dsh-client-ui-sidebar-terminal",
+  "@deepseek-ai/dsh-client-ui-skill",
+  "@deepseek-ai/dsh-client-ui-slots",
+  "@deepseek-ai/dsh-client-ui-subagent",
+  "@deepseek-ai/dsh-client-ui-theme",
+  "@deepseek-ai/dsh-client-ui-tool",
+  "@deepseek-ai/dsh-client-ui-trajectory",
+  "@deepseek-ai/dsh-client-ui-user-questions",
+  "@deepseek-ai/dsh-client-ui-workflow-run",
+  "@deepseek-ai/dsh-client-ui-workspace",
+  "@deepseek-ai/dsh-cmdline",
+  "@deepseek-ai/dsh-command-compact",
+  "@deepseek-ai/dsh-command-feedback",
+  "@deepseek-ai/dsh-command-goal",
+  "@deepseek-ai/dsh-commands",
+  "@deepseek-ai/dsh-compaction",
+  "@deepseek-ai/dsh-compaction-basic",
+  "@deepseek-ai/dsh-compaction-image-offload",
+  "@deepseek-ai/dsh-compaction-tool-result-pruner",
+  "@deepseek-ai/dsh-config-editor",
+  "@deepseek-ai/dsh-cordis-client-runner",
+  "@deepseek-ai/dsh-cordis-host-runner",
+  "@deepseek-ai/dsh-credentials",
+  "@deepseek-ai/dsh-credentials-local",
+  "@deepseek-ai/dsh-deepseek-account",
+  "@deepseek-ai/dsh-deepseek-account-platform",
+  "@deepseek-ai/dsh-deepseek-llm-api-extensions",
+  "@deepseek-ai/dsh-deque",
+  "@deepseek-ai/dsh-experimental-agent-team",
+  "@deepseek-ai/dsh-experimental-agent-team-profile",
+  "@deepseek-ai/dsh-experimental-api-speech-to-text",
+  "@deepseek-ai/dsh-experimental-auto-review",
+  "@deepseek-ai/dsh-experimental-client-ui-agent-team",
+  "@deepseek-ai/dsh-experimental-client-ui-voice-input",
+  "@deepseek-ai/dsh-experimental-schedule-bundle",
+  "@deepseek-ai/dsh-experimental-speech-to-text",
+  "@deepseek-ai/dsh-experimental-speech-to-text-sensevoice",
+  "@deepseek-ai/dsh-experimental-tool-agent-team",
+  "@deepseek-ai/dsh-experimental-voice-input-bundle",
+  "@deepseek-ai/dsh-file-reference",
+  "@deepseek-ai/dsh-file-reference-local",
+  "@deepseek-ai/dsh-fs",
+  "@deepseek-ai/dsh-fs-local",
+  "@deepseek-ai/dsh-fs-observation-policy",
+  "@deepseek-ai/dsh-fs-sandbox",
+  "@deepseek-ai/dsh-goal",
+  "@deepseek-ai/dsh-goal-round-driver",
+  "@deepseek-ai/dsh-headless",
+  "@deepseek-ai/dsh-hmr",
+  "@deepseek-ai/dsh-home-paths",
+  "@deepseek-ai/dsh-hook-protocol",
+  "@deepseek-ai/dsh-hooks-claude-code",
+  "@deepseek-ai/dsh-hooks-codex",
+  "@deepseek-ai/dsh-host-directory-picker",
+  "@deepseek-ai/dsh-host-directory-picker-auto",
+  "@deepseek-ai/dsh-host-directory-picker-browse",
+  "@deepseek-ai/dsh-host-directory-picker-native",
+  "@deepseek-ai/dsh-host-frontend-static",
+  "@deepseek-ai/dsh-host-open-in-app",
+  "@deepseek-ai/dsh-host-plugin-inventory",
+  "@deepseek-ai/dsh-host-product-telemetry-otel",
+  "@deepseek-ai/dsh-host-webserver",
+  "@deepseek-ai/dsh-http-proxy",
+  "@deepseek-ai/dsh-invariants",
+  "@deepseek-ai/dsh-jobs",
+  "@deepseek-ai/dsh-jobs-local",
+  "@deepseek-ai/dsh-launch-environment",
+  "@deepseek-ai/dsh-lazy-require",
+  "@deepseek-ai/dsh-llm",
+  "@deepseek-ai/dsh-llm-deepseek",
+  "@deepseek-ai/dsh-llm-deepseek-account",
+  "@deepseek-ai/dsh-llm-deepseek-api-key",
+  "@deepseek-ai/dsh-llm-pi-ai",
+  "@deepseek-ai/dsh-llm-retry",
+  "@deepseek-ai/dsh-mcp-client",
+  "@deepseek-ai/dsh-mcp-resources",
+  "@deepseek-ai/dsh-message-feedback",
+  "@deepseek-ai/dsh-native-command",
+  "@deepseek-ai/dsh-office-to-pdf",
+  "@deepseek-ai/dsh-otel",
+  "@deepseek-ai/dsh-output-retention",
+  "@deepseek-ai/dsh-package-manifest",
+  "@deepseek-ai/dsh-permission-presets",
+  "@deepseek-ai/dsh-persona",
+  "@deepseek-ai/dsh-plan-mode",
+  "@deepseek-ai/dsh-plugin-manager",
+  "@deepseek-ai/dsh-plugin-package-inventory-deepseek",
+  "@deepseek-ai/dsh-ptc-runtime",
+  "@deepseek-ai/dsh-ptc-runtime-node",
+  "@deepseek-ai/dsh-pwsh-local",
+  "@deepseek-ai/dsh-pwsh-sandbox",
+  "@deepseek-ai/dsh-repeat-tool-reminder",
+  "@deepseek-ai/dsh-sandbox",
+  "@deepseek-ai/dsh-sandbox-local",
+  "@deepseek-ai/dsh-sandbox-policy",
+  "@deepseek-ai/dsh-sandbox-windows-acl",
+  "@deepseek-ai/dsh-schedule",
+  "@deepseek-ai/dsh-scope",
+  "@deepseek-ai/dsh-sdk-app",
+  "@deepseek-ai/dsh-sdk-jsonrpc-server",
+  "@deepseek-ai/dsh-sdk-minimal",
+  "@deepseek-ai/dsh-sdk-protocol",
+  "@deepseek-ai/dsh-session",
+  "@deepseek-ai/dsh-session-checkpoint-policy",
+  "@deepseek-ai/dsh-session-format",
+  "@deepseek-ai/dsh-session-format-catalog",
+  "@deepseek-ai/dsh-session-format-v0-to-v1",
+  "@deepseek-ai/dsh-session-format-v1-to-v2",
+  "@deepseek-ai/dsh-session-format-v2-to-v3",
+  "@deepseek-ai/dsh-session-format-v3-to-v4",
+  "@deepseek-ai/dsh-session-log-deepseek",
+  "@deepseek-ai/dsh-session-log-export",
+  "@deepseek-ai/dsh-session-persistence",
+  "@deepseek-ai/dsh-session-persistence-jsonl",
+  "@deepseek-ai/dsh-session-projection",
+  "@deepseek-ai/dsh-session-projection-cache",
+  "@deepseek-ai/dsh-session-query",
+  "@deepseek-ai/dsh-session-query-sqlite",
+  "@deepseek-ai/dsh-session-reference",
+  "@deepseek-ai/dsh-session-stats",
+  "@deepseek-ai/dsh-session-telemetry",
+  "@deepseek-ai/dsh-session-telemetry-otel",
+  "@deepseek-ai/dsh-session-title",
+  "@deepseek-ai/dsh-session-title-first-prompt-llm",
+  "@deepseek-ai/dsh-session-title-llm",
+  "@deepseek-ai/dsh-session-turn-outline",
+  "@deepseek-ai/dsh-settings",
+  "@deepseek-ai/dsh-shell",
+  "@deepseek-ai/dsh-shell-env",
+  "@deepseek-ai/dsh-skill",
+  "@deepseek-ai/dsh-skill-badge",
+  "@deepseek-ai/dsh-skill-filesystem",
+  "@deepseek-ai/dsh-skill-office",
+  "@deepseek-ai/dsh-spill",
+  "@deepseek-ai/dsh-spill-local",
+  "@deepseek-ai/dsh-spill-policy",
+  "@deepseek-ai/dsh-storage",
+  "@deepseek-ai/dsh-storage-domain",
+  "@deepseek-ai/dsh-storage-json",
+  "@deepseek-ai/dsh-subagent",
+  "@deepseek-ai/dsh-subagent-fork-in-process",
+  "@deepseek-ai/dsh-subagent-in-process-driver",
+  "@deepseek-ai/dsh-subagent-spawn-in-process",
+  "@deepseek-ai/dsh-subprocess",
+  "@deepseek-ai/dsh-subprocess-local",
+  "@deepseek-ai/dsh-system-prompt",
+  "@deepseek-ai/dsh-terminal",
+  "@deepseek-ai/dsh-terminal-bash",
+  "@deepseek-ai/dsh-time-context",
+  "@deepseek-ai/dsh-timeout",
+  "@deepseek-ai/dsh-tmux-context",
+  "@deepseek-ai/dsh-token-meter",
+  "@deepseek-ai/dsh-tool-ask-user",
+  "@deepseek-ai/dsh-tool-bash",
+  "@deepseek-ai/dsh-tool-bash-persistent",
+  "@deepseek-ai/dsh-tool-call-timeout-policy",
+  "@deepseek-ai/dsh-tool-cordis",
+  "@deepseek-ai/dsh-tool-fs",
+  "@deepseek-ai/dsh-tool-fs-search",
+  "@deepseek-ai/dsh-tool-goal",
+  "@deepseek-ai/dsh-tool-jobs",
+  "@deepseek-ai/dsh-tool-present",
+  "@deepseek-ai/dsh-tool-pwsh",
+  "@deepseek-ai/dsh-tool-pwsh-persistent",
+  "@deepseek-ai/dsh-tool-ralph",
+  "@deepseek-ai/dsh-tool-skill",
+  "@deepseek-ai/dsh-tool-str-replace-editor",
+  "@deepseek-ai/dsh-tool-subagent",
+  "@deepseek-ai/dsh-tool-subagent-control",
+  "@deepseek-ai/dsh-tool-todo",
+  "@deepseek-ai/dsh-tool-web",
+  "@deepseek-ai/dsh-tool-workflow",
+  "@deepseek-ai/dsh-tool-workspace-dependencies",
+  "@deepseek-ai/dsh-tools",
+  "@deepseek-ai/dsh-typert-loader",
+  "@deepseek-ai/dsh-typert-protocol",
+  "@deepseek-ai/dsh-typert-registry",
+  "@deepseek-ai/dsh-user-approval",
+  "@deepseek-ai/dsh-user-questions",
+  "@deepseek-ai/dsh-util-code-language",
+  "@deepseek-ai/dsh-util-crypto",
+  "@deepseek-ai/dsh-util-time",
+  "@deepseek-ai/dsh-util-values",
+  "@deepseek-ai/dsh-util-workspace-path",
+  "@deepseek-ai/dsh-web",
+  "@deepseek-ai/dsh-web-app",
+  "@deepseek-ai/dsh-web-fetch-http",
+  "@deepseek-ai/dsh-web-frontend",
+  "@deepseek-ai/dsh-web-search-deepseek",
+  "@deepseek-ai/dsh-webhook",
+  "@deepseek-ai/dsh-webhook-github",
+  "@deepseek-ai/dsh-win32-process",
+  "@deepseek-ai/dsh-workflow",
+  "@deepseek-ai/dsh-workflow-ptc",
+  "@deepseek-ai/dsh-workspace",
+  "@deepseek-ai/dsh-workspace-changes"
+ ]
+}

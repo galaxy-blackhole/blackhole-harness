@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "Nhận biết thời gian",
+    "description": "Cho model biết thời điểm hiện tại, vùng thời gian của trình duyệt và thời lượng kể từ tin nhắn trước, ở mỗi bước."
+  }
+}

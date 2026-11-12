@@ -1,0 +1,73 @@
+{
+  "dev": "phien-truoc (git log)",
+  "owner": "lead",
+  "evidence": [
+    "signed, MOUNTED — check:app 11/11 BA LUOT LIEN TIEP (140 entry · (5) 0 · #root 47.584 · 46 slot · 0 console/0 pageerror · (9) 0/80 · (10) 288 file khop repo)",
+    "CO CHE MOUNT TUNG GOI (theo yeu cau Lead):",
+    "- @galaxy-blackhole/gbh-experimental-inspector: row TOP-LEVEL + hostAliases (symlink self-resolve) · test reviewer tu chay: 51 ca/381 expect",
+    "- @galaxy-blackhole/gbh-tool-fs: row LONG trong preset (gbh.nested kind=preset stockId=@deepseek-ai/dsh-tool-fs presets=[\"preset-standard\",\"preset-ptc\",\"preset-minimal\",\"preset-cordis\"]) — chay qua redirect row long, KHONG mount top-level · test reviewer tu chay: 13 ca/214 expect",
+    "- @galaxy-blackhole/gbh-tool-fs-search: row LONG trong preset (gbh.nested kind=preset stockId=@deepseek-ai/dsh-tool-fs-search presets=[\"preset-standard\",\"preset-ptc\",\"preset-cordis\"]) — chay qua redirect row long, KHONG mount top-level · test reviewer tu chay: 25 ca/249 expect",
+    "- @galaxy-blackhole/gbh-tool-bash: row LONG trong preset (gbh.nested kind=preset stockId=@deepseek-ai/dsh-tool-bash presets=[\"preset-standard\",\"preset-ptc\",\"preset-cordis\"]) — chay qua redirect row long, KHONG mount top-level · test reviewer tu chay: 21 ca/179 expect",
+    "- @galaxy-blackhole/gbh-host-tool-ask-user: row LONG trong preset (gbh.nested kind=undefined stockId=@deepseek-ai/dsh-tool-ask-user presets=[\"preset-standard\",\"preset-ptc\",\"preset-cordis\"]) — chay qua redirect row long, KHONG mount top-level · test reviewer tu chay: 25 ca/172 expect",
+    "- @galaxy-blackhole/gbh-persona: row LONG trong preset (gbh.nested kind=preset stockId=@deepseek-ai/dsh-persona presets=[\"preset-standard\",\"preset-ptc\",\"preset-minimal\",\"preset-cordis\"]) — chay qua redirect row long, KHONG mount top-level · test reviewer tu chay: 17 ca/93 expect",
+    "- @galaxy-blackhole/gbh-time-context: row LONG trong preset (gbh.nested kind=preset stockId=@deepseek-ai/dsh-time-context presets=[\"preset-standard\",\"preset-ptc\",\"preset-cordis\"]) — chay qua redirect row long, KHONG mount top-level · test reviewer tu chay: 20 ca/627 expect",
+    "- @galaxy-blackhole/gbh-agent-instructions: row LONG trong preset (gbh.nested kind=preset stockId=@deepseek-ai/dsh-agent-instructions presets=[\"preset-standard\",\"preset-ptc\",\"preset-cordis\"]) — chay qua redirect row long, KHONG mount top-level · test reviewer tu chay: 22 ca/104 expect",
+    "- @galaxy-blackhole/gbh-agent-preset: row LONG trong preset (gbh.nested kind=undefined stockId=@deepseek-ai/dsh-agent-preset presets=[]) — chay qua redirect row long, KHONG mount top-level · test reviewer tu chay: 13 ca/33 expect",
+    "- @galaxy-blackhole/gbh-host-tool-todo: row khai theo PRESET (stockId + presets + config) · test reviewer tu chay: 24 ca/112 expect",
+    "- @galaxy-blackhole/gbh-compaction-basic: row LONG trong preset (gbh.nested kind=group stockId=@deepseek-ai/dsh-compaction-basic presets=[\"preset-standard\",\"preset-ptc\",\"preset-minimal\",\"preset-cordis\"]) — chay qua redirect row long, KHONG mount top-level · test reviewer tu chay: 10 ca/122 expect",
+    "- @galaxy-blackhole/gbh-compaction-tool-result-pruner: row LONG trong preset (gbh.nested kind=group stockId=@deepseek-ai/dsh-compaction-tool-result-pruner presets=[\"preset-standard\",\"preset-ptc\",\"preset-cordis\"]) — chay qua redirect row long, KHONG mount top-level · test reviewer tu chay: 14 ca/135 expect",
+    "BANG CHUNG CO CHE: row top-level => patch block disabled + insert ours (dump ENABLED); row LONG preset => metadata gbh.nested (kind preset + stockId + presets) + log host redirect row long (Lead cung cap); hostAliases => symlink profiles/node_modules/@deepseek-ai/... tro goi ta (Lead cung cap readlink)",
+    "SO DO ARTIFACT theo bang chung Lead: experimental-inspector worker.js 266.680 B + devtools/ 769 tep 22,9 MB delta 0 · host 95.230 B delta 0 · client 134.156 B (+10) · page 11.056 B (+15 = 3 id x5, ban va loi one-id) · dsh.client khop tuyet doi; tool-fs 49.479 B delta 0; tool-fs-search 55.688 B delta 0; tool-bash 28.064 B delta 0; tool-todo config allowParallelInProgress:true (truoc do thieu gay ValidationError); compaction 49.452/7.570/3.506 B delta 0",
+    "dev/owner lay tu entry cu neu co, neu khong tam phien-truoc/lead — Lead sua 2 dong neu khac"
+  ],
+  "packages": [
+    {
+      "dsh": "@deepseek-ai/dsh-experimental-inspector",
+      "gbh": "@galaxy-blackhole/gbh-experimental-inspector"
+    },
+    {
+      "dsh": "@deepseek-ai/dsh-tool-fs",
+      "gbh": "@galaxy-blackhole/gbh-tool-fs"
+    },
+    {
+      "dsh": "@deepseek-ai/dsh-tool-fs-search",
+      "gbh": "@galaxy-blackhole/gbh-tool-fs-search"
+    },
+    {
+      "dsh": "@deepseek-ai/dsh-tool-bash",
+      "gbh": "@galaxy-blackhole/gbh-tool-bash"
+    },
+    {
+      "dsh": "@deepseek-ai/dsh-tool-ask-user",
+      "gbh": "@galaxy-blackhole/gbh-host-tool-ask-user"
+    },
+    {
+      "dsh": "@deepseek-ai/dsh-persona",
+      "gbh": "@galaxy-blackhole/gbh-persona"
+    },
+    {
+      "dsh": "@deepseek-ai/dsh-time-context",
+      "gbh": "@galaxy-blackhole/gbh-time-context"
+    },
+    {
+      "dsh": "@deepseek-ai/dsh-agent-instructions",
+      "gbh": "@galaxy-blackhole/gbh-agent-instructions"
+    },
+    {
+      "dsh": "@deepseek-ai/dsh-agent-preset",
+      "gbh": "@galaxy-blackhole/gbh-agent-preset"
+    },
+    {
+      "dsh": "@deepseek-ai/dsh-tool-todo",
+      "gbh": "@galaxy-blackhole/gbh-host-tool-todo"
+    },
+    {
+      "dsh": "@deepseek-ai/dsh-compaction-basic",
+      "gbh": "@galaxy-blackhole/gbh-compaction-basic"
+    },
+    {
+      "dsh": "@deepseek-ai/dsh-compaction-tool-result-pruner",
+      "gbh": "@galaxy-blackhole/gbh-compaction-tool-result-pruner"
+    }
+  ]
+}

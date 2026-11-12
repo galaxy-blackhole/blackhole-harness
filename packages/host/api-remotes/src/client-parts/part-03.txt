@@ -1,0 +1,1000 @@
+								"type": "object",
+								"properties": { "status": {
+									"type": "string",
+									"const": "failed"
+								} },
+								"required": ["status"],
+								"additionalProperties": true
+							}
+						] }
+					},
+					sourceLocation: {
+						"file": "packages/api/account-controller/src/index.ts",
+						"line": 35,
+						"column": 3
+					}
+				},
+				"account/getProfile": {
+					service: "accountController",
+					description: "Query display-safe Platform profile data.",
+					invocation: { kind: "direct" },
+					parameters: [{
+						name: "client",
+						description: "identity of the requesting UI; the Host derives Platform request headers from it.",
+						source: "json",
+						codec: {
+							mode: "strict",
+							typeSymbol: "@deepseek-ai/dsh-deepseek-account/types#AccountClientMetadata",
+							create: _deepseek_ai_dsh_api_account_controller_account_getProfile_parameter_0$schema,
+							jsonSchema: {
+								"type": "object",
+								"properties": {
+									"version": { "type": "string" },
+									"locale": {
+										"type": "string",
+										"description": "Active UI language; only its primary subtag selects the Platform wire locale."
+									},
+									"timezoneOffsetSeconds": {
+										"type": "number",
+										"description": "Offset from UTC in seconds, positive east of Greenwich."
+									}
+								},
+								"required": [
+									"version",
+									"locale",
+									"timezoneOffsetSeconds"
+								],
+								"additionalProperties": true
+							}
+						},
+						strictCodec: {
+							mode: "strict",
+							typeSymbol: "@deepseek-ai/dsh-deepseek-account/types#AccountClientMetadata",
+							create: _deepseek_ai_dsh_api_account_controller_account_getProfile_parameter_0_strict$schema,
+							jsonSchema: {
+								"type": "object",
+								"properties": {
+									"version": { "type": "string" },
+									"locale": {
+										"type": "string",
+										"description": "Active UI language; only its primary subtag selects the Platform wire locale."
+									},
+									"timezoneOffsetSeconds": {
+										"type": "number",
+										"description": "Offset from UTC in seconds, positive east of Greenwich."
+									}
+								},
+								"required": [
+									"version",
+									"locale",
+									"timezoneOffsetSeconds"
+								],
+								"additionalProperties": false
+							}
+						}
+					}],
+					result: {
+						mode: "strict",
+						typeSymbol: "@deepseek-ai/dsh-api-account-controller#account/getProfile:result",
+						create: _deepseek_ai_dsh_api_account_controller_account_getProfile_result$schema,
+						description: "profile outcome, or null when the account grant is absent or changed.",
+						jsonSchema: { "oneOf": [
+							{
+								"type": "null",
+								"const": null
+							},
+							{
+								"type": "object",
+								"properties": {
+									"status": {
+										"type": "string",
+										"const": "ready"
+									},
+									"value": {
+										"type": "object",
+										"properties": {
+											"id": { "oneOf": [{
+												"type": "null",
+												"const": null
+											}, { "type": "string" }] },
+											"name": { "oneOf": [{
+												"type": "null",
+												"const": null
+											}, { "type": "string" }] },
+											"contact": { "oneOf": [{
+												"type": "null",
+												"const": null
+											}, { "type": "string" }] },
+											"avatarUrl": {
+												"oneOf": [{
+													"type": "null",
+													"const": null
+												}, { "type": "string" }],
+												"description": "Profile image URL supplied by Platform, absent when no picture is configured."
+											}
+										},
+										"required": [
+											"id",
+											"name",
+											"contact"
+										],
+										"additionalProperties": true
+									}
+								},
+								"required": ["status", "value"],
+								"additionalProperties": true
+							},
+							{
+								"type": "object",
+								"properties": { "status": {
+									"type": "string",
+									"const": "failed"
+								} },
+								"required": ["status"],
+								"additionalProperties": true
+							}
+						] }
+					},
+					sourceLocation: {
+						"file": "packages/api/account-controller/src/index.ts",
+						"line": 26,
+						"column": 3
+					}
+				},
+				"account/getState": {
+					service: "accountController",
+					description: "Read the safe account projection.",
+					invocation: { kind: "direct" },
+					parameters: [],
+					result: {
+						mode: "strict",
+						typeSymbol: "@deepseek-ai/dsh-deepseek-account/types#AccountView",
+						create: _deepseek_ai_dsh_api_account_controller_account_getState_result$schema,
+						description: "current account and attempt state.",
+						jsonSchema: {
+							"type": "object",
+							"properties": {
+								"status": {
+									"type": "string",
+									"enum": ["signed-out", "credential-stored"]
+								},
+								"links": {
+									"type": "object",
+									"properties": {
+										"usageUrl": { "type": "string" },
+										"topUpUrl": { "type": "string" }
+									},
+									"required": ["usageUrl", "topUpUrl"],
+									"additionalProperties": true
+								},
+								"attempt": { "oneOf": [{
+									"type": "null",
+									"const": null
+								}, {
+									"type": "object",
+									"properties": {
+										"id": { "type": "string" },
+										"phase": {
+											"type": "string",
+											"enum": [
+												"initializing",
+												"waiting-browser",
+												"exchanging",
+												"committing",
+												"succeeded",
+												"cancelled",
+												"expired",
+												"failed"
+											]
+										},
+										"authorizeUrl": { "type": "string" },
+										"expiresAt": { "type": "number" },
+										"errorCode": {
+											"type": "string",
+											"enum": [
+												"expired",
+												"no-response",
+												"network",
+												"protocol",
+												"storage"
+											]
+										}
+									},
+									"required": ["id", "phase"],
+									"additionalProperties": true
+								}] }
+							},
+							"required": [
+								"status",
+								"links",
+								"attempt"
+							],
+							"additionalProperties": true
+						}
+					},
+					sourceLocation: {
+						"file": "packages/api/account-controller/src/index.ts",
+						"line": 19,
+						"column": 3
+					}
+				},
+				"account/getUnnotifiedBonuses": {
+					service: "accountController",
+					description: "Query the granted bonuses Platform has not yet recorded as displayed.",
+					invocation: { kind: "direct" },
+					parameters: [{
+						name: "client",
+						description: "identity of the requesting UI; its language selects the server-authored message.",
+						source: "json",
+						codec: {
+							mode: "strict",
+							typeSymbol: "@deepseek-ai/dsh-deepseek-account/types#AccountClientMetadata",
+							create: _deepseek_ai_dsh_api_account_controller_account_getUnnotifiedBonuses_parameter_0$schema,
+							jsonSchema: {
+								"type": "object",
+								"properties": {
+									"version": { "type": "string" },
+									"locale": {
+										"type": "string",
+										"description": "Active UI language; only its primary subtag selects the Platform wire locale."
+									},
+									"timezoneOffsetSeconds": {
+										"type": "number",
+										"description": "Offset from UTC in seconds, positive east of Greenwich."
+									}
+								},
+								"required": [
+									"version",
+									"locale",
+									"timezoneOffsetSeconds"
+								],
+								"additionalProperties": true
+							}
+						},
+						strictCodec: {
+							mode: "strict",
+							typeSymbol: "@deepseek-ai/dsh-deepseek-account/types#AccountClientMetadata",
+							create: _deepseek_ai_dsh_api_account_controller_account_getUnnotifiedBonuses_parameter_0_strict$schema,
+							jsonSchema: {
+								"type": "object",
+								"properties": {
+									"version": { "type": "string" },
+									"locale": {
+										"type": "string",
+										"description": "Active UI language; only its primary subtag selects the Platform wire locale."
+									},
+									"timezoneOffsetSeconds": {
+										"type": "number",
+										"description": "Offset from UTC in seconds, positive east of Greenwich."
+									}
+								},
+								"required": [
+									"version",
+									"locale",
+									"timezoneOffsetSeconds"
+								],
+								"additionalProperties": false
+							}
+						}
+					}],
+					result: {
+						mode: "strict",
+						typeSymbol: "@deepseek-ai/dsh-api-account-controller#account/getUnnotifiedBonuses:result",
+						create: _deepseek_ai_dsh_api_account_controller_account_getUnnotifiedBonuses_result$schema,
+						description: "bonuses with their account, or null when the account grant is absent or changed.",
+						jsonSchema: { "oneOf": [{
+							"type": "null",
+							"const": null
+						}, {
+							"type": "object",
+							"properties": {
+								"accountId": { "type": "string" },
+								"bonuses": {
+									"type": "array",
+									"items": {
+										"type": "object",
+										"properties": {
+											"orderId": { "type": "string" },
+											"campaign": { "type": "string" },
+											"amount": {
+												"type": "string",
+												"description": "Granted decimal amount, preserving server precision; never the remaining balance."
+											},
+											"currency": {
+												"type": "string",
+												"enum": ["CNY", "USD"]
+											},
+											"grantedAt": {
+												"type": "string",
+												"description": "Grant time as supplied by Platform."
+											},
+											"expiresAt": {
+												"type": "string",
+												"description": "Expiry as supplied by Platform."
+											},
+											"message": {
+												"type": "string",
+												"description": "Server-localized plain text ready for display."
+											}
+										},
+										"required": [
+											"orderId",
+											"campaign",
+											"amount",
+											"currency",
+											"grantedAt",
+											"expiresAt",
+											"message"
+										],
+										"additionalProperties": true
+									}
+								}
+							},
+							"required": ["accountId", "bonuses"],
+							"additionalProperties": true
+						}] }
+					},
+					sourceLocation: {
+						"file": "packages/api/account-controller/src/index.ts",
+						"line": 44,
+						"column": 3
+					}
+				},
+				"account/hasRunningAccountTasks": {
+					service: "accountController",
+					description: "Inspect the latest logged request providers of running tasks, including tools and retries.",
+					invocation: { kind: "direct" },
+					parameters: [],
+					result: {
+						mode: "strict",
+						typeSymbol: "@deepseek-ai/dsh-api-account-controller#account/hasRunningAccountTasks:result",
+						create: _deepseek_ai_dsh_api_account_controller_account_hasRunningAccountTasks_result$schema,
+						description: "whether running work has a latest request context on the account route.",
+						jsonSchema: { "type": "boolean" }
+					},
+					sourceLocation: {
+						"file": "packages/api/account-controller/src/index.ts",
+						"line": 81,
+						"column": 3
+					}
+				},
+				"account/signOut": {
+					service: "accountController",
+					description: "Remove the local account grant and revoke it through Platform in the background, without deleting API keys.",
+					invocation: { kind: "direct" },
+					parameters: [{
+						name: "client",
+						description: "identity of the requesting UI, captured for the background revocation retries.",
+						source: "json",
+						codec: {
+							mode: "strict",
+							typeSymbol: "@deepseek-ai/dsh-deepseek-account/types#AccountClientMetadata",
+							create: _deepseek_ai_dsh_api_account_controller_account_signOut_parameter_0$schema,
+							jsonSchema: {
+								"type": "object",
+								"properties": {
+									"version": { "type": "string" },
+									"locale": {
+										"type": "string",
+										"description": "Active UI language; only its primary subtag selects the Platform wire locale."
+									},
+									"timezoneOffsetSeconds": {
+										"type": "number",
+										"description": "Offset from UTC in seconds, positive east of Greenwich."
+									}
+								},
+								"required": [
+									"version",
+									"locale",
+									"timezoneOffsetSeconds"
+								],
+								"additionalProperties": true
+							}
+						},
+						strictCodec: {
+							mode: "strict",
+							typeSymbol: "@deepseek-ai/dsh-deepseek-account/types#AccountClientMetadata",
+							create: _deepseek_ai_dsh_api_account_controller_account_signOut_parameter_0_strict$schema,
+							jsonSchema: {
+								"type": "object",
+								"properties": {
+									"version": { "type": "string" },
+									"locale": {
+										"type": "string",
+										"description": "Active UI language; only its primary subtag selects the Platform wire locale."
+									},
+									"timezoneOffsetSeconds": {
+										"type": "number",
+										"description": "Offset from UTC in seconds, positive east of Greenwich."
+									}
+								},
+								"required": [
+									"version",
+									"locale",
+									"timezoneOffsetSeconds"
+								],
+								"additionalProperties": false
+							}
+						}
+					}],
+					result: {
+						mode: "strict",
+						typeSymbol: "@deepseek-ai/dsh-deepseek-account/types#AccountView",
+						create: _deepseek_ai_dsh_api_account_controller_account_signOut_result$schema,
+						description: "state after removing the local account grant.",
+						jsonSchema: {
+							"type": "object",
+							"properties": {
+								"status": {
+									"type": "string",
+									"enum": ["signed-out", "credential-stored"]
+								},
+								"links": {
+									"type": "object",
+									"properties": {
+										"usageUrl": { "type": "string" },
+										"topUpUrl": { "type": "string" }
+									},
+									"required": ["usageUrl", "topUpUrl"],
+									"additionalProperties": true
+								},
+								"attempt": { "oneOf": [{
+									"type": "null",
+									"const": null
+								}, {
+									"type": "object",
+									"properties": {
+										"id": { "type": "string" },
+										"phase": {
+											"type": "string",
+											"enum": [
+												"initializing",
+												"waiting-browser",
+												"exchanging",
+												"committing",
+												"succeeded",
+												"cancelled",
+												"expired",
+												"failed"
+											]
+										},
+										"authorizeUrl": { "type": "string" },
+										"expiresAt": { "type": "number" },
+										"errorCode": {
+											"type": "string",
+											"enum": [
+												"expired",
+												"no-response",
+												"network",
+												"protocol",
+												"storage"
+											]
+										}
+									},
+									"required": ["id", "phase"],
+									"additionalProperties": true
+								}] }
+							},
+							"required": [
+								"status",
+								"links",
+								"attempt"
+							],
+							"additionalProperties": true
+						}
+					},
+					sourceLocation: {
+						"file": "packages/api/account-controller/src/index.ts",
+						"line": 90,
+						"column": 3
+					}
+				},
+				"account/startSignIn": {
+					service: "accountController",
+					description: "Begin browser sign-in.",
+					invocation: { kind: "direct" },
+					parameters: [
+						{
+							name: "client",
+							description: "identity of the requesting UI, captured by a new attempt.",
+							source: "json",
+							codec: {
+								mode: "strict",
+								typeSymbol: "@deepseek-ai/dsh-deepseek-account/types#AccountClientMetadata",
+								create: _deepseek_ai_dsh_api_account_controller_account_startSignIn_parameter_0$schema,
+								jsonSchema: {
+									"type": "object",
+									"properties": {
+										"version": { "type": "string" },
+										"locale": {
+											"type": "string",
+											"description": "Active UI language; only its primary subtag selects the Platform wire locale."
+										},
+										"timezoneOffsetSeconds": {
+											"type": "number",
+											"description": "Offset from UTC in seconds, positive east of Greenwich."
+										}
+									},
+									"required": [
+										"version",
+										"locale",
+										"timezoneOffsetSeconds"
+									],
+									"additionalProperties": true
+								}
+							},
+							strictCodec: {
+								mode: "strict",
+								typeSymbol: "@deepseek-ai/dsh-deepseek-account/types#AccountClientMetadata",
+								create: _deepseek_ai_dsh_api_account_controller_account_startSignIn_parameter_0_strict$schema,
+								jsonSchema: {
+									"type": "object",
+									"properties": {
+										"version": { "type": "string" },
+										"locale": {
+											"type": "string",
+											"description": "Active UI language; only its primary subtag selects the Platform wire locale."
+										},
+										"timezoneOffsetSeconds": {
+											"type": "number",
+											"description": "Offset from UTC in seconds, positive east of Greenwich."
+										}
+									},
+									"required": [
+										"version",
+										"locale",
+										"timezoneOffsetSeconds"
+									],
+									"additionalProperties": false
+								}
+							}
+						},
+						{
+							name: "callbackOrigin",
+							description: "browser-accessible loopback HTTP origin.",
+							source: "json",
+							codec: {
+								mode: "strict",
+								typeSymbol: "@deepseek-ai/dsh-api-account-controller#account/startSignIn:callbackOrigin",
+								create: _deepseek_ai_dsh_api_account_controller_account_startSignIn_parameter_1$schema,
+								jsonSchema: { "type": "string" }
+							},
+							strictCodec: {
+								mode: "strict",
+								typeSymbol: "@deepseek-ai/dsh-api-account-controller#account/startSignIn:callbackOrigin",
+								create: _deepseek_ai_dsh_api_account_controller_account_startSignIn_parameter_1_strict$schema,
+								jsonSchema: { "type": "string" }
+							}
+						},
+						{
+							name: "loginSource",
+							description: "initiating UI, used to return from a failed exchange.",
+							source: "json",
+							codec: {
+								mode: "strict",
+								typeSymbol: "@deepseek-ai/dsh-api-account-controller#account/startSignIn:loginSource",
+								create: _deepseek_ai_dsh_api_account_controller_account_startSignIn_parameter_2$schema,
+								jsonSchema: {
+									"type": "string",
+									"enum": ["web", "desktop"]
+								}
+							},
+							strictCodec: {
+								mode: "strict",
+								typeSymbol: "@deepseek-ai/dsh-api-account-controller#account/startSignIn:loginSource",
+								create: _deepseek_ai_dsh_api_account_controller_account_startSignIn_parameter_2_strict$schema,
+								jsonSchema: {
+									"type": "string",
+									"enum": ["web", "desktop"]
+								}
+							}
+						}
+					],
+					result: {
+						mode: "strict",
+						typeSymbol: "@deepseek-ai/dsh-deepseek-account/types#AccountView",
+						create: _deepseek_ai_dsh_api_account_controller_account_startSignIn_result$schema,
+						description: "a new or already-active login attempt.",
+						jsonSchema: {
+							"type": "object",
+							"properties": {
+								"status": {
+									"type": "string",
+									"enum": ["signed-out", "credential-stored"]
+								},
+								"links": {
+									"type": "object",
+									"properties": {
+										"usageUrl": { "type": "string" },
+										"topUpUrl": { "type": "string" }
+									},
+									"required": ["usageUrl", "topUpUrl"],
+									"additionalProperties": true
+								},
+								"attempt": { "oneOf": [{
+									"type": "null",
+									"const": null
+								}, {
+									"type": "object",
+									"properties": {
+										"id": { "type": "string" },
+										"phase": {
+											"type": "string",
+											"enum": [
+												"initializing",
+												"waiting-browser",
+												"exchanging",
+												"committing",
+												"succeeded",
+												"cancelled",
+												"expired",
+												"failed"
+											]
+										},
+										"authorizeUrl": { "type": "string" },
+										"expiresAt": { "type": "number" },
+										"errorCode": {
+											"type": "string",
+											"enum": [
+												"expired",
+												"no-response",
+												"network",
+												"protocol",
+												"storage"
+											]
+										}
+									},
+									"required": ["id", "phase"],
+									"additionalProperties": true
+								}] }
+							},
+							"required": [
+								"status",
+								"links",
+								"attempt"
+							],
+							"additionalProperties": true
+						}
+					},
+					sourceLocation: {
+						"file": "packages/api/account-controller/src/index.ts",
+						"line": 66,
+						"column": 3
+					}
+				},
+				"account/watch": {
+					service: "accountController",
+					description: "Stream the safe account projection.",
+					mode: "stream",
+					invocation: { kind: "direct" },
+					parameters: [],
+					cancellation: { parameter: "signal" },
+					result: {
+						mode: "strict",
+						typeSymbol: "@deepseek-ai/dsh-deepseek-account/types#AccountView",
+						create: _deepseek_ai_dsh_api_account_controller_account_watch_result$schema,
+						description: "initial snapshot and subsequent changes.",
+						jsonSchema: {
+							"type": "object",
+							"properties": {
+								"status": {
+									"type": "string",
+									"enum": ["signed-out", "credential-stored"]
+								},
+								"links": {
+									"type": "object",
+									"properties": {
+										"usageUrl": { "type": "string" },
+										"topUpUrl": { "type": "string" }
+									},
+									"required": ["usageUrl", "topUpUrl"],
+									"additionalProperties": true
+								},
+								"attempt": { "oneOf": [{
+									"type": "null",
+									"const": null
+								}, {
+									"type": "object",
+									"properties": {
+										"id": { "type": "string" },
+										"phase": {
+											"type": "string",
+											"enum": [
+												"initializing",
+												"waiting-browser",
+												"exchanging",
+												"committing",
+												"succeeded",
+												"cancelled",
+												"expired",
+												"failed"
+											]
+										},
+										"authorizeUrl": { "type": "string" },
+										"expiresAt": { "type": "number" },
+										"errorCode": {
+											"type": "string",
+											"enum": [
+												"expired",
+												"no-response",
+												"network",
+												"protocol",
+												"storage"
+											]
+										}
+									},
+									"required": ["id", "phase"],
+									"additionalProperties": true
+								}] }
+							},
+							"required": [
+								"status",
+								"links",
+								"attempt"
+							],
+							"additionalProperties": true
+						}
+					},
+					sourceLocation: {
+						"file": "packages/api/account-controller/src/index.ts",
+						"line": 119,
+						"column": 3
+					}
+				},
+				"account/watchExpiry": {
+					service: "accountController",
+					description: "Subscribe to credential expiry without replaying prior notifications.",
+					mode: "stream",
+					invocation: { kind: "direct" },
+					parameters: [],
+					cancellation: { parameter: "signal" },
+					result: {
+						mode: "strict",
+						typeSymbol: "@deepseek-ai/dsh-api-account-controller#account/watchExpiry:result",
+						create: _deepseek_ai_dsh_api_account_controller_account_watchExpiry_result$schema,
+						description: "notifications emitted while subscribed.",
+						jsonSchema: {
+							"type": "string",
+							"const": "session-expired"
+						}
+					},
+					sourceLocation: {
+						"file": "packages/api/account-controller/src/index.ts",
+						"line": 97,
+						"column": 10
+					}
+				}
+			}
+		}, zod.z);
+		//#endregion
+		//#region ../settings-controller/lib/typert.remote-client.js
+		let _deepseek_ai_dsh_api_settings_controller_credentials_describe_parameter_0$schema$value;
+		const _deepseek_ai_dsh_api_settings_controller_credentials_describe_parameter_0$schema = () => _deepseek_ai_dsh_api_settings_controller_credentials_describe_parameter_0$schema$value ??= zod.z.array(zod.z.string());
+		let _deepseek_ai_dsh_api_settings_controller_credentials_describe_result$schema$value;
+		const _deepseek_ai_dsh_api_settings_controller_credentials_describe_result$schema = () => _deepseek_ai_dsh_api_settings_controller_credentials_describe_result$schema$value ??= zod.z.record(zod.z.string(), zod.z.object({
+			"configured": zod.z.boolean().describe("Whether resolving the reference would currently return a value."),
+			"source": zod.z.string().optional().describe("Source layer currently supplying the value; absent while unconfigured."),
+			"writable": zod.z.boolean().describe("Whether the active provider can write this reference.")
+		}));
+		let _deepseek_ai_dsh_api_settings_controller_credentials_set_parameter_0$schema$value;
+		const _deepseek_ai_dsh_api_settings_controller_credentials_set_parameter_0$schema = () => _deepseek_ai_dsh_api_settings_controller_credentials_set_parameter_0$schema$value ??= zod.z.string();
+		let _deepseek_ai_dsh_api_settings_controller_credentials_set_parameter_1$schema$value;
+		const _deepseek_ai_dsh_api_settings_controller_credentials_set_parameter_1$schema = () => _deepseek_ai_dsh_api_settings_controller_credentials_set_parameter_1$schema$value ??= zod.z.string();
+		let _deepseek_ai_dsh_api_settings_controller_credentials_set_result$schema$value;
+		const _deepseek_ai_dsh_api_settings_controller_credentials_set_result$schema = () => _deepseek_ai_dsh_api_settings_controller_credentials_set_result$schema$value ??= zod.z.void();
+		let _deepseek_ai_dsh_api_settings_controller_credentials_unset_parameter_0$schema$value;
+		const _deepseek_ai_dsh_api_settings_controller_credentials_unset_parameter_0$schema = () => _deepseek_ai_dsh_api_settings_controller_credentials_unset_parameter_0$schema$value ??= zod.z.string();
+		let _deepseek_ai_dsh_api_settings_controller_credentials_unset_result$schema$value;
+		const _deepseek_ai_dsh_api_settings_controller_credentials_unset_result$schema = () => _deepseek_ai_dsh_api_settings_controller_credentials_unset_result$schema$value ??= zod.z.void();
+		let _deepseek_ai_dsh_api_settings_controller_settings_describe_result$schema$value;
+		const _deepseek_ai_dsh_api_settings_controller_settings_describe_result$schema = () => _deepseek_ai_dsh_api_settings_controller_settings_describe_result$schema$value ??= zod.z.object({
+			"writable": zod.z.boolean().describe("Whether the profile accepts writes; `false` disables every write control."),
+			"hasDocument": zod.z.boolean().describe("Whether the configuration editor owns a local document, without exposing its Host path."),
+			"namespaces": zod.z.array(zod.z.object({
+				"autoGenerate": zod.z.boolean().describe("Generate a page if no custom page is registered for this instance."),
+				"ns": zod.z.string().describe("Namespace key (`llm-deepseek`, `llm-pi-ai`, …)."),
+				"schema": zod.z.json().describe("Serialized schemastery schema envelope (`schema.toJSON()`); rehydrate with `new Schema(json)`."),
+				"value": zod.z.json().describe("Redacted resolved value (schema defaults → composition base → user layer)."),
+				"base": zod.z.json().optional().describe("Redacted composition base layer, with defaults resolved."),
+				"user": zod.z.json().optional().describe("Redacted raw user section, when one exists; a field's presence here marks it user-overridden."),
+				"applies": zod.z.literal("live").describe("When the owner applies changes."),
+				"secrets": zod.z.array(zod.z.object({
+					"path": zod.z.array(zod.z.string()).describe("Path from the section root to the removed field."),
+					"set": zod.z.boolean().describe("Whether the slot currently holds a value; the value itself never rides.")
+				})).describe("Every schema-declared secret slot with its configured state."),
+				"revision": zod.z.number().describe("Monotonic revision of the raw entry configuration this view was read at. Send it back as `expectedRevision` on a write so a stale editor is refused rather than silently overwriting a concurrent change.")
+			})).describe("One view per profile plugin entry.")
+		});
+		let _deepseek_ai_dsh_api_settings_controller_settings_mutate_parameter_0$schema$value;
+		const _deepseek_ai_dsh_api_settings_controller_settings_mutate_parameter_0$schema = () => _deepseek_ai_dsh_api_settings_controller_settings_mutate_parameter_0$schema$value ??= zod.z.string();
+		let _deepseek_ai_dsh_api_settings_controller_settings_mutate_parameter_1$schema$value;
+		const _deepseek_ai_dsh_api_settings_controller_settings_mutate_parameter_1$schema = () => _deepseek_ai_dsh_api_settings_controller_settings_mutate_parameter_1$schema$value ??= zod.z.array(zod.z.union([zod.z.object({
+			"op": zod.z.literal("set"),
+			"path": zod.z.array(zod.z.string()),
+			"value": zod.z.json()
+		}), zod.z.object({
+			"op": zod.z.literal("unset"),
+			"path": zod.z.array(zod.z.string())
+		})]));
+		let _deepseek_ai_dsh_api_settings_controller_settings_mutate_parameter_2$schema$value;
+		const _deepseek_ai_dsh_api_settings_controller_settings_mutate_parameter_2$schema = () => _deepseek_ai_dsh_api_settings_controller_settings_mutate_parameter_2$schema$value ??= zod.z.union([zod.z.undefined(), zod.z.number()]);
+		let _deepseek_ai_dsh_api_settings_controller_settings_mutate_result$schema$value;
+		const _deepseek_ai_dsh_api_settings_controller_settings_mutate_result$schema = () => _deepseek_ai_dsh_api_settings_controller_settings_mutate_result$schema$value ??= zod.z.object({
+			"autoGenerate": zod.z.boolean().describe("Generate a page if no custom page is registered for this instance."),
+			"ns": zod.z.string().describe("Namespace key (`llm-deepseek`, `llm-pi-ai`, …)."),
+			"schema": zod.z.json().describe("Serialized schemastery schema envelope (`schema.toJSON()`); rehydrate with `new Schema(json)`."),
+			"value": zod.z.json().describe("Redacted resolved value (schema defaults → composition base → user layer)."),
+			"base": zod.z.json().optional().describe("Redacted composition base layer, with defaults resolved."),
+			"user": zod.z.json().optional().describe("Redacted raw user section, when one exists; a field's presence here marks it user-overridden."),
+			"applies": zod.z.literal("live").describe("When the owner applies changes."),
+			"secrets": zod.z.array(zod.z.object({
+				"path": zod.z.array(zod.z.string()).describe("Path from the section root to the removed field."),
+				"set": zod.z.boolean().describe("Whether the slot currently holds a value; the value itself never rides.")
+			})).describe("Every schema-declared secret slot with its configured state."),
+			"revision": zod.z.number().describe("Monotonic revision of the raw entry configuration this view was read at. Send it back as `expectedRevision` on a write so a stale editor is refused rather than silently overwriting a concurrent change.")
+		});
+		let _deepseek_ai_dsh_api_settings_controller_settings_openSettingsDocument_result$schema$value;
+		const _deepseek_ai_dsh_api_settings_controller_settings_openSettingsDocument_result$schema = () => _deepseek_ai_dsh_api_settings_controller_settings_openSettingsDocument_result$schema$value ??= zod.z.object({ "opened": zod.z.literal(true).readonly() });
+		let _deepseek_ai_dsh_api_settings_controller_settings_replace_parameter_0$schema$value;
+		const _deepseek_ai_dsh_api_settings_controller_settings_replace_parameter_0$schema = () => _deepseek_ai_dsh_api_settings_controller_settings_replace_parameter_0$schema$value ??= zod.z.string();
+		let _deepseek_ai_dsh_api_settings_controller_settings_replace_parameter_1$schema$value;
+		const _deepseek_ai_dsh_api_settings_controller_settings_replace_parameter_1$schema = () => _deepseek_ai_dsh_api_settings_controller_settings_replace_parameter_1$schema$value ??= zod.z.record(zod.z.string(), zod.z.json());
+		let _deepseek_ai_dsh_api_settings_controller_settings_replace_parameter_2$schema$value;
+		const _deepseek_ai_dsh_api_settings_controller_settings_replace_parameter_2$schema = () => _deepseek_ai_dsh_api_settings_controller_settings_replace_parameter_2$schema$value ??= zod.z.union([zod.z.undefined(), zod.z.number()]);
+		let _deepseek_ai_dsh_api_settings_controller_settings_replace_result$schema$value;
+		const _deepseek_ai_dsh_api_settings_controller_settings_replace_result$schema = () => _deepseek_ai_dsh_api_settings_controller_settings_replace_result$schema$value ??= zod.z.object({
+			"autoGenerate": zod.z.boolean().describe("Generate a page if no custom page is registered for this instance."),
+			"ns": zod.z.string().describe("Namespace key (`llm-deepseek`, `llm-pi-ai`, …)."),
+			"schema": zod.z.json().describe("Serialized schemastery schema envelope (`schema.toJSON()`); rehydrate with `new Schema(json)`."),
+			"value": zod.z.json().describe("Redacted resolved value (schema defaults → composition base → user layer)."),
+			"base": zod.z.json().optional().describe("Redacted composition base layer, with defaults resolved."),
+			"user": zod.z.json().optional().describe("Redacted raw user section, when one exists; a field's presence here marks it user-overridden."),
+			"applies": zod.z.literal("live").describe("When the owner applies changes."),
+			"secrets": zod.z.array(zod.z.object({
+				"path": zod.z.array(zod.z.string()).describe("Path from the section root to the removed field."),
+				"set": zod.z.boolean().describe("Whether the slot currently holds a value; the value itself never rides.")
+			})).describe("Every schema-declared secret slot with its configured state."),
+			"revision": zod.z.number().describe("Monotonic revision of the raw entry configuration this view was read at. Send it back as `expectedRevision` on a write so a stale editor is refused rather than silently overwriting a concurrent change.")
+		});
+		let _deepseek_ai_dsh_api_settings_controller_settings_update_parameter_0$schema$value;
+		const _deepseek_ai_dsh_api_settings_controller_settings_update_parameter_0$schema = () => _deepseek_ai_dsh_api_settings_controller_settings_update_parameter_0$schema$value ??= zod.z.string();
+		let _deepseek_ai_dsh_api_settings_controller_settings_update_parameter_1$schema$value;
+		const _deepseek_ai_dsh_api_settings_controller_settings_update_parameter_1$schema = () => _deepseek_ai_dsh_api_settings_controller_settings_update_parameter_1$schema$value ??= zod.z.record(zod.z.string(), zod.z.json());
+		let _deepseek_ai_dsh_api_settings_controller_settings_update_parameter_2$schema$value;
+		const _deepseek_ai_dsh_api_settings_controller_settings_update_parameter_2$schema = () => _deepseek_ai_dsh_api_settings_controller_settings_update_parameter_2$schema$value ??= zod.z.union([zod.z.undefined(), zod.z.number()]);
+		let _deepseek_ai_dsh_api_settings_controller_settings_update_result$schema$value;
+		const _deepseek_ai_dsh_api_settings_controller_settings_update_result$schema = () => _deepseek_ai_dsh_api_settings_controller_settings_update_result$schema$value ??= zod.z.object({
+			"autoGenerate": zod.z.boolean().describe("Generate a page if no custom page is registered for this instance."),
+			"ns": zod.z.string().describe("Namespace key (`llm-deepseek`, `llm-pi-ai`, …)."),
+			"schema": zod.z.json().describe("Serialized schemastery schema envelope (`schema.toJSON()`); rehydrate with `new Schema(json)`."),
+			"value": zod.z.json().describe("Redacted resolved value (schema defaults → composition base → user layer)."),
+			"base": zod.z.json().optional().describe("Redacted composition base layer, with defaults resolved."),
+			"user": zod.z.json().optional().describe("Redacted raw user section, when one exists; a field's presence here marks it user-overridden."),
+			"applies": zod.z.literal("live").describe("When the owner applies changes."),
+			"secrets": zod.z.array(zod.z.object({
+				"path": zod.z.array(zod.z.string()).describe("Path from the section root to the removed field."),
+				"set": zod.z.boolean().describe("Whether the slot currently holds a value; the value itself never rides.")
+			})).describe("Every schema-declared secret slot with its configured state."),
+			"revision": zod.z.number().describe("Monotonic revision of the raw entry configuration this view was read at. Send it back as `expectedRevision` on a write so a stale editor is refused rather than silently overwriting a concurrent change.")
+		});
+		let _deepseek_ai_dsh_api_settings_controller_credentials_describe_parameter_0_strict$schema$value;
+		const _deepseek_ai_dsh_api_settings_controller_credentials_describe_parameter_0_strict$schema = () => _deepseek_ai_dsh_api_settings_controller_credentials_describe_parameter_0_strict$schema$value ??= zod.z.array(zod.z.string());
+		let _deepseek_ai_dsh_api_settings_controller_credentials_set_parameter_0_strict$schema$value;
+		const _deepseek_ai_dsh_api_settings_controller_credentials_set_parameter_0_strict$schema = () => _deepseek_ai_dsh_api_settings_controller_credentials_set_parameter_0_strict$schema$value ??= zod.z.string();
+		let _deepseek_ai_dsh_api_settings_controller_credentials_set_parameter_1_strict$schema$value;
+		const _deepseek_ai_dsh_api_settings_controller_credentials_set_parameter_1_strict$schema = () => _deepseek_ai_dsh_api_settings_controller_credentials_set_parameter_1_strict$schema$value ??= zod.z.string();
+		let _deepseek_ai_dsh_api_settings_controller_credentials_unset_parameter_0_strict$schema$value;
+		const _deepseek_ai_dsh_api_settings_controller_credentials_unset_parameter_0_strict$schema = () => _deepseek_ai_dsh_api_settings_controller_credentials_unset_parameter_0_strict$schema$value ??= zod.z.string();
+		let _deepseek_ai_dsh_api_settings_controller_settings_mutate_parameter_0_strict$schema$value;
+		const _deepseek_ai_dsh_api_settings_controller_settings_mutate_parameter_0_strict$schema = () => _deepseek_ai_dsh_api_settings_controller_settings_mutate_parameter_0_strict$schema$value ??= zod.z.string();
+		let _deepseek_ai_dsh_api_settings_controller_settings_mutate_parameter_1_strict$schema$value;
+		const _deepseek_ai_dsh_api_settings_controller_settings_mutate_parameter_1_strict$schema = () => _deepseek_ai_dsh_api_settings_controller_settings_mutate_parameter_1_strict$schema$value ??= zod.z.array(zod.z.union([zod.z.strictObject({
+			"op": zod.z.literal("set"),
+			"path": zod.z.array(zod.z.string()),
+			"value": zod.z.json()
+		}), zod.z.strictObject({
+			"op": zod.z.literal("unset"),
+			"path": zod.z.array(zod.z.string())
+		})]));
+		let _deepseek_ai_dsh_api_settings_controller_settings_mutate_parameter_2_strict$schema$value;
+		const _deepseek_ai_dsh_api_settings_controller_settings_mutate_parameter_2_strict$schema = () => _deepseek_ai_dsh_api_settings_controller_settings_mutate_parameter_2_strict$schema$value ??= zod.z.union([zod.z.undefined(), zod.z.number()]);
+		let _deepseek_ai_dsh_api_settings_controller_settings_replace_parameter_0_strict$schema$value;
+		const _deepseek_ai_dsh_api_settings_controller_settings_replace_parameter_0_strict$schema = () => _deepseek_ai_dsh_api_settings_controller_settings_replace_parameter_0_strict$schema$value ??= zod.z.string();
+		let _deepseek_ai_dsh_api_settings_controller_settings_replace_parameter_1_strict$schema$value;
+		const _deepseek_ai_dsh_api_settings_controller_settings_replace_parameter_1_strict$schema = () => _deepseek_ai_dsh_api_settings_controller_settings_replace_parameter_1_strict$schema$value ??= zod.z.record(zod.z.string(), zod.z.json());
+		let _deepseek_ai_dsh_api_settings_controller_settings_replace_parameter_2_strict$schema$value;
+		const _deepseek_ai_dsh_api_settings_controller_settings_replace_parameter_2_strict$schema = () => _deepseek_ai_dsh_api_settings_controller_settings_replace_parameter_2_strict$schema$value ??= zod.z.union([zod.z.undefined(), zod.z.number()]);
+		let _deepseek_ai_dsh_api_settings_controller_settings_update_parameter_0_strict$schema$value;
+		const _deepseek_ai_dsh_api_settings_controller_settings_update_parameter_0_strict$schema = () => _deepseek_ai_dsh_api_settings_controller_settings_update_parameter_0_strict$schema$value ??= zod.z.string();
+		let _deepseek_ai_dsh_api_settings_controller_settings_update_parameter_1_strict$schema$value;
+		const _deepseek_ai_dsh_api_settings_controller_settings_update_parameter_1_strict$schema = () => _deepseek_ai_dsh_api_settings_controller_settings_update_parameter_1_strict$schema$value ??= zod.z.record(zod.z.string(), zod.z.json());
+		let _deepseek_ai_dsh_api_settings_controller_settings_update_parameter_2_strict$schema$value;
+		const _deepseek_ai_dsh_api_settings_controller_settings_update_parameter_2_strict$schema = () => _deepseek_ai_dsh_api_settings_controller_settings_update_parameter_2_strict$schema$value ??= zod.z.union([zod.z.undefined(), zod.z.number()]);
+		const TYPERT_REMOTE$20 = createTypertRemoteInfo({
+			package: "@deepseek-ai/dsh-api-settings-controller",
+			methods: {
+				"credentials/describe": {
+					service: "credentialsController",
+					description: "Describe several references for one configuration surface. Batched because a settings page describes every reference its rows name at once, and one round trip keeps those rows from settling separately.",
+					invocation: { kind: "direct" },
+					parameters: [{
+						name: "refs",
+						description: "reference names, at most {@link MAX_DESCRIBE_REFS}; a name outside the grammar rejects the whole call as `gateway/bad-request`.",
+						source: "json",
+						codec: {
+							mode: "strict",
+							typeSymbol: "@deepseek-ai/dsh-api-settings-controller#credentials/describe:refs",
+							create: _deepseek_ai_dsh_api_settings_controller_credentials_describe_parameter_0$schema,
+							jsonSchema: {
+								"type": "array",
+								"items": { "type": "string" }
+							}
+						},
+						strictCodec: {
+							mode: "strict",
+							typeSymbol: "@deepseek-ai/dsh-api-settings-controller#credentials/describe:refs",
+							create: _deepseek_ai_dsh_api_settings_controller_credentials_describe_parameter_0_strict$schema,
+							jsonSchema: {
+								"type": "array",
+								"items": { "type": "string" }
+							}
+						}
+					}],
+					result: {
+						mode: "strict",
+						typeSymbol: "@deepseek-ai/dsh-api-settings-controller#credentials/describe:result",
+						create: _deepseek_ai_dsh_api_settings_controller_credentials_describe_result$schema,
+						description: "one view per requested name, keyed by that name.",
+						jsonSchemaError: "typert tool schema: selected dictionaries require string keys and unconstrained JSON values"
+					},
+					sourceLocation: {
+						"file": "packages/api/settings-controller/src/credentials.ts",
+						"line": 83,
+						"column": 9
+					}
+				},
+				"credentials/set": {
+					service: "credentialsController",
+					description: "Store one value from a configuration surface. The value crosses the wire in this direction only: no read path returns it.",
+					invocation: { kind: "direct" },
+					parameters: [{
+						name: "ref",
+						description: "reference name to store under.",
+						source: "json",
+						codec: {
+							mode: "strict",
+							typeSymbol: "@deepseek-ai/dsh-api-settings-controller#credentials/set:ref",
+							create: _deepseek_ai_dsh_api_settings_controller_credentials_set_parameter_0$schema,
+							jsonSchema: { "type": "string" }
+						},
+						strictCodec: {
+							mode: "strict",
+							typeSymbol: "@deepseek-ai/dsh-api-settings-controller#credentials/set:ref",
+							create: _deepseek_ai_dsh_api_settings_controller_credentials_set_parameter_0_strict$schema,
+							jsonSchema: { "type": "string" }
+						}
+					}, {
+						name: "value",
+						description: "the non-empty secret value.",
+						source: "json",
+						codec: {
+							mode: "strict",
+							typeSymbol: "@deepseek-ai/dsh-api-settings-controller#credentials/set:value",
+							create: _deepseek_ai_dsh_api_settings_controller_credentials_set_parameter_1$schema,
+							jsonSchema: { "type": "string" }
+						},
+						strictCodec: {
+							mode: "strict",
+							typeSymbol: "@deepseek-ai/dsh-api-settings-controller#credentials/set:value",
+							create: _deepseek_ai_dsh_api_settings_controller_credentials_set_parameter_1_strict$schema,
+							jsonSchema: { "type": "string" }
+						}
+					}],
+					result: {
+						mode: "strict",
+						typeSymbol: "@deepseek-ai/dsh-api-settings-controller#credentials/set:result",
+						create: _deepseek_ai_dsh_api_settings_controller_credentials_set_result$schema,
+						jsonSchemaError: "typert tool schema: unsupported void value"
+					},
+					sourceLocation: {
+						"file": "packages/api/settings-controller/src/credentials.ts",

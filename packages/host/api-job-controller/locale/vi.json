@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "api-job-controller",
+    "description": "Luồng quan sát job qua Remote và dịch vụ xuất kết quả job cho client có đếm tham chiếu."
+  }
+}

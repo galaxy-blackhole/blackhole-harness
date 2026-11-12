@@ -1,0 +1,31 @@
+/*
+ * author Bùi Trọng Hiếu
+ * email kevinbui210191@gmail.com
+ * create date 15/10/2026
+ * modify date 08/11/2026
+ * desc Khai bao @font-face Montserrat cho goi UI theme (chep byte-identical tu stock, giu nguyen ban quyen OFL)
+ */
+/* Montserrat; SIL Open Font License in Montserrat-OFL.txt. */
+@font-face {
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(./montserrat-regular.woff2) format('woff2');
+}
+
+@font-face {
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+  src: url(./montserrat-light.woff2) format('woff2');
+}
+
+@font-face {
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url(./montserrat-medium.woff2) format('woff2');
+}

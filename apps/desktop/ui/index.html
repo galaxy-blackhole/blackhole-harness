@@ -1,0 +1,545 @@
+<!doctype html>
+<!--
+ author Bùi Trọng Hiếu
+ email kevinbui210191@gmail.com
+ create date 15/10/2026
+ modify date 11/11/2026
+ desc Trang splash dong goi: qua cau Galaxy Blackhole animate (lay tu galaxy-ai-assistant AvatarCore,
+      viet lai bang CSS/JS thuan) + DUNG MOT dong trang thai; moi log/moc chi tiet nam sau nut
+      "Chi tiet" (monospace, cuon duoc) — 11/11/2026 bo khoi log tho "[bh] host alias…" +
+      "cong 55907 · pid host 9289 · 11s" khoi mat truoc. Giu nguyen: cua so visible(false) -> hien khi
+      trang host nap xong; loi van hien tieu de + ly do + "Da thu" + nut Thu lai/Thoat.
+-->
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; script-src 'unsafe-inline'" />
+  <title>Galaxy Blackhole</title>
+  <style>
+    /* ───────── nền + khung: tông tối như app, không sáng chói ───────── */
+    :root {
+      --gbh-bg: #070914;
+      --gbh-text: #e7e9ee;
+      --gbh-dim: #8b93a8;
+      --gbh-faint: #5d647c;
+      --gbh-line: rgba(159, 169, 220, .14);
+      --gbh-danger: #ff8a8a;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; height: 100%; }
+    body {
+      display: block;
+      overflow: hidden;
+      background:
+        radial-gradient(ellipse at 68% 8%, rgba(69, 58, 145, .16), transparent 34%),
+        radial-gradient(ellipse at 41% 88%, rgba(30, 89, 132, .09), transparent 35%),
+        var(--gbh-bg);
+      color: var(--gbh-text);
+      font: 13px/1.55 -apple-system, system-ui, "Segoe UI", sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -webkit-user-select: none;
+      user-select: none;
+    }
+    /* Trường sao rất mờ — cùng mẹo gradient với .app-shell:before của app gốc, không tài nguyên ngoài. */
+    .sky { position: fixed; inset: 0; pointer-events: none; opacity: .5; }
+    .sky::before {
+      content: ""; position: absolute; inset: 0;
+      background-image:
+        radial-gradient(1px 1px at 8% 16%, #b8c8ff 99%, transparent),
+        radial-gradient(1px 1px at 23% 68%, #c9c3ff 99%, transparent),
+        radial-gradient(1px 1px at 47% 23%, #9bb5ff 99%, transparent),
+        radial-gradient(1px 1px at 79% 36%, #d2caff 99%, transparent),
+        radial-gradient(1px 1px at 91% 82%, #91cfff 99%, transparent),
+        radial-gradient(1px 1px at 63% 76%, #d2caff 99%, transparent),
+        radial-gradient(1px 1px at 13% 91%, #a9baff 99%, transparent),
+        radial-gradient(1px 1px at 34% 44%, #cdd6ff 99%, transparent);
+      background-size: 390px 290px;
+    }
+    .stage {
+      position: relative; z-index: 1;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      min-height: 100vh; padding: 40px 32px 56px; text-align: center;
+    }
+    .stage::before {
+      content: ""; position: absolute; z-index: -1;
+      width: 620px; height: 620px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(103, 84, 204, .18), rgba(56, 185, 215, .06) 45%, transparent 68%);
+      filter: blur(18px);
+    }
+
+    /* ───────── quả cầu: NGUYÊN VĂN CSS của AvatarCore (galaxy-ai-assistant/src/index.css) ───────── */
+    .avatar-stage { position: relative; display: grid; place-items: center; width: 100%; height: 218px; margin: 0 auto; perspective: 700px; isolation: isolate; }
+    .avatar-aura { position: absolute; width: 142px; height: 142px; border-radius: 50%; filter: blur(27px); opacity: .45; }
+    .aura-one { background: #7959e8; transform: translate(-17px, 8px); }
+    .aura-two { width: 115px; height: 115px; background: #38b9d7; transform: translate(23px, -11px); opacity: .26; }
+    .avatar-sphere { position: relative; z-index: 3; width: 105px; height: 105px; border-radius: 50%; overflow: hidden; transform-style: preserve-3d; background: radial-gradient(circle at 34% 26%, rgba(255, 255, 255, .9) 0 1%, rgba(167, 207, 255, .52) 3%, transparent 17%), radial-gradient(circle at 37% 33%, #b8adff 0%, #6654cc 23%, #2d428d 48%, #10182f 72%, #0a1021 100%); box-shadow: inset -13px -15px 24px rgba(2, 6, 25, .78), inset 8px 8px 17px rgba(217, 218, 255, .25), 0 0 28px rgba(121, 105, 255, .55), 0 0 70px rgba(91, 120, 255, .18); animation: sphere-float 5.5s ease-in-out infinite; }
+    .sphere-gloss { position: absolute; inset: 7px 12px auto auto; width: 45px; height: 25px; border-radius: 50%; background: rgba(255, 255, 255, .22); filter: blur(11px); transform: rotate(-34deg); }
+    .sphere-grid { position: absolute; inset: -12px; border-radius: 50%; opacity: .22; background: repeating-radial-gradient(ellipse at 50% 50%, transparent 0 8px, rgba(170, 206, 255, .42) 9px, transparent 10px), repeating-linear-gradient(112deg, transparent 0 13px, rgba(167, 196, 255, .18) 14px, transparent 15px); }
+    .sphere-highlight { position: absolute; inset: 0; border-radius: 50%; background: linear-gradient(126deg, rgba(255, 255, 255, .27), transparent 28% 67%, rgba(76, 140, 255, .13)); pointer-events: none; }
+    .avatar-face { position: absolute; inset: 19px 24px 16px; border: 1px solid rgba(210, 224, 255, .55); border-radius: 48% 48% 44% 44% / 42% 42% 57% 57%; background: linear-gradient(145deg, rgba(204, 218, 255, .25), rgba(61, 96, 177, .09) 50%, rgba(9, 21, 49, .48)); box-shadow: inset 0 0 17px rgba(198, 215, 255, .28), 0 0 18px rgba(118, 197, 255, .18); transform: translateZ(8px); filter: drop-shadow(0 0 5px rgba(153, 207, 255, .45)); }
+    .face-forehead { position: absolute; top: 5px; left: 7px; right: 7px; height: 15px; border-top: 1px solid rgba(235, 241, 255, .75); border-radius: 50%; opacity: .6; }
+    .face-eyes { position: absolute; top: 23px; left: 8px; right: 8px; display: flex; justify-content: space-between; }
+    .face-eyes span { width: 7px; height: 3px; border-radius: 50%; background: #b9f5ff; box-shadow: 0 0 7px 2px rgba(118, 233, 255, .95); }
+    .face-nose { position: absolute; top: 27px; left: 50%; width: 1px; height: 11px; background: linear-gradient(transparent, rgba(196, 229, 255, .7), transparent); }
+    .face-mouth { position: absolute; left: 50%; bottom: 12px; width: 12px; height: 4px; border-bottom: 1px solid rgba(194, 227, 255, .85); border-radius: 0 0 50% 50%; transform: translateX(-50%); }
+    .face-cheek { position: absolute; top: 31px; width: 7px; height: 3px; border-radius: 50%; background: rgba(117, 220, 255, .3); filter: blur(3px); }
+    .cheek-left { left: 3px; }
+    .cheek-right { right: 3px; }
+    .orbit { position: absolute; z-index: 2; border: 1px solid rgba(160, 174, 255, .42); border-radius: 50%; transform-style: preserve-3d; }
+    .orbit i { position: absolute; display: block; width: 5px; height: 5px; border-radius: 50%; background: #c4b3ff; box-shadow: 0 0 9px 2px rgba(178, 151, 255, .8); }
+    .orbit-back { width: 172px; height: 65px; transform: rotateX(67deg) rotateZ(-23deg); animation: orbit-spin 12s linear infinite; }
+    .orbit-back i:first-child { left: 18px; top: 8px; }
+    .orbit-back i:last-child { right: 20px; bottom: 7px; background: #7de9ff; box-shadow: 0 0 9px 2px rgba(96, 220, 255, .8); }
+    .orbit-mid { width: 151px; height: 92px; border-color: rgba(111, 201, 255, .35); transform: rotateX(67deg) rotateZ(48deg); animation: orbit-spin-reverse 15s linear infinite; }
+    .orbit-mid i:first-child { left: 16px; top: 29px; }
+    .orbit-mid i:nth-child(2) { right: 8px; top: 28px; width: 3px; height: 3px; }
+    .orbit-mid i:last-child { left: 50%; bottom: 1px; width: 3px; height: 3px; background: #7eeaff; }
+    .orbit-front { width: 187px; height: 72px; border-color: rgba(179, 151, 255, .24); transform: rotateX(70deg) rotateZ(12deg); animation: orbit-spin 20s linear infinite; }
+    .orbit-front i { right: 34px; top: 2px; width: 4px; height: 4px; background: #78e8ff; }
+    .core-pulse { position: absolute; z-index: 1; width: 116px; height: 116px; border: 1px solid rgba(143, 133, 255, .23); border-radius: 50%; animation: pulse-ring 4s ease-out infinite; }
+    .pulse-b { animation-delay: 2s; }
+    .avatar-spark { position: absolute; z-index: 4; width: 3px; height: 3px; border-radius: 50%; background: #d4edff; box-shadow: 0 0 8px 2px #9eaeff; }
+    .spark-a { top: 30px; left: 24%; }
+    .spark-b { right: 18%; top: 69px; width: 2px; height: 2px; }
+    .spark-c { bottom: 32px; left: 30%; background: #8ceeff; }
+    /* is-thinking: nhịp nhanh hơn khi app đang bận nạp — đúng biến thể có sẵn của bản gốc. */
+    .avatar-stage.is-thinking .orbit { animation-duration: 3s; }
+    .avatar-stage.is-thinking .avatar-sphere { animation-duration: 1.7s; box-shadow: inset -13px -15px 24px rgba(2, 6, 25, .78), inset 8px 8px 17px rgba(217, 218, 255, .3), 0 0 38px rgba(142, 117, 255, .8), 0 0 86px rgba(91, 173, 255, .32); }
+    .avatar-stage.is-thinking .core-pulse { animation-duration: 1.3s; border-color: rgba(116, 226, 255, .38); }
+    /* is-paused: quả cầu đứng yên, bớt bão hoà — dùng cho trạng thái LỖI. */
+    .avatar-stage.is-paused .orbit,
+    .avatar-stage.is-paused .avatar-sphere,
+    .avatar-stage.is-paused .core-pulse { animation-play-state: paused; filter: saturate(.35); opacity: .65; }
+    @keyframes sphere-float { 0%, 100% { transform: translateY(0) rotateY(-8deg) rotateX(5deg); } 50% { transform: translateY(-7px) rotateY(8deg) rotateX(-4deg); } }
+    @keyframes orbit-spin { from { transform: rotateX(67deg) rotateZ(0deg); } to { transform: rotateX(67deg) rotateZ(360deg); } }
+    @keyframes orbit-spin-reverse { from { transform: rotateX(67deg) rotateZ(360deg); } to { transform: rotateX(67deg) rotateZ(0deg); } }
+    @keyframes pulse-ring { 0% { transform: scale(.8); opacity: .55; } 100% { transform: scale(1.8); opacity: 0; } }
+
+    /* ───────── khung splash: quả cầu + ĐÚNG một dòng trạng thái ───────── */
+    /* Khung bao giữ ĐÚNG chiều cao ĐÃ PHÓNG của quả cầu: transform không làm đổi layout, nếu để
+       kích thước gốc thì dòng trạng thái sẽ đè lên quầng sáng dưới quả cầu. */
+    .orb {
+      position: relative;
+      width: calc(190px * var(--orb-scale, 1.7));
+      height: calc(218px * var(--orb-scale, 1.7));
+    }
+    .orb > .avatar-stage {
+      position: absolute; left: 50%; top: 50%;
+      width: 190px; height: 218px; margin: 0;
+      transform: translate(-50%, -50%) scale(var(--orb-scale, 1.7));
+    }
+    body.is-error .orb { --orb-scale: 1.14; }
+    .line {
+      margin: 26px 0 0; min-height: 20px;
+      font-size: 13px; font-weight: 500; letter-spacing: .015em; color: #aeb5c9;
+      transition: opacity .2s ease;
+    }
+    body.is-error .line { margin-top: 16px; color: #d6bbc0; }
+    /* Khung "Chi tiết" phủ lên đáy: chữ phía sau mờ hẳn đi thay vì lấp ló sau mép khung. */
+    body.is-detail .line,
+    body.is-detail .fail { opacity: 0; }
+
+    /* ───────── khối LỖI: tiêu đề + lý do + ĐÃ THỬ + Thử lại/Thoát (không phải dump log) ───────── */
+    .fail {
+      width: min(560px, calc(100vw - 64px)); margin: 18px 0 0; padding: 20px 22px;
+      border: 1px solid rgba(255, 138, 138, .18); border-radius: 14px;
+      background: linear-gradient(160deg, rgba(38, 26, 36, .82), rgba(13, 17, 31, .92));
+      box-shadow: 0 20px 60px rgba(0, 0, 0, .38), inset 0 1px rgba(255, 255, 255, .04);
+      text-align: left;
+    }
+    .fail[hidden] { display: none; }
+    .fail h1 { margin: 0 0 7px; font-size: 15px; font-weight: 600; color: var(--gbh-danger); letter-spacing: .005em; }
+    .fail p { margin: 0; color: #b8bdcd; font-size: 12px; line-height: 1.6; }
+    .label { margin: 15px 0 7px; color: var(--gbh-faint); font: 10px ui-monospace, "SF Mono", Menlo, monospace; letter-spacing: .12em; text-transform: uppercase; }
+    .fail ul { margin: 0; padding: 0; list-style: none; max-height: 120px; overflow: auto; }
+    .fail li { position: relative; padding-left: 13px; margin-bottom: 3px; color: #949bb0; font: 11px/1.6 ui-monospace, "SF Mono", Menlo, monospace; word-break: break-word; }
+    .fail li::before { content: "·"; position: absolute; left: 3px; color: var(--gbh-faint); }
+    .actions { display: flex; gap: 8px; margin-top: 18px; }
+    button { font: inherit; cursor: pointer; }
+    .actions button {
+      appearance: none; border: 0; border-radius: 9px; padding: 8px 16px;
+      font-size: 12px; font-weight: 600; color: #fff;
+      background: linear-gradient(145deg, #7e63e8, #5a7de0);
+      box-shadow: 0 6px 18px rgba(90, 78, 200, .28);
+      transition: filter .18s, transform .18s;
+    }
+    .actions button:hover { filter: brightness(1.1); }
+    .actions button:active { transform: translateY(1px); }
+    .actions button.ghost {
+      background: transparent; color: var(--gbh-dim);
+      border: 1px solid var(--gbh-line); box-shadow: none;
+    }
+    .actions button.ghost:hover { color: #d7dbe8; border-color: rgba(159, 169, 220, .38); }
+    button:focus-visible { outline: 2px solid rgba(133, 137, 255, .8); outline-offset: 3px; }
+
+    /* ───────── nút + khung "Chi tiết": mọi log/mốc thô sống ở đây ───────── */
+    .toggle {
+      position: fixed; right: 18px; bottom: 16px; z-index: 5;
+      appearance: none; padding: 7px 12px; border-radius: 8px;
+      border: 1px solid var(--gbh-line); background: rgba(19, 22, 37, .66);
+      color: #7f879e; font-size: 11px; letter-spacing: .02em;
+      transition: color .18s, border-color .18s, background .18s, opacity .18s;
+    }
+    .toggle:hover { color: #dfe3f2; border-color: rgba(159, 169, 220, .42); background: rgba(30, 34, 54, .86); }
+    body.is-detail .toggle { opacity: 0; pointer-events: none; }
+    .panel {
+      position: fixed; left: 0; right: 0; bottom: 0; z-index: 6;
+      display: flex; flex-direction: column; max-height: 62vh;
+      border-top: 1px solid var(--gbh-line);
+      background: rgba(9, 11, 22, .97);
+      box-shadow: 0 -22px 60px rgba(0, 0, 0, .55);
+    }
+    .panel[hidden] { display: none; }
+    .panel-head { display: flex; align-items: center; justify-content: space-between; padding: 12px 18px 0; }
+    .panel-title { color: #c2c7d8; font-size: 11px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; }
+    .panel-close {
+      appearance: none; border: 1px solid var(--gbh-line); border-radius: 7px;
+      background: transparent; color: var(--gbh-dim); font-size: 11px; padding: 4px 10px;
+      transition: color .18s, border-color .18s;
+    }
+    .panel-close:hover { color: #e2e6f2; border-color: rgba(159, 169, 220, .4); }
+    /* dòng cổng · pid · giây CHỈ tồn tại trong khung này */
+    .panel-meta {
+      margin: 9px 18px 0; padding-bottom: 9px;
+      border-bottom: 1px solid rgba(159, 169, 220, .1);
+      color: #b7bdd0; font: 12px/1.5 ui-monospace, "SF Mono", Menlo, monospace;
+      letter-spacing: .01em; -webkit-user-select: text; user-select: text;
+    }
+    .panel-log {
+      margin: 0; padding: 11px 18px 18px; overflow: auto;
+      color: #868da4; font: 11px/1.7 ui-monospace, "SF Mono", Menlo, monospace;
+      white-space: pre-wrap; word-break: break-word;
+      -webkit-user-select: text; user-select: text;
+    }
+    .panel-log::-webkit-scrollbar { width: 9px; }
+    .panel-log::-webkit-scrollbar-thumb { background: rgba(146, 135, 201, .28); border-radius: 5px; }
+
+    @media (prefers-reduced-motion: reduce) {
+      .avatar-sphere, .orbit, .core-pulse { animation: none; }
+    }
+  </style>
+</head>
+<body class="is-boot">
+  <div class="sky" aria-hidden="true"></div>
+
+  <main class="stage">
+    <!-- Quả cầu Galaxy Blackhole: markup nguyên văn AvatarCore (galaxy-ai-assistant/src/App.jsx). -->
+    <div class="orb">
+      <div class="avatar-stage is-thinking" id="orb" role="img" aria-label="Quả cầu Galaxy Blackhole">
+        <div class="avatar-aura aura-one"></div><div class="avatar-aura aura-two"></div>
+        <div class="orbit orbit-back"><i></i><i></i></div>
+        <div class="orbit orbit-mid"><i></i><i></i><i></i></div>
+        <div class="orbit orbit-front"><i></i></div>
+        <div class="avatar-sphere">
+          <div class="sphere-gloss"></div><div class="sphere-grid"></div>
+          <div class="avatar-face">
+            <div class="face-forehead"></div>
+            <div class="face-eyes"><span></span><span></span></div>
+            <div class="face-nose"></div><div class="face-mouth"></div>
+            <div class="face-cheek cheek-left"></div><div class="face-cheek cheek-right"></div>
+          </div>
+          <div class="sphere-highlight"></div>
+        </div>
+        <div class="core-pulse pulse-a"></div><div class="core-pulse pulse-b"></div>
+        <div class="avatar-spark spark-a"></div><div class="avatar-spark spark-b"></div><div class="avatar-spark spark-c"></div>
+      </div>
+    </div>
+
+    <p class="line" id="line">Đang khởi động…</p>
+
+    <section class="fail" id="fail" hidden aria-labelledby="fail-title">
+      <h1 id="fail-title"></h1>
+      <p id="fail-reason"></p>
+      <p class="label">Đã thử</p>
+      <ul id="fail-tried"></ul>
+      <div class="actions">
+        <button id="retry" type="button">Thử lại</button>
+        <button id="quit" type="button" class="ghost">Thoát</button>
+      </div>
+    </section>
+  </main>
+
+  <button class="toggle" id="toggle" type="button" aria-controls="panel" aria-expanded="false">Chi tiết</button>
+
+  <section class="panel" id="panel" hidden aria-label="Chi tiết khởi động">
+    <div class="panel-head">
+      <span class="panel-title">Chi tiết</span>
+      <button class="panel-close" id="panel-close" type="button">Đóng</button>
+    </div>
+    <p class="panel-meta" id="panel-meta"></p>
+    <pre class="panel-log" id="panel-log"></pre>
+  </section>
+
+  <script>
+    (function () {
+      var nodes = {
+        orb: document.getElementById("orb"),
+        line: document.getElementById("line"),
+        fail: document.getElementById("fail"),
+        failTitle: document.getElementById("fail-title"),
+        failReason: document.getElementById("fail-reason"),
+        failTried: document.getElementById("fail-tried"),
+        retry: document.getElementById("retry"),
+        quit: document.getElementById("quit"),
+        toggle: document.getElementById("toggle"),
+        panel: document.getElementById("panel"),
+        panelClose: document.getElementById("panel-close"),
+        panelMeta: document.getElementById("panel-meta"),
+        panelLog: document.getElementById("panel-log")
+      };
+
+      /** Câu trạng thái DUY NHẤT hiện trên splash, suy từ pha của vỏ Rust. */
+      var PHASE_LINE = {
+        selecting: "Đang khởi động…",
+        starting: "Đang nạp plugin…",
+        waiting: "Đang chờ host…",
+        ready: "Đang mở giao diện…",
+        failed: "Không mở được giao diện"
+      };
+
+      /** Trạng thái nhận được gần nhất; null khi trang mới nạp và chưa hỏi được Rust. */
+      var current = null;
+      /** Mốc nhận gói trạng thái gần nhất, để dòng "giây" tự chạy giữa hai lần đẩy. */
+      var lastAt = 0;
+      /** Số mili giây đã chờ mà Rust báo tại lần đẩy gần nhất. */
+      var lastElapsed = 0;
+
+      /**
+       * Gọi một lệnh Tauri, chấp nhận cả hai cầu IPC (withGlobalTauri và bridge nội bộ).
+       * Nhận: tên lệnh và tham số.
+       * Trả: Promise của kết quả lệnh.
+       */
+      function invoke(command, args) {
+        var internals = window.__TAURI_INTERNALS__;
+        if (internals && typeof internals.invoke === "function") {
+          return internals.invoke(command, args || {});
+        }
+        var global = window.__TAURI__;
+        var core = global && (global.core || global);
+        if (core && typeof core.invoke === "function") {
+          return core.invoke(command, args || {});
+        }
+        return Promise.reject(new Error("không có cầu IPC"));
+      }
+
+      /**
+       * Đặt text cho một nút, bỏ qua nút không tồn tại.
+       * Nhận: node — phần tử; value — giá trị (null/rỗng thành chuỗi rỗng).
+       * Trả: không.
+       */
+      function text(node, value) {
+        if (node) { node.textContent = value === undefined || value === null ? "" : String(value); }
+      }
+
+      /**
+       * Đổi nhãn trạng thái: luôn đúng MỘT dòng, không kèm cổng/pid/log.
+       * Nhận: state — gói trạng thái.
+       * Trả: chuỗi câu cho dòng trạng thái.
+       */
+      function phaseLine(state) {
+        var byPhase = PHASE_LINE[state && state.phase];
+        if (byPhase) { return byPhase; }
+        // Payload không có phase (bản cũ): dùng trạng thái thô, cắt phần phụ trong ngoặc để vẫn là một câu.
+        var raw = state && state.status ? String(state.status) : "Đang khởi động…";
+        return raw.replace(/\s*\(.*$/, "");
+      }
+
+      /**
+       * Số giây đã chờ, tính cả thời gian trôi từ lần đẩy trạng thái gần nhất.
+       * Nhận: không (đọc current/lastAt/lastElapsed).
+       * Trả: số nguyên giây, hoặc null khi chưa có mốc.
+       */
+      function elapsedSeconds() {
+        if (!current) { return null; }
+        var drift = lastAt > 0 ? Date.now() - lastAt : 0;
+        return Math.max(0, Math.round((lastElapsed + drift) / 1000));
+      }
+
+      /**
+       * Dòng cổng · pid · giây — CHỈ vẽ trong khung "Chi tiết".
+       * Nhận: state — gói trạng thái.
+       * Trả: chuỗi đã ghép, rỗng khi chưa có gì để nói.
+       */
+      function metaLine(state) {
+        var parts = [];
+        var port = state && (state.port || state.requestedPort);
+        if (port) { parts.push("cổng " + port); }
+        if (state && state.hostPid) { parts.push("pid host " + state.hostPid); }
+        var seconds = elapsedSeconds();
+        if (seconds !== null) { parts.push(seconds + "s"); }
+        return parts.join(" · ");
+      }
+
+      /**
+       * Canh nhãn trái của khối monospace.
+       * Nhận: label — nhãn cần canh.
+       * Trả: nhãn đã đệm cho đủ 16 cột.
+       */
+      function padLabel(label) {
+        var unit = String(label);
+        while (unit.length < 16) { unit += " "; }
+        return unit + " ";
+      }
+
+      /**
+       * Dựng phần thân monospace của khung "Chi tiết": mọi mốc + log thô mà vỏ Rust gửi vào splash.
+       * Nhận: state — gói trạng thái (cùng hình dạng lệnh boot_status).
+       * Trả: chuỗi nhiều dòng.
+       */
+      function detailBody(state) {
+        var out = [];
+        var row = function (label, value) {
+          out.push(padLabel(label) + (value === undefined || value === null || value === "" ? "—" : String(value)));
+        };
+        var block = function (title, values) {
+          if (!values || values.length === 0) { return; }
+          out.push("");
+          out.push("— " + title + " —");
+          for (var index = 0; index < values.length; index += 1) { out.push("  · " + values[index]); }
+        };
+
+        out.push("# Galaxy Blackhole Desktop — chi tiết khởi động");
+        row("pha", state.phase);
+        row("trạng thái", state.status);
+        row("chi tiết", state.detail);
+        row("cổng yêu cầu", state.requestedPort);
+        row("url", state.url);
+        row("log", state.logPath);
+
+        if (state.failure) {
+          out.push("");
+          out.push("— lỗi —");
+          out.push("  " + (state.failure.title || "(không có tiêu đề)"));
+          if (state.failure.reason) { out.push("  " + state.failure.reason); }
+        }
+        block("ghi chú chọn cổng", state.notes);
+        block("đã thử", (state.failure && state.failure.details) || state.attempts);
+        block("log host (gần nhất)", state.recent);
+
+        return out.join("\n");
+      }
+
+      /**
+       * Vẽ lại khung "Chi tiết" và bám đáy, để dòng mới nhất luôn nhìn thấy.
+       * Nhận: state — gói trạng thái (null thì bỏ qua).
+       * Trả: không.
+       */
+      function paintDetail(state) {
+        if (!state) { return; }
+        var log = nodes.panelLog;
+        var pinned = log.scrollHeight - log.scrollTop - log.clientHeight < 24;
+        text(nodes.panelMeta, metaLine(state));
+        text(log, detailBody(state));
+        if (pinned) { log.scrollTop = log.scrollHeight; }
+      }
+
+      /**
+       * Vẽ trạng thái đang chờ: quả cầu chạy, một dòng chữ, không log.
+       * Nhận: state — gói trạng thái.
+       * Trả: không.
+       */
+      function showStatus(state) {
+        document.body.classList.remove("is-error");
+        document.body.classList.add("is-boot");
+        nodes.fail.hidden = true;
+        nodes.orb.className = "avatar-stage is-thinking";
+        text(nodes.line, phaseLine(state));
+        paintDetail(state);
+      }
+
+      /**
+       * Vẽ khối lỗi gọn: tiêu đề, lý do, mọi đường đã thử, nút "Thử lại"/"Thoát".
+       * Nhận: state — gói trạng thái có failure.
+       * Trả: không.
+       */
+      function showError(state) {
+        var failure = state.failure || {};
+        document.body.classList.remove("is-boot");
+        document.body.classList.add("is-error");
+        nodes.fail.hidden = false;
+        nodes.orb.className = "avatar-stage is-paused";
+        text(nodes.line, "Không mở được giao diện");
+        text(nodes.failTitle, failure.title || "Lỗi không xác định");
+        text(nodes.failReason, failure.reason || "");
+        nodes.failTried.textContent = "";
+        var details = failure.details || [];
+        for (var index = 0; index < details.length; index += 1) {
+          var item = document.createElement("li");
+          item.textContent = String(details[index]);
+          nodes.failTried.appendChild(item);
+        }
+        paintDetail(state);
+      }
+
+      /**
+       * Mở/đóng khung "Chi tiết".
+       * Nhận: open — true để mở.
+       * Trả: không.
+       */
+      function setDetail(open) {
+        nodes.panel.hidden = !open;
+        nodes.toggle.setAttribute("aria-expanded", open ? "true" : "false");
+        document.body.classList.toggle("is-detail", open);
+        if (open && current) {
+          paintDetail(current);
+          nodes.panelLog.scrollTop = nodes.panelLog.scrollHeight;
+        }
+      }
+
+      window.__GBH_SHELL__ = {
+        /** Áp một gói trạng thái từ Rust (cùng hình dạng với lệnh boot_status). */
+        apply: function (state) {
+          if (!state) { return; }
+          current = state;
+          lastAt = Date.now();
+          lastElapsed = typeof state.elapsedMs === "number" ? state.elapsedMs : 0;
+          if (state.failure) { showError(state); } else { showStatus(state); }
+        },
+        /** Đặt nhanh dòng trạng thái, dùng cho các cập nhật ngắn. */
+        setStatus: function (status, detail) {
+          window.__GBH_SHELL__.apply({ phase: current ? current.phase : "selecting", status: status, detail: detail });
+        },
+        /** Vẽ khối lỗi. */
+        showError: showError,
+        /** Về trạng thái đang chờ, dùng khi bấm "Thử lại". */
+        reset: function () {
+          window.__GBH_SHELL__.apply({ phase: "starting", status: "Đang thử lại…", elapsedMs: 0 });
+        }
+      };
+
+      nodes.toggle.addEventListener("click", function () { setDetail(true); });
+      nodes.panelClose.addEventListener("click", function () { setDetail(false); });
+      document.addEventListener("keydown", function (event) {
+        if (event.key === "Escape" && !nodes.panel.hidden) { setDetail(false); }
+      });
+
+      nodes.retry.addEventListener("click", function () {
+        window.__GBH_SHELL__.reset();
+        invoke("retry_boot").catch(function (error) {
+          text(nodes.line, "Không gọi được lệnh thử lại: " + error);
+        });
+      });
+
+      nodes.quit.addEventListener("click", function () {
+        invoke("quit_app").catch(function () { window.close(); });
+      });
+
+      // Dòng "giây" trong khung Chi tiết phải tự chạy dù Rust chỉ đẩy trạng thái khi host in log.
+      setInterval(function () {
+        if (!nodes.panel.hidden && current) { text(nodes.panelMeta, metaLine(current)); }
+      }, 1000);
+
+      // Lần eval đầu có thể tới trước khi trang nạp xong; trang tự hỏi lại trạng thái để khối lỗi
+      // không bao giờ biến mất chỉ vì một lần eval bị mất.
+      function sync(attempt) {
+        invoke("boot_status")
+          .then(function (state) { window.__GBH_SHELL__.apply(state); })
+          .catch(function () {
+            if (attempt < 20) { setTimeout(function () { sync(attempt + 1); }, 150); }
+          });
+      }
+      sync(0);
+    })();
+  </script>
+</body>
+</html>

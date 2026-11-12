@@ -1,0 +1,21 @@
+{
+  "dev": "tm-evidence",
+  "owner": "tm-evidence",
+  "evidence": [
+    "signed, MOUNTED qua co che NESTED (khong row top-level) — app 11/11 (152 entry · (5) 0 · entry goc 0); test REVIEWER TU DO",
+    "**tool-present**: stock `@deepseek-ai/dsh-tool-present` · `gbh.nested {kind:'preset', pluginId:'tool-present', presets:[preset-standard,preset-ptc,preset-cordis]}` ⇒ chay qua redirect row long, KHONG row top-level · test `tests/host/tool-present.test.ts` = **27 pass / 0 fail / 300 expect** · dump-now2 co entry (393 entry tong)",
+    "**shell**: GBH-ONLY — dump-now2 KHONG co id `shell` ⇒ KHONG bia row (dung quyet dinh chu goi); port 1:1 (`DSH_ENV_PREFIX` · `ShellExecutor` · `default` · `parseExitStatus`) · test `tests/host/shell.test.ts` = **17 pass / 0 fail / 170 expect** · khai `extra:shell` (khong co stock)",
+    "Cac goi con lai cua task-142 da duoc ky trong batch truoc: tool-workflow + workflow-ptc (extra-tools) · tool-subagent-control (kernel-7) · tool-bash-persistent/tool-cordis/tool-jobs/tool-schedule/tool-skill/tool-session-query/... (62-tools)",
+    "rollback: shell la GBH-only (khong mount) ⇒ khong can; tool-present rollback qua nested (bo khoi gbh.nested neu can)"
+  ],
+  "packages": [
+    {
+      "dsh": "@deepseek-ai/dsh-tool-present",
+      "gbh": "gbh-host-tool-present"
+    },
+    {
+      "dsh": "extra:shell",
+      "gbh": "gbh-shell"
+    }
+  ]
+}

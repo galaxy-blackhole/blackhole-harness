@@ -1,0 +1,39 @@
+{
+ "capturedAt": "2026-10-17",
+ "root": "~/.galaxy/blackhole/sessions",
+ "schema": {
+  "fileCount": 2,
+  "versions": [
+   "v4"
+  ],
+  "namingPatterns": [
+   "session.v4.jsonl.zstd"
+  ],
+  "records": [
+   {
+    "type": "session",
+    "count": 2,
+    "keys": [
+     "agentPreset",
+     "createdAt",
+     "cwd",
+     "delegationDepth",
+     "id",
+     "isSeeded",
+     "type",
+     "version"
+    ]
+   }
+  ]
+ },
+ "headerKeys": [
+  "agentPreset",
+  "createdAt",
+  "cwd",
+  "delegationDepth",
+  "id",
+  "isSeeded",
+  "type",
+  "version"
+ ]
+}

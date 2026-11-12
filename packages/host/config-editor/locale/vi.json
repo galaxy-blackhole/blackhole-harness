@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "config-editor",
+    "description": "Dịch vụ ctx.configEditor: đọc và sửa cấu hình plugin trong profile, ghi thành patch rồi để Loader đồng bộ lại."
+  }
+}

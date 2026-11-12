@@ -1,0 +1,39 @@
+{
+  "name": "@galaxy-blackhole/gbh-atomic-write",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "type": "module",
+  "main": "lib/index.js",
+  "description": "Zero-dependency atomic file replacement: exclusive-create random-suffix temp + rename carrying the caller-stated permissions (writeFileAtomic)",
+  "scripts": {
+    "build": "bun run build.ts"
+  },
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./package.json": "./package.json",
+    "./src/*": "./src/*"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2"
+  },
+  "devDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2"
+  },
+  "license": "MIT",
+  "gbh": {
+    "draft": "19/10/2026 — GÓI THƯ VIỆN, KHÔNG PHẢI ROW: bản gốc chỉ export 2 hàm thuần tuý ngay trong mảng 2 tên, có 0 entry trong cây plugin của app (grep 'dsh-atomic-write' trong .parity/dumps/2026-10-18T01-31-57/ours.yml = 0) và KHÔNG có hàm apply ⇒ không có row nào để thay. Gói KHÔNG khai gbh.row (tiền lệ packages/host/{subprocess,agent-preset,workflow,session-title-llm}); consumer hiện tại (dsh-app-boot · dsh-config-editor · dsh-credentials-local · dsh-llm-deepseek · dsh-plugin-manager) sẽ chuyển sang gói này khi tới lượt.",
+    "tests": [
+      "tests/host/atomic-write.test.ts"
+    ],
+    "peers": [],
+    "provenance": {
+      "stock": "@deepseek-ai/dsh-atomic-write",
+      "version": "0.2.1-alpha.4",
+      "sha": "872d7c1e6e9b267775199bdd3632870f82780d0a5ba047febc93fde94fde53f7"
+    }
+  },
+  "types": "lib/types/index.d.ts"
+}

@@ -1,0 +1,21 @@
+{
+  "dev": "tm-client-ui-a",
+  "owner": "tm-client-ui-a",
+  "evidence": [
+    "signed, MOUNTED — check:app 11/11, lab 0 did-not-activate, boot-smoke DAT",
+    "reviewer tm-reviewer TU DO (khong dua vao so cua chu goi): patch `~/.galaxy/blackhole/app.patch.yml:904-911` co `- id: typert-gateway / disabled: true` + `- insert: id: typert-gateway-ours / name: '@galaxy-blackhole/gbh-host-typert-gateway' / aliases: ['@deepseek-ai/dsh-api-gateway']`; dump-config MOI (332 entry) co stock `disabled: true` + `typert-gateway-ours` ENABLED",
+    "reviewer tu chay check:app: **11/11 DAT** — (1) 112.472 B · (3) 133 entry · (5) 0 dong 'did not activate' · (6) **58 goi ta (co gbh-host-typert-gateway)** · (8) #root 47.181 / 46 slot / **0 loi console / 0 pageerror** · (9) 0/80 · (10) 203 file khop repo · (11) HMR song",
+    "reviewer tu chay lab:row typert-gateway (home CACH LY rieng): #root 22.204 · **0 console error · 0 pageerror · 0 overlay · 0 did-not-activate** (khop so cua chu goi)",
+    "boot-smoke (chu goi do): HTML 110.794 B · facade __ModuleLoader__ CO · #root 22.204 · 0 loi · 0 did-not-activate ⇒ boot LANH; reviewer doi chieu artifact dang mount thay du bo (index + client-entry + client.browser + client.node + envelope)",
+    "artifact (build lai, reviewer): `index.js` 1.830 dong **sha256 4fbe460fec585ebc2cf2887261f6c33f024081a539d9fb5d6557a9002324b23f = bundle goc** · `client.node.js` 1.991 dong **byte-identical** (aca97368…) · `client.browser.js` 2.186 dong sha 716f86d4… — **artifact 84.140 B vs goc 84.127 B, +13 B DUNG BANG chenh lech do dai id** (28 -> 41 ky tu); chu goi da dinh chinh README §4 (con so 84.138 B trong bao cao dau la nham 2 B, SHA hai ben luon khop) · bundle client tu khai **DUNG MOT id** `@galaxy-blackhole/gbh-host-typert-gateway` va **0 lan** id goc · `registerRemoteEvents` CO trong artifact + test `typert-gateway.test.ts` 21 pass / 93 expect / 0 fail co ca SEAM tren Context cordis THAT",
+    "check:rows (reviewer chay): 129 package co gbh.row — TAT CA DAT, mount duoc (0 chan)",
+    "rollback san: doi `gbh.row` -> `gbh.row_unmounted_ly_do` (1 dong) roi boot lai",
+    "PHAN CHUA CHUNG MINH (ghi ro): chua co consumer nao GOI `registerRemoteEvents` trong app — api-remotes chua khai gbh.row ⇒ se xac nhan o lan boot sau khi api-remotes mount (seam da co ham, test A/B da chung minh tren Context that)"
+  ],
+  "packages": [
+    {
+      "dsh": "extra:gbh-host-typert-gateway",
+      "gbh": "gbh-host-typert-gateway"
+    }
+  ]
+}

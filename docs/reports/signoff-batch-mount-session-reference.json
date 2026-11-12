@@ -1,0 +1,19 @@
+{
+  "dev": "tm-host-session",
+  "owner": "tm-host-session",
+  "evidence": [
+    "signed, MOUNTED — check:app 11/11, lab 0 did-not-activate, boot-smoke DAT",
+    "reviewer tm-reviewer TU DO: build lai exit 0 — **3 artefact** (index.js · typert.host.js · typert.remote-client.js); **ownership typert DA SUA**: grep `dsh-session-reference` trong 2 artefact = **0**, chi con `gbh-session-reference` **9 lan** (5+4) dung id cua ta",
+    "reviewer tu chay 2 tep test: `session-reference.test.ts` (29 pass/489) + `session-reference-typert.test.ts` (9 pass/9) ⇒ **38 pass / 0 fail / 498 expect** — khop dung so Lead",
+    "**check:app DAT 11/11** (do lai 2 luot): (3) **136 entry** · (5) **0** · (8) #root 47.181 / 46 slot / 0 console / 0 pageerror · (9) 0/80 · (11) HMR",
+    "**lab:row home CACH LY: #root 22.204 · 0 console · 0 pageerror · 0 did-not-activate**",
+    "N2 DAT theo Lead; rollback san (`gbh.row` -> `gbh.row_unmounted_ly_do`)",
+    "dev/owner tam ghi tm-host-session (chua co entry cu trong conversion-signoff.json) — Lead sua 2 dong neu khac"
+  ],
+  "packages": [
+    {
+      "dsh": "@deepseek-ai/dsh-session-reference",
+      "gbh": "gbh-session-reference"
+    }
+  ]
+}

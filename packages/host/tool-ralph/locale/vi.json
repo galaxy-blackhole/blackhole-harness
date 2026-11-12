@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "tool-ralph",
+    "description": "Vòng lặp Ralph dùng agent mới, chạy trên các điểm nối workflow và subagent."
+  }
+}

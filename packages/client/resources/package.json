@@ -1,0 +1,55 @@
+{
+  "name": "@galaxy-blackhole/gbh-client-resources",
+  "private": true,
+  "version": "0.2.1-alpha.4",
+  "description": "Ban viet lai cua Galaxy Blackhole cho @deepseek-ai/dsh-client-resources (M5, task-16): mo hinh resource phia browser (ctx.resources + hook useResource)",
+  "type": "module",
+  "main": "lib/index.js",
+  "exports": {
+    "./locale/*.json": "./locale/*.json",
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./client": {
+      "default": "./lib/client.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2"
+  },
+  "devDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2"
+  },
+  "scripts": {
+    "build": "bun run build.ts"
+  },
+  "license": "MIT",
+  "dsh": {
+    "client": {
+      "platform": "web",
+      "inject": [
+        "@deepseek-ai/dsh-client-ui-renderer"
+      ]
+    }
+  },
+  "gbh": {
+    "row": {
+      "id": "resources",
+      "tests": [
+        "tests/client/resources.test.ts"
+      ],
+      "moduleIds": [
+        "@galaxy-blackhole/gbh-client-resources"
+      ],
+      "aliases": [
+        "@deepseek-ai/dsh-client-resources"
+      ]
+    },
+    "provenance": {
+      "stock": "@deepseek-ai/dsh-client-resources"
+    }
+  },
+  "types": "lib/types/index.d.ts"
+}

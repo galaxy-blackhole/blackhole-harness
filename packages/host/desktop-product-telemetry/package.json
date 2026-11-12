@@ -1,0 +1,64 @@
+{
+  "name": "@galaxy-blackhole/gbh-desktop-product-telemetry",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "type": "module",
+  "main": "lib/index.js",
+  "description": "Ban viet lai cua Galaxy Blackhole cho row `desktop-product-telemetry` cua DSH (@deepseek-ai/dsh-host-product-telemetry-otel): bo phan phoi su kien san pham qua kenh OTLP ma row `otel` cap.",
+  "scripts": {
+    "build": "bun run build.ts"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2",
+    "@deepseek-ai/dsh-otel": "0.2.1-alpha.4",
+    "@deepseek-ai/schemastery": "~3.18.5-alpha.2",
+    "@opentelemetry/otlp-exporter-base": "0.222.0"
+  },
+  "devDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2",
+    "@deepseek-ai/dsh-otel": "0.2.1-alpha.4",
+    "@deepseek-ai/schemastery": "~3.18.5-alpha.2",
+    "@opentelemetry/otlp-exporter-base": "0.222.0"
+  },
+  "gbh": {
+    "peers": [
+      "@deepseek-ai/dsh-otel",
+      "@opentelemetry/otlp-exporter-base"
+    ],
+    "row": {
+      "id": "desktop-product-telemetry",
+      "insertDisabled": {
+        "js": "ctx.get('profileContext')?.name !== 'desktop'"
+      },
+      "config": {
+        "scheduledDelayMillis": 30000,
+        "timeoutMillis": 15000,
+        "exportTimeoutMillis": 20000,
+        "shutdownTimeoutMillis": 2000,
+        "serviceName": "deepseek-harness-desktop",
+        "serviceVersion": {
+          "js": "process.env.DSH_CLIENT_VERSION"
+        },
+        "endpoint": {
+          "js": "process.env.DSH_PRODUCT_ANALYTICS_OTLP_URL"
+        }
+      },
+      "tests": [
+        "tests/host/desktop-product-telemetry.test.ts"
+      ]
+    },
+    "provenance": {
+      "stock": "@deepseek-ai/dsh-host-product-telemetry-otel"
+    }
+  },
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "default": "./lib/index.js"
+    },
+    "./package.json": "./package.json",
+    "./src/*": "./src/*",
+    "./locale/*.json": "./locale/*.json"
+  },
+  "types": "src/index.ts"
+}

@@ -1,0 +1,21 @@
+{
+  "dev": "lead",
+  "owner": "tm-host-session",
+  "evidence": [
+    "signed, MOUNTED — check:app 11/11 ba lượt liên tiếp (25-30s/lượt), lab 0 did-not-activate",
+    "reviewer tm-reviewer TU DO: **3 lượt check:app liên tiếp đều ĐẠT 11/11** — (1) 113.798 B · (2) __GBH_BOOT__ · (3) 135 entry · (4) 11 batch/release 0.1.0 · (5) **0** · (7) 135/72 · (8) #root **47.181 / 46 slot / 0 console / 0 pageerror** · (9) **0/80** · (10) **210 file** khớp repo · (11) HMR OK",
+    "dump-config MỚI **338 entry** (repo+home patch): entry của ta ENABLED, row stock disabled — đã kiểm trực tiếp trong dump",
+    "lab:row home CACH LY cua reviewer: #root **22.204** (= control ui-shortcuts) · **0 console · 0 pageerror · 0 overlay · 0 did-not-activate**",
+    "luu y chi so: row HOST-ONLY nen KHONG xuat hien trong boot graph (6) cua check:app (graph chi chua module client) — activation chung minh bang (5)=0 + host log dong 'rewrite OK @galaxy-blackhole/...' + dump ENABLED",
+    "rollback san: doi `gbh.row` -> `gbh.row_unmounted_ly_do` (1 dong) roi boot lai",
+    "goi `gbh-token-meter`: patch dòng 1308-1316 (`token-meter disabled: true` + insert `token-meter-ours` aliases @deepseek-ai/dsh-token-meter) · dump dòng 2006-2009 ENABLED",
+    "artifact build lai: `index.js` + `estimate.js` + `client.js` · export runtime **2 = 2** (`TokenMeter` + `default`) · test **9 pass / 0 fail / 23 expect** — 9 ca A/B tren Context cordis THAT; A/B da BẮT ĐƯỢC 2 trường THIẾU ở bản Lead viết (`logRevision`, `surfaceDeltaTokens`) roi moi xanh — reviewer xac nhan 2 truong nay CO trong `src/types.ts:25,29` + `src/index.ts:101,114-132`",
+    "packages/README.md §4z6 (19/10/2026 token-meter) da them"
+  ],
+  "packages": [
+    {
+      "dsh": "@deepseek-ai/dsh-token-meter",
+      "gbh": "gbh-token-meter"
+    }
+  ]
+}

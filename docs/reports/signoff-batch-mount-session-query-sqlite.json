@@ -1,0 +1,21 @@
+{
+  "dev": "tm-client-ui-a",
+  "owner": "tm-client-ui-a",
+  "evidence": [
+    "signed, MOUNTED — check:app 11/11 ba lượt liên tiếp, lab 0 did-not-activate, boot-smoke DAT (sau khi Lead vá tool phát gbh.row.config)",
+    "reviewer tm-reviewer TU DO: patch `app.patch.yml:1164-1174` (`session-query-sqlite disabled: true` + insert `session-query-sqlite-ours` config `{path: ':memory:', openAt: never}` + aliases) · dump MOI **342 entry**: stock `disabled: true` + ours ENABLED cung config/aliases",
+    "**3 lượt check:app lien tiep DAT 11/11** — (1) 113.798 B · (3) 135 entry · (5) **0** · (8) #root 47.181 / 46 slot / 0 console / 0 pageerror · (9) 0/80 · (10) 217 file · (11) HMR OK",
+    "lab:row home CACH LY cua reviewer: #root **22.204** · 0 console · 0 pageerror · 0 overlay · **0 did-not-activate**",
+    "artifact build lai in '4 lat · byte-identical voi @deepseek-ai/dsh-session-query-sqlite': **1.155 dong · 46.487 B · sha256 dbecf83320e10d93d735b3d01384ab817a0b90102ccecb0a22c013c71dfe70a0** = bundle goc",
+    "reviewer tu chay bun test tests/host/session-query-sqlite.test.ts: **40 pass / 0 fail / 138 expect** — gom **13 ca A/B bang node>=22 THAT** (spawn `node --input-type=module` tren dung driver `node:sqlite`, 13/13 JSON giong het) + shim bun:sqlite cho ca hai ben",
+    "reviewer xac nhan VÁ TOOL boot-smoke: `tools/check/boot-smoke.ts` co `readonly config?: unknown` (dong 63) · `config: row[\"config\"]` (114) · helper `emitYaml` (142+) · phat `config:` vao overlay (199-200) ⇒ row can config khong con bi danh truot oan",
+    "boi canh: truoc khi va tool, mount row nay lam app CHET (#root 462 · 6 did-not-activate); sau khi va: 22.204/0/0/0 — dung nhu Lead bao",
+    "rollback san: doi `gbh.row` -> `gbh.row_unmounted_ly_do`"
+  ],
+  "packages": [
+    {
+      "dsh": "@deepseek-ai/dsh-session-query-sqlite",
+      "gbh": "gbh-session-query-sqlite"
+    }
+  ]
+}

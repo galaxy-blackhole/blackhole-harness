@@ -1,0 +1,69 @@
+{
+ "slots": {
+  "sidebar.brand.mark": "<svg width=\"24\" height=\"24\" viewBox=\"0 0 128 128\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\" aria-hidden=\"true\"><defs><radialGradient id=\"gbh1ring\" cx=\"50%\" cy=\"50%\" r=\"50%\"><stop offset=\"55%\" stop-color=\"#8b7bff\" stop-opacity=\"0.05\"></stop><stop offset=\"78%\" stop-color=\"#8b7bff\" stop-opacity=\"0.85\"></stop><stop offset=\"92%\" stop-color=\"#6ee7f0\" stop-opacity=\"0.9\"></stop><stop offset=\"100%\" stop-color=\"#6ee7f0\" stop-opacity=\"0\"></stop></radialGradient><linearGradient id=\"gbh1arc\" x1=\"18\" y1=\"30\" x2=\"110\" y2=\"98\" gradientUnits=\"userSpaceOnUse\"><stop stop-color=\"#a99bff\"></stop><stop offset=\"1\" stop-color=\"#6ee7f0\"></stop></linearGradient></defs><circle cx=\"64\" cy=\"64\" r=\"62\" fill=\"#0b0a14\"></circle><circle cx=\"64\" cy=\"64\" r=\"46\" fill=\"url(#gbh1ring)\"></circle><circle cx=\"64\" cy=\"64\" r=\"22\" fill=\"#05040a\"></circle><circle cx=\"64\" cy=\"64\" r=\"22\" stroke=\"#a99bff\" stroke-opacity=\"0.55\" st",
+  "sidebar.brand.name": "<span style=\"font-weight: 600; letter-spacing: 0.01em; white-space: nowrap; font-size: 14px;\">Galaxy Blackhole</span>",
+  "conversation.hero.brand.mark": "<svg class=\"pXSMma_fish\" width=\"34\" height=\"25.015544041450777\" viewBox=\"0 0 23.16 17.04\" fill=\"none\" aria-hidden=\"true\"><path d=\"M22.9168 1.43018C22.6713 1.31018 22.5658 1.53918 22.4223 1.65519C22.3733 1.69269 22.3318 1.74169 22.2903 1.78669C21.9317 2.1697 21.5127 2.42121 20.9657 2.39121C20.1657 2.34621 19.4827 2.59771 18.8787 3.20973C18.7502 2.45521 18.3236 2.0047 17.6746 1.71569C17.3351 1.56568 16.9916 1.41518 16.7536 1.08867C16.5876 0.856163 16.5421 0.597155 16.4591 0.341647C16.4061 0.187643 16.3536 0.0301382 16.1761 0.00363739C15.9836 -0.0263635 15.9081 0.135141 15.8326 0.270145C15.5306 0.822162 15.4136 1.43018 15.4251 2.0462C15.4516 3.43174 16.0366 4.53527 17.1991 5.3203C17.3311 5.4103 17.3651 5.5003 17.3236 5.63181C17.2441 5.90231 17.1501 6.16482 17.0671 6.43533C17.0141 6.60784 16.9351 6.64584 16.7501 6.57033C16.1121 6.30383 15.5611 5.90931 15.074 5.4328C14.2475 4.63328 13.5 3.750"
+ },
+ "fishPathHits": 1,
+ "svgCount": 20,
+ "rootTextChars": 163,
+ "rootBaselineChars": 147,
+ "brandTexts": [
+  "Galaxy Blackhole"
+ ],
+ "title": "DeepSeek Harness",
+ "icons": [
+  {
+   "vb": "0 0 128 128",
+   "parentSlot": "sidebar.brand.mark",
+   "firstPath": ""
+  },
+  {
+   "vb": "0 0 16 16",
+   "parentSlot": "sidebar",
+   "firstPath": "M13.5 1.5H2.5C1.94772 1.5 1.5 "
+  },
+  {
+   "vb": "0 0 16 16",
+   "parentSlot": "sidebar",
+   "firstPath": "M2.37091 11.2501C1.58745 9.892"
+  },
+  {
+   "vb": "0 0 16 16",
+   "parentSlot": "sidebar.panellist",
+   "firstPath": "M7.84457 5.06199C11.6605 4.938"
+  },
+  {
+   "vb": "0 0 16 16",
+   "parentSlot": "sidebar.panellist",
+   "firstPath": "M8 14C11.3137 14 14 11.3137 14"
+  },
+  {
+   "vb": "0 0 16 16",
+   "parentSlot": "sidebar.workspaces",
+   "firstPath": "M6.58727 11.8586C9.55061 11.85"
+  },
+  {
+   "vb": "0 0 16 16",
+   "parentSlot": "sidebar.workspaces",
+   "firstPath": "M2.3 5h5.85M12.05 5h1.65"
+  },
+  {
+   "vb": "0 0 16 16",
+   "parentSlot": "sidebar.workspaces",
+   "firstPath": "M5.54492 2.06738C5.91034 2.067"
+  },
+  {
+   "vb": "0 0 16 16",
+   "parentSlot": "sidebar.workspaces",
+   "firstPath": "M1.50439 3.11059C1.50439 2.558"
+  },
+  {
+   "vb": "0 0 16 16",
+   "parentSlot": "sidebar.workspaces",
+   "firstPath": "M5.5 4.5C5.5 4.40714 5.52586 4"
+  }
+ ],
+ "imgs": 0,
+ "consoleErrors": []
+}

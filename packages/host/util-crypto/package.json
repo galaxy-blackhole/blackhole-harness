@@ -1,0 +1,41 @@
+{
+  "name": "@galaxy-blackhole/gbh-util-crypto",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "type": "module",
+  "main": "lib/index.js",
+  "description": "Zero-dependency browser-safe UUID and byte-encoding helpers",
+  "scripts": {
+    "build": "bun run build.ts"
+  },
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./package.json": "./package.json",
+    "./src/*": "./src/*"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2"
+  },
+  "devDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2"
+  },
+  "license": "MIT",
+  "gbh": {
+    "draft": "19/10/2026 — GÓI THƯ VIỆN, KHÔNG PHẢI ROW: bản gốc chỉ export 2 hàm thuần (bytesToBase64 · randomUUID), zero-dependency, KHÔNG có `apply` ⇒ không có row nào trong cây plugin để thay (kiểm: grep 'dsh-util-crypto' trong .parity/dumps/2026-10-18T01-31-57/ours.yml = 0). Gói KHÔNG khai gbh.row (tiền lệ packages/host/{subprocess,agent-preset,workflow,session-title-llm,atomic-write}); consumer inline khi tới lượt.",
+    "peers": [
+      "@deepseek-ai/cordis"
+    ],
+    "tests": [
+      "tests/host/util-crypto.test.ts"
+    ],
+    "provenance": {
+      "stock": "@deepseek-ai/dsh-util-crypto",
+      "version": "0.2.1-alpha.4",
+      "sha": "640b26c8e5a1156c6c8e8749a22f805c9c0e34444778eb4ee9529be3e88ec862"
+    }
+  },
+  "types": "lib/types/index.d.ts"
+}

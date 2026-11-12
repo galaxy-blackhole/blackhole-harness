@@ -1,0 +1,17 @@
+{
+  "dev": "tm-host-session",
+  "owner": "tm-host-session",
+  "evidence": [
+    "reviewer tm-reviewer doc lap tren artifact build lai: exit 0 · export **2 = 2** voi ban goc (`WorkspaceFiles` + `default`), thieu 0 thua 0 · KHONG co lib/client.js (chi nua host — goi goc HAI MAT: client 479 dong + manifest typert.host 571 dong; theo CONVERSION-RUNBOOK §4d chi port nua host)",
+    "khong khai gbh.row la DUNG: row `workspace-files` (@deepseek-ai/dsh-api-workspace-files) DANG BAT trong app; khai row khi chua co nua client se thay row stock va mat nua client (bai hoc bootstrap facade)",
+    "service `workspaceFiles`: chi `dsh-api-workspace-files` (stock) cung cap; ban ta `super(ctx, \"workspaceFiles\")` ⇒ thay the 1:1, KHONG trung ten service voi goi khac (quet toan bo lib/index.js cua cay cai)",
+    "reviewer tu chay bun test tests/host/api-workspace-files.test.ts: **14 pass / 0 fail / 49 expect**",
+    "package signed, not mounted (chua du nua client / seam)"
+  ],
+  "packages": [
+    {
+      "dsh": "@deepseek-ai/dsh-api-workspace-files",
+      "gbh": "gbh-api-workspace-files"
+    }
+  ]
+}

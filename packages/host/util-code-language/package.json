@@ -1,0 +1,41 @@
+{
+  "name": "@galaxy-blackhole/gbh-util-code-language",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "type": "module",
+  "main": "lib/index.js",
+  "description": "Single file-extension to syntax-highlighting language table shared by Client code surfaces and the Host read card",
+  "scripts": {
+    "build": "bun run build.ts"
+  },
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./package.json": "./package.json",
+    "./src/*": "./src/*"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2"
+  },
+  "devDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2"
+  },
+  "license": "MIT",
+  "gbh": {
+    "draft": "19/10/2026 — GÓI THƯ VIỆN, KHÔNG PHẢI ROW: bản gốc 269 dòng là BẢNG DỮ LIỆU + 3 hàm thuần (CODE_HIGHLIGHT_EXTENSIONS · languageForPath · readLangHintForPath); không có apply ⇒ không có row để thay. Port verbatim (bảng chép nguyên văn) — không khai gbh.row.",
+    "peers": [
+      "@deepseek-ai/cordis"
+    ],
+    "tests": [
+      "tests/host/util-code-language.test.ts"
+    ],
+    "provenance": {
+      "stock": "@deepseek-ai/dsh-util-code-language",
+      "version": "0.2.1-alpha.4",
+      "sha": "d49730fccc6eec570498d919230556a744e22d48d87182f43c2aa121ea6eb60c"
+    }
+  },
+  "types": "lib/types/index.d.ts"
+}

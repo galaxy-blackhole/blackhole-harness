@@ -1,0 +1,50 @@
+{
+  "name": "@galaxy-blackhole/gbh-session-inspector",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "type": "module",
+  "main": "lib/index.js",
+  "description": "Bản viết lại của Galaxy Blackhole cho row session-inspector (@deepseek-ai/dsh-experimental-session-inspector): nửa HOST rỗng y bản gốc (6 dòng lib/index.js) + nửa BROWSER 4.244 dòng de-bundle NGUYÊN VĂN (6 lát + 1 module CSS, thân factory byte-identical).",
+  "scripts": {
+    "build": "bun run build.ts"
+  },
+  "license": "MIT",
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./client": "./lib/client.js",
+    "./package.json": "./package.json",
+    "./src/*": "./src/*",
+    "./locale/*.json": "./locale/*.json"
+  },
+  "gbh": {
+    "peers": [],
+    "row": {
+      "id": "session-inspector",
+      "aliases": [
+        "@deepseek-ai/dsh-experimental-session-inspector"
+      ],
+      "moduleIds": [
+        "@galaxy-blackhole/gbh-session-inspector"
+      ],
+      "tests": [
+        "tests/host/session-inspector.test.ts"
+      ]
+    }
+  },
+  "dsh": {
+    "client": {
+      "inject": [
+        "@galaxy-blackhole/gbh-client-locale",
+        "@galaxy-blackhole/gbh-client-ui-conversation",
+        "@galaxy-blackhole/gbh-client-ui-sidebar-right",
+        "@galaxy-blackhole/gbh-client-ui-session",
+        "@galaxy-blackhole/gbh-client-ui-renderer"
+      ],
+      "platform": "web"
+    }
+  },
+  "types": "lib/types/index.d.ts"
+}

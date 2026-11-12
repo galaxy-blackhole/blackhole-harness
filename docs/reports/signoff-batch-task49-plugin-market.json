@@ -1,0 +1,22 @@
+{
+  "dev": "tm-evidence",
+  "owner": "tm-evidence",
+  "evidence": [
+    "WORKER SLICE PORTED — not mounted (library slice; 2 slice còn lại chưa port: main 661 + tools 127)",
+    "reviewer tm-reviewer doc lap: recon dung — `dsh-plugin-market/lib/worker.cjs` **1.759 dòng** = vendor 1.704 (rolldown 23 + require 1 + semver 1.328 + bundle dep plugin-market-index 352) + **code thật 54 dòng** (parse.js 1.705–1.753 + worker entry 1.754–1.759)",
+    "port 1:1 (doc src + doi chieu stock): `src/parse.ts` 60 dòng (strict UTF-8 → JSON.parse → validate format 1 qua `parseMarketIndex`) va `src/worker.ts` 16 dòng (guard `!(request?.body instanceof Uint8Array) || typeof request.url !== \"string\"` ⇒ throw `index parser request is malformed`, roi `postMessage(parseIndexBody(...))`) — message/thu tu nhanh y stock",
+    "hop dong: workerData `{ body: Uint8Array, url: string }` · message `IndexParseResult` (ok:true index | ok:false path/reason/message; `$` phu UTF-8 + JSON) · workerData sai ⇒ Error 'index parser request is malformed' (y stock)",
+    "reviewer tu chay bun test tests/host/plugin-market-worker.test.ts: **7 pass / 0 fail / 41 expect** — test spawn CA stock worker.cjs LAN library cua ta trong `node:worker_threads` cung workerData, so `toEqual`: **8 ca EQUAL** (a index toi thieu · a2 index day du · b body khong UTF-8 · c JSON hong · d format:2 · d thieu title · e body la string · e thieu url)",
+    "build: `bun run build.ts <out>` exit 0 → `worker.js` ESM **1.187 B**, dep `@deepseek-ai/dsh-plugin-market-index` giu **external** (khong vendor lai), co du guard + postMessage",
+    "vendor KHONG port: package.json peerDependencies + devDependencies `@deepseek-ai/dsh-plugin-market-index` 0.2.1-alpha.4 (README §2 dong 24: bundle 1.353–1.704 KHONG port, dung dep peer)",
+    "KHONG khai gbh.row (slice thu vien worker, chua du 2 slice con lai) — dump-config khong co entry plugin-market cua ta; `gbh.tests` tro tests/host/plugin-market-worker.test.ts",
+    "typecheck PHAM VI GOI: `tsc -p packages/host/plugin-market/tsconfig.json --noEmit` = **0 loi**; gate toan repo dang do vi file task-44 viet do (page-detail.ts TS1005 · manager-actions.ts 1.082 dòng · .tmp-tm*.ts) — KHONG quy cho plugin-market",
+    "de nghi Lead cap nhat mapping ma tran: dong `dsh-plugin-market` hien GBH '—'/X (slice worker moi port 1/3)"
+  ],
+  "packages": [
+    {
+      "dsh": "@deepseek-ai/dsh-plugin-market",
+      "gbh": "gbh-plugin-market"
+    }
+  ]
+}

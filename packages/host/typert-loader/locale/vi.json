@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "typert-loader",
+    "description": "Nạp thông tin kiểu do plugin sinh ra để truy vấn và gọi lúc chạy."
+  }
+}

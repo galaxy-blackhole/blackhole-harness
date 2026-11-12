@@ -1,0 +1,13 @@
+client/ui-sidebar-files
+client/ui-sidebar-right
+client/ui-sidebar-terminal
+client/ui-sidebar
+client/ui-skill
+client/ui-subagent
+client/ui-theme
+client/ui-tool
+client/ui-trajectory
+client/ui-user-questions
+client/ui-workflow-run
+client/ui-workspace
+tools/brand-rename

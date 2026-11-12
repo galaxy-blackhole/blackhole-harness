@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "plugin-package-inventory-deepseek",
+    "description": "Gửi danh mục gói plugin đang hoạt động kèm yêu cầu tới API model chính thức."
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "command-feedback",
+    "description": "Đánh giá phiên ở dạng chỉ ghi log: sự kiện record, Host Remote sessionFeedback và lệnh /feedback để bạn gửi nhận xét."
+  }
+}

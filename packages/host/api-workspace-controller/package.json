@@ -1,0 +1,103 @@
+{
+  "name": "@galaxy-blackhole/gbh-api-workspace-controller",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "type": "module",
+  "main": "lib/index.js",
+  "description": "Workspace Remote commands and reconnect-safe state transport",
+  "scripts": {
+    "build": "bun run build.ts"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2",
+    "@deepseek-ai/dsh-api-gateway": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-host-directory-picker": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-session": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-typert-protocol": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-deque": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-native-command": "0.2.1-alpha.4",
+    "@deepseek-ai/schemastery": "~3.18.5-alpha.2",
+    "zod": "4.4.3",
+    "@galaxy-blackhole/gbh-client-connection": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-storage-domain": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-workspace": "0.2.1-alpha.4"
+  },
+  "devDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2",
+    "@deepseek-ai/dsh-api-gateway": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-host-directory-picker": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-session": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-typert-protocol": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-deque": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-native-command": "0.2.1-alpha.4",
+    "@deepseek-ai/schemastery": "~3.18.5-alpha.2",
+    "zod": "4.4.3",
+    "@galaxy-blackhole/gbh-client-connection": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-storage-domain": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-workspace": "0.2.1-alpha.4"
+  },
+  "license": "MIT",
+  "gbh": {
+    "peers": [
+      "@deepseek-ai/cordis",
+      "@deepseek-ai/dsh-api-gateway",
+      "@galaxy-blackhole/gbh-client-connection",
+      "@deepseek-ai/dsh-host-directory-picker",
+      "@deepseek-ai/dsh-session",
+      "@deepseek-ai/dsh-storage-domain",
+      "@deepseek-ai/dsh-typert-protocol",
+      "@deepseek-ai/dsh-workspace",
+      "@deepseek-ai/dsh-deque",
+      "@deepseek-ai/dsh-native-command",
+      "@deepseek-ai/schemastery",
+      "zod"
+    ],
+    "tests": [
+      "tests/host/api-workspace-controller.test.ts",
+      "tests/host/api-workspace-controller-faces.test.ts"
+    ],
+    "row": {
+      "id": "workspace-controller",
+      "tests": [
+        "tests/host/api-workspace-controller.test.ts",
+        "tests/host/api-workspace-controller-faces.test.ts"
+      ],
+      "moduleIds": [
+        "@galaxy-blackhole/gbh-api-workspace-controller"
+      ],
+      "aliases": [
+        "@deepseek-ai/dsh-api-workspace-controller"
+      ]
+    },
+    "provenance": {
+      "stock": "@deepseek-ai/dsh-api-workspace-controller",
+      "version": "0.2.1-alpha.4",
+      "sha": "c43d2bd83e74588f2b9a761f36c5fbae870146d7af9685f30a38ed515a82cced",
+      "shaFile": "lib/client.js"
+    }
+  },
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "default": "./lib/index.js"
+    },
+    "./client": "./lib/client.js",
+    "./typert": "./lib/typert.host.js",
+    "./remote": "./lib/typert.remote-client.js",
+    "./locale/*.json": "./locale/*.json",
+    "./package.json": "./package.json"
+  },
+  "dsh": {
+    "client": {
+      "external": [
+        "@galaxy-blackhole/gbh-host-typert-gateway/client"
+      ],
+      "inject": [
+        "@galaxy-blackhole/gbh-host-typert-gateway",
+        "@galaxy-blackhole/gbh-client-connection"
+      ],
+      "platform": "web"
+    }
+  },
+  "types": "src/index.ts"
+}

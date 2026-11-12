@@ -1,0 +1,69 @@
+{
+  "name": "@galaxy-blackhole/gbh-client-ui-cordis",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "type": "module",
+  "main": "lib/index.js",
+  "description": "Cordis dynamic-plugin definition card: the keyed cordis_define tool row with its run/stop switch",
+  "scripts": {
+    "build": "bun run build.ts"
+  },
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./client": "./lib/client.js",
+    "./src/*": "./src/*",
+    "./package.json": "./package.json",
+    "./locale/*.json": "./locale/*.json"
+  },
+  "dsh": {
+    "client": {
+      "inject": [
+        "@galaxy-blackhole/gbh-client-connection",
+        "@galaxy-blackhole/gbh-cordis-client-runner",
+        "@galaxy-blackhole/gbh-api-remotes",
+        "@galaxy-blackhole/gbh-client-locale",
+        "@galaxy-blackhole/gbh-client-ui-renderer",
+        "@galaxy-blackhole/gbh-client-ui-session",
+        "@galaxy-blackhole/gbh-client-ui-tool",
+        "@galaxy-blackhole/gbh-client-ui-sidebar"
+      ],
+      "platform": "web"
+    }
+  },
+  "license": "MIT",
+  "gbh": {
+    "draft": "HAI MẶT ĐÃ PORT ĐỦ (host 1 export apply · client 1.495 dòng ⇒ 15 tệp ≤1000 dòng + lib/client.js đăng ký ĐÚNG MỘT id @galaxy-blackhole/gbh-client-ui-cordis) — row `ui-cordis` PARKED, CHƯA khai gbh.row chờ Lead: (1) đối chiếu lại row bằng --dump-config, (2) check:rows, (3) lab:row ui-cordis, (4) boot-smoke. LÝ DO CHƯA KHAI: row này thay gói stock ⇒ chỉ an toàn khi boot-smoke chứng minh thẻ cordis_define/cordis_run và bảng Cordis vẫn render; khai sớm mà nửa client không nạp được ⇒ mất thẻ UI ÂM THẦM. NỢ ĐÃ TRẢ 19/10/2026: tests/client/ui-cordis.test.ts đã viết lại theo hợp đồng HAI MẶT (BỘ BA + LUẬT MỘT-ID + A/B artifact).",
+    "tests": [
+      "tests/client/ui-cordis.test.ts"
+    ],
+    "reference": "apps/host/node_modules/@deepseek-ai/dsh-client-ui-cordis (CHỈ ĐỌC — nguồn đối chiếu 1:1)",
+    "peers": [
+      "@deepseek-ai/cordis"
+    ],
+    "row": {
+      "id": "ui-cordis",
+      "moduleIds": [
+        "@galaxy-blackhole/gbh-client-ui-cordis"
+      ],
+      "aliases": [
+        "@deepseek-ai/dsh-client-ui-cordis"
+      ],
+      "tests": [
+        "tests/client/ui-cordis.test.ts"
+      ]
+    },
+    "provenance": {
+      "stock": "@deepseek-ai/dsh-client-ui-cordis",
+      "version": "0.2.1-alpha.4",
+      "sha": "605bac42a6b4e33b2f3b8eeb760e8b9a28733d801cf3a8974e820de7dad7050e",
+      "shaFile": "lib/client.js"
+    }
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2"
+  },
+  "types": "lib/types/index.d.ts"
+}

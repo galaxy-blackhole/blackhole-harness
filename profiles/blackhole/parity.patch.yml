@@ -1,0 +1,93 @@
+# author Bùi Trọng Hiếu
+# email kevinbui210191@gmail.com
+# create date 15/10/2026
+# modify date 11/11/2026
+# desc M1a: ngu nghia patch cua oracle (gbh-web + gbh-brand) de app giong het blackhole web 4001
+# 11/11/2026: persona cua deployment dung bien {{model_label}} (route auto ⇒ 'Galaxy Blackhole', khac ⇒ ten that).
+#
+# NGUON SU THAT (chi doc, khong bao gio sua):
+#   galaxy-code/web/patches/gbh-web.patch.yml    -> 10 row duoi day
+#   galaxy-code/web/patches/gbh-ui.patch.yml     -> rong ([]), khong co gi phai chep
+#   (khoi brand-galaxy da bi XOA 17/10/2026: row ui-brand-official nay do metadata gbh.row cua
+#    packages/client/ui-brand sinh ra, khong con lay tu galaxy-code nua)
+#   /tmp/gbh-alpha/gbh-overlay.patch.yml         -> row credentials, do `bh host` sinh (khong chep o day)
+#
+# `bh host` doc file nay roi ghep vao <DSH_HOME>/app.patch.yml — lop CUOI CUNG cua cay plugin.
+# M2 se thay bang hop dong da dong bang; M5 se thay @galaxy-stack/gbh-brand bang
+# @galaxy-blackhole/gbh-brand do ta viet (G3). Xem docs/ADR/0003.
+
+# 11/11/2026 — BO GHIM "welcome notice da xem" o lop app: da chuyen xuong patch cua BUNDLE
+# (packages/host/bundle/web-app.patch.yml, config cua row ui-settings-general). Ghim o lop overlay
+# lam moi luot ghi vao namespace ui-settings-general bi Host tu choi (settings/rejected) — do that
+# tren app 5439: muc "danh dau da doc thong bao chao" ghi KHONG duoc.
+
+# Tuyen model mac dinh cua agent: route rieng cua Galaxy (`auto`), khong phai route official.
+- id: agent-default-model
+  config:
+    provider: auto
+    model: deepseek-v4.1-flash
+
+# 11/11/2026 — BO GHIM cau hinh llm-pi-ai o lop app: da chuyen xuong patch cua BUNDLE
+# (packages/host/bundle/cordis.patch.yml, config cua row llm-pi-ai). Ghim o overlay lam trang
+# Cai dat -> Model ghi KHONG duoc (settings/rejected: overridden by a home patch).
+# Khoa bearer van den DSH qua bien GBH_GALAXY_API_KEY — KHONG co secret nao trong file patch.
+# Tat route official cua DeepSeek de trang Models chi con route Galaxy.
+- id: llm-deepseek
+  disabled: true
+
+# 11/11/2026 — BO GHIM o day: row + config cua "Subagent dung dung model chinh" da chuyen xuong
+#   patch cua BUNDLE (packages/host/bundle/web-app.patch.yml). Ghim o lop overlay khien
+#   settings/mutate bi tu choi (row do overlay cam ⇒ tai lieu nguoi dung khong ghi de duoc).
+
+# Web search di qua Galaxy cloud; provider search cua DeepSeek bi go.
+- id: web
+  config:
+    searchProvider: auto
+    fetchProvider: http
+
+# 10/11/2026 — KHÔI PHỤC sau khi bi revert nhầm (xem báo cáo dev-6): row web-search-deepseek đã bị xoá khỏi
+# template (Option A 26/10/2026 — provider search đi qua Galaxy cloud ở row `web`, không tắt row stock nữa).
+# Phần dưới là các row GBH đã thay id stock, giữ nguyên nội dung đang chạy trước khi bị revert.
+- id: session-log-gbh
+  disabled: true
+
+- id: ui-settings-session-log
+  disabled: true
+
+# Persona của agent (fallback của deployment — ba preset "coding agent" tự đặt cùng mẫu này).
+# 11/11/2026: dùng biến `model_label` thay vì chữ cứng hay `{{model}}`; `{{model}}` là id TRÊN DÂY nên route
+# `auto` in ra "…deepseek-v4.1-flash model" (lỗi người dùng báo). `model_label` = "Galaxy Blackhole" cho route
+# `auto`, và = id model thật khi người dùng chọn model khác.
+- id: system-prompt
+  config:
+    personaPrefix: You are a coding agent powered by the {{model_label}} model.
+
+# Phan dong gop session-log cho request official DeepSeek: tat (route da bi disable o tren, va
+# khong de mot setting trong Chrome doc nhu the san pham nay tai du lieu len).
+- id: session-log-deepseek
+  disabled: true
+
+# Feedback o lai may nay: backend OTel cua stock se gui tien to Session-log khi nguoi dung bam
+# feedback; Galaxy giu remark trong Session log cuc bo va de gbh-brand gui bang email.
+# Co the doi tung lan chay bang DSH_TELEMETRY_MODE / DSH_TELEMETRY_OTLP_URL.
+- id: session-telemetry-otel
+  config:
+    mode: DISABLED
+
+# Feedback chi con trong Settings: tat /feedback va dialog overlay cua stock; section "Phan hoi"
+# cua Galaxy (gbh-brand) so huu form, mail draft va event feedback/record cuc bo.
+- id: command-feedback
+  disabled: true
+
+- id: ui-message-feedback
+  disabled: true
+
+
+# 10/11/2026 (Lead): row CHƯA TỪNG được mount — gói packages/host/workspace-changes khai gbh.row.id
+# "workspace-changes" nhưng không bundle patch nào (bundle/cordis.patch.yml + bundle-base là patch SINH
+# TỰ ĐỘNG từ dsh-base nên không được sửa tay) khai row đó ⇒ tuyến /api/changes.summary không tồn tại
+# ⇒ client ui-deliverables gọi vào bị 404 (1 lỗi console duy nhất của app). Khai ở lớp home, đúng chỗ
+# các row ngoài bundle khác đang được khai.
+- insert:
+    - id: workspace-changes
+      name: '@galaxy-blackhole/gbh-host-workspace-changes'

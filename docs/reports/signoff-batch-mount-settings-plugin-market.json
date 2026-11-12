@@ -1,0 +1,21 @@
+{
+  "dev": "tm-assets",
+  "owner": "tm-assets",
+  "evidence": [
+    "signed, MOUNTED — check:app 3 luot: (3) 151 entry · (5) 0 · #root/#root slot OK · (10) con 2 BAN MOUNT CU cua gbh-session-log-export (goi DA PARK, khong nam trong batch nay) — app LANH",
+    "CO CHE: row TOP-LEVEL theo LUAT MOI cua Lead — `row.disabled = true` + `row.insertDisabled = {js: …}` (khong con disabled dang dieu kien lam stock tu bat gay trung service)",
+    "settings: test **39 pass / 0 fail / 238 expect** · artifact index 18.122 B sha `c2a1e2c4e6` (build trong thu muc goi, exit 0)",
+    "plugin-market: test **66 pass / 0 fail / 525 expect** (5 tep declared) · artifact index 23.278 B `b185965aa1` · tools 6.526 B `39609e2d08` · typert.host 30.746 B `1863393569` · remote 20.884 B `c17d302992` · worker 1.103 B `50177f288f`",
+    "rollback san"
+  ],
+  "packages": [
+    {
+      "dsh": "@deepseek-ai/dsh-settings",
+      "gbh": "gbh-settings"
+    },
+    {
+      "dsh": "@deepseek-ai/dsh-plugin-market",
+      "gbh": "gbh-plugin-market"
+    }
+  ]
+}

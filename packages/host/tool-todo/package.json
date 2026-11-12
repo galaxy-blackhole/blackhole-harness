@@ -1,0 +1,62 @@
+{
+  "name": "@galaxy-blackhole/gbh-host-tool-todo",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "type": "module",
+  "main": "lib/index.js",
+  "description": "Model-facing todo_write tool over the Galaxy Blackhole event-sourced session log",
+  "scripts": {
+    "build": "bun run build.ts"
+  },
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./src/*": "./src/*",
+    "./package.json": "./package.json",
+    "./locale/*.json": "./locale/*.json"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2",
+    "@deepseek-ai/dsh-agent": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-session": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-session-projection": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-tools": "0.2.1-alpha.4"
+  },
+  "gbh": {
+    "tests": [
+      "tests/host/tool-todo.test.ts"
+    ],
+    "row": {
+      "id": "tool-todo",
+      "stockId": "@deepseek-ai/dsh-tool-todo",
+      "moduleIds": [
+        "@galaxy-blackhole/gbh-host-tool-todo"
+      ],
+      "presets": [
+        "preset-standard",
+        "preset-ptc",
+        "preset-cordis"
+      ],
+      "tests": [
+        "tests/host/tool-todo.test.ts"
+      ],
+      "config": {
+        "allowParallelInProgress": true
+      },
+      "aliases": [
+        "@deepseek-ai/dsh-tool-todo"
+      ]
+    },
+    "provenance": {
+      "stock": "@deepseek-ai/dsh-tool-todo",
+      "version": "0.2.1-alpha.4"
+    }
+  },
+  "dependencies": {
+    "@deepseek-ai/schemastery": "~3.18.5-alpha.2",
+    "zod": "^4.4.3"
+  },
+  "types": "lib/types/index.d.ts"
+}

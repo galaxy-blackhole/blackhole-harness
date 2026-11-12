@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "modules",
+    "description": "Hệ module client hai mặt: nửa node dựng đồ thị entry boot (quét gbh.client tăng dần, ghép wire); nửa browser chạy hệ module sống."
+  }
+}

@@ -1,0 +1,64 @@
+{
+ "capturedAt": "2026-10-17",
+ "bootEntries": [
+  {
+   "id": "@deepseek-ai/dsh-api-gateway",
+   "inject": [
+    "@deepseek-ai/dsh-typert-registry",
+    "@deepseek-ai/dsh-client-connection"
+   ]
+  },
+  {
+   "id": "@deepseek-ai/dsh-api-remotes",
+   "inject": [
+    "@deepseek-ai/dsh-api-gateway"
+   ]
+  },
+  {
+   "id": "@deepseek-ai/dsh-client-connection",
+   "inject": []
+  }
+ ],
+ "remoteSurfaces": [
+  {
+   "id": "typert-gateway",
+   "pkg": "@deepseek-ai/dsh-api-gateway"
+  },
+  {
+   "id": "session-controller",
+   "pkg": "@deepseek-ai/dsh-api-session-controller"
+  },
+  {
+   "id": "job-controller",
+   "pkg": "@deepseek-ai/dsh-api-job-controller"
+  },
+  {
+   "id": "terminal-controller",
+   "pkg": "@deepseek-ai/dsh-api-terminal-controller"
+  },
+  {
+   "id": "account-controller",
+   "pkg": "@deepseek-ai/dsh-api-account-controller"
+  },
+  {
+   "id": "settings-controller",
+   "pkg": "@deepseek-ai/dsh-api-settings-controller"
+  },
+  {
+   "id": "workspace-controller",
+   "pkg": "@deepseek-ai/dsh-api-workspace-controller"
+  },
+  {
+   "id": "api-remotes",
+   "pkg": "@deepseek-ai/dsh-api-remotes"
+  }
+ ],
+ "note": "Namespace, method, payload và khung stream cụ thể: ĐO Ở M4 bằng trace từng frame (xem docs/contracts/C4-rpc-typert.md).",
+ "plannedMethods": [
+  "session: create/resume/cold-read",
+  "workspaceFiles: list/read",
+  "jobs: list/output-stream",
+  "account: get/set",
+  "settings: get/set"
+ ]
+}

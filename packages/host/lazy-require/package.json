@@ -1,0 +1,37 @@
+{
+  "name": "@galaxy-blackhole/gbh-lazy-require",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "type": "module",
+  "main": "lib/index.js",
+  "description": "Caller-relative, success-cached lazy loading for CommonJS-compatible Host dependencies",
+  "scripts": {
+    "build": "bun run build.ts"
+  },
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "default": "./lib/index.js"
+    },
+    "./package.json": "./package.json",
+    "./src/*": "./src/*"
+  },
+  "license": "MIT",
+  "gbh": {
+    "provenance": {
+      "stock": "@deepseek-ai/dsh-lazy-require",
+      "stockVersion": "0.2.1-alpha.4",
+      "stockLines": 25,
+      "sha": "eab2f914e4b5f54b2a1af5998eecd52f1b737146db44881ef51fb5e501e1faeb",
+      "shaFile": "lib/index.js",
+      "version": "0.2.1-alpha.4"
+    },
+    "tests": [
+      "tests/host/bundle-extra-packages.test.ts"
+    ]
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2"
+  },
+  "types": "src/index.ts"
+}

@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "api-terminal-controller",
+    "description": "Terminal tương tác thuộc sở hữu của session, kèm dò shell, phục hồi màn hình và điều khiển Remote có kiểu."
+  }
+}

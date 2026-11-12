@@ -1,0 +1,17 @@
+{
+ "capturedAt": "2026-10-17",
+ "sourceSha256": "66dff26c5fc49a84f182c9e29bb501253c721c51e2c08f1300c5229f23dd6662",
+ "members": [
+  "create",
+  "load",
+  "mode",
+  "pendingQueue"
+ ],
+ "errorMessages": [
+  "client-modules: @deepseek-ai/dsh-client-modules/client.js did not export the bootstrap module face",
+  "client-modules: @deepseek-ai/dsh-client-modules/client.js requested external \"",
+  "client-modules: HTML did not preload @deepseek-ai/dsh-client-modules/client.js",
+  "client-modules: window.__ModuleLoader__.create called after module-system boot"
+ ],
+ "sourceLines": 22
+}

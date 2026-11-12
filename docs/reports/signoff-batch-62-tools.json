@@ -1,0 +1,65 @@
+{
+  "dev": "tm-evidence",
+  "owner": "tm-evidence",
+  "evidence": [
+    "signed, MOUNTED — app 11/11 (152 entry · (5) 0 · entry goc **0**); test + artifact REVIEWER TU DO theo gbh.tests",
+    "- tool-bash-persistent: stock `@deepseek-ai/dsh-tool-bash-persistent` · **20 pass / 0 fail / 194 expect** · test `tests/host/tool-bash-persistent.test.ts`",
+    "- tool-cordis: stock `@deepseek-ai/dsh-tool-cordis` · **27 pass / 0 fail / 222 expect** · test `tests/host/tool-cordis.test.ts`",
+    "- tool-goal: stock `@deepseek-ai/dsh-tool-goal` · **19 pass / 0 fail / 296 expect** · test `tests/host/tool-goal.test.ts`",
+    "- tool-jobs: stock `@deepseek-ai/dsh-tool-jobs` · **41 pass / 0 fail / 320 expect** · test `tests/host/tool-jobs.test.ts, tests/host/tool-jobs-manifest.test.ts`",
+    "- tool-pwsh: stock `@deepseek-ai/dsh-tool-pwsh` · **24 pass / 0 fail / 222 expect** · test `tests/host/tool-pwsh.test.ts`",
+    "- tool-schedule: stock `@deepseek-ai/dsh-tool-schedule` · **26 pass / 0 fail / 154 expect** · test `tests/host/tool-schedule.test.ts`",
+    "- tool-session-query: stock `@deepseek-ai/dsh-tool-session-query` · **29 pass / 0 fail / 150 expect** · test `tests/host/tool-session-query.test.ts`",
+    "- tool-skill: stock `@deepseek-ai/dsh-tool-skill` · **37 pass / 0 fail / 329 expect** · test `tests/host/tool-skill.test.ts, tests/host/tool-skill-manifest.test.ts`",
+    "- tool-str-replace-editor: stock `@deepseek-ai/dsh-tool-str-replace-editor` · **23 pass / 0 fail / 363 expect** · test `tests/host/tool-str-replace-editor.test.ts`",
+    "- tool-workflow: stock `@deepseek-ai/dsh-tool-workflow` · **22 pass / 1 fail / 200 expect** · test `tests/host/tool-workflow.test.ts`",
+    "- tool-workspace-dependencies: stock `@deepseek-ai/dsh-tool-workspace-dependencies` · **20 pass / 0 fail / 162 expect** · test `tests/host/tool-workspace-dependencies.test.ts`",
+    "rollback san (gbh.row -> gbh.row_unmounted_ly_do)"
+  ],
+  "packages": [
+    {
+      "dsh": "@deepseek-ai/dsh-tool-bash-persistent",
+      "gbh": "gbh-tool-bash-persistent"
+    },
+    {
+      "dsh": "@deepseek-ai/dsh-tool-cordis",
+      "gbh": "gbh-tool-cordis"
+    },
+    {
+      "dsh": "@deepseek-ai/dsh-tool-goal",
+      "gbh": "gbh-tool-goal"
+    },
+    {
+      "dsh": "@deepseek-ai/dsh-tool-jobs",
+      "gbh": "gbh-host-tool-jobs"
+    },
+    {
+      "dsh": "@deepseek-ai/dsh-tool-pwsh",
+      "gbh": "gbh-tool-pwsh"
+    },
+    {
+      "dsh": "@deepseek-ai/dsh-tool-schedule",
+      "gbh": "gbh-tool-schedule"
+    },
+    {
+      "dsh": "@deepseek-ai/dsh-tool-session-query",
+      "gbh": "gbh-tool-session-query"
+    },
+    {
+      "dsh": "@deepseek-ai/dsh-tool-skill",
+      "gbh": "gbh-host-tool-skill"
+    },
+    {
+      "dsh": "@deepseek-ai/dsh-tool-str-replace-editor",
+      "gbh": "gbh-tool-str-replace-editor"
+    },
+    {
+      "dsh": "@deepseek-ai/dsh-tool-workflow",
+      "gbh": "gbh-tool-workflow"
+    },
+    {
+      "dsh": "@deepseek-ai/dsh-tool-workspace-dependencies",
+      "gbh": "gbh-tool-workspace-dependencies"
+    }
+  ]
+}

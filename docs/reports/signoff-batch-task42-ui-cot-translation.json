@@ -1,0 +1,16 @@
+{
+  "dev": "tm-assets",
+  "owner": "tm-assets",
+  "evidence": [
+    "reviewer tm-reviewer doc lap tren artifact build lai: exit 0 · export **default 1 = 1** voi goc, thieu 0 thua 0 · KHONG co lib/client.js (goi goc HAI MAT: client 1.057 dong + 2 mat typert chua port)",
+    "`String(Config)` TRUNG TUNG KY TU voi ban goc: artifact dong 93-96 `static Config = z.object({ provider: z.union(PROVIDER_PREFERENCES).default(\"bing\").volatile(), targetLanguage: z.string().pattern(LANGUAGE_PREFERENCE_PATTERN).default(\"auto\").volatile() })` = stock dong 159-162 nguyen van",
+    "reviewer tu chay bun test tests/client/ui-cot-translation.test.ts: **11 pass / 0 fail / 62 expect**",
+    "package signed, not mounted (chưa đủ nửa client / seam)"
+  ],
+  "packages": [
+    {
+      "dsh": "@deepseek-ai/dsh-experimental-client-ui-cot-translation",
+      "gbh": "gbh-client-ui-cot-translation"
+    }
+  ]
+}

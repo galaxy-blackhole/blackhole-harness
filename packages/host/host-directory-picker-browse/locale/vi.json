@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "directory-picker-browse",
+    "description": "Backend duyệt thư mục trong ứng dụng của seam directory-picker: cung cấp primitive liệt kê và tạo thư mục trên filesystem của host."
+  }
+}

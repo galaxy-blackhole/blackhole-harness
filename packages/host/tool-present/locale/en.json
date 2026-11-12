@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "Present",
+    "description": "The present tool: lets the agent hand the user a file as a deliverable, registered through the tools service"
+  }
+}

@@ -1,0 +1,82 @@
+{
+  "name": "@galaxy-blackhole/gbh-agent-instructions",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "type": "module",
+  "main": "lib/index.js",
+  "description": "Workspace context loader for AGENTS.md/CLAUDE.md instruction files",
+  "scripts": {
+    "build": "bun run build.ts"
+  },
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "default": "./lib/index.js"
+    },
+    "./src/*": "./src/*",
+    "./package.json": "./package.json",
+    "./locale/*.json": "./locale/*.json"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2",
+    "@deepseek-ai/dsh-agent": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-fs": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-home-paths": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-llm": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-session": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-session-projection": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-tools": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-util-values": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-working-directory": "0.2.1-alpha.4",
+    "@deepseek-ai/schemastery": "~3.18.5-alpha.2"
+  },
+  "devDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2",
+    "@deepseek-ai/dsh-agent": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-fs": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-home-paths": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-llm": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-session": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-util-values": "0.2.1-alpha.4",
+    "@deepseek-ai/schemastery": "~3.18.5-alpha.2",
+    "@deepseek-ai/dsh-session-projection": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-working-directory": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-tools": "0.2.1-alpha.4"
+  },
+  "license": "MIT",
+  "gbh": {
+    "peers": [
+      "@deepseek-ai/cordis",
+      "@deepseek-ai/dsh-agent",
+      "@deepseek-ai/dsh-fs",
+      "@deepseek-ai/dsh-home-paths",
+      "@deepseek-ai/dsh-llm",
+      "@deepseek-ai/dsh-session",
+      "@deepseek-ai/dsh-session-projection",
+      "@deepseek-ai/dsh-util-values",
+      "@deepseek-ai/dsh-working-directory",
+      "@deepseek-ai/schemastery"
+    ],
+    "tests": [
+      "tests/host/agent-instructions.test.ts"
+    ],
+    "draft": "ROW LỒNG trong 3 preset — dump .parity/dumps/2026-10-18T01-31-57/ours.yml: entry `- id: agent-instructions` dòng 813 (preset-standard) · 977 (preset-ptc) · 1244 (preset-cordis), mỗi entry `name: '@deepseek-ai/dsh-agent-instructions'` + `config: { maxBytes: 65536 }`; TOP-LEVEL row cùng id ở dòng 252 đang `disabled: true` (stock.yml: entry preset dòng 637/801/1068, row top-level dòng 190). KHÔNG khai gbh.row: thay row top-level sẽ mất entry anh em trong preset (persona · time-context · tool-* …) và mất luôn 1 trong 3 preset; khai gbh.nested (kind preset) để agent-preset-registry thay tên module lúc mount, giữ nguyên entry khác.",
+    "nested": {
+      "kind": "preset",
+      "pluginId": "agent-instructions",
+      "stockId": "@deepseek-ai/dsh-agent-instructions",
+      "presets": [
+        "preset-standard",
+        "preset-ptc",
+        "preset-cordis"
+      ]
+    },
+    "provenance": {
+      "stock": "@deepseek-ai/dsh-agent-instructions",
+      "version": "0.2.1-alpha.4",
+      "sha": "4011f6e4c08228601bd4348ac78e322913142264f6e491ffdf9dcfda97393988"
+    }
+  },
+  "types": "src/index.ts",
+  "dependencies": {}
+}

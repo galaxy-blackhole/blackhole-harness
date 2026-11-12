@@ -1,0 +1,65 @@
+{
+  "name": "@galaxy-blackhole/gbh-experimental-tool-agent-team",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "type": "module",
+  "main": "lib/index.js",
+  "description": "Bản viết lại của Galaxy Blackhole cho row tool-agent-team của DSH (@deepseek-ai/dsh-experimental-tool-agent-team): 9 tool agent-team (spawn_teammate · send_message · list_agents · wait_agent · interrupt_agent · team_task_create/list/get/update) + khối TEAM_POLICY + ngữ cảnh TEAM_IDENTITY, cài vào đúng phạm vi từng agent thành viên trên seam ctx.agentTeams.",
+  "scripts": {
+    "build": "bun run build.ts"
+  },
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "default": "./lib/index.js"
+    },
+    "./package.json": "./package.json",
+    "./src/*": "./src/*",
+    "./locale/*.json": "./locale/*.json"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2",
+    "@deepseek-ai/dsh-agent": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-experimental-agent-team": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-system-prompt": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-tools": "0.2.1-alpha.4",
+    "@deepseek-ai/schemastery": "~3.18.5-alpha.2"
+  },
+  "devDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2",
+    "@deepseek-ai/dsh-agent": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-experimental-agent-team": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-system-prompt": "0.2.1-alpha.4",
+    "@deepseek-ai/schemastery": "~3.18.5-alpha.2",
+    "@deepseek-ai/dsh-tools": "0.2.1-alpha.4"
+  },
+  "license": "MIT",
+  "gbh": {
+    "peers": [
+      "@deepseek-ai/cordis",
+      "@deepseek-ai/dsh-agent",
+      "@deepseek-ai/dsh-experimental-agent-team",
+      "@deepseek-ai/dsh-system-prompt",
+      "@deepseek-ai/dsh-tools",
+      "@deepseek-ai/schemastery"
+    ],
+    "tests": [
+      "tests/host/experimental-tool-agent-team.test.ts"
+    ],
+    "row": {
+      "id": "tool-agent-team",
+      "config": {
+        "freshProvider": "spawn",
+        "forkProvider": "fork"
+      },
+      "tests": [
+        "tests/host/experimental-tool-agent-team.test.ts"
+      ],
+      "ownedByBundle": true
+    },
+    "provenance": {
+      "stock": "@deepseek-ai/dsh-experimental-tool-agent-team"
+    }
+  },
+  "types": "src/index.ts"
+}

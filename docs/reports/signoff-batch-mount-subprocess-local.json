@@ -1,0 +1,18 @@
+{
+  "dev": "tm-client-ui-a",
+  "owner": "tm-client-ui-a",
+  "evidence": [
+    "signed, MOUNTED — check:app 11/11, lab 0 did-not-activate, boot-smoke DAT",
+    "reviewer tm-reviewer TU DO: patch `app.patch.yml:1355-1363` (`subprocess disabled: true` + insert `subprocess-ours` aliases @deepseek-ai/dsh-subprocess-local) · dump (344 entry) co `subprocess-ours` ENABLED",
+    "**4 artefact BYTE-IDENTICAL** (build in ra dong 'built 4 artefact (byte-identical voi ban goc)'): index sha `2964d94d6aa7…` · output `4f77ef6da608…` · runner `4e21528dfdb3…` va runner-launch — ca 4 khop tung byte voi `apps/host/node_modules/@deepseek-ai/dsh-subprocess-local/lib/*`",
+    "reviewer tu chay bun test tests/host/subprocess-local.test.ts: **28 pass / 0 fail / 111 expect** (Lead ghi '34 ca/122 expect' — TEP declared chi co 27 `test(`; toi do duoc 28 pass/111. De nghi Lead xac nhan co tinh them tep test khac khong, vd `tests/host/subprocess.test.ts`)",
+    "lab:row home CACH LY cua reviewer: #root **22.204** · 0 console · 0 pageerror · 0 overlay · **0 did-not-activate**",
+    "**3 luot check:app lien tiep DAT 11/11** (135 entry · (5) 0 · #root 47.181/46 slot/0/0 · (9) 0/80 · HMR) · tool `rows.ts` da duoc va (chap nhan goi de-bundle khi co build.ts + lib/index.js, doi chieu export tren artifact) theo xac nhan cua Lead; rollback san"
+  ],
+  "packages": [
+    {
+      "dsh": "@deepseek-ai/dsh-subprocess-local",
+      "gbh": "gbh-subprocess-local"
+    }
+  ]
+}

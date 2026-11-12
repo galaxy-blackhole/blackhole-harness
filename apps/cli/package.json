@@ -1,0 +1,13 @@
+{
+  "name": "@galaxy-blackhole/gbh-cli",
+  "private": true,
+  "version": "0.2.1-alpha.4",
+  "type": "module",
+  "bin": {
+    "bh": "src/main.ts"
+  },
+  "description": "CLI bh cua Galaxy Blackhole Desktop",
+  "scripts": {
+    "start": "bun run src/main.ts"
+  }
+}

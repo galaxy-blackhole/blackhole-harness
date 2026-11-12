@@ -1,0 +1,32 @@
+{
+  "dev": "tm-evidence",
+  "owner": "tm-evidence",
+  "evidence": [
+    "signed, MOUNTED — check:app 11/11 BA LUOT LIEN TIEP, entry goc **0** (khong con row stock nao chay)",
+    "**3 luot check:app lien tiep DAT 11/11** — (3) **152 entry** · (5) **0** · #root 47.584 / 46 slot / 0 console / 0 pageerror · (9) 0/80 · (10) **366 file khop repo** · (11) HMR",
+    "reviewer TU DO build (trong thu muc goi, exit 0) + test theo gbh.tests:",
+    "- experimental-speech-to-text: **14 pass / 0 fail / 125 expect** · index 5.593 B sha `686c958a59` · wave 979 B `2ddbad05f8`",
+    "- experimental-api-speech-to-text: **24 pass / 0 fail / 31 expect** · index 7.286 B `8e227f0561` · typert.host 39.697 B `2980e9847f` · remote 32.183 B `be5ddb3773`",
+    "- experimental-speech-to-text-sensevoice: **18 pass / 0 fail / 207 expect** · index 28.447 B `3c1a6668ab` · worker 7.965 B `5e6018ce5a` · assets.json byte-identical `d46d8e9d…` theo bang chung chu goi",
+    "- experimental-client-ui-voice-input: **13 pass / 0 fail / 125 expect** · client 119.532 B `fd67757401` · client-entry 128 B `529445c241`",
+    "stale guard cua speech-to-text + tệp test con thieu cua voice-input DA duoc owner sua (verify lai xanh); rollback san"
+  ],
+  "packages": [
+    {
+      "dsh": "@deepseek-ai/dsh-experimental-speech-to-text",
+      "gbh": "gbh-experimental-speech-to-text"
+    },
+    {
+      "dsh": "@deepseek-ai/dsh-experimental-api-speech-to-text",
+      "gbh": "gbh-experimental-api-speech-to-text"
+    },
+    {
+      "dsh": "@deepseek-ai/dsh-experimental-speech-to-text-sensevoice",
+      "gbh": "gbh-experimental-speech-to-text-sensevoice"
+    },
+    {
+      "dsh": "@deepseek-ai/dsh-experimental-client-ui-voice-input",
+      "gbh": "gbh-experimental-client-ui-voice-input"
+    }
+  ]
+}

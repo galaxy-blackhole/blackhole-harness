@@ -1,0 +1,63 @@
+{
+  "name": "@galaxy-blackhole/gbh-llm-deepseek-account",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "type": "module",
+  "main": "lib/index.js",
+  "description": "Bản viết lại của Galaxy Blackhole cho row llm-deepseek-account (@deepseek-ai/dsh-llm-deepseek-account): route TÀI KHOẢN DeepSeek — phân giải token theo từng request, danh mục model từ GET /models của tài khoản, cổng phiên bản model và modelOverrides.",
+  "scripts": {
+    "build": "bun run build.ts"
+  },
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./package.json": "./package.json",
+    "./src/*": "./src/*",
+    "./locale/*.json": "./locale/*.json"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2",
+    "@deepseek-ai/cosmokit": "1.8.6",
+    "@deepseek-ai/dsh-launch-environment": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-llm": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-llm-deepseek": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-timeout": "0.2.1-alpha.4",
+    "@deepseek-ai/schemastery": "~3.18.5-alpha.2",
+    "semver": "^7.8.5"
+  },
+  "devDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2",
+    "@deepseek-ai/cosmokit": "1.8.6",
+    "@deepseek-ai/dsh-launch-environment": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-llm": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-llm-deepseek": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-timeout": "0.2.1-alpha.4",
+    "@deepseek-ai/schemastery": "~3.18.5-alpha.2",
+    "semver": "^7.8.5"
+  },
+  "license": "MIT",
+  "gbh": {
+    "peers": [
+      "@deepseek-ai/cordis",
+      "@deepseek-ai/cosmokit",
+      "@deepseek-ai/dsh-launch-environment",
+      "@deepseek-ai/dsh-llm",
+      "@deepseek-ai/dsh-llm-deepseek",
+      "@deepseek-ai/dsh-timeout",
+      "@deepseek-ai/schemastery",
+      "semver"
+    ],
+    "row": {
+      "id": "llm-deepseek-account",
+      "tests": [
+        "tests/host/llm-deepseek-account.test.ts"
+      ]
+    },
+    "provenance": {
+      "stock": "@deepseek-ai/dsh-llm-deepseek-account"
+    }
+  },
+  "types": "lib/types/index.d.ts"
+}

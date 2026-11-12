@@ -1,0 +1,17 @@
+{
+  "dev": "tm-assets",
+  "owner": "tm-assets",
+  "evidence": [
+    "artifact (reviewer tm-reviewer, build /tmp/rev/ub): id goc=0 · id ta=1 · **CHI MOT slot** `conversation.hero.brand.mark` (dong 243) · **0** tham chieu `sidebar.brand.mark/name` => da loai dung nguyen nhan regression 22:12",
+    "test: **6 pass / 0 fail / 24 expect**; `gbh.row` dang BAT (dump moi: `- id: ui-brand / @galaxy-blackhole/gbh-client-ui-brand` ENABLED) + `gbh.row_unmounted_ly_do` giu DUONG LUI 1 dong (co chu dich, ghi trong README §1)",
+    "lab hero (tac gia, docs/reports/asset-task18-evidence.md §2): luot A hero = CA DSH (viewBox 0 0 23.16 17.04, path M22.9168), fishPathHits 1 -> luot B/C hero = HO DEN 34x34 (viewBox 0 0 128 128), fishPathHits **0**, 0 console / 0 pageError (2 luot A/B/C)",
+    "app that (Lead do): check:app 11/11 DAT — (6) **57 goi ta (co gbh-client-ui-brand)** · (8) #root 47.181 / 46 slot / 0 console / 0 pageerror · (5) 0",
+    "rollback: doi key `gbh.row` -> `gbh.row_unmounted_ly_do` (hoac go 2 khoi ui-brand trong <home>/app.patch.yml) roi boot lai, KHONG sua ma"
+  ],
+  "packages": [
+    {
+      "dsh": "extra:ui-brand",
+      "gbh": "gbh-client-ui-brand"
+    }
+  ]
+}

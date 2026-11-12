@@ -1,0 +1,68 @@
+{
+  "name": "@galaxy-blackhole/gbh-command-goal",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "type": "module",
+  "main": "lib/index.js",
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "default": "./lib/index.js"
+    },
+    "./package.json": "./package.json",
+    "./locale/*.json": "./locale/*.json"
+  },
+  "description": "Human-facing slash command for persisted same-session goals",
+  "scripts": {
+    "build": "bun run build.ts"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/dsh-llm": "0.2.1-alpha.4",
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2",
+    "@deepseek-ai/dsh-commands": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-goal": "0.2.1-alpha.4"
+  },
+  "devDependencies": {
+    "@deepseek-ai/dsh-llm": "0.2.1-alpha.4",
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2",
+    "@deepseek-ai/dsh-commands": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-goal": "0.2.1-alpha.4"
+  },
+  "license": "MIT",
+  "gbh": {
+    "peers": [
+      "@deepseek-ai/dsh-commands",
+      "@deepseek-ai/dsh-goal",
+      "@deepseek-ai/dsh-llm",
+      "@deepseek-ai/cordis"
+    ],
+    "tests": [
+      "tests/host/command-goal.test.ts"
+    ],
+    "row": {
+      "id": "command-goal",
+      "insertDisabled": true,
+      "disabled": true,
+      "tests": [
+        "tests/host/command-goal.test.ts"
+      ]
+    },
+    "nested": {
+      "kind": "preset",
+      "pluginId": "command-goal",
+      "stockId": "@deepseek-ai/dsh-command-goal",
+      "presets": [
+        "preset-standard",
+        "preset-ptc",
+        "preset-cordis"
+      ]
+    },
+    "draft": "Dump 2026-10-18T01-31-57 (ours.yml): ROW TOP-LEVEL 280–282 = '- id: command-goal' + \"name: '@deepseek-ai/dsh-command-goal'\" + 'disabled: true', KHÔNG config, KHÔNG inject ⇒ gbh.row mirror đúng ba khoá đó (không bịa thêm). LỒNG trong 3 preset: 839 (preset-standard) · 1003 (preset-ptc) · 1266 (preset-cordis) — entry chỉ có id + name ⇒ gbh.nested; preset-minimal KHÔNG chứa command-goal. Lưu ý: 'disabled: true' là giá trị của row STOCK bị tắt; khối insert sinh ra KHÔNG disabled (muốn tắt luôn bản chèn thì phải khai thêm 'insertDisabled: true' — chưa khai theo đúng đặc tả row ở cổng parity).",
+    "provenance": {
+      "stock": "@deepseek-ai/dsh-command-goal",
+      "version": "0.2.1-alpha.4",
+      "sha": "ba117f69b62db6ae1d8e546515f1f3309ed4a5ce246223e70315475396f9e5c1"
+    }
+  },
+  "types": "src/index.ts"
+}

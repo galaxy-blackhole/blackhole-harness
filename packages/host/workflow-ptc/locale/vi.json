@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "workflow-ptc",
+    "description": "Chạy mã điều phối workflow bằng runtime PTC dùng chung."
+  }
+}

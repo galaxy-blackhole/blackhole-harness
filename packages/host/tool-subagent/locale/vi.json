@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "tool-subagent",
+    "description": "Tool giao việc cho subagent dành cho model, đi qua seam ctx.subagents và nhận lại kết quả chạy."
+  }
+}

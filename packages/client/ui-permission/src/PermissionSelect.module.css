@@ -1,0 +1,8 @@
+/*
+ * author Bùi Trọng Hiếu
+ * email kevinbui210191@gmail.com
+ * create date 15/10/2026
+ * modify date 17/10/2026
+ * desc CSS cua chip quyen tren composer — giu NGUYEN VAN ban goc de pixel parity
+ */
+.iWlSmW_trigger{border-radius:var(--dsw-radius-sm);min-width:0;max-width:220px;height:28px;color:var(--dsw-alias-label-secondary);cursor:pointer;background:0 0;border:none;outline:none;align-items:center;gap:4px;padding:0 4px 0 8px;font-size:13px;font-weight:500;line-height:20px;display:inline-flex}.iWlSmW_trigger:hover:not(:disabled){background:var(--dsw-alias-interactive-bg-hover)}.iWlSmW_trigger:focus-visible{box-shadow:0 0 0 2px var(--dsw-focus-ring-color,var(--dsw-alias-state-business-primary))}.iWlSmW_trigger:disabled{color:var(--dsw-alias-label-dimmed);cursor:default}.iWlSmW_triggerIcon{flex:none;display:inline-flex}.iWlSmW_triggerIcon svg{width:14px;height:14px}.iWlSmW_triggerLabel{text-overflow:ellipsis;white-space:nowrap;min-width:0;overflow:hidden}.iWlSmW_optionLabel{align-items:center;gap:4px;min-width:0;max-width:100%;display:inline-flex}.iWlSmW_optionLabelText{text-overflow:ellipsis;white-space:nowrap;min-width:0;overflow:hidden}.iWlSmW_badge{color:var(--dsw-alias-label-tertiary);letter-spacing:.2px;flex:none;font-size:8px;font-weight:500;line-height:10px}.iWlSmW_chevron{color:var(--dsw-alias-label-caption);flex:none;transition:transform .12s;display:inline-flex}@container (width<=460px){.iWlSmW_trigger:has(.iWlSmW_triggerIcon) .iWlSmW_triggerLabel{display:none}}.iWlSmW_chevronOpen{transform:rotate(180deg)}

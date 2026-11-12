@@ -1,0 +1,39 @@
+{
+  "name": "@galaxy-blackhole/gbh-timeout",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "type": "module",
+  "main": "lib/index.js",
+  "description": "Zero-dependency timeout/deadline primitive: clampTimeout, deadline, timeoutOf, TimeoutReason (timing + classification only, no termination)",
+  "scripts": {
+    "build": "bun run build.ts"
+  },
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2"
+  },
+  "devDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2"
+  },
+  "license": "MIT",
+  "gbh": {
+    "provenance": {
+      "stock": "@deepseek-ai/dsh-timeout",
+      "version": "0.2.1-alpha.4",
+      "sha": "f9a79fd5194bb4d6321e6d2d5b5eb72f99c683452e1defbb75fad52f76aed667"
+    },
+    "tests": [
+      "tests/host/host-utils-cluster.test.ts"
+    ],
+    "peers": [
+      "@deepseek-ai/cordis"
+    ],
+    "draft": "19/10/2026 — GÓI THƯ VIỆN (0 dòng name trong dump 2026-10-18T01-31-57; matrix: khong co dong) ⇒ consumer inline, không khai gbh.row/gbh.nested."
+  }
+}

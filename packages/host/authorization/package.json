@@ -1,0 +1,50 @@
+{
+  "name": "@galaxy-blackhole/gbh-authorization",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "type": "module",
+  "main": "lib/index.js",
+  "description": "Bản viết lại của Galaxy Blackhole cho row authorization của DSH (@deepseek-ai/dsh-authorization): seam uỷ quyền ctx.authorization — sổ luồng lấy credential qua hội thoại với người, mỗi khoá MỘT lượt, sự kiện authorization/settled, và hai lớp lỗi AuthorizationError/AuthorizationDeclinedError.",
+  "scripts": {
+    "build": "bun run build.ts"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2",
+    "@deepseek-ai/dsh-credentials": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-llm": "0.2.1-alpha.4"
+  },
+  "devDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2",
+    "@deepseek-ai/dsh-credentials": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-llm": "0.2.1-alpha.4"
+  },
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "default": "./lib/index.js"
+    },
+    "./package.json": "./package.json",
+    "./src/*": "./src/*",
+    "./locale/*.json": "./locale/*.json"
+  },
+  "gbh": {
+    "tests": [
+      "tests/host/authorization.test.ts"
+    ],
+    "peers": [
+      "@deepseek-ai/cordis",
+      "@deepseek-ai/dsh-credentials",
+      "@deepseek-ai/dsh-llm"
+    ],
+    "row": {
+      "id": "authorization",
+      "tests": [
+        "tests/host/authorization.test.ts"
+      ]
+    },
+    "provenance": {
+      "stock": "@deepseek-ai/dsh-authorization"
+    }
+  },
+  "types": "src/index.ts"
+}

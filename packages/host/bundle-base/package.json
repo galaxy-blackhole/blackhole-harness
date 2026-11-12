@@ -1,0 +1,421 @@
+{
+  "name": "@galaxy-blackhole/gbh-base",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "type": "module",
+  "description": "The shared gbh core as a profile bundle: the first patch layer of base-backed profiles, inserting core rows over the empty profile root",
+  "exports": {
+    "./cordis.patch.yml": "./cordis.patch.yml",
+    "./package.json": "./package.json",
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    }
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    }
+  },
+  "license": "MIT",
+  "gbh": {
+    "provenance": {
+      "stock": "@deepseek-ai/dsh-base",
+      "stockVersion": "0.2.1-alpha.4",
+      "patch": "./cordis.patch.yml",
+      "patchLines": 522,
+      "replacements": [
+        {
+          "stock": "@deepseek-ai/dsh-llm",
+          "ours": "@galaxy-blackhole/gbh-llm",
+          "count": 1
+        },
+        {
+          "stock": "@deepseek-ai/dsh-web",
+          "ours": "@galaxy-blackhole/gbh-web",
+          "count": 1
+        },
+        {
+          "stock": "@deepseek-ai/dsh-hmr",
+          "ours": "@galaxy-blackhole/gbh-hmr",
+          "count": 1
+        },
+        {
+          "stock": "@deepseek-ai/dsh-otel",
+          "ours": "@galaxy-blackhole/gbh-otel",
+          "count": 1
+        },
+        {
+          "stock": "@deepseek-ai/dsh-goal",
+          "ours": "@galaxy-blackhole/gbh-goal",
+          "count": 1
+        },
+        {
+          "stock": "@deepseek-ai/dsh-skill",
+          "ours": "@galaxy-blackhole/gbh-skill",
+          "count": 1
+        },
+        {
+          "stock": "@deepseek-ai/dsh-agent",
+          "ours": "@galaxy-blackhole/gbh-agent",
+          "count": 1
+        },
+        {
+          "stock": "@deepseek-ai/dsh-storage",
+          "ours": "@galaxy-blackhole/gbh-storage",
+          "count": 1
+        },
+        {
+          "stock": "@deepseek-ai/dsh-session",
+          "ours": "@galaxy-blackhole/gbh-session",
+          "count": 1
+        },
+        {
+          "stock": "@deepseek-ai/dsh-settings",
+          "ours": "@galaxy-blackhole/gbh-settings",
+          "count": 1
+        },
+        {
+          "stock": "@deepseek-ai/dsh-commands",
+          "ours": "@galaxy-blackhole/gbh-commands",
+          "count": 1
+        },
+        {
+          "stock": "@deepseek-ai/dsh-subagent",
+          "ours": "@galaxy-blackhole/gbh-subagent",
+          "count": 1
+        },
+        {
+          "stock": "@deepseek-ai/dsh-tool-goal",
+          "ours": "@galaxy-blackhole/gbh-tool-goal",
+          "count": 1
+        },
+        {
+          "stock": "@deepseek-ai/dsh-shell-env",
+          "ours": "@galaxy-blackhole/gbh-shell-env",
+          "count": 1
+        },
+        {
+          "stock": "@deepseek-ai/dsh-llm-retry",
+          "ours": "@galaxy-blackhole/gbh-llm-retry",
+          "count": 1
+        },
+        {
+          "stock": "@deepseek-ai/dsh-plan-mode",
+          "ours": "@galaxy-blackhole/gbh-plan-mode",
+          "count": 1
+        },
+        {
+          "stock": "@deepseek-ai/dsh-tool-pwsh",
+          "ours": "@galaxy-blackhole/gbh-tool-pwsh",
+          "count": 1
+        },
+        {
+          "stock": "@deepseek-ai/dsh-jobs-local",
+          "ours": "@galaxy-blackhole/gbh-jobs-local",
+          "count": 1
+        },
+        {
+          "stock": "@deepseek-ai/dsh-fs-sandbox",
+          "ours": "@galaxy-blackhole/gbh-fs-sandbox",
+          "count": 1
+        },
+        {
+          "stock": "@deepseek-ai/dsh-tools",
+          "ours": "@galaxy-blackhole/gbh-host-tools",
+          "count": 1
+        },
+        {
+          "stock": "@deepseek-ai/dsh-session-log-deepseek",
+          "ours": "@galaxy-blackhole/gbh-session-log",
+          "count": 1
+        },
+        {
+          "stock": "@deepseek-ai/dsh-token-meter",
+          "ours": "@galaxy-blackhole/gbh-token-meter",
+          "count": 1
+        },
+        {
+          "stock": "@deepseek-ai/dsh-spill-local",
+          "ours": "@galaxy-blackhole/gbh-spill-local",
+          "count": 1
+        },
+        {
+          "stock": "@deepseek-ai/dsh-pwsh-sandbox",
+          "ours": "@galaxy-blackhole/gbh-pwsh-sandbox",
+          "count": 1
+        },
+        {
+          "stock": "@deepseek-ai/dsh-spill-policy",
+          "ours": "@galaxy-blackhole/gbh-spill-policy",
+          "count": 1
+        },
+        {
+          "stock": "@deepseek-ai/dsh-bash-sandbox",
+          "ours": "@galaxy-blackhole/gbh-bash-sandbox",
+          "count": 1
+        },
+        {
+          "stock": "@deepseek-ai/dsh-command-goal",
+          "ours": "@galaxy-blackhole/gbh-command-goal",
+          "count": 1
+        },
+        {
+          "stock": "@deepseek-ai/dsh-storage-json",
+          "ours": "@galaxy-blackhole/gbh-storage-json",
+          "count": 1
+        },
+        {
+          "stock": "@deepseek-ai/dsh-tool-workflow",
+          "ours": "@galaxy-blackhole/gbh-tool-workflow",
+          "count": 1
+        },
+        {
+          "stock": "@deepseek-ai/dsh-config-editor",
+          "ours": "@galaxy-blackhole/gbh-config-editor",
+          "count": 1
+        },
+        {
+          "stock": "@deepseek-ai/dsh-session-title",
+          "ours": "@galaxy-blackhole/gbh-session-title",
+          "count": 1
+        },
+        {
+          "stock": "@deepseek-ai/dsh-system-prompt",
+          "ours": "@galaxy-blackhole/gbh-system-prompt",
+          "count": 1
+        },
+        {
+          "stock": "@deepseek-ai/dsh-typert-loader",
+          "ours": "@galaxy-blackhole/gbh-typert-loader",
+          "count": 1
+        },
+        {
+          "stock": "@deepseek-ai/dsh-mcp-resources",
+          "ours": "@galaxy-blackhole/gbh-mcp-resources",
+          "count": 1
+        },
+        {
+          "stock": "@deepseek-ai/dsh-authorization",
+          "ours": "@galaxy-blackhole/gbh-authorization",
+          "count": 1
+        },
+        {
+          "stock": "@deepseek-ai/dsh-tool-web",
+          "ours": "@galaxy-blackhole/gbh-host-tool-web",
+          "count": 1
+        },
+        {
+          "stock": "@deepseek-ai/dsh-storage-domain",
+          "ours": "@galaxy-blackhole/gbh-storage-domain",
+          "count": 1
+        },
+        {
+          "stock": "@deepseek-ai/dsh-user-questions",
+          "ours": "@galaxy-blackhole/gbh-user-questions",
+          "count": 1
+        },
+        {
+          "stock": "@deepseek-ai/dsh-sandbox-policy",
+          "ours": "@galaxy-blackhole/gbh-sandbox-policy",
+          "count": 1
+        },
+        {
+          "stock": "@deepseek-ai/dsh-web-fetch-http",
+          "ours": "@galaxy-blackhole/gbh-web-fetch-http",
+          "count": 1
+        },
+        {
+          "stock": "@deepseek-ai/dsh-tool-jobs",
+          "ours": "@galaxy-blackhole/gbh-host-tool-jobs",
+          "count": 1
+        },
+        {
+          "stock": "@deepseek-ai/dsh-tool-todo",
+          "ours": "@galaxy-blackhole/gbh-host-tool-todo",
+          "count": 1
+        },
+        {
+          "stock": "@deepseek-ai/dsh-llm-pi-ai",
+          "ours": "@galaxy-blackhole/gbh-host-llm-pi-ai",
+          "count": 1
+        },
+        {
+          "stock": "@deepseek-ai/dsh-typert-registry",
+          "ours": "@galaxy-blackhole/gbh-typert-registry",
+          "count": 1
+        },
+        {
+          "stock": "@deepseek-ai/dsh-agent-loop",
+          "ours": "@galaxy-blackhole/gbh-host-agent-loop",
+          "count": 1
+        },
+        {
+          "stock": "@deepseek-ai/dsh-tool-skill",
+          "ours": "@galaxy-blackhole/gbh-host-tool-skill",
+          "count": 1
+        },
+        {
+          "stock": "@deepseek-ai/dsh-deepseek-account-platform",
+          "ours": "@galaxy-blackhole/gbh-account-platform",
+          "count": 1
+        },
+        {
+          "stock": "@deepseek-ai/dsh-command-feedback",
+          "ours": "@galaxy-blackhole/gbh-command-feedback",
+          "count": 1
+        },
+        {
+          "stock": "@deepseek-ai/dsh-ptc-runtime-node",
+          "ours": "@galaxy-blackhole/gbh-ptc-runtime-node",
+          "count": 1
+        },
+        {
+          "stock": "@deepseek-ai/dsh-attachment-local",
+          "ours": "@galaxy-blackhole/gbh-attachment-local",
+          "count": 1
+        },
+        {
+          "stock": "@deepseek-ai/dsh-subprocess-local",
+          "ours": "@galaxy-blackhole/gbh-subprocess-local",
+          "count": 1
+        },
+        {
+          "stock": "@deepseek-ai/dsh-api-remote-access",
+          "ours": "@galaxy-blackhole/gbh-api-remote-access",
+          "count": 1
+        },
+        {
+          "stock": "@deepseek-ai/dsh-credentials-local",
+          "ours": "@galaxy-blackhole/gbh-credentials-local",
+          "count": 1
+        },
+        {
+          "stock": "@deepseek-ai/dsh-working-directory",
+          "ours": "@galaxy-blackhole/gbh-working-directory",
+          "count": 1
+        },
+        {
+          "stock": "@deepseek-ai/dsh-goal-round-driver",
+          "ours": "@galaxy-blackhole/gbh-goal-round-driver",
+          "count": 1
+        },
+        {
+          "stock": "@deepseek-ai/dsh-session-projection",
+          "ours": "@galaxy-blackhole/gbh-session-projection",
+          "count": 1
+        },
+        {
+          "stock": "@deepseek-ai/dsh-tool-subagent",
+          "ours": "@galaxy-blackhole/gbh-host-tool-subagent",
+          "count": 2
+        },
+        {
+          "stock": "@deepseek-ai/dsh-agent-default-model",
+          "ours": "@galaxy-blackhole/gbh-agent-default-model",
+          "count": 1
+        },
+        {
+          "stock": "@deepseek-ai/dsh-plugin-manager",
+          "ours": "@galaxy-blackhole/gbh-host-plugin-manager",
+          "count": 2
+        },
+        {
+          "stock": "@deepseek-ai/dsh-api-gateway",
+          "ours": "@galaxy-blackhole/gbh-host-typert-gateway",
+          "count": 1
+        },
+        {
+          "stock": "@deepseek-ai/dsh-llm-deepseek-account",
+          "ours": "@galaxy-blackhole/gbh-llm-deepseek-account",
+          "count": 1
+        },
+        {
+          "stock": "@deepseek-ai/dsh-session-query-sqlite",
+          "ours": "@galaxy-blackhole/gbh-session-query-sqlite",
+          "count": 1
+        },
+        {
+          "stock": "@deepseek-ai/dsh-llm-deepseek-api-key",
+          "ours": "@galaxy-blackhole/gbh-llm-deepseek-api-key",
+          "count": 1
+        },
+        {
+          "stock": "@deepseek-ai/dsh-tool-subagent-control",
+          "ours": "@galaxy-blackhole/gbh-tool-subagent-control",
+          "count": 2
+        },
+        {
+          "stock": "@deepseek-ai/dsh-fs-observation-policy",
+          "ours": "@galaxy-blackhole/gbh-fs-observation-policy",
+          "count": 1
+        },
+        {
+          "stock": "@deepseek-ai/dsh-tool-working-directory",
+          "ours": "@galaxy-blackhole/gbh-tool-working-directory",
+          "count": 1
+        },
+        {
+          "stock": "@deepseek-ai/dsh-session-telemetry-otel",
+          "ours": "@galaxy-blackhole/gbh-session-telemetry-otel",
+          "count": 1
+        },
+        {
+          "stock": "@deepseek-ai/dsh-subagent-fork-in-process",
+          "ours": "@galaxy-blackhole/gbh-subagent-fork-in-process",
+          "count": 1
+        },
+        {
+          "stock": "@deepseek-ai/dsh-session-projection-cache",
+          "ours": "@galaxy-blackhole/gbh-session-projection-cache",
+          "count": 1
+        },
+        {
+          "stock": "@deepseek-ai/dsh-subagent-spawn-in-process",
+          "ours": "@galaxy-blackhole/gbh-subagent-spawn-in-process",
+          "count": 1
+        },
+        {
+          "stock": "@deepseek-ai/dsh-session-checkpoint-policy",
+          "ours": "@galaxy-blackhole/gbh-session-checkpoint-policy",
+          "count": 1
+        },
+        {
+          "stock": "@deepseek-ai/dsh-session-persistence-jsonl",
+          "ours": "@galaxy-blackhole/gbh-session-persistence-jsonl",
+          "count": 1
+        },
+        {
+          "stock": "@deepseek-ai/dsh-repeat-tool-reminder",
+          "ours": "@galaxy-blackhole/gbh-host-repeat-tool-reminder",
+          "count": 1
+        },
+        {
+          "stock": "@deepseek-ai/dsh-deepseek-llm-api-extensions",
+          "ours": "@galaxy-blackhole/gbh-deepseek-llm-api-extensions",
+          "count": 1
+        },
+        {
+          "stock": "@deepseek-ai/dsh-session-title-first-prompt-llm",
+          "ours": "@galaxy-blackhole/gbh-session-title-first-prompt-llm",
+          "count": 1
+        },
+        {
+          "stock": "@deepseek-ai/dsh-plugin-package-inventory-deepseek",
+          "ours": "@galaxy-blackhole/gbh-plugin-package-inventory-deepseek",
+          "count": 1
+        }
+      ],
+      "headerLines": 6,
+      "sha": "8e609bb71c20b858c77f0e9f90bb1319db8477b13f9f965f1a1e18524bf50881",
+      "shaFile": "lib/index.js",
+      "version": "0.2.1-alpha.4"
+    },
+    "tests": [
+      "tests/host/bundle-profile-patches.test.ts"
+    ]
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2"
+  }
+}

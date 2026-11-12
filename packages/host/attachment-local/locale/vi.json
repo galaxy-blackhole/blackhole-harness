@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "attachment-local",
+    "description": "Lưu trữ tệp đính kèm riêng tư trong GBH_HOME, địa chỉ hoá theo nội dung (content-addressed)."
+  }
+}

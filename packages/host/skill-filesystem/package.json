@@ -1,0 +1,57 @@
+{
+  "name": "@galaxy-blackhole/gbh-host-skill-filesystem",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "type": "module",
+  "main": "lib/index.js",
+  "description": "Local filesystem skill provider for the Galaxy Blackhole",
+  "scripts": {
+    "build": "bun run build.ts"
+  },
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./package.json": "./package.json",
+    "./locale/*.json": "./locale/*.json"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2",
+    "@deepseek-ai/dsh-fs": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-credentials": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-launch-environment": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-timeout": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-skill": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-home-paths": "0.2.1-alpha.4"
+  },
+  "gbh": {
+    "nested": {
+      "kind": "preset",
+      "pluginId": "skill-filesystem",
+      "stockId": "@deepseek-ai/dsh-skill-filesystem",
+      "presets": [
+        "preset-standard",
+        "preset-ptc",
+        "preset-cordis"
+      ],
+      "topLevelDisabledInStock": true
+    },
+    "tests": [
+      "tests/host/skill-filesystem.test.ts"
+    ],
+    "provenance": {
+      "stock": "@deepseek-ai/dsh-skill-filesystem",
+      "version": "0.2.1-alpha.4",
+      "sha": "783214a95cc531c82567925ed0afabfdee5c091a56c4b1c1e1bce523b948ee02",
+      "shaFile": "lib/index.js"
+    }
+  },
+  "dependencies": {
+    "@deepseek-ai/schemastery": "~3.18.5-alpha.2",
+    "chokidar": "^4.0.3",
+    "yaml": "^2.8.1"
+  },
+  "types": "lib/types/index.d.ts",
+  "devDependencies": {}
+}

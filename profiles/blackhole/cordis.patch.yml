@@ -1,0 +1,17 @@
+# author Bùi Trọng Hiếu
+# email kevinbui210191@gmail.com
+# create date 15/10/2026
+# modify date 17/10/2026
+# desc Lop patch cua nguoi dung cho profile cua app: mac dinh RONG (ngu nghia san pham nam o app.patch.yml)
+#
+# `bh host` seed file nay MOT LAN vao profile trong home cua app; sau do nguoi dung so huu.
+# Sua file nay khi muon tuy chinh rieng (theme, locale, preset...). Ngu nghia san pham cua Galaxy
+# (route auto, brand, telemetry, feedback) do `bh host` sinh o <DSH_HOME>/app.patch.yml — lop cuoi cung.
+#
+# LUU Y PARITY: blackhole web 4001 khong dat `locale.preference`, nen o day cung de trong cho khop
+# (xem .parity/dumps/*/diff-oracleA-vs-ours.md). Muon doi ngon ngu thi them lai:
+#   - id: locale
+#     config:
+#       preference: vi
+[]
+

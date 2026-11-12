@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "ui-settings-plugin-inventory",
+    "description": "Tab chỉ đọc liệt kê plugin mà Cordis Loader đang nạp, trong Cài đặt › Plugins."
+  }
+}

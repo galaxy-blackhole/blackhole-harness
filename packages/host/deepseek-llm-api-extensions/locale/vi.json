@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "deepseek-llm-api-extensions",
+    "description": "Sổ đăng ký trường yêu cầu bổ sung cho adapter DeepSeek LLM chính thức, để plugin khác thêm trường vào request."
+  }
+}

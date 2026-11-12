@@ -1,0 +1,17 @@
+{
+  "dev": "tm-client-debundle",
+  "owner": "tm-client-debundle",
+  "evidence": [
+    "reviewer tm-reviewer doc lap tren artifact build lai: exit 0 · export **16 = 16** BANG TUNG TEN voi `dsh-sandbox` (gồm cả `default` = `SandboxProvider`), thieu 0/thua 0 · artifact la ESM thu vien, KHONG co id trinh duyet/lib/client.js",
+    "la SEAM/THU VIEN, khong phai plugin mount: `gbh` chi co `peers` + `row_unmounted_ly_do`; dump-config KHONG co entry `sandbox-seam`; row `sandbox` trong app la `dsh-sandbox-local` (da ky qua gbh-sandbox), con `dsh-sandbox` chi la seam truu tuong duoc consumer INLINE",
+    "reviewer tu chay bun test tests/host/sandbox-seam.test.ts: **19 pass / 0 fail / 113 expect** — gồm múc F 'DỊCH VỤ `sandbox` tren Context cordis THAT — dang ky, dung, DON DEP' (dang ky tren Context that roi unload ⇒ bien mat)",
+    "service `sandbox`: chi `dsh-sandbox` (stock) cung cap trong cay cai; goi seam khong tu provide ma consumer dung de dang ky ⇒ khong trung",
+    "package signed, not mounted (seam, inlined by consumer)"
+  ],
+  "packages": [
+    {
+      "dsh": "@deepseek-ai/dsh-sandbox",
+      "gbh": "gbh-sandbox-seam"
+    }
+  ]
+}

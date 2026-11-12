@@ -1,0 +1,22 @@
+{
+  "dev": "tm-client-debundle",
+  "owner": "tm-client-debundle",
+  "evidence": [
+    "**BUNDLE — dữ liệu patch nguyên văn, KHÔNG mount row** (2 gói mới vào danh sách BUNDLES của cổng bundle)",
+    "**Reviewer tự chạy cổng bundle**: `tests/host/bundle-profile-patches.test.ts` = **16 pass / 0 fail / 193 expect** (đúng 16/16 Lead báo; đã gồm 2 gói mới nên cùng bất biến hai chiều)",
+    "**bundle-acp-app**: stock `@deepseek-ai/dsh-acp-app` @ `0.2.1-alpha.4` · **patchLines 24** · headerLines **6** · replacements **[]** · `stockSha256` = `bodySha256` = `b2191971be86e253c4a53b27aaa5951a36b31721abad4fbd2e06352f2898cfa0` ⇒ **thân ta === stock: TRUE**",
+    "**bundle-sdk-app**: stock `@deepseek-ai/dsh-sdk-app` @ `0.2.1-alpha.4` · **patchLines 37** · headerLines **6** · replacements **[]** · `stockSha256` = `bodySha256` = `128b42345f70b22375f350e686594173407d60e61247a427b3c2ff6ea0e72403` ⇒ **thân ta === stock: TRUE**",
+    "`gbh.tests` cả 2 gói trỏ tệp cổng bundle đúng chuẩn Lead chốt (không dùng extra:)",
+    "App xác nhận khi ký: (3) **79 entry** · (5) **0** · (10) **366 file khớp repo** · entry gốc **0** — LANH"
+  ],
+  "packages": [
+    {
+      "dsh": "@deepseek-ai/dsh-acp-app",
+      "gbh": "gbh-acp-app"
+    },
+    {
+      "dsh": "@deepseek-ai/dsh-sdk-app",
+      "gbh": "gbh-sdk-app"
+    }
+  ]
+}

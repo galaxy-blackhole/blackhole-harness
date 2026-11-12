@@ -1,0 +1,19 @@
+{
+  "dev": "tm-client-ui-b",
+  "owner": "tm-client-ui-b",
+  "evidence": [
+    "signed, MOUNTED — check:app 11/11 ba lượt liên tiếp (30s/lượt), lab 0 did-not-activate, boot-smoke DAT",
+    "reviewer tm-reviewer TU DO (app giu yen, khong boot lai): **3 lượt check:app cach nhau 30s deu DAT 11/11** — (1) 113.798 B · (2) __GBH_BOOT__ có · (3) **135 entry** · (4) 11 batch/release 0.1.0 · (5) **0** 'did not activate' · (7) 135/72 · (8) #root **47.181** / **46 slot** / **0 console** / **0 pageerror** · (9) **0/80** · (10) **209 file** khớp repo · (11) HMR OK; dump MỚI **336 entry**",
+    "row đã mount thật: patch `~/.galaxy/blackhole/app.patch.yml` có `disabled: true` cho row stock + insert bản ta (aliases @deepseek-ai/...); dump có entry bản ta ENABLED — kiểm bằng mắt trên dump mới",
+    "lab:row home CACH LY cua reviewer: #root **22.204** · **0 console · 0 pageerror · 0 overlay · 0 did-not-activate**",
+    "rollback san: doi `gbh.row` -> `gbh.row_unmounted_ly_do` (1 dong) roi boot lai",
+    "goi `gbh-client-ui-agent-team` (row ui-agent-team): patch dòng 298-306 có `ui-agent-team-ours` aliases @deepseek-ai/dsh-experimental-client-ui-agent-team · dump 336 entry ENABLED · (6) 60 goi ta co mat `gbh-client-ui-agent-team`",
+    "artifact (build lai): client bundle **1 id ta** (`window.__ModuleLoader__.load` dòng 830 = @galaxy-blackhole/gbh-client-ui-agent-team); id gốc chi xuat hien trong JSDoc (dòng 555) khong phai id nap · reviewer tu chay test 6 pass / 67 expect"
+  ],
+  "packages": [
+    {
+      "dsh": "@deepseek-ai/dsh-experimental-client-ui-agent-team",
+      "gbh": "gbh-client-ui-agent-team"
+    }
+  ]
+}

@@ -1,0 +1,180 @@
+{
+  "app": "stock",
+  "url": "http://127.0.0.1:5466/?token=***",
+  "capturedAt": "2026-10-21T04:24:30.935Z",
+  "steps": {
+    "aSession": {
+      "observations": [],
+      "data": {
+        "tabCount": 0,
+        "tabs": []
+      }
+    },
+    "bGeneral": {
+      "observations": [],
+      "data": {
+        "menu": [],
+        "nav": [
+          "General",
+          "Models",
+          "Built-in plugins",
+          "Agent presets"
+        ],
+        "rowTitles": [
+          "General",
+          "Models",
+          "Built-in plugins",
+          "Agent presets",
+          "Close",
+          "Permission",
+          "Language",
+          "Appearance",
+          "Font size",
+          "Work details",
+          "When to Collapse Work Details",
+          "Show coding view",
+          "Keyboard shortcuts",
+          "Send behavior while busy",
+          "Performance & usage",
+          "Upload Session Log when using the official model API"
+        ],
+        "hasPermissionRow": true,
+        "textSample": "Settings\nGeneral\nModels\nBuilt-in plugins\nAgent presets\nOpen configuration file\nClose\nPermission\nChoose the default permission mode for new sessions\nWorkspace Write\nLanguage\nEnglish\nAppearance\nLight\nDark\nSystem\nFont size\nOnly affects conversation content\n14\npx\nWork details\nChoose how much detail to show for tool calls\nDetailed\nWhen to Collapse Work Details\nChoose when to automatically collapse work details\nOn completion\nShow coding view\nShows trajectory, code diffs, and all Agent presets\nKeyboard shortcuts\n\nView and edit available shortcuts and input actions\n\nEdit shortcuts\nSend behavior while busy\nWhat Enter and the Send button do while the agent is running; Cmd/Ctrl+Enter uses the other behavior\nQueue\nPerformance & usage\nChoose how much performance and usage information to show\nDetailed\nUpload Session Log when using the official model API\nHelp improve DeepSeek models and products.\nCurrent version: 0.2.1-alpha.4"
+      }
+    },
+    "cCodingView": {
+      "observations": [],
+      "data": {
+        "found": true,
+        "before": "true",
+        "shortlyAfter": "false",
+        "after": "false",
+        "afterReload": "false",
+        "saveError": false
+      }
+    },
+    "dPreset": {
+      "observations": [],
+      "data": {
+        "badges": [
+          "BUILT-IN",
+          "New task default",
+          "Built-in",
+          "CUSTOM"
+        ],
+        "pairs": [
+          {
+            "status": "BUILT-IN",
+            "name": "Standard mode"
+          },
+          {
+            "status": "New task default",
+            "name": "standard"
+          },
+          {
+            "status": "Built-in",
+            "name": "cordis"
+          },
+          {
+            "status": "CUSTOM",
+            "name": "Let the agent help me create a preset"
+          }
+        ],
+        "presetErrors": [],
+        "presetNames": [
+          "Settings",
+          "General",
+          "Models",
+          "Built-in plugins",
+          "Agent presets",
+          "Open configuration file",
+          "Close",
+          "Agent presets",
+          "Choose the agent’s tools and how it works. Use Standard mode for everyday tasks, or Creator mode to add capabilities to DSH.",
+          "BUILT-IN",
+          "Standard mode",
+          "New task default",
+          "standard",
+          "Work with code, files, and information. Suitable for most tasks, with search, editing, terminal commands, and other tools available as needed.",
+          "Mode details",
+          "How to use",
+          "Creator mode",
+          "Built-in",
+          "cordis",
+          "Customize DSH through conversation. Let the agent write plugins that add features or UI, or combine tools and prompts to create your own mode.",
+          "Mode details",
+          "How to use",
+          "CUSTOM",
+          "Let the agent help me create a preset"
+        ],
+        "textSample": "Settings\nGeneral\nModels\nBuilt-in plugins\nAgent presets\nOpen configuration file\nClose\nAgent presets\n\nChoose the agent’s tools and how it works. Use Standard mode for everyday tasks, or Creator mode to add capabilities to DSH.\n\nBUILT-IN\nStandard mode\nNew task default\nstandard\nWork with code, files, and information. Suitable for most tasks, with search, editing, terminal commands, and other tools available as needed.\nMode details\nHow to use\nCreator mode\nBuilt-in\ncordis\nCustomize DSH through conversation. Let the agent write plugins that add features or UI, or combine tools and prompts to create your own mode.\nMode details\nHow to use\nCUSTOM\nLet the agent help me create a preset"
+      }
+    },
+    "eChat": {
+      "observations": [],
+      "data": {
+        "testids": [],
+        "rects": [
+          {
+            "tag": "header",
+            "testid": null,
+            "x": 280,
+            "y": 0,
+            "w": 1160,
+            "h": 40,
+            "pageWidth": 1440
+          },
+          {
+            "tag": "div",
+            "testid": null,
+            "x": 280,
+            "y": 381,
+            "w": 1153,
+            "h": 238,
+            "pageWidth": 1440
+          },
+          {
+            "tag": "div",
+            "testid": null,
+            "x": 453,
+            "y": 381,
+            "w": 806,
+            "h": 238,
+            "pageWidth": 1440
+          },
+          {
+            "tag": "div",
+            "testid": null,
+            "x": 469,
+            "y": 481,
+            "w": 770,
+            "h": 52,
+            "pageWidth": 1440
+          },
+          {
+            "tag": "header",
+            "testid": null,
+            "x": 0,
+            "y": 0,
+            "w": 0,
+            "h": 0,
+            "pageWidth": 1440
+          }
+        ],
+        "textSample": "New Session\n⌥\n⌘\nN\nPlugins\nAutomation tasks\nWorkspaces\nDefault workspace\nNew Session\nMore\nInto the Unknown\nPreview\nDefault workspace\nStandard mode\nDescribe what you want to build, / commands, @ files or sessions\nWorkspace Write\nSelect model"
+      }
+    }
+  },
+  "screenshots": [
+    "docs/evidence/stock-baseline/stock-a-home.png",
+    "docs/evidence/stock-baseline/stock-a-session.png",
+    "docs/evidence/stock-baseline/stock-b-general.png",
+    "docs/evidence/stock-baseline/stock-c-toggle.png",
+    "docs/evidence/stock-baseline/stock-c-reload.png",
+    "docs/evidence/stock-baseline/stock-d-preset.png",
+    "docs/evidence/stock-baseline/stock-e-chat.png"
+  ],
+  "pageErrors": [],
+  "notes": [],
+  "reproduce": "bun run tools/check/stock-baseline.ts   # boot stock ở 5466 (hoặc --reuse)\nGBH_URL=$(cat ~/.galaxy/blackhole/ready-url.txt) STOCK_URL=$(cat /tmp/stock-home/ready-url.txt) bun run tools/check/journeys.ts"
+}

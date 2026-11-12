@@ -1,0 +1,73 @@
+{
+  "dev": "tm-client-debundle",
+  "owner": "tm-client-debundle",
+  "evidence": [
+    "**BUNDLE — du lieu patch nguyen van, KHONG mount row rieng** (12 goi; chung minh bang cong bundle 19/19)",
+    "**2 tep cong reviewer tu chay: `tests/host/bundle-profile-patches.test.ts` + `tests/host/bundle-extra-packages.test.ts` = 19 pass / 0 fail / 184 expect** (dung moc R12 cua Lead)",
+    "Provenance reviewer DOC TRUC TIEP tu package.json tung goi (stock · stockVersion · patchLines · headerLines · replacements):",
+    "- bundle-agent-team-profile: stock `@deepseek-ai/dsh-experimental-agent-team-profile` @ 0.2.1-alpha.4 · patchLines **33** · headerLines **6** · replacements **1** · gbh.tests `tests/host/bundle-profile-patches.test.ts`",
+    "- bundle-badge-skill-bundle: stock `@deepseek-ai/dsh-experimental-badge-skill-bundle` @ 0.2.1-alpha.4 · patchLines **4** · headerLines **6** · replacements **0** · gbh.tests `tests/host/bundle-profile-patches.test.ts`",
+    "- bundle-cot-translation-bundle: stock `@deepseek-ai/dsh-experimental-cot-translation-bundle` @ 0.2.1-alpha.4 · patchLines **9** · headerLines **6** · replacements **1** · gbh.tests `tests/host/bundle-profile-patches.test.ts`",
+    "- bundle-inspector-profile: stock `@deepseek-ai/dsh-experimental-inspector-profile` @ 0.2.1-alpha.4 · patchLines **9** · headerLines **6** · replacements **2** · gbh.tests `tests/host/bundle-profile-patches.test.ts`",
+    "- bundle-plugin-market-bundle: stock `@deepseek-ai/dsh-experimental-plugin-market-bundle` @ 0.2.1-alpha.4 · patchLines **11** · headerLines **6** · replacements **1** · gbh.tests `tests/host/bundle-profile-patches.test.ts`",
+    "- bundle-ralph-bundle: stock `@deepseek-ai/dsh-experimental-ralph-bundle` @ 0.2.1-alpha.4 · patchLines **17** · headerLines **6** · replacements **0** · gbh.tests `tests/host/bundle-profile-patches.test.ts`",
+    "- bundle-session-search: stock `@deepseek-ai/dsh-experimental-session-search` @ 0.2.1-alpha.4 · patchLines **15** · headerLines **6** · replacements **1** · gbh.tests `tests/host/bundle-profile-patches.test.ts`",
+    "- bundle-session-titles-bundle: stock `@deepseek-ai/dsh-experimental-session-titles-bundle` @ 0.2.1-alpha.4 · patchLines **13** · headerLines **6** · replacements **0** · gbh.tests `tests/host/bundle-profile-patches.test.ts`",
+    "- bundle-terminal-bundle: stock `@deepseek-ai/dsh-experimental-terminal-bundle` @ 0.2.1-alpha.4 · patchLines **20** · headerLines **6** · replacements **0** · gbh.tests `tests/host/bundle-profile-patches.test.ts`",
+    "- bundle-voice-input-bundle: stock `@deepseek-ai/dsh-experimental-voice-input-bundle` @ 0.2.1-alpha.4 · patchLines **14** · headerLines **6** · replacements **4** · gbh.tests `tests/host/bundle-profile-patches.test.ts`",
+    "- bundle-base: stock `@deepseek-ai/dsh-base` @ 0.2.1-alpha.4 · patchLines **523** · headerLines **6** · replacements **9** · gbh.tests `tests/host/bundle-profile-patches.test.ts`",
+    "- bundle-sdk-minimal: stock `@deepseek-ai/dsh-sdk-minimal` @ 0.2.1-alpha.4 · patchLines **173** · headerLines **6** · replacements **4** · gbh.tests `tests/host/bundle-profile-patches.test.ts`",
+    "Bai hoc longest-first + ranh gioi `(?![\\w-])` cho CA HAI chieu da ghi `packages/README.md` §2 (theo Lead); back === stock, forward === ours cung ranh gioi — do test cong assert",
+    "app KHONG bi anh huong (bundle la du lieu patch): app 11/11, entry goc **0**; khong co mount moi nao duoc ky trong batch nay"
+  ],
+  "packages": [
+    {
+      "dsh": "@deepseek-ai/dsh-experimental-agent-team-profile",
+      "gbh": "gbh-agent-team-profile"
+    },
+    {
+      "dsh": "@deepseek-ai/dsh-experimental-badge-skill-bundle",
+      "gbh": "gbh-badge-skill-bundle"
+    },
+    {
+      "dsh": "@deepseek-ai/dsh-experimental-cot-translation-bundle",
+      "gbh": "gbh-cot-translation-bundle"
+    },
+    {
+      "dsh": "@deepseek-ai/dsh-experimental-inspector-profile",
+      "gbh": "gbh-inspector-profile"
+    },
+    {
+      "dsh": "@deepseek-ai/dsh-experimental-plugin-market-bundle",
+      "gbh": "gbh-plugin-market-bundle"
+    },
+    {
+      "dsh": "@deepseek-ai/dsh-experimental-ralph-bundle",
+      "gbh": "gbh-ralph-bundle"
+    },
+    {
+      "dsh": "@deepseek-ai/dsh-experimental-session-search",
+      "gbh": "gbh-session-search"
+    },
+    {
+      "dsh": "@deepseek-ai/dsh-experimental-session-titles-bundle",
+      "gbh": "gbh-session-titles-bundle"
+    },
+    {
+      "dsh": "@deepseek-ai/dsh-experimental-terminal-bundle",
+      "gbh": "gbh-terminal-bundle"
+    },
+    {
+      "dsh": "@deepseek-ai/dsh-experimental-voice-input-bundle",
+      "gbh": "gbh-voice-input-bundle"
+    },
+    {
+      "dsh": "@deepseek-ai/dsh-base",
+      "gbh": "gbh-base"
+    },
+    {
+      "dsh": "@deepseek-ai/dsh-sdk-minimal",
+      "gbh": "gbh-sdk-minimal"
+    }
+  ]
+}

@@ -1,0 +1,83 @@
+{
+  "name": "@galaxy-blackhole/gbh-tool-goal",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "type": "module",
+  "main": "lib/index.js",
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "default": "./lib/index.js"
+    },
+    "./locale/*.json": "./locale/*.json",
+    "./package.json": "./package.json"
+  },
+  "description": "Model-facing same-session goal tools with execution-time authority checks",
+  "scripts": {
+    "build": "bun run build.ts"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2",
+    "@deepseek-ai/dsh-llm": "0.2.1-alpha.4",
+    "@deepseek-ai/schemastery": "~3.18.5-alpha.2",
+    "@deepseek-ai/dsh-agent": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-goal": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-tools": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-session": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-session-projection": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-system-prompt": "0.2.1-alpha.4"
+  },
+  "devDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2",
+    "@deepseek-ai/dsh-llm": "0.2.1-alpha.4",
+    "@deepseek-ai/schemastery": "~3.18.5-alpha.2",
+    "@deepseek-ai/dsh-agent": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-goal": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-tools": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-session": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-session-projection": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-system-prompt": "0.2.1-alpha.4"
+  },
+  "license": "MIT",
+  "gbh": {
+    "peers": [
+      "@deepseek-ai/cordis",
+      "@deepseek-ai/dsh-llm",
+      "@deepseek-ai/schemastery",
+      "@deepseek-ai/dsh-agent",
+      "@deepseek-ai/dsh-goal",
+      "@deepseek-ai/dsh-tools",
+      "@deepseek-ai/dsh-session",
+      "@deepseek-ai/dsh-session-projection",
+      "@deepseek-ai/dsh-system-prompt"
+    ],
+    "row": {
+      "id": "tool-goal",
+      "insertDisabled": true,
+      "disabled": true,
+      "tests": [
+        "tests/host/tool-goal.test.ts"
+      ]
+    },
+    "nested": {
+      "kind": "preset",
+      "pluginId": "tool-goal",
+      "stockId": "@deepseek-ai/dsh-tool-goal",
+      "presets": [
+        "preset-standard",
+        "preset-ptc",
+        "preset-cordis"
+      ]
+    },
+    "tests": [
+      "tests/host/tool-goal.test.ts"
+    ],
+    "draft": "MIRROR dump 2026-10-18T01-31-57: row top-level ours.yml dòng 422–424 = '- id: tool-goal' + \"name: '@deepseek-ai/dsh-tool-goal'\" + 'disabled: true', KHÔNG config, KHÔNG inject ⇒ gbh.row CHỈ {id, disabled, tests}. Ba row LỒNG trong preset-standard (841) · preset-ptc (1005) · preset-cordis (1268) chỉ có id + name, KHÔNG config/disabled ⇒ gbh.nested. Khai row top-level để giữ nguyên trạng thái TẮT của sản phẩm; nested để agent-preset-registry đổi specifier stock -> @galaxy-blackhole/gbh-tool-goal khi mount.",
+    "provenance": {
+      "stock": "@deepseek-ai/dsh-tool-goal",
+      "version": "0.2.1-alpha.4",
+      "sha": "7220fa7b5b7c95c94377ac32c6b01ecac5b4853d9dec3a48ab17d371cda63e6c"
+    }
+  },
+  "types": "src/index.ts"
+}

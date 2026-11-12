@@ -1,0 +1,18 @@
+{
+  "dev": "tm-client-ui-a",
+  "owner": "tm-client-ui-a",
+  "evidence": [
+    "**3 luot check:app lien tiep DAT 11/11** — (3) **138 entry** · (5) **0** · (8) #root **47.097** / 46 slot / 0 console / 0 pageerror · (9) 0/80 · (10) **267 file khop repo** · (11) HMR",
+    "reviewer tm-reviewer TU DO: build 0 va in '15 lat · sha256 a9801acb577b · byte-identical voi @deepseek-ai/dsh-api-session-controller/lib/index.js'; **4 artefact host**: index **132.150 B** sha `a9801acb…` · client **166.573 B** sha `232f69b0…` · typert.host **365.332 B** sha `846e2f02…` · remote **223.410 B** sha `9c966d64…` — KHOP tung sha Lead dua",
+    "row `session-controller` + aliases @deepseek-ai/dsh-api-session-controller · patch `app.patch.yml:178-185` (disabled + insert `session-controller-ours` aliases) · dump **361 entry** ours ENABLED",
+    "test **22 pass / 0 fail / 154 expect** · exports 'toan bo 9 muc' + locale + client-entry theo bang chung chu goi (reviewer dem thay 6 ten trong khoi export dau cua index — ghi nhan, khong phu nhan 9 muc)",
+    "NO GHI RO: **CHUA chung minh luong session THAT qua controller cua ta** (can 1 phien chat that); boot-smoke sau khi va `dsh.client` + promote-park: #root 22.204 · 0 console · 0 did-not-activate",
+    "dev/owner tm-client-ui-a theo Lead; rollback san"
+  ],
+  "packages": [
+    {
+      "dsh": "@deepseek-ai/dsh-api-session-controller",
+      "gbh": "gbh-api-session-controller"
+    }
+  ]
+}

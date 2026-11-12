@@ -1,0 +1,42 @@
+{
+  "name": "@galaxy-blackhole/gbh-bundle",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "lib/index.js",
+  "exports": {
+    ".": "./lib/index.js",
+    "./cordis.patch.yml": "./cordis.patch.yml",
+    "./web-app.patch.yml": "./web-app.patch.yml",
+    "./presets/*": "./presets/*",
+    "./experimental/*": "./experimental/",
+    "./package.json": "./package.json"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": [
+        "./cordis.patch.yml",
+        "./web-app.patch.yml",
+        "./presets/standard.patch.yml",
+        "./presets/ptc.patch.yml",
+        "./presets/minimal.patch.yml",
+        "./presets/cordis.patch.yml",
+        "./experimental/experimental-plugin-market-bundle.patch.yml",
+        "./experimental/experimental-agent-team-profile.patch.yml",
+        "./experimental/experimental-terminal-bundle.patch.yml",
+        "./experimental/experimental-session-search.patch.yml",
+        "./experimental/experimental-inspector-profile.patch.yml",
+        "./experimental/experimental-auto-review.patch.yml",
+        "./experimental/experimental-tool-worktree.patch.yml",
+        "./experimental/experimental-cot-translation-bundle.patch.yml",
+        "./experimental/experimental-ralph-bundle.patch.yml",
+        "./experimental/experimental-session-titles-bundle.patch.yml",
+        "./experimental/experimental-voice-input-bundle.patch.yml"
+      ]
+    }
+  },
+  "gbh": {
+    "draft": "BUNDLE-NATIVE (task-191): 17 tệp patch của 13 bundle stock, chỉ đổi name theo provenance — KHÔNG có code, không phải row.",
+    "tests": []
+  }
+}

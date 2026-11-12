@@ -1,0 +1,66 @@
+{
+  "name": "@galaxy-blackhole/gbh-account-platform",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "type": "module",
+  "main": "lib/index.js",
+  "description": "DeepSeek account authorization via browser PKCE, keeping the grant in the credential store.",
+  "scripts": {
+    "build": "bun run build.ts"
+  },
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "dependencies": {
+    "@deepseek-ai/schemastery": "~3.18.5-alpha.2",
+    "zod": "4.4.3"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2",
+    "@deepseek-ai/dsh-credentials": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-deepseek-account": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-authorization": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-host-webserver": "0.2.1-alpha.4"
+  },
+  "devDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2",
+    "@deepseek-ai/dsh-credentials": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-deepseek-account": "0.2.1-alpha.4",
+    "@deepseek-ai/schemastery": "~3.18.5-alpha.2",
+    "zod": "4.4.3",
+    "@deepseek-ai/dsh-authorization": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-host-webserver": "0.2.1-alpha.4"
+  },
+  "license": "MIT",
+  "gbh": {
+    "peers": [
+      "@deepseek-ai/cordis",
+      "@deepseek-ai/dsh-authorization",
+      "@deepseek-ai/dsh-credentials",
+      "@deepseek-ai/dsh-deepseek-account",
+      "@deepseek-ai/dsh-host-webserver",
+      "@deepseek-ai/schemastery",
+      "zod"
+    ],
+    "row": {
+      "id": "deepseek-account",
+      "config": {
+        "desktopPlatform": {
+          "js": "ctx.get('profileContext')?.name === 'desktop' && ['darwin','win32'].includes(process.platform) ? process.platform : null"
+        }
+      },
+      "tests": [
+        "tests/host/account-platform.test.ts"
+      ]
+    },
+    "provenance": {
+      "stock": "@deepseek-ai/dsh-deepseek-account-platform",
+      "version": "0.2.1-alpha.4"
+    }
+  },
+  "types": "lib/types/index.d.ts"
+}

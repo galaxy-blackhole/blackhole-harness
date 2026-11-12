@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "client-ui-renderer",
+    "description": "Bộ render lõi: dựng nội dung tin nhắn, markdown và các khối nội dung phức hợp."
+  }
+}

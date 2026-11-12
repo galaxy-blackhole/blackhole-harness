@@ -1,0 +1,16 @@
+{
+  "dev": "phien-truoc (git log)",
+  "owner": "lead",
+  "evidence": [
+    "reviewer tm-reviewer doc lap: artifact client id goc=0 / id ta=1 · tap slot 2=2 (settings.general.item + shell.overlay) · co cong idempotent module-scope + ca test",
+    "reviewer tu chay bun test tests/client/ui-approval.test.ts: 30 pass / 0 fail",
+    "lab per-row cua tm-evidence (nguoi do KHAC tac gia): .parity/lab-evidence/ui-approval.json = DAT · #root 24.602 · 0 loi console · 0 loi trang · 0 did-not-activate · 0 overlay (luot do lai 22:00; luot do 21:27 tung do la build chong, KHONG dung)",
+    "--dump-config: ui-approval disabled:true + ui-approval-ours + aliases ⇒ MOUNT"
+  ],
+  "packages": [
+    {
+      "dsh": "@deepseek-ai/dsh-client-ui-approval",
+      "gbh": "gbh-client-ui-approval"
+    }
+  ]
+}

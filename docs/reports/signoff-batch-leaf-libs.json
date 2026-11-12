@@ -1,0 +1,26 @@
+{
+  "dev": "lead",
+  "owner": "lead",
+  "evidence": [
+    "package signed, not mounted (library, inlined by consumer)",
+    "gom 3 goi LA zero-dependency (dependencies rong), KHONG khai gbh.row (row_unmounted_ly_do: thu vien thuan ham, consumer inline); reviewer build lai ca 3 = exit 0",
+    "gbh-util-crypto (dsh-util-crypto, 35 dong goc): export **2 = 2** (`bytesToBase64` · `randomUUID`); test **7 pass / 0 fail / 227 expect** — A/B cung dau vao: base64 rong/1B/32.767B/32.768B (bien lo)/100.000B/moi byte 0–255, so chuoi bang nhau + bang btoa tham chieu + do dai dung cong thuc; UUID 100 mau moi ben dung khuon v4; 2.000 UUID cua ta khong trung; bay chung minh CA HAI ban KHONG goi crypto.randomUUID",
+    "gbh-brand (dsh-brand, 32 dong): export **2 = 2** (`brandString` · `brandNumber`); test **4 pass / 0 fail / 24 expect** — tra DUNG gia tri 7 chuoi + 9 so (NaN/±Infinity/-0 dung Object.is); hai ban cai doc lap dung lan gia tri duoc",
+    "gbh-util-time (dsh-util-time, 31 dong): export **1 = 1** (`canonicalClientTimeZone`); test **4 pass / 0 fail / 35 expect** — 17 dau vao (UTC/utc/alias Asia/Saigon/khoang trang bien/khuon sai) CUNG ket qua hai ban; ten tra ve = canonical cua Intl; tu choi dung tap",
+    "typecheck toan repo (reviewer tu chay gate --only typecheck): **XANH 1.880 file · 0 vi pham**; header/file-length/jsdoc/hygiene XANH 4/4 (2.189 file) theo chu goi"
+  ],
+  "packages": [
+    {
+      "dsh": "@deepseek-ai/dsh-util-crypto",
+      "gbh": "gbh-util-crypto"
+    },
+    {
+      "dsh": "@deepseek-ai/dsh-brand",
+      "gbh": "gbh-brand"
+    },
+    {
+      "dsh": "@deepseek-ai/dsh-util-time",
+      "gbh": "gbh-util-time"
+    }
+  ]
+}

@@ -1,0 +1,52 @@
+{
+  "name": "@galaxy-blackhole/gbh-client-ui-agent-preset",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "type": "module",
+  "main": "lib/index.js",
+  "description": "Ban viet lai cua Galaxy Blackhole cho row ui-agent-preset cua DSH (@deepseek-ai/dsh-client-ui-agent-preset).",
+  "scripts": {
+    "build": "bun run build.ts"
+  },
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "default": "./lib/index.js"
+    },
+    "./client": "./lib/client.js",
+    "./package.json": "./package.json"
+  },
+  "dsh": {
+    "client": {
+      "inject": [
+        "@deepseek-ai/dsh-api-session-controller",
+        "@deepseek-ai/dsh-client-connection",
+        "@deepseek-ai/dsh-client-locale",
+        "@deepseek-ai/dsh-client-ui-conversation",
+        "@deepseek-ai/dsh-client-ui-session",
+        "@deepseek-ai/dsh-client-ui-settings",
+        "@deepseek-ai/dsh-client-ui-workspace",
+        "@deepseek-ai/dsh-api-remotes"
+      ],
+      "platform": "web"
+    }
+  },
+  "gbh": {
+    "row": {
+      "id": "ui-agent-preset",
+      "moduleIds": [
+        "@galaxy-blackhole/gbh-client-ui-agent-preset"
+      ],
+      "aliases": [
+        "@deepseek-ai/dsh-client-ui-agent-preset"
+      ],
+      "tests": [
+        "tests/client/ui-agent-preset.test.ts"
+      ]
+    },
+    "provenance": {
+      "stock": "@deepseek-ai/dsh-client-ui-agent-preset"
+    }
+  },
+  "types": "src/index.ts"
+}

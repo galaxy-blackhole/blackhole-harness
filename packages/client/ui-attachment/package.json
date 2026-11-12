@@ -1,0 +1,57 @@
+{
+  "name": "@galaxy-blackhole/gbh-client-ui-attachment",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "type": "module",
+  "main": "lib/index.js",
+  "description": "Ban viet lai cua Galaxy Blackhole cho row ui-attachment cua DSH (@deepseek-ai/dsh-client-ui-attachment): trinh bay tep dinh kem dong cho input, anh tin nhan, anh trajectory.",
+  "scripts": {
+    "build": "bun run build.ts"
+  },
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./client": "./lib/client.js",
+    "./package.json": "./package.json",
+    "./locale/*.json": "./locale/*.json"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2"
+  },
+  "devDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2"
+  },
+  "gbh": {
+    "row": {
+      "moduleIds": [
+        "@galaxy-blackhole/gbh-client-ui-attachment"
+      ],
+      "id": "ui-attachment",
+      "tests": [
+        "tests/client/ui-attachment.test.ts"
+      ],
+      "aliases": [
+        "@deepseek-ai/dsh-client-ui-attachment"
+      ]
+    },
+    "provenance": {
+      "stock": "@deepseek-ai/dsh-client-ui-attachment"
+    }
+  },
+  "dsh": {
+    "client": {
+      "platform": "web",
+      "inject": [
+        "@deepseek-ai/dsh-client-locale",
+        "@deepseek-ai/dsh-client-ui-chat",
+        "@deepseek-ai/dsh-client-ui-conversation",
+        "@deepseek-ai/dsh-client-ui-renderer",
+        "@deepseek-ai/dsh-client-ui-trajectory",
+        "@deepseek-ai/dsh-client-ui-tool"
+      ]
+    }
+  },
+  "types": "lib/types/index.d.ts"
+}

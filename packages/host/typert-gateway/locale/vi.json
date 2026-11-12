@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "api-gateway",
+    "description": "Bộ điều phối Typert Remote của host và endpoint API cho client: nhận lời gọi từ client rồi phân phát tới dịch vụ tương ứng."
+  }
+}

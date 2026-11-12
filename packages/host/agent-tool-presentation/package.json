@@ -1,0 +1,46 @@
+{
+  "name": "@galaxy-blackhole/gbh-agent-tool-presentation",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "type": "module",
+  "main": "lib/index.js",
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./package.json": "./package.json",
+    "./locale/*.json": "./locale/*.json"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/dsh-tools": "0.2.1-alpha.4",
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2"
+  },
+  "dependencies": {
+    "@deepseek-ai/schemastery": "~3.18.5-alpha.2"
+  },
+  "gbh": {
+    "peers": [
+      "@deepseek-ai/dsh-tools",
+      "@deepseek-ai/cordis",
+      "@deepseek-ai/schemastery"
+    ],
+    "tests": [
+      "tests/host/agent-tool-presentation.test.ts"
+    ],
+    "provenance": {
+      "stock": "@deepseek-ai/dsh-agent-tool-presentation",
+      "version": "0.2.1-alpha.4",
+      "sha": "41bf3930e6ed081c97d32cabe7cfc0a2e933d1a9b73990908de9039621915ab8"
+    },
+    "nested": {
+      "kind": "preset",
+      "pluginId": "tool-presentation",
+      "stockId": "@deepseek-ai/dsh-agent-tool-presentation",
+      "presets": [
+        "preset-ptc"
+      ]
+    }
+  },
+  "description": "Agent-plane presentation selector: composes one agent's tools as PTC mode or native tool calls"
+}

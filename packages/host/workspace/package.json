@@ -1,0 +1,49 @@
+{
+  "name": "@galaxy-blackhole/gbh-workspace",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "type": "module",
+  "main": "lib/index.js",
+  "description": "Bản viết lại của Galaxy Blackhole cho row workspace của DSH (@deepseek-ai/dsh-workspace): sổ đăng ký workspace BỀN VỮNG (ctx.workspaceRegistry) — bản ghi workspace trên dạng dữ liệu MIỀN của kho, thứ tự hiển thị ổn định, tư cách thành viên phiên có kiểm header (cwd chuẩn tắc), cộng sổ lưu trữ/ghim TOÀN SỔ trên hai waterfall workspace/session-activity · workspace/session-stop.",
+  "scripts": {
+    "build": "bun run build.ts"
+  },
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "default": "./lib/index.js"
+    },
+    "./package.json": "./package.json",
+    "./src/*": "./src/*",
+    "./locale/*.json": "./locale/*.json"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2",
+    "zod": "4.4.3"
+  },
+  "devDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2",
+    "zod": "4.4.3",
+    "@galaxy-blackhole/gbh-session": "0.2.1-alpha.4"
+  },
+  "license": "MIT",
+  "gbh": {
+    "peers": [
+      "zod"
+    ],
+    "draft": "CHUA KHAI gbh.row — nguoi viet goi KHONG tu khai (chua nghiem thu mount). Khai gbh.row = tat row stock cua MOI NGUOI o luot boot ke tiep ⇒ chi khai khi be mat xong + check:rows sach + gate XANH + lab 0 loi + check:app dat chi so (8). Xem docs/recipes/HOST-ROW-REWRITE.md muc 7.",
+    "tests": [
+      "tests/host/workspace.test.ts"
+    ],
+    "row": {
+      "id": "workspace",
+      "tests": [
+        "tests/host/workspace.test.ts"
+      ]
+    },
+    "provenance": {
+      "stock": "@deepseek-ai/dsh-workspace"
+    }
+  },
+  "types": "src/index.ts"
+}

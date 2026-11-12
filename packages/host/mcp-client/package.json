@@ -1,0 +1,59 @@
+{
+  "name": "@galaxy-blackhole/gbh-mcp-client",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "type": "module",
+  "main": "lib/index.js",
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/dsh-attachment": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-llm": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-scope": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-subprocess": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-timeout": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-tools": "0.2.1-alpha.4",
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2",
+    "@deepseek-ai/dsh-mcp-resources": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-system-prompt": "0.2.1-alpha.4"
+  },
+  "dependencies": {
+    "@deepseek-ai/schemastery": "~3.18.5-alpha.2",
+    "@modelcontextprotocol/client": "2.2.0",
+    "@deepseek-ai/dsh-util-values": "0.2.1-alpha.4"
+  },
+  "gbh": {
+    "peers": [
+      "@deepseek-ai/dsh-attachment",
+      "@deepseek-ai/dsh-llm",
+      "@deepseek-ai/dsh-scope",
+      "@deepseek-ai/dsh-subprocess",
+      "@deepseek-ai/dsh-timeout",
+      "@deepseek-ai/dsh-tools",
+      "@deepseek-ai/cordis",
+      "@deepseek-ai/dsh-mcp-resources",
+      "@deepseek-ai/dsh-system-prompt",
+      "@deepseek-ai/schemastery",
+      "@modelcontextprotocol/client",
+      "@deepseek-ai/dsh-util-values"
+    ],
+    "tests": [
+      "tests/host/mcp-client.test.ts"
+    ],
+    "provenance": {
+      "stock": "@deepseek-ai/dsh-mcp-client",
+      "version": "0.2.1-alpha.4",
+      "sha": "758d8fc473b700b5d351158d06ce9f9e92c16e8b25497b08bb7bd2122a87f5dd"
+    },
+    "draft": "host plugin dạng thư viện (dump 0 row) — port 1:1, KHÔNG mount/flip"
+  },
+  "description": "MCP client bridge: connects to MCP servers and registers their tools on ctx.tools",
+  "scripts": {
+    "build": "bun run build.ts"
+  }
+}

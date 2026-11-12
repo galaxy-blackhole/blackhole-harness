@@ -1,0 +1,52 @@
+{
+  "name": "@galaxy-blackhole/gbh-client-ui-settings-models",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "type": "module",
+  "main": "lib/index.js",
+  "description": "Ban viet lai cua Galaxy Blackhole cho row ui-settings-models cua DSH (@deepseek-ai/dsh-client-ui-settings-models).",
+  "scripts": {
+    "build": "bun run build.ts"
+  },
+  "dsh": {
+    "client": {
+      "inject": [
+        "@deepseek-ai/dsh-client-ui-settings",
+        "@deepseek-ai/dsh-client-locale",
+        "@deepseek-ai/dsh-api-remotes"
+      ],
+      "platform": "web"
+    }
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2",
+    "@deepseek-ai/schemastery": "~3.18.5-alpha.2"
+  },
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "default": "./lib/index.js"
+    },
+    "./client": "./lib/client.js",
+    "./package.json": "./package.json",
+    "./locale/*.json": "./locale/*.json"
+  },
+  "gbh": {
+    "row": {
+      "id": "ui-settings-models",
+      "moduleIds": [
+        "@galaxy-blackhole/gbh-client-ui-settings-models"
+      ],
+      "aliases": [
+        "@deepseek-ai/dsh-client-ui-settings-models"
+      ],
+      "tests": [
+        "tests/client/ui-settings-models.test.ts"
+      ]
+    },
+    "provenance": {
+      "stock": "@deepseek-ai/dsh-client-ui-settings-models"
+    }
+  },
+  "types": "src/index.ts"
+}

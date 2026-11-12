@@ -1,0 +1,37 @@
+{
+  "name": "@galaxy-blackhole/gbh-subprocess",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "type": "module",
+  "main": "lib/index.js",
+  "description": "Bản viết lại của Galaxy Blackhole cho seam tiến trình con của DSH (@deepseek-ai/dsh-subprocess): dịch vụ trừu tượng ctx.subprocess (tra executable, spawn có quản lý dải tiến trình, stdio thô hoặc thu gom có spill, một primitive terminal) + hàm khử môi trường cha scrubbedParentEnv và kênh điều khiển thừa kế.",
+  "scripts": {
+    "build": "bun run build.ts"
+  },
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./control": "./lib/control.js",
+    "./package.json": "./package.json",
+    "./src/*": "./src/*"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2",
+    "@deepseek-ai/dsh-http-proxy": "0.2.1-alpha.4"
+  },
+  "devDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2",
+    "@deepseek-ai/dsh-http-proxy": "0.2.1-alpha.4"
+  },
+  "gbh": {
+    "peers": [
+      "@deepseek-ai/dsh-http-proxy"
+    ],
+    "provenance": {
+      "stock": "@deepseek-ai/dsh-subprocess"
+    }
+  },
+  "types": "lib/types/index.d.ts"
+}

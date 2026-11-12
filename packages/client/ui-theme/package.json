@@ -1,0 +1,57 @@
+{
+  "name": "@galaxy-blackhole/gbh-client-ui-theme",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "type": "module",
+  "main": "lib/index.js",
+  "description": "Ban viet lai cua Galaxy Blackhole cho row ui-theme cua DSH (@deepseek-ai/dsh-client-ui-theme).",
+  "scripts": {
+    "build": "bun run build.ts"
+  },
+  "gbh": {
+    "draft": "DA KHAI gbh.row (row ui-theme) — theo luat: chi khai khi apply chay sach TRONG LAB.",
+    "tests": [
+      "tests/client/ui-theme.test.ts"
+    ],
+    "provenance": {
+      "stock": "@deepseek-ai/dsh-client-ui-theme"
+    },
+    "row": {
+      "id": "ui-theme",
+      "moduleIds": [
+        "@galaxy-blackhole/gbh-client-ui-theme"
+      ],
+      "aliases": [
+        "@deepseek-ai/dsh-client-ui-theme"
+      ],
+      "tests": [
+        "tests/client/ui-theme.test.ts"
+      ]
+    }
+  },
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "default": "./lib/index.js"
+    },
+    "./client": "./lib/client.js",
+    "./package.json": "./package.json",
+    "./brand-font.css": "./lib/styles/brand-font.css",
+    "./locale/*.json": "./locale/*.json"
+  },
+  "dsh": {
+    "client": {
+      "inject": [
+        "@galaxy-blackhole/gbh-client-connection",
+        "@galaxy-blackhole/gbh-client-locale",
+        "@galaxy-blackhole/gbh-client-shortcuts",
+        "@galaxy-blackhole/gbh-client-ui-renderer",
+        "@galaxy-blackhole/gbh-client-ui-settings",
+        "@galaxy-blackhole/gbh-api-remotes"
+      ],
+      "platform": "web",
+      "immediately": true
+    }
+  },
+  "types": "src/index.ts"
+}

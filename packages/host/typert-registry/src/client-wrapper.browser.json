@@ -1,0 +1,21 @@
+{
+  "head": [
+    "window.__ModuleLoader__.load({",
+    "\tid: \"@galaxy-blackhole/gbh-typert-registry\",",
+    "\tfactory: (require) => {"
+  ],
+  "tail": [
+    "\t\texports.apply = apply;",
+    "\t\texports.inject = inject;",
+    "\t\treturn module.exports;",
+    "\t}",
+    "});",
+    "",
+    "//# sourceMappingURL=client.browser.js.map"
+  ],
+  "parts": [
+    "part-00.ts",
+    "part-01.ts",
+    "part-02.ts"
+  ]
+}

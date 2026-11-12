@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "plugin-inventory",
+    "description": "Cung cấp danh mục chỉ đọc về plugin hiện có, trạng thái bật/tắt và trạng thái chạy."
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "terminal-bash",
+    "description": "Backend PTY shell bền vững, dựng trên primitive terminal của subprocess trong Galaxy Blackhole."
+  }
+}

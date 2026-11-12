@@ -1,0 +1,13 @@
+# author Bùi Trọng Hiếu
+# email kevinbui210191@gmail.com
+# create date 15/10/2026
+# modify date 10/11/2026 — row worktree trỏ gói viết lại của ta (gbh-worktree, có gbh.row.ownedByBundle)
+#      thay vì bản sao 1:1: công tắc tắt bundle phải gỡ được row này (trước đây app.patch.yml cắm
+#      worktree-ours nên tắt bundle row vẫn sống).
+# desc Bundle patch cho "Worktree Git": cắm hai row worktree + tool-worktree của ta — bản gốc
+#      @galaxy-blackhole/gbh-tool-worktree-bundle khai đúng hai row cùng tên.
+- insert:
+    - id: worktree
+      name: '@galaxy-blackhole/gbh-worktree'
+    - id: tool-worktree
+      name: '@galaxy-blackhole/gbh-tool-worktree'

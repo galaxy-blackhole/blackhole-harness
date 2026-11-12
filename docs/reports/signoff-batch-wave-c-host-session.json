@@ -1,0 +1,20 @@
+{
+  "dev": "tm-host-session",
+  "owner": "tm-host-session",
+  "evidence": [
+    "reviewer tm-reviewer doc lap: build exit 0 · export **4 = 4** (Config · apply · inject · name) cho ca 2 goi",
+    "tool-pwsh-persistent: khong khai gbh.row la DUNG — row nam LONG trong agent-preset (persistent-pwsh), khong phai row top-level",
+    "api-remote-access: goi HAI MAT (2183 dong) moi port nua host => khong khai row; export **3 = 3** (REMOTE_ACCESS_SNAPSHOT_KEY · RemoteAccessService · default); service `remoteAccess` chi do dsh-api-remote-access (stock) cung cap, ban ta `super(ctx, \"remoteAccess\")` o service.ts:91 => thay the 1:1, KHONG trung service",
+    "reviewer tu chay: tool-pwsh-persistent **17 pass / 106 expect** · api-remote-access **15 pass / 64 expect** — 0 fail"
+  ],
+  "packages": [
+    {
+      "dsh": "@deepseek-ai/dsh-tool-pwsh-persistent",
+      "gbh": "gbh-tool-pwsh-persistent"
+    },
+    {
+      "dsh": "@deepseek-ai/dsh-api-remote-access",
+      "gbh": "gbh-api-remote-access"
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "dev": "tm-host-session",
+  "owner": "tm-host-session",
+  "evidence": [
+    "reviewer tm-reviewer do doc lap tren artifact: build exit 0 · export **2 = 2** voi ban goc (JobController + default) · thieu 0 · thua 0",
+    "marker @Remote trong src/index.ts = **3** (khop ban goc)",
+    "reviewer tu chay bun test tests/host/api-job-controller.test.ts: **14 pass / 0 fail / 68 expect** tren Context cordis THAT (gồm ca canh 'khong khai gbh.row' + doi chung duong)",
+    "goi CO Y KHONG khai gbh.row (gbh.draft ghi ro: thieu nua client + manifest remote cua 22b) ⇒ khong the lam hong app cua nguoi khac"
+  ],
+  "packages": [
+    {
+      "dsh": "@deepseek-ai/dsh-api-job-controller",
+      "gbh": "gbh-api-job-controller"
+    }
+  ]
+}

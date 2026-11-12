@@ -1,0 +1,38 @@
+{
+  "name": "@galaxy-blackhole/gbh-ptc-runtime",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "type": "module",
+  "main": "lib/index.js",
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2",
+    "@deepseek-ai/dsh-sandbox": "0.2.1-alpha.4"
+  },
+  "dependencies": {},
+  "gbh": {
+    "peers": [
+      "@deepseek-ai/cordis",
+      "@deepseek-ai/dsh-sandbox"
+    ],
+    "tests": [
+      "tests/host/ptc-runtime.test.ts"
+    ],
+    "provenance": {
+      "stock": "@deepseek-ai/dsh-ptc-runtime",
+      "version": "0.2.1-alpha.4",
+      "sha": "a09ee10c5cbd1f30662324aa5929b23f54cbd955098701fcf90d6252e06987a8"
+    },
+    "draft": "thư viện runtime PTC (không phải row trong dump) — port để đóng bộ X"
+  },
+  "description": "Abstract PTC execution seam (ctx.ptcRuntime) for the Galaxy Blackhole",
+  "scripts": {
+    "build": "bun run build.ts"
+  }
+}

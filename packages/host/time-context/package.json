@@ -1,0 +1,72 @@
+{
+  "name": "@galaxy-blackhole/gbh-time-context",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "type": "module",
+  "main": "lib/index.js",
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./package.json": "./package.json",
+    "./locale/*.json": "./locale/*.json"
+  },
+  "description": "Durable per-step context with the current time and elapsed time",
+  "scripts": {
+    "build": "bun run build.ts"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2",
+    "@deepseek-ai/dsh-agent": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-llm": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-session": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-session-projection": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-util-values": "0.2.1-alpha.4",
+    "@deepseek-ai/schemastery": "~3.18.5-alpha.2",
+    "zod": "4.4.3"
+  },
+  "devDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2",
+    "@deepseek-ai/dsh-agent": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-llm": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-session": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-session-projection": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-util-values": "0.2.1-alpha.4",
+    "@deepseek-ai/schemastery": "~3.18.5-alpha.2",
+    "zod": "4.4.3"
+  },
+  "license": "MIT",
+  "gbh": {
+    "peers": [
+      "@deepseek-ai/cordis",
+      "@deepseek-ai/dsh-agent",
+      "@deepseek-ai/dsh-llm",
+      "@deepseek-ai/dsh-session",
+      "@deepseek-ai/dsh-session-projection",
+      "@deepseek-ai/dsh-util-values",
+      "@deepseek-ai/schemastery",
+      "zod"
+    ],
+    "tests": [
+      "tests/host/time-context.test.ts"
+    ],
+    "nested": {
+      "kind": "preset",
+      "pluginId": "time-context",
+      "stockId": "@deepseek-ai/dsh-time-context",
+      "presets": [
+        "preset-standard",
+        "preset-ptc",
+        "preset-cordis"
+      ]
+    },
+    "draft": "ROW LỒNG trong cả 3 preset (dump ours.yml: 817 standard · 981 ptc · 1248 cordis — dòng `- id: time-context`, entry chỉ có id + name, KHÔNG config), nên KHÔNG khai gbh.row: khai row top-level sẽ thay cả entry anh em/preset. Cơ chế: agent-preset-registry đọc gbh.nested rồi đổi specifier stock -> @galaxy-blackhole/gbh-time-context khi mount. Gói đã port 1:1 (lib/index.js 3 vùng stock 6–60 · 61–93 · 94–249).",
+    "provenance": {
+      "stock": "@deepseek-ai/dsh-time-context",
+      "version": "0.2.1-alpha.4",
+      "sha": "b1fe32437d4a62c35292783d652b60b5a167568cc1a3d6b67cb3712f29f9e3b3"
+    }
+  },
+  "types": "lib/types/index.d.ts"
+}

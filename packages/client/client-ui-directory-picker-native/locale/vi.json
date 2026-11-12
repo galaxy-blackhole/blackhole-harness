@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "client-ui-directory-picker-native",
+    "description": "Màn chọn thư mục gốc: phần không giao diện của luồng thư mục workspace, điều khiển hộp thoại chọn thư mục của Desktop."
+  }
+}

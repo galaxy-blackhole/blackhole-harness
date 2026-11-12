@@ -1,0 +1,87 @@
+{
+  "name": "@galaxy-blackhole/gbh-session",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "type": "module",
+  "main": "lib/index.js",
+  "description": "Event-sourced session store for the Galaxy Blackhole",
+  "scripts": {
+    "build": "bun run build.ts"
+  },
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "default": "./lib/index.js"
+    },
+    "./src/*": "./src/*",
+    "./package.json": "./package.json",
+    "./locale/*.json": "./locale/*.json",
+    "./fork": {
+      "types": "./src/fork.ts",
+      "default": "./lib/types/fork.js"
+    },
+    "./types": {
+      "types": "./src/types.ts",
+      "default": "./lib/types/types.js"
+    },
+    "./surface": {
+      "types": "./src/surface.ts",
+      "default": "./lib/types/surface.js"
+    }
+  },
+  "dependencies": {},
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2",
+    "@deepseek-ai/dsh-scope": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-llm": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-brand": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-util-values": "0.2.1-alpha.4"
+  },
+  "devDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2",
+    "@deepseek-ai/dsh-scope": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-llm": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-brand": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-util-values": "0.2.1-alpha.4"
+  },
+  "license": "MIT",
+  "gbh": {
+    "peers": [
+      "@deepseek-ai/cordis",
+      "@deepseek-ai/dsh-scope",
+      "@deepseek-ai/dsh-llm",
+      "@deepseek-ai/dsh-brand",
+      "@deepseek-ai/dsh-util-values"
+    ],
+    "tests": [
+      "tests/host/session.test.ts",
+      "tests/host/session-replay.test.ts",
+      "tests/host/session-consumer-telemetry.test.ts",
+      "tests/host/session-alias.test.ts"
+    ],
+    "row": {
+      "id": "session",
+      "moduleIds": [
+        "@galaxy-blackhole/gbh-session"
+      ],
+      "aliases": [
+        "@deepseek-ai/dsh-session"
+      ],
+      "tests": [
+        "tests/host/session.test.ts",
+        "tests/host/session-replay.test.ts",
+        "tests/host/session-consumer-telemetry.test.ts",
+        "tests/host/session-alias.test.ts"
+      ],
+      "hostAliases": [
+        "@deepseek-ai/dsh-session"
+      ]
+    },
+    "provenance": {
+      "stock": "@deepseek-ai/dsh-session",
+      "version": "0.2.1-alpha.4",
+      "sha": "2f5dd07cb5c744a29abbb8003a8a4cefd9e582c6e2538074ca299a0ddd02a3bf"
+    }
+  },
+  "types": "src/index.ts"
+}

@@ -1,0 +1,8 @@
+/**
+ * author Bùi Trọng Hiếu
+ * email kevinbui210191@gmail.com
+ * create date 15/10/2026
+ * modify date 18/10/2026
+ * desc CSS ClockPicker cua row ui-schedule — NGUYEN VAN ban goc (tien to hash giu nguyen)
+ */
+.fonIYG_clock{flex-direction:row;gap:2px;padding:3px}.fonIYG_column{overscroll-behavior:contain;flex-direction:column;width:52px;max-height:216px;display:flex;overflow-y:auto}.fonIYG_option{min-height:32px;color:var(--dsw-alias-label-primary);font-variant-numeric:tabular-nums;cursor:pointer;border-radius:10px;outline:none;flex:none;justify-content:center;align-items:center;font-size:13px;line-height:1.6;display:flex}.fonIYG_option:hover{background:var(--dsw-alias-interactive-bg-hover)}.fonIYG_option:focus-visible{outline:2px solid var(--dsw-focus-ring-color,var(--dsw-alias-state-business-primary));outline-offset:-2px}.fonIYG_selected{color:var(--dsw-alias-label-primary);background:var(--dsw-alias-button-ghost-active-fill);box-shadow:inset 0 0 0 1px var(--dsw-alias-button-ghost-active-border)}

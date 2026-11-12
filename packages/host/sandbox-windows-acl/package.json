@@ -1,0 +1,54 @@
+{
+  "name": "@galaxy-blackhole/gbh-sandbox-windows-acl",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "type": "module",
+  "main": "lib/index.js",
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./runner": {
+      "types": "./lib/types/runner.d.ts",
+      "default": "./lib/runner.js"
+    },
+    "./src/*": "./src/*",
+    "./package.json": "./package.json"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2",
+    "@deepseek-ai/dsh-skill": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-subprocess": "0.2.1-alpha.4"
+  },
+  "dependencies": {
+    "@deepseek-ai/dsh-lazy-require": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-win32-process": "0.2.1-alpha.4",
+    "koffi": "3.1.1",
+    "yaml": "^2.4.2"
+  },
+  "gbh": {
+    "peers": [
+      "@deepseek-ai/cordis",
+      "@deepseek-ai/dsh-skill",
+      "@deepseek-ai/dsh-subprocess",
+      "@deepseek-ai/dsh-lazy-require",
+      "@deepseek-ai/dsh-win32-process",
+      "koffi",
+      "yaml"
+    ],
+    "tests": [
+      "tests/host/sandbox-windows-acl.test.ts"
+    ],
+    "provenance": {
+      "stock": "@deepseek-ai/dsh-sandbox-windows-acl",
+      "version": "0.2.1-alpha.4",
+      "sha": "83379e9c6e8bb725d0ed48ad086fc666bfe151c8c1a345e29e3da5b998aa4fd8"
+    },
+    "draft": "binding Win32/koffi (dsh-sandbox-windows-acl) — dump 0 row; KHÔNG mount. Nhánh win32 KHÔNG quan sát được trên darwin vì koffi không load."
+  },
+  "description": "Windows ACL write-restriction sandbox backend (restricted-token spawn with capability-SID write allowlist) for the Galaxy Blackhole sandbox seam",
+  "scripts": {
+    "build": "bun run build.ts"
+  }
+}

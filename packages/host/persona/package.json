@@ -1,0 +1,62 @@
+{
+  "name": "@galaxy-blackhole/gbh-persona",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "type": "module",
+  "main": "lib/index.js",
+  "description": "Composition-authored deployment persona section for the Galaxy Blackhole",
+  "scripts": {
+    "build": "bun run build.ts"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2",
+    "@deepseek-ai/dsh-system-prompt": "0.2.1-alpha.4",
+    "@deepseek-ai/schemastery": "~3.18.5-alpha.2"
+  },
+  "devDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2",
+    "@deepseek-ai/dsh-system-prompt": "0.2.1-alpha.4",
+    "@deepseek-ai/schemastery": "~3.18.5-alpha.2",
+    "@galaxy-blackhole/gbh-system-prompt": "0.2.1-alpha.4"
+  },
+  "license": "MIT",
+  "gbh": {
+    "peers": [
+      "@deepseek-ai/cordis",
+      "@deepseek-ai/dsh-system-prompt",
+      "@deepseek-ai/schemastery"
+    ],
+    "tests": [
+      "tests/host/persona.test.ts"
+    ],
+    "nested": {
+      "kind": "preset",
+      "pluginId": "persona",
+      "stockId": "@deepseek-ai/dsh-persona",
+      "presets": [
+        "preset-standard",
+        "preset-ptc",
+        "preset-minimal",
+        "preset-cordis"
+      ]
+    },
+    "draft": "ROW LONG trong 4 preset (dump .parity/dumps/2026-10-18T01-31-57/ours.yml: 809 standard · 973 ptc · 1143 minimal · 1240 cordis); KHÔNG khai gbh.row. Config dump: standard/ptc/cordis prefix 'You are a coding agent powered by the {{model}} model.' + suffix/complete/includeRuntimeContext mặc định; minimal prefix 'You are a helpful software engineer assistant.' + complete:true + includeRuntimeContext:false (không preset nào đặt suffix).",
+    "provenance": {
+      "stock": "@deepseek-ai/dsh-persona",
+      "version": "0.2.1-alpha.4",
+      "sha": "1e9dd7f0dfd87cbff6486b7ca043d2e1b863a2a56b99106a4bf74831591266d5"
+    }
+  },
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "default": "./lib/index.js"
+    },
+    "./locale/*.json": "./locale/*.json",
+    "./package.json": "./package.json"
+  },
+  "types": "src/index.ts",
+  "dependencies": {
+    "@galaxy-blackhole/gbh-system-prompt": "0.2.1-alpha.4"
+  }
+}

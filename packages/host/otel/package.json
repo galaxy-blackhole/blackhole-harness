@@ -1,0 +1,54 @@
+{
+  "name": "@galaxy-blackhole/gbh-otel",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "type": "module",
+  "main": "lib/index.js",
+  "description": "Ban viet lai cua Galaxy Blackhole cho row `otel` cua DSH (@deepseek-ai/dsh-otel): dich vu cordis `otel` tao kenh OTLP doc lap (su kien thuong + log phien).",
+  "scripts": {
+    "build": "bun run build.ts"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2",
+    "@deepseek-ai/dsh-session": "0.2.1-alpha.4",
+    "@opentelemetry/api": "^1.9.1",
+    "@opentelemetry/api-logs": "0.222.0",
+    "@opentelemetry/core": "2.11.0",
+    "@opentelemetry/otlp-exporter-base": "0.222.0",
+    "@opentelemetry/otlp-transformer": "0.222.0",
+    "@opentelemetry/resources": "2.11.0",
+    "@opentelemetry/sdk-logs": "0.222.0",
+    "got": "^14.6.6"
+  },
+  "gbh": {
+    "peers": [
+      "@opentelemetry/api",
+      "@opentelemetry/api-logs",
+      "@opentelemetry/core",
+      "@opentelemetry/otlp-exporter-base",
+      "@opentelemetry/otlp-transformer",
+      "@opentelemetry/resources",
+      "@opentelemetry/sdk-logs",
+      "got"
+    ],
+    "row": {
+      "id": "otel",
+      "tests": [
+        "tests/host/otel.test.ts"
+      ]
+    },
+    "provenance": {
+      "stock": "@deepseek-ai/dsh-otel"
+    }
+  },
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "default": "./lib/index.js"
+    },
+    "./package.json": "./package.json",
+    "./src/*": "./src/*",
+    "./locale/*.json": "./locale/*.json"
+  },
+  "types": "src/index.ts"
+}

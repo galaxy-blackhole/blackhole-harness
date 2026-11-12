@@ -1,0 +1,51 @@
+{
+  "name": "@galaxy-blackhole/gbh-tool-worktree-bundle",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "type": "module",
+  "description": "Công cụ tạo và quản lý worktree Git cho agent.",
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./cordis.patch.yml": "./cordis.patch.yml",
+    "./package.json": "./package.json",
+    "./locale/*.json": "./locale/*.json"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    }
+  },
+  "license": "MIT",
+  "gbh": {
+    "provenance": {
+      "stock": "@deepseek-ai/dsh-experimental-tool-worktree",
+      "stockVersion": "0.2.1-alpha.4",
+      "patch": "./cordis.patch.yml",
+      "patchLines": 5,
+      "replacements": [
+        {
+          "stock": "@deepseek-ai/dsh-experimental-tool-worktree",
+          "ours": "@galaxy-blackhole/gbh-tool-worktree",
+          "count": 1
+        },
+        {
+          "stock": "@deepseek-ai/dsh-experimental-worktree",
+          "ours": "@galaxy-blackhole/gbh-worktree",
+          "count": 1
+        }
+      ],
+      "headerLines": 8
+    },
+    "tests": [
+      "tests/host/bundle-tool-worktree.test.ts"
+    ]
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2",
+    "@deepseek-ai/dsh-tools": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-experimental-worktree": "0.2.1-alpha.4"
+  }
+}

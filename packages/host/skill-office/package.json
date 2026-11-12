@@ -1,0 +1,45 @@
+{
+  "name": "@galaxy-blackhole/gbh-skill-office",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "type": "module",
+  "main": "lib/index.js",
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/dsh-skill": "0.2.1-alpha.4",
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2"
+  },
+  "dependencies": {
+    "@deepseek-ai/libreoffice-kit": "^0.1.5",
+    "@deepseek-ai/schemastery": "~3.18.5-alpha.2",
+    "yaml": "^2.4.2"
+  },
+  "gbh": {
+    "peers": [
+      "@deepseek-ai/dsh-skill",
+      "@deepseek-ai/cordis",
+      "@deepseek-ai/libreoffice-kit",
+      "@deepseek-ai/schemastery",
+      "yaml"
+    ],
+    "tests": [
+      "tests/host/skill-office.test.ts"
+    ],
+    "provenance": {
+      "stock": "@deepseek-ai/dsh-skill-office",
+      "version": "0.2.1-alpha.4",
+      "sha": "3fb0b9f3151fc6da8f10d9d2f89b6496234ad302346bc5d28c5feefea572bb14"
+    },
+    "draft": "thư viện xử lý office cho skill"
+  },
+  "description": "Bundled Word, PowerPoint, and Excel workflows and LibreOffice Kit operations",
+  "devDependencies": {
+    "@deepseek-ai/dsh-skill": "0.2.1-alpha.4"
+  }
+}

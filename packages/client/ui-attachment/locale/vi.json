@@ -1,0 +1,14 @@
+{
+  "meta": {
+    "title": "ui-attachment",
+    "description": "Trình bày tệp đính kèm động cho ô nhập hội thoại, ảnh tin nhắn và ảnh trajectory."
+  },
+  "dropTitle": "Thả tệp để đính kèm",
+  "dropDesc": "Ảnh, tài liệu, tệp bất kỳ",
+  "railGroup": "Tệp đính kèm",
+  "railScrollLeft": "Cuộn sang trái",
+  "railScrollRight": "Cuộn sang phải",
+  "cardRemove": "Xoá",
+  "cardRetry": "Thử lại",
+  "imageAlt": "Ảnh đã đính kèm"
+}

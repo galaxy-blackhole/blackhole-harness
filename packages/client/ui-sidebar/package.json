@@ -1,0 +1,52 @@
+{
+  "name": "@galaxy-blackhole/gbh-client-ui-sidebar",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "type": "module",
+  "main": "lib/index.js",
+  "description": "Ban viet lai cua Galaxy Blackhole cho row ui-sidebar cua DSH (@deepseek-ai/dsh-client-ui-sidebar).",
+  "scripts": {
+    "build": "bun run build.ts"
+  },
+  "exports": {
+    "./locale/*.json": "./locale/*.json",
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./client": "./lib/client.js",
+    "./package.json": "./package.json"
+  },
+  "dsh": {
+    "client": {
+      "inject": [
+        "@deepseek-ai/dsh-api-workspace-controller",
+        "@deepseek-ai/dsh-client-ui-renderer",
+        "@deepseek-ai/dsh-client-ui-layout",
+        "@deepseek-ai/dsh-client-ui-session",
+        "@deepseek-ai/dsh-client-ui-workspace",
+        "@deepseek-ai/dsh-client-locale",
+        "@deepseek-ai/dsh-client-shortcuts"
+      ],
+      "platform": "web"
+    }
+  },
+  "gbh": {
+    "row": {
+      "moduleIds": [
+        "@galaxy-blackhole/gbh-client-ui-sidebar"
+      ],
+      "id": "ui-sidebar",
+      "tests": [
+        "tests/client/ui-sidebar.test.ts"
+      ],
+      "aliases": [
+        "@deepseek-ai/dsh-client-ui-sidebar"
+      ]
+    },
+    "provenance": {
+      "stock": "@deepseek-ai/dsh-client-ui-sidebar"
+    }
+  },
+  "types": "lib/types/index.d.ts"
+}

@@ -1,0 +1,21 @@
+{
+  "dev": "tm-host-core",
+  "owner": "tm-host-core",
+  "evidence": [
+    "signed, MOUNTED — check:app 11/11 ba lượt liên tiếp (25-30s/lượt), lab 0 did-not-activate",
+    "reviewer tm-reviewer TU DO: **3 lượt check:app liên tiếp đều ĐẠT 11/11** — (1) 113.798 B · (2) __GBH_BOOT__ · (3) 135 entry · (4) 11 batch/release 0.1.0 · (5) **0** · (7) 135/72 · (8) #root **47.181 / 46 slot / 0 console / 0 pageerror** · (9) **0/80** · (10) **210 file** khớp repo · (11) HMR OK",
+    "dump-config MỚI **338 entry** (repo+home patch): entry của ta ENABLED, row stock disabled — đã kiểm trực tiếp trong dump",
+    "lab:row home CACH LY cua reviewer: #root **22.204** (= control ui-shortcuts) · **0 console · 0 pageerror · 0 overlay · 0 did-not-activate**",
+    "luu y chi so: row HOST-ONLY nen KHONG xuat hien trong boot graph (6) cua check:app (graph chi chua module client) — activation chung minh bang (5)=0 + host log dong 'rewrite OK @galaxy-blackhole/...' + dump ENABLED",
+    "rollback san: doi `gbh.row` -> `gbh.row_unmounted_ly_do` (1 dong) roi boot lai",
+    "goi `gbh-agent-preset-registry`: patch dòng 139-147 (`agent-preset-registry disabled: true` + insert `agent-preset-registry-ours` config default:standard) · dump dòng 1555-1559 ENABLED",
+    "artifact build lai: `index.js`, export runtime **6 = 6** (`AgentPresetRegistry` · `default` · `auditRows` · `entryListProblem` · `leakedServices` · `agentPresetProjectionDefinition`) va **`default === class`** (artifact: `var src_default = AgentPresetRegistry`) · test **27 pass / 0 fail / 187 expect** A/B tren Context cordis THAT",
+    "packages/README.md §4z7 (19/10/2026 agent-preset-registry) da them — nhung README goi van ghi so CU '**19 ca / 66 expect**' trong §4 (so dung la 27/187) ⇒ de nghi chu goi cap nhat README cho khop"
+  ],
+  "packages": [
+    {
+      "dsh": "@deepseek-ai/dsh-agent-preset-registry",
+      "gbh": "gbh-agent-preset-registry"
+    }
+  ]
+}

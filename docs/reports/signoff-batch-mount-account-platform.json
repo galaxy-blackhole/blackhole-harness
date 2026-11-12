@@ -1,0 +1,19 @@
+{
+  "dev": "tm-host-core",
+  "owner": "tm-host-core",
+  "evidence": [
+    "signed, MOUNTED — check:app 11/11, lab DAT, boot-smoke DAT; ghi ro phan CHUA chung minh runtime PKCE",
+    "reviewer tm-reviewer TU DO: patch `app.patch.yml:121-127` (`deepseek-account disabled: true` + insert `deepseek-account-ours` name @galaxy-blackhole/gbh-account-platform + config `desktopPlatform: !!js ...`) · dump MOI **340 entry**: stock row `deepseek-account` name @deepseek-ai/dsh-deepseek-account-platform + `deepseek-account-ours` ENABLED",
+    "**3 lượt check:app lien tiep DAT 11/11** — (1) 113.798 B · (3) 135 · (5) **0** · (8) #root 47.181 / 46 slot / 0 console / 0 pageerror · (9) 0/80 · (10) 217 file · (11) HMR OK",
+    "artifact build lai exit 0 · export **3 = 3** voi stock `@deepseek-ai/dsh-deepseek-account-platform` (`Config` · `PlatformAccount` · `default`) va **`default === PlatformAccount`** (artifact `export { PlatformAccount as default, PlatformAccount, Config }`)",
+    "reviewer tu chay bun test tests/host/account-platform.test.ts: **30 pass / 0 fail / 577 expect** — phu DUNG cac luong Lead hoi: PKCE `auth_init -> callback -> exchange -> commit grant + 302` (line 705) · `auth_init 401` => failed/network (line 724) · `inferenceOrigin` sai (user/path/query/hash/ftp) nem CUNG cau (line 655) · `deepseek-account/session-expired` event (line 390) · vendor differential 53/53 theo chu goi",
+    "PHAN CHUA CHUNG MINH (ghi ro): chua chay PKCE end-to-end tren app that voi server Platform that; `account-controller` watchExpiry runtime va `llm-deepseek-account` resolveToken theo inferenceOrigin moi chi chung minh qua test A/B + app 11/11 (0 console/0 pageerror/0 activate-fail) — de nghi Lead/chủ gói xác nhận 4 mục (a)-(d) khi có phien đăng nhập that",
+    "`packages/README.md` §4z (bang tu sinh) co dong host/account-platform; rollback san · reviewer tu chay lab:row home CACH LY: #root **22.204** · 0 console · 0 pageerror · 0 overlay · **0 did-not-activate**"
+  ],
+  "packages": [
+    {
+      "dsh": "@deepseek-ai/dsh-deepseek-account-platform",
+      "gbh": "gbh-account-platform"
+    }
+  ]
+}

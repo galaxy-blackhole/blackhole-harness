@@ -1,0 +1,52 @@
+{
+  "name": "@galaxy-blackhole/gbh-web-startup",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "type": "module",
+  "main": "lib/index.js",
+  "types": "lib/types/index.d.ts",
+  "description": "Bản viết lại của Galaxy Blackhole cho row web-startup (@deepseek-ai/dsh-web-app/startup): bộ cấp cờ dòng lệnh của app web (--host · --port · --public-url · --trusted-host · --no-open · TLS) và văn bản --help, rồi công bố giá trị bất biến thành service cordis webStartup cho các row đọc qua config lười.",
+  "scripts": {
+    "build": "bun run build.ts"
+  },
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./package.json": "./package.json",
+    "./src/*": "./src/*",
+    "./locale/*.json": "./locale/*.json"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2",
+    "@deepseek-ai/dsh-cmdline": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-host-webserver": "0.2.1-alpha.4",
+    "commander": "^15.0.0"
+  },
+  "devDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2",
+    "@deepseek-ai/dsh-cmdline": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-host-webserver": "0.2.1-alpha.4",
+    "commander": "^15.0.0"
+  },
+  "gbh": {
+    "draft": "CHƯA KHAI gbh.row — bề mặt host-only đã xong nhưng CHƯA có lượt boot lab/mount của Lead (xem README.md mục 6).",
+    "tests": [
+      "tests/host/web-startup.test.ts"
+    ],
+    "peers": [
+      "@deepseek-ai/cordis",
+      "@deepseek-ai/dsh-cmdline",
+      "@deepseek-ai/dsh-host-webserver",
+      "commander"
+    ],
+    "row": {
+      "id": "web-startup",
+      "tests": [
+        "tests/host/web-startup.test.ts"
+      ]
+    }
+  },
+  "license": "MIT"
+}

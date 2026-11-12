@@ -1,0 +1,49 @@
+{
+  "name": "@galaxy-blackhole/gbh-session-projection-cache",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "type": "module",
+  "main": "lib/index.js",
+  "description": "Bản viết lại của Galaxy Blackhole cho row session-projection-cache của DSH (@deepseek-ai/dsh-session-projection-cache): cache chiếu phiên bền vững — checkpoint theo phiên trên miền `session_projcache` (bố cục per-record), ghi sau có tiết lưu, và phép đọc liệt kê không I/O.",
+  "scripts": {
+    "build": "bun run build.ts"
+  },
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./package.json": "./package.json",
+    "./src/*": "./src/*",
+    "./locale/*.json": "./locale/*.json"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2",
+    "@deepseek-ai/schemastery": "~3.18.5-alpha.2",
+    "@deepseek-ai/dsh-util-values": "0.2.1-alpha.4",
+    "zod": "^4.4.3"
+  },
+  "license": "MIT",
+  "gbh": {
+    "peers": [
+      "@deepseek-ai/cordis",
+      "@deepseek-ai/schemastery",
+      "@deepseek-ai/dsh-util-values",
+      "zod"
+    ],
+    "row": {
+      "id": "session-projection-cache",
+      "config": {
+        "writeEveryEvents": 200,
+        "writeIntervalMs": 5000
+      },
+      "tests": [
+        "tests/host/session-projection-cache.test.ts"
+      ]
+    },
+    "provenance": {
+      "stock": "@deepseek-ai/dsh-session-projection-cache"
+    }
+  },
+  "types": "lib/types/index.d.ts"
+}

@@ -1,0 +1,9 @@
+# author Bùi Trọng Hiếu
+# email kevinbui210191@gmail.com
+# create date 15/10/2026
+# modify date 25/10/2026
+# desc Bundle patch cho tính năng "Tự động duyệt uỷ quyền": cắm MỘT row auto-review của ta — bản gốc
+#      @galaxy-blackhole/gbh-auto-review-bundle khai đúng một row cùng tên, nên giữ nguyên văn thân patch.
+- insert:
+    - id: auto-review
+      name: '@galaxy-blackhole/gbh-auto-review'

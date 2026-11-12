@@ -1,0 +1,17 @@
+{
+ "capturedAt": "2026-10-17",
+ "themeEntry": {
+  "id": "@deepseek-ai/dsh-client-ui-theme",
+  "inject": [
+   "@deepseek-ai/dsh-client-connection",
+   "@deepseek-ai/dsh-client-locale",
+   "@deepseek-ai/dsh-client-shortcuts",
+   "@deepseek-ai/dsh-client-ui-renderer",
+   "@deepseek-ai/dsh-client-ui-settings",
+   "@deepseek-ai/dsh-api-remotes"
+  ]
+ },
+ "dswTokensInRepo": [],
+ "bannedDeps": [],
+ "lucide": []
+}

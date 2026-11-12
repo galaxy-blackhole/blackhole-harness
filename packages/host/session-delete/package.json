@@ -1,0 +1,42 @@
+{
+  "name": "@galaxy-blackhole/gbh-session-delete",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "type": "module",
+  "main": "lib/index.js",
+  "description": "Delete a stored Galaxy Blackhole session for good (live guard, log directory removal, index reconciliation)",
+  "scripts": {
+    "build": "bun run build.ts"
+  },
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "default": "./lib/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2",
+    "@deepseek-ai/dsh-typert-protocol": "0.2.1-alpha.4"
+  },
+  "devDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2"
+  },
+  "license": "MIT",
+  "gbh": {
+    "peers": [
+      "@deepseek-ai/cordis",
+      "@deepseek-ai/dsh-typert-protocol"
+    ],
+    "tests": [
+      "tests/host/session-delete.test.ts"
+    ],
+    "row": {
+      "id": "session-delete",
+      "tests": [
+        "tests/host/session-delete.test.ts"
+      ]
+    }
+  },
+  "types": "src/index.ts"
+}

@@ -1,0 +1,64 @@
+{
+  "name": "@galaxy-blackhole/gbh-tool-cordis",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "type": "module",
+  "main": "lib/index.js",
+  "description": "Read-only runtime API inspection for Harness plugin development",
+  "scripts": {
+    "build": "bun run build.ts"
+  },
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./host": "./lib/types/host.js",
+    "./package.json": "./package.json",
+    "./host/locale/*.json": "./locale/host/*.json",
+    "./locale/*.json": "./locale/*.json"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2",
+    "@deepseek-ai/cordis-plugin-loader": "~1.0.6-alpha.2",
+    "@deepseek-ai/dsh-agent": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-app-boot": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-cordis-host-runner": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-tools": "0.2.1-alpha.4"
+  },
+  "license": "MIT",
+  "gbh": {
+    "peers": [
+      "@deepseek-ai/cordis",
+      "@deepseek-ai/cordis-plugin-loader",
+      "@deepseek-ai/dsh-agent",
+      "@deepseek-ai/dsh-app-boot",
+      "@deepseek-ai/dsh-cordis-host-runner",
+      "@deepseek-ai/dsh-tools"
+    ],
+    "provenance": {
+      "stock": "@deepseek-ai/dsh-tool-cordis",
+      "version": "0.2.1-alpha.4",
+      "sha": "ce0cd4d8983532c920cab7713dc51874f6d710c2c46c4a095167bfa980becdb0"
+    },
+    "tests": [
+      "tests/host/tool-cordis.test.ts"
+    ],
+    "nested": {
+      "kind": "preset",
+      "pluginId": "tool-cordis",
+      "stockId": "@deepseek-ai/dsh-tool-cordis",
+      "presets": [
+        "preset-cordis"
+      ]
+    },
+    "draft": "CHƯA mount/flip (19/10/2026). Đo /tmp/dump-now2.txt bằng script bun cắt block theo depth: KHÔNG có row TOP-LEVEL '- id: tool-cordis' ở thụt lề 0. Entry LỒNG DUY NHẤT ở dòng 1418 (thụt 6, depth danh sách 1, con trực tiếp thứ 18/23 của config.plugins trong preset-cordis — row 'preset-cordis' dòng 1266, block 1266–1437), chỉ có id + name '@deepseek-ai/dsh-tool-cordis'; KHÔNG config, KHÔNG inject, KHÔNG disabled. Dòng 615–616 là row TOP-LEVEL KHÁC: id 'cordis-inspect-providers', name '@deepseek-ai/dsh-tool-cordis/host' (subpath ./host, bundle @deepseek-ai/dsh-web-app) — KHÔNG phải row tool-cordis nên KHÔNG khai gbh.row. Chỉ MỘT preset (preset-cordis) nên KHÔNG có khác biệt disabled giữa các preset. Vì vậy chỉ khai gbh.nested; muốn mount phải stage gói vào profile rồi boot-smoke (chưa làm)."
+  },
+  "devDependencies": {
+    "@deepseek-ai/cordis-plugin-loader": "~1.0.6-alpha.2",
+    "@deepseek-ai/dsh-agent": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-app-boot": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-cordis-host-runner": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-tools": "0.2.1-alpha.4"
+  }
+}

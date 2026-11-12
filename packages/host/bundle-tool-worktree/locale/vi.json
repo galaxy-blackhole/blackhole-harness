@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "Nhánh Git riêng",
+    "description": "Cho agent tạo nhánh Git và worktree mới rồi tiếp tục làm việc ở đó."
+  }
+}

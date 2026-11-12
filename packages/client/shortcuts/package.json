@@ -1,0 +1,56 @@
+{
+  "name": "@galaxy-blackhole/gbh-client-shortcuts",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "type": "module",
+  "main": "lib/index.js",
+  "description": "Ban viet lai cua Galaxy Blackhole cho row shortcuts cua DSH (@deepseek-ai/dsh-client-shortcuts): so lenh ban phim + dinh tuyen phim vat ly (protocol dung chung voi Desktop).",
+  "scripts": {
+    "build": "bun run build.ts"
+  },
+  "gbh": {
+    "row": {
+      "id": "shortcuts",
+      "moduleIds": [
+        "@galaxy-blackhole/gbh-client-shortcuts"
+      ],
+      "tests": [
+        "tests/client/shortcuts-protocol.test.ts",
+        "tests/client/shortcuts-service.test.ts"
+      ],
+      "aliases": [
+        "@deepseek-ai/dsh-client-shortcuts"
+      ]
+    },
+    "provenance": {
+      "stock": "@deepseek-ai/dsh-client-shortcuts"
+    }
+  },
+  "exports": {
+    "./locale/*.json": "./locale/*.json",
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./client": {
+      "default": "./lib/client.js"
+    },
+    "./protocol": {
+      "default": "./lib/protocol.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2",
+    "@deepseek-ai/schemastery": "~3.18.5-alpha.2"
+  },
+  "dsh": {
+    "client": {
+      "platform": "web",
+      "inject": [
+        "@deepseek-ai/dsh-client-locale"
+      ]
+    }
+  },
+  "types": "lib/types/index.d.ts"
+}

@@ -1,0 +1,44 @@
+{
+  "name": "@galaxy-blackhole/gbh-plugin-package-inventory-deepseek",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "type": "module",
+  "main": "lib/index.js",
+  "description": "Bản viết lại của Galaxy Blackhole cho row plugin-package-inventory-deepseek của DSH: kiểm kê các gói plugin ĐANG hoạt động để gửi kèm request tới API DeepSeek chính thức.",
+  "scripts": {
+    "build": "bun run build.ts"
+  },
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "default": "./lib/index.js"
+    },
+    "./package.json": "./package.json",
+    "./locale/*.json": "./locale/*.json"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2",
+    "@deepseek-ai/schemastery": "~3.18.5-alpha.2"
+  },
+  "devDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2",
+    "@deepseek-ai/schemastery": "~3.18.5-alpha.2"
+  },
+  "license": "MIT",
+  "gbh": {
+    "peers": [
+      "@deepseek-ai/cordis",
+      "@deepseek-ai/schemastery"
+    ],
+    "row": {
+      "id": "plugin-package-inventory-deepseek",
+      "tests": [
+        "tests/host/plugin-package-inventory-deepseek.test.ts"
+      ]
+    },
+    "provenance": {
+      "stock": "@deepseek-ai/dsh-plugin-package-inventory-deepseek"
+    }
+  },
+  "types": "src/index.ts"
+}

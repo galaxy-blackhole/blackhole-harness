@@ -1,0 +1,52 @@
+{
+  "name": "@galaxy-blackhole/gbh-client-ui-permission-presets",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "type": "module",
+  "main": "lib/index.js",
+  "description": "Ban viet lai cua Galaxy Blackhole cho row ui-permission cua DSH (@deepseek-ai/dsh-client-ui-permission-presets).",
+  "scripts": {
+    "build": "bun run build.ts"
+  },
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./client": "./lib/client.js",
+    "./package.json": "./package.json",
+    "./locale/*.json": "./locale/*.json"
+  },
+  "dsh": {
+    "client": {
+      "inject": [
+        "@deepseek-ai/dsh-api-session-controller",
+        "@deepseek-ai/dsh-client-connection",
+        "@deepseek-ai/dsh-client-locale",
+        "@deepseek-ai/dsh-client-ui-commands",
+        "@deepseek-ai/dsh-client-ui-conversation",
+        "@deepseek-ai/dsh-api-remotes",
+        "@deepseek-ai/dsh-client-ui-settings"
+      ],
+      "platform": "web"
+    }
+  },
+  "gbh": {
+    "row": {
+      "id": "ui-permission",
+      "moduleIds": [
+        "@galaxy-blackhole/gbh-client-ui-permission-presets"
+      ],
+      "tests": [
+        "tests/client/ui-permission.test.ts"
+      ],
+      "aliases": [
+        "@deepseek-ai/dsh-client-ui-permission-presets"
+      ]
+    },
+    "provenance": {
+      "stock": "@deepseek-ai/dsh-client-ui-permission-presets"
+    }
+  },
+  "types": "lib/types/index.d.ts"
+}

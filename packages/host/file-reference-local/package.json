@@ -1,0 +1,50 @@
+{
+  "name": "@galaxy-blackhole/gbh-file-reference-local",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "type": "module",
+  "main": "lib/index.js",
+  "description": "Bản viết lại của Galaxy Blackhole cho row file-reference-local của DSH (@deepseek-ai/dsh-file-reference-local): nhà cung cấp ctx.fileReferences trên hệ tệp cục bộ, chỉ mục mờ có giới hạn.",
+  "scripts": {
+    "build": "bun run build.ts"
+  },
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "default": "./lib/index.js"
+    },
+    "./package.json": "./package.json",
+    "./src/*": "./src/*",
+    "./locale/*.json": "./locale/*.json"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2",
+    "@deepseek-ai/schemastery": "~3.18.5-alpha.2",
+    "@deepseek-ai/dsh-file-reference": "0.2.1-alpha.4"
+  },
+  "devDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2",
+    "@deepseek-ai/schemastery": "~3.18.5-alpha.2",
+    "@deepseek-ai/dsh-file-reference": "0.2.1-alpha.4",
+    "@deepseek-ai/dsh-agent": "0.2.1-alpha.4"
+  },
+  "license": "MIT",
+  "gbh": {
+    "peers": [
+      "@deepseek-ai/dsh-file-reference"
+    ],
+    "tests": [
+      "tests/host/file-reference-local.test.ts"
+    ],
+    "row": {
+      "id": "file-reference-local",
+      "tests": [
+        "tests/host/file-reference-local.test.ts"
+      ]
+    },
+    "provenance": {
+      "stock": "@deepseek-ai/dsh-file-reference-local"
+    }
+  },
+  "types": "src/index.ts"
+}

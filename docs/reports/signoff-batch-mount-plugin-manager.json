@@ -1,0 +1,20 @@
+{
+  "dev": "tm-host-session",
+  "owner": "tm-host-session",
+  "evidence": [
+    "signed, MOUNTED — check:app 11/11, lab 0 did-not-activate, boot-smoke DAT",
+    "**2 artefact typert KHOP BYTE voi goc**: typert.host sha `4d52452212ba28…` · typert.remote-client sha `9254a2e61de2ac…` (bang nhau tung byte)",
+    "artifact build lai exit 0 (index · operations · registry · tools · typert.host · typert.remote-client · types) · export **5 = 5** (`PluginManager` · `default` · `parseInstallSpec` · `classifyInstallFailure` · `InvalidInstallSpecError`)",
+    "reviewer tu chay bun test tests/host/plugin-manager.test.ts: **18 pass / 0 fail / 48 expect** (Lead ghi 49 — lech 1, toi ghi so do that)",
+    "**check:app DAT 11/11** (2 luot): (3) 137 entry · (5) 0 · #root 47.181 / 46 slot / 0 console / 0 pageerror · (9) 0/80 · (11) HMR",
+    "**lab:row home CACH LY: #root 22.204 · 0 console · 0 pageerror · 0 did-not-activate**",
+    "GHI RO theo yeu cau Lead: da chung minh MOUNT AN TOAN (boot/activate/render sach); **CHUA chung minh luong CAI/GO plugin THAT** — goi nay ghi `app.patch.yml` cua profile khi cai/go nen can mot phien cai/go that de nghiem thu (giong account-platform/PKCE)",
+    "dev/owner tam ghi tm-host-session — Lead sua neu khac; rollback san"
+  ],
+  "packages": [
+    {
+      "dsh": "@deepseek-ai/dsh-plugin-manager",
+      "gbh": "gbh-host-plugin-manager"
+    }
+  ]
+}

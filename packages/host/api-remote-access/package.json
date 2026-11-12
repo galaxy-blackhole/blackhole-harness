@@ -1,0 +1,87 @@
+{
+  "name": "@galaxy-blackhole/gbh-api-remote-access",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "type": "module",
+  "main": "lib/index.js",
+  "description": "Method-level Remote access control for non-owner Peers and the per-Peer access snapshot",
+  "scripts": {
+    "build": "bun run build.ts"
+  },
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./types": {
+      "types": "./lib/types/types.d.ts",
+      "default": "./lib/types/types.js"
+    },
+    "./client": {
+      "types": "./lib/types/client/index.d.ts",
+      "default": "./lib/client.js"
+    },
+    "./typert": {
+      "types": "./lib/typert.host.d.ts",
+      "default": "./lib/typert.host.js"
+    },
+    "./remote": {
+      "types": "./lib/typert.remote-client.d.ts",
+      "default": "./lib/typert.remote-client.js"
+    },
+    "./package.json": "./package.json",
+    "./src/*": "./src/*"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2",
+    "@deepseek-ai/dsh-typert-protocol": "0.2.1-alpha.4"
+  },
+  "devDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2",
+    "@deepseek-ai/dsh-typert-protocol": "0.2.1-alpha.4"
+  },
+  "license": "MIT",
+  "gbh": {
+    "draft": "DA de-bundle lai theo khuon api-session-controller (19/10/2026): 4 artefact — host byte-identical (4 lat, 17.165 B) + client (7 lat) + typert.host (1 lat) + typert.remote-client (1 lat). LUU Y: client co 6 lan id stock trong THAN la DU LIEU (package:, typeSymbol:, JSDoc) phai giu nguyen — chi doi dong loader. Ban viet tay cu giu trong src-handwritten/. Row CHUA khai: cho boot-smoke + dong README §4 cua Lead.",
+    "tests": [
+      "tests/host/api-remote-access.test.ts",
+      "tests/host/api-remote-access-halves.test.ts"
+    ],
+    "peers": [
+      "@deepseek-ai/cordis",
+      "@deepseek-ai/dsh-typert-protocol"
+    ],
+    "row": {
+      "id": "remote-access",
+      "aliases": [
+        "@deepseek-ai/dsh-api-remote-access"
+      ],
+      "moduleIds": [
+        "@galaxy-blackhole/gbh-api-remote-access"
+      ],
+      "tests": [
+        "tests/host/api-remote-access.test.ts"
+      ],
+      "stockId": "@deepseek-ai/dsh-api-remote-access"
+    },
+    "provenance": {
+      "stock": "@deepseek-ai/dsh-api-remote-access",
+      "version": "0.2.1-alpha.4",
+      "sha": "b224860524506709a4b87beb5478ad8f157af5875dcce3c04376695a4c7bfe1e",
+      "shaFile": "lib/client.js"
+    }
+  },
+  "dsh": {
+    "client": {
+      "external": [
+        "@galaxy-blackhole/gbh-host-typert-gateway/client"
+      ],
+      "inject": [
+        "@galaxy-blackhole/gbh-host-typert-gateway",
+        "@galaxy-blackhole/gbh-client-ui-renderer"
+      ],
+      "platform": "web"
+    }
+  },
+  "types": "lib/types/index.d.ts"
+}

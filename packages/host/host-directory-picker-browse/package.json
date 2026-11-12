@@ -1,0 +1,48 @@
+{
+  "name": "@galaxy-blackhole/gbh-host-directory-picker-browse",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "type": "module",
+  "main": "lib/index.js",
+  "description": "In-app browsing backend of the directory-picker seam (listing/creation primitives over the host filesystem)",
+  "scripts": {
+    "build": "bun run build.ts"
+  },
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./package.json": "./package.json",
+    "./src/*": "./src/*",
+    "./locale/*.json": "./locale/*.json"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "~4.0.5-alpha.2",
+    "@deepseek-ai/dsh-host-directory-picker": "workspace:*"
+  },
+  "license": "MIT",
+  "gbh": {
+    "tests": [
+      "tests/host/host-directory-picker-browse.test.ts"
+    ],
+    "provenance": {
+      "stock": "@deepseek-ai/dsh-host-directory-picker-browse",
+      "stockVersion": "0.2.1-alpha.4",
+      "stockLines": 234,
+      "stockChars": 9296,
+      "exports": [
+        ".",
+        "./package.json",
+        "./src/*",
+        "./locale/*.json"
+      ],
+      "localeBytes": {
+        "en.json": 59,
+        "zh.json": 158
+      },
+      "seam": "interface hẹp cục bộ (không import tĩnh @deepseek-ai/*) — xem README"
+    }
+  },
+  "types": "lib/types/index.d.ts"
+}

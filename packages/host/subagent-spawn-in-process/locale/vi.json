@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "subagent-spawn-in-process",
+    "description": "Tạo subagent mới trong tiến trình hiện tại để thực hiện nhiệm vụ độc lập."
+  }
+}

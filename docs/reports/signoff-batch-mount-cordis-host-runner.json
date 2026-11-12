@@ -1,0 +1,21 @@
+{
+  "dev": "tm-assets",
+  "owner": "tm-assets",
+  "evidence": [
+    "signed, MOUNTED — check:app 11/11 BA LUOT LIEN TIEP, (10) 251–252 file khop repo",
+    "RUI RO DA KIEM: mount THAY 2 service `dynamicCordisRunner` + `cordisInspect` — patch `app.patch.yml:957-962` co `- id: cordis-host-runner / disabled: true` + `- insert: id: cordis-host-runner-ours` TRONG CUNG BLOCK · dump MOI **356 entry**: stock `cordis-host-runner` disabled: true + `cordis-host-runner-ours` ENABLED ⇒ KHONG trung service am tham (face sinh giong 12/12 nen neu thieu disable se khong bao schema)",
+    "artifact build lai: **index.js 82.988 B** sha `d33cb4242e2db4…` · **typert.host 213.189 B** sha `41f8ae239835c6…` · **typert.remote-client 89.167 B** sha `7ca306d39e153c…`",
+    "ownership da doi: typert.host **64** lan · typert.remote-client **63** lan sang `gbh-host-cordis-host-runner`; **id stock trong lib = 0** — khop bao cao chu goi (64+63)",
+    "export **7 = 7**: `default` (= DynamicCordisRunnerService) · `DynamicCordisRunnerService` · `CordisInspectRegistryService` · `CordisDynamicPluginRunId` · `CordisDynamicPluginId` · `CordisDynamicPackageId` · `ApprovalRequestId`",
+    "reviewer tu chay bun test tests/host/cordis-host-runner.test.ts: **21 pass / 0 fail / 68 expect**",
+    "**3 luot check:app lien tiep DAT 11/11** — (3) 137 entry · (5) **0** · #root 47.181 / 46 slot / 0 console / 0 pageerror · (9) 0/80 · (10) **251–252 file** · (11) HMR",
+    "GHI CHU LECH: bang chung chu goi ghi index **82.658 B sha e7a0de86…**; toi build lai do duoc **82.988 B sha d33cb424…** (typert 2 tep khop tuyet doi). Nho chu goi xac nhan index da doi sau lan sua cuoi (protectedModules/ownership) — batch ghi so do truc tiep cua reviewer",
+    "src 9 tep / **4.044 dong** (bang chung ghi 4.057 — lech 13 dong, cung do ban sua moi hon); `plugin-manager` cung lop va ownership (42 lan) theo bao cao Lead; rollback san"
+  ],
+  "packages": [
+    {
+      "dsh": "@deepseek-ai/dsh-cordis-host-runner",
+      "gbh": "gbh-host-cordis-host-runner"
+    }
+  ]
+}

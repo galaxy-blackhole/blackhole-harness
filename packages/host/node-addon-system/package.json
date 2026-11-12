@@ -1,0 +1,30 @@
+{
+  "name": "@galaxy-blackhole/gbh-node-addon-system",
+  "version": "0.2.1-alpha.4",
+  "private": true,
+  "type": "module",
+  "description": "Nap addon native cua GBH (ban sao 1:1).",
+  "license": "BSD-3-Clause",
+  "exports": {
+    "./landlock-run": {
+      "types": "./lib/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./flock": {
+      "types": "./lib/flock.d.ts",
+      "default": "./lib/flock.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "dependencies": {},
+  "peerDependencies": {},
+  "devDependencies": {},
+  "gbh": {
+    "provenance": {
+      "stock": "@deepseek-ai/node-addon-system"
+    },
+    "tests": [
+      "tests/host/node-addon-system.test.ts"
+    ]
+  }
+}
