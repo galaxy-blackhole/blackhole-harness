@@ -38,7 +38,9 @@
     "row:cost": "bun run tools/check/row-cost.ts",
     "pack:app": "bun run apps/desktop/scripts/embed.ts",
     "pack:app:node": "node apps/desktop/scripts/embed.ts",
-    "postinstall": "bun run tools/lib/link-scope.ts"
+    "postinstall": "bun run tools/lib/link-scope.ts",
+    "publish:harness": "cd npm-package && node prepare.mjs && npm publish --access public",
+    "pack:harness": "cd npm-package && node prepare.mjs && npm pack --pack-destination ../dist-harness"
   },
   "devDependencies": {
     "@tauri-apps/cli": "^2.0.0",
