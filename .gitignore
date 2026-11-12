@@ -16,3 +16,4 @@ packages/*/*/lib/
 # Staging sinh boi npm-package/prepare.mjs (ban LEAN de publish len npm — khong phai ma nguon)
 npm-package/
 packages/host/gbh-libreoffice-kit-darwin-x64/
+dist-harness/
