@@ -26,6 +26,8 @@ import { repoRoot } from "./paths.ts";
 export function linkSelfPackages(): number {
   const modules = join(repoRoot(), "node_modules");
   let added = 0;
+  /** Những gói không tạo được liên kết, kèm lý do — in ra thay vì nuốt lỗi. */
+  const failed: string[] = [];
   for (const tang of ["host", "client", "tools"]) {
     const root = join(repoRoot(), "packages", tang);
     let names: string[];
@@ -48,13 +50,27 @@ export function linkSelfPackages(): number {
       if (daCo === true) continue;
       try {
         mkdirSync(dirname(link), { recursive: true });
-        symlinkSync(dir, link, "dir");
+        // 13/11/2026 (Lead): Windows KHÔNG cho tạo symlink thư mục nếu không bật Developer Mode / không elevated
+        //   (EPERM), mà `catch { continue }` cũ nuốt lỗi ⇒ bản cài npm thiếu link ⇒ import chéo
+        //   @galaxy-blackhole/* nổ ERR_MODULE_NOT_FOUND, harness chết không in URL. Junction thì không cần quyền.
+        symlinkSync(dir, link, process.platform === "win32" ? "junction" : "dir");
         added += 1;
-      } catch {
-        continue;
+      } catch (error) {
+        failed.push(specifier + " → " + dir + " (" + (error instanceof Error ? error.message : String(error)) + ")");
       }
     }
   }
   if (added > 0) console.log("[bh] tu link " + String(added) + " goi GBH vao node_modules cua goi (ban npm)");
+  if (failed.length > 0) {
+    // Không im lặng: thiếu link ⇒ import chéo chết, mà triệu chứng lại xuất hiện ở chỗ khác (harness không in URL).
+    console.error(
+      "[bh] KHÔNG tao duoc " +
+        String(failed.length) +
+        " lien ket goi GBH" +
+        (process.platform === "win32" ? " (Windows: bat Developer Mode hoac chay bang quyen Administrator)" : "") +
+        "; 3 cai dau: " +
+        failed.slice(0, 3).join(" · "),
+    );
+  }
   return added;
 }

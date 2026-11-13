@@ -205,6 +205,8 @@ export function spawnHost(options: HostOptions): HostProcess {
   });
   let settled = false;
   let buffer = "";
+  /** Đuôi stderr của harness con, để báo lỗi thật thay vì chỉ "thoát trước khi in URL". */
+  let errBuffer = "";
   /**
    * Relay one child stream to one of ours, a complete line at a time, so every line can be
    * relabelled and a partial line never splits a UTF-8 sequence mid-write.
@@ -248,6 +250,7 @@ export function spawnHost(options: HostOptions): HostProcess {
     child.stderr?.setEncoding("utf8");
     child.stderr?.on("data", (chunk: string) => {
       relayErr(chunk);
+      errBuffer = `${errBuffer}${chunk}`.slice(-4096);
     });
     child.once("error", (error) => {
       if (settled) return;
@@ -257,7 +260,15 @@ export function spawnHost(options: HostOptions): HostProcess {
     child.once("exit", (code, signal) => {
       if (settled) return;
       settled = true;
-      reject(new Error(`harness exited before printing a URL (code ${String(code)}, signal ${String(signal)})`));
+      // 13/11/2026 (Lead): kèm 8 dòng cuối của luồng con. Trên Windows người dùng chỉ thấy câu "exited before
+      //   printing a URL" còn nguyên nhân thật (ERR_MODULE_NOT_FOUND) nằm trong log — không tự đi tìm.
+      const tail = (errBuffer.trim() === "" ? buffer : errBuffer).trim().split(/\r?\n/u).slice(-8).join("\n");
+      reject(
+        new Error(
+          `harness exited before printing a URL (code ${String(code)}, signal ${String(signal)})` +
+            (tail === "" ? "" : `\n--- 8 dòng cuối của harness ---\n${tail}`),
+        ),
+      );
     });
   });
   return { child, ready, launch };
