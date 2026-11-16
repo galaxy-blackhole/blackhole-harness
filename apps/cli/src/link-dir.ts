@@ -10,6 +10,7 @@
  */
 
 import { symlinkSync } from "node:fs";
+import { resolve } from "node:path";
 
 /**
  * Tao lien ket thư mục từ `source` tới `link`, chọn kiểu phù hợp với hệ điều hành.
@@ -21,5 +22,9 @@ import { symlinkSync } from "node:fs";
  * @throws khi không tạo được liên kết (để nơi gọi báo rõ, không im lặng).
  */
 export function linkDirSync(source: string, link: string): void {
-  symlinkSync(source, link, process.platform === "win32" ? "junction" : "dir");
+  // 16/11/2026 (Lead): junction của Windows LƯU ĐƯỜNG DẪN TUYỆT ĐỐI trong đích, nên nếu `source` là
+  //   đường dẫn tương đối thì junction tạo ra trỏ về chính nó ⇒ ESM báo
+  //   "Cannot find module '<link>' imported from '<link>'" (đúng lỗi Windows 16/11/2026, 183 plugin
+  //   không activate). resolve() cả hai đầu để junction luôn tuyệt đối, trên POSIX thì vô hại.
+  symlinkSync(resolve(source), resolve(link), process.platform === "win32" ? "junction" : "dir");
 }
