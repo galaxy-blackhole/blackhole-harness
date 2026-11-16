@@ -437,8 +437,43 @@ function kernelPeers(): Set<string> {
     }
   }
   for (const peer of [...peers]) if (peer.startsWith("@galaxy-blackhole/")) peers.delete(peer);
+  // 16/11/2026 (Lead): peer mới chỉ là gói ĐƯỢC KHAI; gói đó còn cần dependency CỦA NÓ lúc chạy.
+  //   Lỗi thật 16/11: app Preview báo "Cannot find package …node_modules/openai/index.js imported from
+  //   @earendil-works/pi-ai/dist/api/openai-completions.js" — vì bộ lọc chỉ giữ pi-ai (peer) mà bỏ openai
+  //   (dependency của pi-ai, chỉ nạp khi gọi model). Đóng bao gói phụ thuộc bắc cầu tại đây.
+  expandDependencyClosure(peers);
   cachePeers = peers;
   return peers;
+}
+
+/**
+ * Thêm mọi phụ thuộc bắc cầu của các gói đã có vào chính tập đó.
+ * Nhận: seeds — tập tên gói cần giữ (sẽ được mở rộng tại chỗ).
+ * Trả: không.
+ * @remarks Chỉ đọc `dependencies` và `optionalDependencies` trong `apps/host/node_modules/<gói>/package.json`;
+ *          gói không có mặt trong cây thì bỏ qua (nó có thể do kernel tự cài, hoặc là gói tuỳ chọn).
+ */
+function expandDependencyClosure(seeds: Set<string>): void {
+  const queue = [...seeds];
+  const seen = new Set<string>(queue);
+  for (let index = 0; index < queue.length && index < 4000; index += 1) {
+    const name = queue[index] as string;
+    let doc: { dependencies?: Record<string, string>; optionalDependencies?: Record<string, string> };
+    try {
+      doc = JSON.parse(readFileSync(join(repoRoot, "apps", "host", "node_modules", name, "package.json"), "utf8"));
+    } catch {
+      continue;
+    }
+    for (const dep of [
+      ...Object.keys(doc.dependencies ?? {}),
+      ...Object.keys(doc.optionalDependencies ?? {}),
+    ]) {
+      if (seen.has(dep)) continue;
+      seen.add(dep);
+      seeds.add(dep);
+      queue.push(dep);
+    }
+  }
 }
 
 /**
