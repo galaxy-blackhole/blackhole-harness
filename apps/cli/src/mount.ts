@@ -19,6 +19,7 @@ import { suaIdProfile } from "../../../tools/p1b/denta-profile.ts";
 import { dirname, join, relative } from "node:path";
 import { appHome, kernelModulesDir as kernelModulesDirFromPaths, repoRoot } from "./paths.ts";
 import { linkSelfPackages } from "./self-links.ts";
+import { linkDirSync } from "./link-dir.ts";
 import { bunOnlyCommand, runMountGate } from "./mount-gate.ts";
 import { timePhase } from "./boot-timing.ts";
 
@@ -491,7 +492,7 @@ const trace = process.env.BH_TRACE === "1" ? (step: string): void => { console.l
       }
       mkdirSync(dirname(link), { recursive: true });
       rmSync(link, { recursive: true, force: true });
-      symlinkSync(source, link, "dir");
+      linkDirSync(source, link);
       peers.push(peer);
     }
     // Host alias KHÔNG tạo ở đây: vòng peer của những gói mount SAU sẽ ghi đè cùng đường dẫn
@@ -544,7 +545,7 @@ export function linkInfrastructurePackages(): string[] {
     }
     try {
       mkdirSync(dirname(link), { recursive: true });
-      symlinkSync(nguon, link, "dir");
+      linkDirSync(nguon, link);
       linked.push(specifier);
     } catch {
       continue;
@@ -589,7 +590,7 @@ export function linkNativeAddonPackages(): string[] {
     }
     try {
       mkdirSync(dirname(link), { recursive: true });
-      symlinkSync(nguon, link, "dir");
+      linkDirSync(nguon, link);
       linked.push("@deepseek-ai/" + goi);
     } catch {
       continue;
@@ -825,7 +826,7 @@ export function applyHostAliases(results: readonly MountResult[]): string[] {
       try {
         mkdirSync(dirname(link), { recursive: true });
         rmSync(link, { recursive: true, force: true });
-        symlinkSync(result.dir, link, "dir");
+        linkDirSync(result.dir, link);
         applied.push(alias + " -> " + result.specifier);
       } catch (error) {
         console.warn("[bh] khong tao duoc host alias " + alias + " -> " + result.dir + ": " + String(error));
@@ -963,7 +964,7 @@ export function applyProvenanceAliases(): string[] {
             //   activate"). Khi gói ta CHỈ có khai kiểu mà KERNEL có bản đầy đủ thì alias phải trỏ KERNEL.
             const thuMucKernel = join(kernelModulesDir(), stock);
             const nguonAlias = chiCoKhaiKieu(dir) && existsSync(thuMucKernel) ? thuMucKernel : dich;
-            symlinkSync(realpathSync(nguonAlias), link, 'dir');
+            linkDirSync(realpathSync(nguonAlias), link);
             applied.push(stock + ' -> ' + ours);
           } catch {
             continue;

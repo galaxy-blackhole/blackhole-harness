@@ -11,6 +11,7 @@
 
 import { cpSync, existsSync, mkdirSync, readlinkSync, rmSync, statSync, symlinkSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
+import { linkDirSync } from "./link-dir.ts";
 import { repoRoot } from "./paths.ts";
 
 /**
@@ -69,7 +70,7 @@ export function ensureLink(link: string, target: string): boolean {
   }
   try {
     mkdirSync(dirname(link), { recursive: true });
-    symlinkSync(target, link, "dir");
+    linkDirSync(target, link);
     return true;
   } catch {
     return false;
