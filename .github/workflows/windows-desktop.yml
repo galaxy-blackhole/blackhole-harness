@@ -47,6 +47,17 @@ jobs:
           Copy-Item -Path (Join-Path $pkg "*") -Destination $hostDir -Recurse -Force
           Copy-Item -Path (Join-Path $stage "node_modules") -Destination (Join-Path $hostDir "node_modules") -Recurse -Force
           if (!(Test-Path (Join-Path $hostDir "apps\cli\lib\main.js"))) { throw "host lib/main.js missing" }
+          # NSIS/makensis dùng đường dẫn ANSI/MAX_PATH: các tệp devtools mô tả rất dài trong
+          # @deepseek-ai/dsh-experimental-inspector làm build fail. Bỏ devtools frontend (không dùng
+          # trên đường boot web), rồi dọn mọi tệp còn dài hơn 220 ký tự để makensis mở được.
+          $devtools = Join-Path $hostDir "node_modules\@deepseek-ai\dsh-experimental-inspector\lib\devtools"
+          if (Test-Path $devtools) { Remove-Item -Recurse -Force $devtools }
+          $long = Get-ChildItem $hostDir -Recurse -File | Where-Object { $_.FullName.Length -gt 220 }
+          $longCount = @($long).Count
+          if ($longCount -gt 0) {
+            Write-Host "pruning $longCount long paths (>220 chars)"
+            $long | Remove-Item -Force
+          }
 
       - name: Stage Node win-x64 runtime
         shell: pwsh
