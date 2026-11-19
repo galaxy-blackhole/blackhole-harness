@@ -93,6 +93,11 @@ jobs:
           New-Item -ItemType Directory -Force $homeDir | Out-Null
           $out = Join-Path $env:RUNNER_TEMP "host.out"
           $err = Join-Path $env:RUNNER_TEMP "host.err"
+          $frontend = Join-Path $hostDir "node_modules\@deepseek-ai\dsh-web-frontend\dist\index.html"
+          Write-Host "frontend index exists: $(Test-Path $frontend)"
+          if (Test-Path $frontend) { Get-Item $frontend | Format-List FullName,Length }
+          Get-ChildItem (Join-Path $hostDir "node_modules\@deepseek-ai\dsh-web-frontend\dist") -ErrorAction SilentlyContinue | Select-Object -First 10 | ForEach-Object { Write-Host "FE $($_.Name) $($_.Length)" }
+          $env:GBH_LOG = "debug"
           $env:GBH_HOME = $homeDir
           $env:GBH_NODE = $node
           $env:GBH_REPO_ROOT = $hostDir
@@ -119,6 +124,8 @@ jobs:
           Write-Host "FULL CURL HTTP $fullCode"
           if ($fullCode -ne "200") {
             $uiText = if (Test-Path $ui) { Get-Content $ui -Raw } else { "" }
+            Write-Host "=== web diagnostics ==="
+            Select-String -Path $out, $err -Pattern 'web-app|web-frontend|fallback|404|mount|cordis' -ErrorAction SilentlyContinue | Select-Object -Last 40
             throw "full token URL trả $fullCode :: $uiText"
           }
           if ((Get-Content $ui -Raw) -notmatch 'Galaxy Blackhole') { throw "HTML không chứa Galaxy Blackhole" }
