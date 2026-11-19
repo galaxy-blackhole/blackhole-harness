@@ -2,7 +2,7 @@
  * author Bùi Trọng Hiếu
  * email kevinbui210191@gmail.com
  * create date 15/10/2026
- * modify date 17/10/2026
+ * modify date 19/11/2026
  * desc Huong dan dung cac cong lint: chay gi, mien tru the nao, them luat moi ra sao
  */
 
@@ -10,11 +10,11 @@
 
 Chạy tất cả:
 
-    bun run gate                  # header + độ dài + JSDoc + dep-guard + parity-matrix + typecheck
+    bun run gate                  # header + độ dài + JSDoc + exports-targets + dep-guard + parity-matrix + deviation + typecheck + hygiene
     bun run gate --json           # kèm JSON để máy đọc (CI)
     bun run gate --only header,jsdoc
     bun run gate --strict         # cảnh báo cũng tính là vi phạm
-    bun run gate --with-tests     # chạy thêm bun test (mặc định KHÔNG chạy: cổng lint không phụ thuộc test của tầng khác)
+    bun run gate --no-tests       # bỏ bun test (mặc định CÓ chạy test: "gate XANH" phải có nghĩa là test xanh)
 
 Chạy lẻ từng cổng (mỗi cổng trả exit code != 0 khi đỏ và in `FAIL <file>:<dòng>  <lý do>`):
 
@@ -24,6 +24,9 @@ Chạy lẻ từng cổng (mỗi cổng trả exit code != 0 khi đỏ và in `F
     bun run tools/lint/dep-guard.ts
     bun run tools/lint/parity-matrix.ts          # sinh lại docs/PARITY-MATRIX.md
     bun run tools/lint/parity-matrix.ts --check  # chỉ kiểm tài liệu có lệch dữ liệu không
+    bun run tools/lint/deviation-registry.ts --ratchet   # cổng sai khác cố ý (ratchet, xem §1b)
+
+Máy dev không có `bun` trong PATH thì chạy `export PATH="$HOME/.bun/bin:$PATH"` trước (script `gate` gọi `bun` từ PATH).
 
 ## 1. Các cổng làm gì
 
@@ -34,7 +37,23 @@ Chạy lẻ từng cổng (mỗi cổng trả exit code != 0 khi đỏ và in `F
 | `jsdoc` | Mọi function/arrow/class/hook/component **export** phải có mô tả; Rust: `pub fn/struct/enum/trait` phải có `///` | Thiếu mô tả là lỗi. “Nhận gì/trả gì” là **cảnh báo** (chỉ thành lỗi khi `--strict`) vì không máy móc hoá được mà không báo oan |
 | `dep-guard` | Cấm `@galaxy-stack/ai-coder-core` ở **mọi tầng**: phụ thuộc trong mọi `package.json`, mọi lockfile (kể cả bắc cầu), mọi câu `import`/`require` | Nhắc tên gói trong tài liệu/chú thích chỉ ghi chú, không tính vi phạm |
 | `parity-matrix` | `docs/PARITY-MATRIX.md` phải khớp snapshot `docs/contracts/data/dsh-packages.json` | Sinh lại bằng `--refresh --dump <file>` |
+| `deviation` | Sai khác CỐ Ý so với gói stock phải có mục `<!-- deviation: <gói> -->` trong `docs/GBH-SAI-KHAC-CO-CHU-DICH.md` | **RATCHET**: ĐỎ khi có mục CHƯA KHAI **MỚI** ngoài `deviation-baseline.json`; nợ cũ trong baseline chỉ WARN. Xem §1b |
 | `typecheck` | `tsc --noEmit` theo đúng cờ của `tsconfig.base.json` | Cần Node >= 26 (đặt `GBH_NODE` nếu PATH không có node) hoặc bun; thiếu runtime thì SKIP kèm lý do, không đỏ cổng |
+
+### 1b. `deviation` — cổng ratchet (bật 19/11/2026)
+
+`deviation-registry.ts` so artefact (`lib/index.js`, `lib/client.js`) với bundle stock trong
+`apps/host/node_modules/@deepseek-ai/*` sau khi áp các lớp chuẩn hoá khai trong danh mục, rồi so bề mặt exports.
+Cổng A = gói khai `gbh.parity: "byte"` (hoặc `build.ts` có cổng byte); cổng B = phần còn lại.
+Đo 19/11/2026: **193 gói mount · so được 176 · khớp 13 · 28 mục chưa khai** (A 19 · B 9) — 28 mục này đóng băng trong
+`tools/lint/deviation-baseline.json`. Mục **mới** ⇒ cổng ĐỎ; mục trong baseline ⇒ WARN; mục đã hết lệch ⇒ WARN nhắc cập nhật.
+
+    bun run tools/lint/deviation-registry.ts --list            # in: <cổng>|<gói>|<loại>
+    bun run tools/lint/deviation-registry.ts --update-baseline # ghi lại baseline (CHỈ khi nợ đã khai/đã khớp)
+    bun run tools/lint/deviation-registry.ts                   # chế độ KHOÁ CỨNG: ĐỎ nếu còn bất kỳ mục chưa khai
+
+Lưu ý: `packages/*/*/lib/` bị `.gitignore` ⇒ trên checkout sạch cổng chỉ so được phần đã build và tự in WARN phủ sóng;
+XANH khi đó chỉ có nghĩa "không phát sinh mục mới trên phần so được". CI: `.github/workflows/gate.yml`.
 
 ## 2. Miễn trừ
 

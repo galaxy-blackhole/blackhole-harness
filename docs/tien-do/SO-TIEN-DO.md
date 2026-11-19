@@ -2,7 +2,7 @@
  author Bùi Trọng Hiếu
  email kevinbui210191@gmail.com
  create date 15/10/2026
- modify date 11/11/2026
+ modify date 19/11/2026
  desc SỔ TIẾN ĐỘ package: mỗi dòng = một package ĐÃ XÁC THỰC (3 chữ ký) + nơi lưu bản sao + hash.
       Quy tắc: package có trong sổ này là ĐÓNG BĂNG — không sửa nữa; nếu buộc phải sửa thì ghi lý do vào cột ghi chú.
 -->
@@ -803,5 +803,35 @@ bun run check:app      → ĐẠT toàn bộ 12 dòng chỉ số (1)(2)(3)(4)(5)
 bun run gate --no-tests → XANH 8/8 (header · file-length · jsdoc · exports-targets · dep-guard · parity-matrix · typecheck · hygiene)
 bun test tests/client/locale.test.ts → 8 pass · 0 fail
 ```
+
+
+## VÒNG 77 — BẬT CỔNG SAI KHÁC CỐ Ý (RATCHET) + CI TỐI THIỂU — 19/11/2026
+
+### ① Cổng `deviation` đã vào `GATE_ORDER` (trước đây chỉ là công cụ rời)
+· Dòng 251 ở trên ("2 cổng sai khác CHƯA bật `GATE_ORDER`") chỉ đúng tại thời điểm 08/11; hôm nay đã đóng: `GATE_ORDER` =
+  header · file-length · jsdoc · exports-targets · dep-guard · parity-matrix · **deviation** · typecheck (+ `hygiene` chạy mặc định).
+· Cơ chế RATCHET: `tools/lint/deviation-baseline.json` đóng băng **28 mục CHƯA KHAI** đo lúc bật — cổng A **19** · cổng B **9**
+  (193 gói mount · so được 176 · khớp 13). Mục **MỚI** ngoài baseline ⇒ **ĐỎ**; nợ cũ trong baseline ⇒ **WARN**; mục đã hết lệch
+  ⇒ WARN "baseline cũ, nên cập nhật". Baseline KHÔNG phải giấy phép miễn trừ — chỉ được nhỏ đi.
+· Thêm chế độ CLI (không phá CLI cũ, không cờ = chế độ khoá cứng): `--list` · `--json` · `--ratchet` · `--update-baseline`.
+
+### ② CI tối thiểu
+· `.github/workflows/gate.yml`: ubuntu-latest · `oven-sh/setup-bun@v2` (bun 1.3.14) · `bun install --frozen-lockfile` ở gốc
+  VÀ `apps/host` · `actions/setup-node@v4` (Node 26) + `GBH_NODE` cho typecheck · `bun run gate --no-tests`.
+· Test KHÔNG chạy mặc định (~8 phút, cần host/GUI, từng đỏ GIẢ khi máy bận) — bật bằng `workflow_dispatch` với `run_tests=true`.
+
+### ĐO THẬT (19/11/2026, máy dev)
+```
+bun run gate --only deviation --no-tests  → XANH · 0 vi phạm · 28 cảnh báo · 2.562 ms
+bun run gate --no-tests                   → 8/9 XANH; ĐỎ 1 cổng `header` vì apps/desktop/scripts/embed-links.ts
+                                            (file MỚI chưa có header — của Lead đang mở, KHÔNG thuộc phạm vi vòng này)
+                                            typecheck 2735 file 0 vi phạm (26,7–34,8 s) · deviation XANH · tổng ~35–41 s
+thử phá bằng GBH_LINT_ROOT: artefact lệch + baseline RỖNG ⇒ ĐỎ (exit 1); thêm mục đó vào baseline ⇒ XANH + WARN (exit 0)
+checkout sạch (không có lib/): XANH + WARN "chỉ so được 0/N gói" + WARN 28 mục baseline stale
+```
+· CÒN HỞ (ghi rõ để người sau không tưởng đã xong): `packages/*/*/lib/` bị `.gitignore` ⇒ trên checkout sạch cổng deviation
+  chỉ so được phần đã build (thường 0/N). Muốn cổng có nghĩa đầy đủ trên CI phải thêm bước build artefact (`build.ts` từng gói)
+  trước khi chạy cổng — CHƯA làm (nặng, cần quyết định của Lead).
+· Chi tiết lệnh + luật: `docs/GBH-SAI-KHAC-CO-CHU-DICH.md` §Baseline ratchet và `tools/lint/README.md` §1b.
 
 

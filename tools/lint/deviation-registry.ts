@@ -2,13 +2,15 @@
  * author Bùi Trọng Hiếu
  * email kevinbui210191@gmail.com
  * create date 15/10/2026
- * modify date 09/11/2026
+ * modify date 19/11/2026
  * desc Cổng KHOÁ CỨNG sai khác CỐ Ý: áp các LỚP CHUẨN HOÁ đã khai báo trong danh mục (biến đổi CƠ HỌC rồi so byte lại),
  *      so thêm BỀ MẶT EXPORTS với bản gốc, và ĐỎ nếu còn lệch cấu trúc mà gói chưa có mục khai báo.
+ *      Từ 19/11/2026 có thêm chế độ RATCHET theo `tools/lint/deviation-baseline.json`: đóng băng số mục CHƯA KHAI
+ *      hiện có (nợ cũ chỉ WARN), chỉ ĐỎ khi phát sinh mục MỚI ngoài baseline — dùng cho cổng `deviation` của gate/CI.
  */
 
-import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
-import { join } from "node:path";
+import { existsSync, mkdirSync, readdirSync, readFileSync, statSync, writeFileSync } from "node:fs";
+import { dirname, join } from "node:path";
 import { createResult, isDirectRun, printResult, REPO_ROOT, toRel, type CheckResult } from "./shared.ts";
 
 /** Tầng chứa gói GBH. */
@@ -22,6 +24,12 @@ const TEP_BAN_DO_ID = join(REPO_ROOT, "tests", "helpers", "brand-ids-map.json");
 
 /** Thư mục node_modules của host app — nơi bundle gốc DSH nằm. */
 const THU_MUC_NODE_MODULES = join(REPO_ROOT, "apps", "host", "node_modules");
+
+/**
+ * Tệp BASELINE RATCHET: đóng băng danh sách mục CHƯA KHAI đã tồn tại tại thời điểm bật cổng.
+ * Cổng `deviation` chỉ ĐỎ khi xuất hiện mục MỚI ngoài tệp này; mục nằm trong baseline là NỢ CŨ đã biết (chỉ WARN).
+ */
+export const TEP_BASELINE = join(REPO_ROOT, "tools", "lint", "deviation-baseline.json");
 
 /** Các artefact cần so của một gói. */
 const ARTEFACT = ["index.js", "client.js"];
@@ -112,6 +120,56 @@ interface DongBaoCao {
   beMat: BeMatLech;
   /** Cổng áp cho gói: "A" (hợp đồng byte) hoặc "B" (bề mặt exports + hành vi). */
   cong: "A" | "B";
+}
+
+/**
+ * Một mục CHƯA KHAI BÁO do cổng A/B phát hiện — đơn vị của baseline ratchet.
+ * `khoa` là danh tính ỔN ĐỊNH (không phụ thuộc số dòng lệch/byte lệch), nhờ vậy baseline không rung khi mã đổi.
+ */
+export interface MucChuaKhai {
+  /** Khoá ổn định dạng `<cổng>|<gói>|<loại>`, dùng để so với baseline. */
+  khoa: string;
+  /** Cổng phát hiện: "A" (hợp đồng byte) hoặc "B" (bề mặt exports + hành vi). */
+  cong: "A" | "B";
+  /** Tên gói GBH đầy đủ. */
+  goi: string;
+  /** Loại sai khác: byte · thieu-export · thua-export · chu-thich-viet. */
+  loai: string;
+  /** Artefact liên quan (ví dụ lib/index.js). */
+  artefact: string;
+  /** Số dòng lệch sau chuẩn hoá (0 với sai khác chỉ ở bề mặt exports). */
+  soDongLech: number;
+}
+
+/**
+ * Tính khoá ổn định của một mục chưa khai.
+ * Nhận: cong; goi; loai. Trả: chuỗi `<cổng>|<gói>|<loại>` — dùng làm danh tính trong baseline.
+ */
+export function khoaMuc(cong: "A" | "B", goi: string, loai: string): string {
+  return cong + "|" + goi + "|" + loai;
+}
+
+/** Kết quả một lượt quét: kết quả cổng + danh sách mục chưa khai + số liệu phủ. */
+interface LanQuet {
+  /** Kết quả cổng (ĐỎ khi còn mục chưa khai — chế độ KHOÁ CỨNG cũ). */
+  ketQua: CheckResult;
+  /** Mục chưa khai theo thứ tự gói. */
+  muc: MucChuaKhai[];
+  /** Số liệu phủ để in ghi chú/cảnh báo. */
+  thongKe: {
+    /** Số gói mount được liệt kê. */
+    soGoi: number;
+    /** Số gói thuộc cổng A. */
+    soGoiA: number;
+    /** Số gói thuộc cổng B. */
+    soGoiB: number;
+    /** Số gói so được artefact (khớp hoặc lệch cấu trúc). */
+    soGoiSoDuoc: number;
+    /** Số gói không tìm thấy bản gốc stock. */
+    soKhongCoBanGoc: number;
+    /** Số gói thiếu artefact lib/ của ta hoặc của bản gốc. */
+    soThieuArtefact: number;
+  };
 }
 
 /**
@@ -381,12 +439,13 @@ export function soMotGoi(
 }
 
 /**
- * Chạy cổng với HAI chế độ: CỔNG A so byte (hợp đồng byte), CỔNG B so bề mặt exports + hành vi (test của gate).
- * Nhận: không (đọc repo). Trả: CheckResult với violations chia theo cổng.
+ * Quét toàn bộ gói mount và dựng HAI CỔNG: CỔNG A so byte (hợp đồng byte), CỔNG B so bề mặt exports + hành vi.
+ * Nhận: không (đọc repo). Trả: { ketQua, muc, thongKe } — vi phạm chia theo cổng + danh sách mục CHƯA KHAI.
  */
-export function runDeviationCheck(): CheckResult {
+function quetSaiKhac(): LanQuet {
   const batDau = Date.now();
   const ketQua = createResult("deviation-registry");
+  const muc: MucChuaKhai[] = [];
   const lop = docCacLopChuanHoa();
   const khaiBao = docDanhSachKhaiBao();
   const banDo = docBanDoId();
@@ -409,6 +468,7 @@ export function runDeviationCheck(): CheckResult {
     if (d.cong === "A") {
       if (!byteLech || daKhai(d)) continue;
       thieuA += 1;
+      muc.push({ khoa: khoaMuc("A", d.goi, "byte"), cong: "A", goi: d.goi, loai: "byte", artefact: d.artefact, soDongLech: d.soDongLech });
       ketQua.violations.push({ file: toRel(join(d.thuMuc, "package.json")), line: 0,
         message: "[CONG A - byte] " + d.goi + " · " + d.artefact + dongByte
           + "\n    -> can muc khai bao <!-- deviation: " + d.goi + " --> trong docs/GBH-SAI-KHAC-CO-CHU-DICH.md" });
@@ -417,6 +477,7 @@ export function runDeviationCheck(): CheckResult {
     const beMat = d.beMat;
     if (beMat.thieu.length > 0) {
       thieuB += 1;
+      muc.push({ khoa: khoaMuc("B", d.goi, "thieu-export"), cong: "B", goi: d.goi, loai: "thieu-export", artefact: d.artefact, soDongLech: d.soDongLech });
       ketQua.violations.push({ file: toRel(join(d.thuMuc, "package.json")), line: 0,
         message: "[CONG B - thieu export] " + d.goi + " · THIEU so voi goc: [" + beMat.thieu.slice(0, 12).join(", ")
           + (beMat.thieu.length > 12 ? ", …" : "") + "] — khong co ngoai le nao cho thieu export" });
@@ -424,6 +485,7 @@ export function runDeviationCheck(): CheckResult {
     }
     if ((beMat.thua.length > 0 || beMat.thamSo.length > 0) && !daKhai(d)) {
       thieuB += 1;
+      muc.push({ khoa: khoaMuc("B", d.goi, "thua-export"), cong: "B", goi: d.goi, loai: "thua-export", artefact: d.artefact, soDongLech: d.soDongLech });
       ketQua.violations.push({ file: toRel(join(d.thuMuc, "package.json")), line: 0,
         message: "[CONG B - thua export] " + d.goi + " · THUA so voi goc: [" + beMat.thua.slice(0, 12).join(", ")
           + (beMat.thua.length > 12 ? ", …" : "") + "]" + (beMat.thamSo.length > 0 ? " · so tham so lech: [" + beMat.thamSo.join(", ") + "]" : "")
@@ -432,6 +494,7 @@ export function runDeviationCheck(): CheckResult {
     }
     if (byteLech && !daKhai(d) && d.coChuViet) {
       thieuB += 1;
+      muc.push({ khoa: khoaMuc("B", d.goi, "chu-thich-viet"), cong: "B", goi: d.goi, loai: "chu-thich-viet", artefact: d.artefact, soDongLech: d.soDongLech });
       ketQua.violations.push({ file: toRel(join(d.thuMuc, "package.json")), line: 0,
         message: "[CONG B - chu thich tieng Viet trong ma] " + d.goi + " · " + d.artefact + dongByte
           + "\n    -> chu thich ban port chen trong ma KHONG duoc tu dong bo qua; can muc khai bao" });
@@ -448,11 +511,205 @@ export function runDeviationCheck(): CheckResult {
   ketQua.notes.push("so goi mount: " + String(goi.length) + " · khop ca hai chieu: "
     + String(baoCao.filter((d) => d.ketLuan === "khop").length));
   ketQua.ms = Date.now() - batDau;
-  return ketQua;
+  const thongKe = {
+    soGoi: goi.length,
+    soGoiA: soA,
+    soGoiB: soB,
+    soGoiSoDuoc: ketQua.checked,
+    soKhongCoBanGoc: ketQua.skipped["khong-co-ban-goc"] ?? 0,
+    soThieuArtefact: ketQua.skipped["thieu-artefact"] ?? 0,
+  };
+  return { ketQua, muc, thongKe };
 }
 
+/**
+ * Chạy cổng ở chế độ KHOÁ CỨNG (hành vi cũ, giữ tương thích): ĐỎ khi còn BẤT KỲ mục chưa khai nào.
+ * Nhận: không. Trả: CheckResult mang tên "deviation-registry".
+ */
+export function runDeviationCheck(): CheckResult {
+  return quetSaiKhac().ketQua;
+}
+
+/**
+ * Liệt kê các mục CHƯA KHAI hiện tại (đơn vị của baseline ratchet).
+ * Nhận: không (đọc repo). Trả: mảng MucChuaKhai đã sắp theo `khoa` để so sánh ổn định.
+ */
+export function thuThapMucChuaKhai(): MucChuaKhai[] {
+  return quetSaiKhac().muc.slice().sort((a, b) => (a.khoa < b.khoa ? -1 : a.khoa > b.khoa ? 1 : 0));
+}
+
+/** Nội dung một mục trong tệp baseline. */
+interface MucBaseline {
+  /** Khoá ổn định `<cổng>|<gói>|<loại>`. */
+  khoa: string;
+  /** Cổng phát hiện. */
+  cong?: string;
+  /** Tên gói GBH. */
+  goi?: string;
+  /** Loại sai khác. */
+  loai?: string;
+  /** Artefact liên quan. */
+  artefact?: string;
+  /** Số dòng lệch tại thời điểm sinh baseline (chỉ để người đọc; KHÔNG dùng để so). */
+  soDongLech?: number;
+}
+
+/** Tệp baseline đã đọc: tập khoá + số mục. */
+interface BaselineDaDoc {
+  /** Tập khoá của mọi mục trong baseline. */
+  khoa: Set<string>;
+  /** Số mục đọc được. */
+  soMuc: number;
+}
+
+/**
+ * Đọc tệp baseline ratchet.
+ * Nhận: duong — đường dẫn tệp (mặc định TEP_BASELINE). Trả: { khoa, soMuc }, hoặc undefined khi tệp thiếu/hỏng.
+ */
+export function docBaseline(duong: string = TEP_BASELINE): BaselineDaDoc | undefined {
+  if (!existsSync(duong)) return undefined;
+  try {
+    const json = JSON.parse(readFileSync(duong, "utf8")) as { muc?: MucBaseline[] };
+    const muc = Array.isArray(json.muc) ? json.muc : [];
+    const khoa = new Set<string>();
+    for (const m of muc) if (typeof m.khoa === "string" && m.khoa !== "") khoa.add(m.khoa);
+    return { khoa, soMuc: khoa.size };
+  } catch {
+    return undefined;
+  }
+}
+
+/**
+ * Ghi tệp baseline ratchet từ danh sách mục chưa khai hiện tại (chỉ chạy khi CỐ Ý cập nhật nợ cũ).
+ * Nhận: muc — danh sách mục chưa khai; duong — đường dẫn tệp (mặc định TEP_BASELINE).
+ * Trả: số mục đã ghi.
+ */
+export function ghiBaseline(muc: readonly MucChuaKhai[], duong: string = TEP_BASELINE): number {
+  const sapXep = muc.slice().sort((a, b) => (a.khoa < b.khoa ? -1 : a.khoa > b.khoa ? 1 : 0));
+  const noiDung = {
+    "_doc": [
+      "Baseline RATCHET cho cổng `deviation` trong tools/lint/gate.ts — đóng băng NỢ CŨ, không phải giấy phép.",
+      "So khớp CHỈ bằng `khoa`; các trường khác là thông tin tại thời điểm sinh baseline.",
+      "Mục MỚI (không có trong tệp này) ⇒ cổng ĐỎ. Mục nằm trong tệp này ⇒ WARN (nợ đã biết, chưa khai báo).",
+      "Baseline chỉ được NHỎ ĐI: khai báo xong một mục thì chạy lại lệnh dưới rồi commit.",
+    ],
+    "lenhCapNhat": "bun run tools/lint/deviation-registry.ts --update-baseline",
+    "sinhLuc": new Date().toISOString(),
+    "soMuc": sapXep.length,
+    "muc": sapXep.map((m) => ({
+      khoa: m.khoa,
+      cong: m.cong,
+      goi: m.goi,
+      loai: m.loai,
+      artefact: m.artefact,
+      soDongLech: m.soDongLech,
+    })),
+  };
+  mkdirSync(dirname(duong), { recursive: true });
+  writeFileSync(duong, JSON.stringify(noiDung, null, 2) + "\n", "utf8");
+  return sapXep.length;
+}
+
+/**
+ * Cổng RATCHET dùng cho `gate.ts`/CI: ĐỎ khi có mục CHƯA KHAI MỚI ngoài baseline, WARN với nợ cũ trong baseline.
+ * Nhận: duong — đường dẫn baseline (mặc định TEP_BASELINE). Trả: CheckResult tên "deviation".
+ * Nguyên tắc: baseline KHÔNG miễn trừ sai khác — nó chỉ đóng băng số nợ đã biết tại thời điểm bật cổng.
+ *   Mục ra khỏi baseline (đã khai báo) ⇒ cảnh báo "baseline cũ, nên cập nhật" để baseline chỉ nhỏ đi.
+ */
+export function runDeviationBaselineCheck(duong: string = TEP_BASELINE): CheckResult {
+  const batDau = Date.now();
+  const res = createResult("deviation");
+  const lan = quetSaiKhac();
+  res.checked = lan.muc.length;
+  const baseline = docBaseline(duong);
+  const duongRel = toRel(duong);
+  if (baseline === undefined) {
+    res.violations.push({
+      file: duongRel,
+      line: 0,
+      message: "THIẾU/hỏng baseline ratchet — không có mốc so sánh nên cổng không thể xác nhận. "
+        + "Sinh lại bằng: bun run tools/lint/deviation-registry.ts --update-baseline",
+    });
+    res.notes.push("CỔNG A (byte): " + String(lan.thongKe.soGoiA) + " gói · CỔNG B (bề mặt): " + String(lan.thongKe.soGoiB) + " gói");
+    res.ms = Date.now() - batDau;
+    return res;
+  }
+  const hienTai = new Set(lan.muc.map((m) => m.khoa));
+  const moi = lan.muc.filter((m) => !baseline.khoa.has(m.khoa));
+  const noCu = lan.muc.filter((m) => baseline.khoa.has(m.khoa));
+  const daHet = [...baseline.khoa].filter((k) => !hienTai.has(k)).sort();
+  for (const m of moi) {
+    res.violations.push({
+      file: "tools/lint/deviation-baseline.json",
+      line: 0,
+      message: "[MỚI NGOÀI BASELINE·cổng " + m.cong + "] " + m.goi + " · " + m.loai + " · " + m.artefact
+        + " (" + String(m.soDongLech) + " dòng lệch) — sai khác CHƯA KHAI BÁO và KHÔNG có trong baseline."
+        + "\n    -> khai báo <!-- deviation: " + m.goi + " --> trong docs/GBH-SAI-KHAC-CO-CHU-DICH.md"
+        + "\n    -> KHÔNG được thêm mục này vào baseline để tắt cổng; baseline chỉ đóng băng nợ cũ.",
+    });
+  }
+  for (const m of noCu) {
+    res.warnings.push({
+      file: "tools/lint/deviation-baseline.json",
+      line: 0,
+      message: "[NỢ CŨ·cổng " + m.cong + "] " + m.goi + " · " + m.loai + " · " + m.artefact
+        + " — vẫn chưa khai báo; nằm trong baseline nên chỉ cảnh báo (cần khai báo rồi cập nhật baseline).",
+    });
+  }
+  if (daHet.length > 0) {
+    res.warnings.push({
+      file: duongRel,
+      line: 0,
+      message: "baseline có " + String(daHet.length) + " mục KHÔNG còn phát hiện (đã khai báo hoặc đã khớp): "
+        + daHet.slice(0, 8).join(" · ") + (daHet.length > 8 ? " · …" : "")
+        + " — chạy --update-baseline để baseline chỉ nhỏ đi.",
+    });
+  }
+  if (lan.thongKe.soThieuArtefact > 0 && lan.thongKe.soGoi > 0 && lan.thongKe.soThieuArtefact * 5 > lan.thongKe.soGoi) {
+    res.warnings.push({
+      file: duongRel,
+      line: 0,
+      message: "chỉ so được " + String(lan.thongKe.soGoiSoDuoc) + "/" + String(lan.thongKe.soGoi)
+        + " gói vì thiếu artefact lib/ (thieu-artefact: " + String(lan.thongKe.soThieuArtefact)
+        + ", khong-co-ban-goc: " + String(lan.thongKe.soKhongCoBanGoc) + ") — XANH ở đây chỉ có nghĩa "
+        + "\"không phát sinh sai khác MỚI trên phần so được\", KHÔNG chứng minh toàn bộ gói khớp. "
+        + "Trên checkout sạch, chạy build.ts của từng gói trước khi chạy cổng.",
+    });
+  }
+  res.notes.push("cổng A: " + String(lan.thongKe.soGoiA) + " gói · cổng B: " + String(lan.thongKe.soGoiB)
+    + " gói · so được " + String(lan.thongKe.soGoiSoDuoc) + "/" + String(lan.thongKe.soGoi));
+  res.notes.push("baseline " + duongRel + ": " + String(baseline.soMuc) + " mục · mục mới: " + String(moi.length)
+    + " · nợ cũ còn lại: " + String(noCu.length) + " · mục đã hết lệch: " + String(daHet.length));
+  res.notes.push("cổng này là RATCHET: chỉ ĐỎ khi phát sinh mục MỚI; nợ cũ trong baseline in WARN, dùng --strict để coi WARN là ĐỎ.");
+  res.ms = Date.now() - batDau;
+  return res;
+}
+
+// 19/11/2026: thêm chế độ cho cổng ratchet + CI, KHÔNG phá CLI cũ (không cờ = hành vi KHOÁ CỨNG như trước):
+//   --list             in mỗi mục chưa khai một dòng `<cổng>|<gói>|<loại>` (dùng để diff/soát baseline)
+//   --json             in JSON đầy đủ (kết quả + mục chưa khai + số liệu phủ)
+//   --ratchet|--baseline  chạy đúng cổng `deviation` mà gate.ts/CI dùng (chỉ ĐỎ khi có mục MỚI)
+//   --update-baseline  ghi lại tools/lint/deviation-baseline.json từ trạng thái hiện tại
 if (isDirectRun(import.meta.url)) {
-  const ketQua = runDeviationCheck();
-  printResult(ketQua, { limit: 20 });
-  process.exit(ketQua.violations.length === 0 ? 0 : 1);
+  const argv = process.argv.slice(2);
+  if (argv.includes("--update-baseline")) {
+    const soMuc = ghiBaseline(thuThapMucChuaKhai());
+    console.log("INFO đã ghi " + toRel(TEP_BASELINE) + " · " + String(soMuc) + " mục");
+    process.exit(0);
+  }
+  if (argv.includes("--ratchet") || argv.includes("--baseline")) {
+    const ketQua = runDeviationBaselineCheck();
+    printResult(ketQua, { limit: 40, strict: argv.includes("--strict") });
+    process.exit(ketQua.violations.length > 0 || (argv.includes("--strict") && ketQua.warnings.length > 0) ? 1 : 0);
+  }
+  const lan = quetSaiKhac();
+  if (argv.includes("--list")) {
+    for (const m of lan.muc) console.log(m.khoa);
+    process.exit(0);
+  }
+  printResult(lan.ketQua, { limit: 20 });
+  if (argv.includes("--json")) {
+    console.log(JSON.stringify({ ...lan.ketQua, mucChuaKhai: lan.muc, thongKe: lan.thongKe }, null, 1));
+  }
+  process.exit(lan.ketQua.violations.length === 0 ? 0 : 1);
 }

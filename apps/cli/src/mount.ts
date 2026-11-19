@@ -170,11 +170,16 @@ export function parseRowVerdicts(output: string): RowVerdict[] {
 function blockedPackages(): Map<string, string> {
   const blocked = new Map<string, string>();
   const script = join(repoRoot(), 'tools', 'check', 'rows.ts');
-  // 12/11/2026 — KHONG IM LANG: .app dong goi KHONG kem tools/check (embed.ts chi chep tools/p1b), nen
-  // ban cai that se bo qua cong chan mount. In canh bao ro thay vi im lang; dat GBH_REPO_ROOT de bat lai.
+  // 19/11/2026 — FAIL-CLOSED: bản đóng gói phải kèm cổng chặn mount. Trước đây thiếu `tools/check` thì
+  // in cảnh báo rồi mount tiếp — nghĩa là bản người dùng chạy không có 12 luật kiểm. Nay mặc định DỪNG;
+  // chỉ bỏ qua khi người vận hành đặt GBH_ALLOW_NO_GATE=1 (có ý thức, để debug).
   if (!existsSync(script)) {
-    console.warn('[bh] cổng chặn mount bị bỏ qua vì thiếu ' + script + ' — bản đóng gói không kèm tools/check; đặt GBH_REPO_ROOT về repo để bật cổng');
-    return blocked;
+    const message = '[bh] thiếu cổng chặn mount: ' + script + ' — bản đóng gói phải kèm tools/check; đặt GBH_REPO_ROOT về repo hoặc GBH_ALLOW_NO_GATE=1 để bỏ qua có ý thức';
+    if (process.env.GBH_ALLOW_NO_GATE === '1') {
+      console.warn(message + ' (đang bỏ qua vì GBH_ALLOW_NO_GATE=1)');
+      return blocked;
+    }
+    throw new Error(message);
   }
   // 12/11/2026 — LOI TINH DUNG: `process.execPath run <script>` chi dung khi tien trinh la Bun. App desktop
   // chay launcher bang Node ⇒ lenh vo nghia, tien trinh con chet ngay, output rong ⇒ cong chan mount IM LANG
@@ -607,7 +612,10 @@ export function linkNativeAddonPackages(): string[] {
  */
 export function ensureRewriteMounts(): MountResult[] {
   // 12/11/2026 — chay TRUOC moi buoc mount: import cheo giua cac goi GBH phai phan giai duoc tu cay goi.
-  linkSelfPackages();
+  // 19/11/2026 — KHÔNG làm việc này với host NHÚNG: `linkSelfPackages()` ghi symlink vào
+  // `repoRoot()/node_modules` (trong .app là `Resources/host/apps/host/node_modules`) ⇒ mỗi lượt boot
+  // sửa bundle SAU khi ký ⇒ `codesign --verify` báo "file added". Bản nhúng đã có node_modules đi kèm.
+  if (!embeddedHost()) linkSelfPackages();
   const disabled = (process.env.GBH_DISABLE_REWRITES ?? "").trim() !== "";
   // 12/11/2026: che do TAT (A/B) khong mount gi ⇒ khong can chay cong chan mount (tiet kiem ~2,6 s).
   const blocked = disabled ? new Map<string, string>() : blockedPackages();

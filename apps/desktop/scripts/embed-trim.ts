@@ -17,6 +17,15 @@ export interface TrimOptions {
   keepLibreOffice: boolean;
   /** Giữ NGUYÊN `apps/host/node_modules` (mặc định false: lọc theo phép đo boot). */
   kernelAll: boolean;
+  /**
+   * Giữ `packages/<tầng>/<gói>/src/**` + `build.ts` (mặc định **true** từ 19/11/2026).
+   *
+   * Vì sao đổi mặc định: bản cài có `tools/check` phải chạy được 12 luật mount gate, mà `rows.ts`
+   * cần `src/index.ts`/`src/client.ts` hoặc `build.ts` để đối chiếu. Trước đây bỏ `src` nên gate bị
+   * bỏ qua; giữ lại tốn ~33 MB nhưng bản người dùng có cùng cổng với bản dev. Cờ `--drop-source` để
+   * quay lại bản lean (không gate).
+   */
+  keepSource?: boolean;
 }
 
 /** Một dòng của bảng "đã loại" (nhóm · MB · số tệp). */
@@ -43,16 +52,6 @@ export interface TrimContext {
 
 /** Bộ LibreOffice trong `packages/` (155 MB) — chỉ phục vụ chuyển office→pdf. */
 export const OFFICE_PACKAGE = "packages/host/gbh-libreoffice-kit-darwin-x64";
-
-/**
- * Tên thư mục bị loại khỏi `packages/**` (KHÔNG áp cho `apps/host/node_modules`: nhiều gói npm để mã chạy
- * trong `src/`, vd `send/node_modules/debug/src/node.js` — đo được là tệp ĐƯỢC NẠP lúc boot).
- *
- * - `src`: 30 MB mã nguồn; bản chạy trong .app dùng `lib/` đã build (mount chép lib/ vào profile).
- * - `test`/`tests`/`__tests__`: không có runner nào trong gói cài.
- * - `docs`: tài liệu từng gói; `docs/PARITY-MATRIX.md` ở cấp repo vẫn được giữ (nằm ngoài `packages/`).
- */
-const PACKAGE_DROP_DIRS: readonly string[] = ["src", "test", "tests", "__tests__", "docs"];
 
 /**
  * Tên thư mục bị loại trong `apps/host/node_modules` (KHÔNG có `src` — xem chú thích trên).
@@ -271,8 +270,16 @@ export function skipReason(source: string, trim: TrimOptions, ctx: TrimContext):
     const pkg = kernelPackageOf(rel);
     if (pkg !== undefined && pkg !== "" && !ctx.keepPackage(rel)) return "kernel";
   }
+  // (2b) `assets/` là DỮ LIỆU CHẠY, không phải tài liệu: skill-office đọc `assets/office/SKILL.md`
+  //      lúc apply; skill-badge đọc `assets/*.md`; bỏ .md ở đây làm entry không activate (đo 19/11/2026:
+  //      app cài báo "1 entry did not activate — skill-office ENOENT SKILL.md"). Giữ nguyên assets.
+  if (rel.startsWith("packages/") && rel.includes("/assets/")) return undefined;
   // (3) Nguồn/thử nghiệm/tài liệu của chính gói ta (bản chạy dùng lib/ dựng sẵn).
-  if (rel.startsWith("packages/") && isDir && PACKAGE_DROP_DIRS.includes(name)) return "src";
+  //      Từ 19/11/2026: giữ `src` + `build.ts` để mount gate chạy được trong bản cài; test/docs vẫn bỏ.
+  const keepSource = trim.keepSource !== false;
+  const packageDir = rel.startsWith("packages/") && isDir ? name : undefined;
+  if (packageDir === "test" || packageDir === "tests" || packageDir === "__tests__" || packageDir === "docs") return "src";
+  if (!keepSource && packageDir === "src") return "src";
   // (4) docs/ + test/ trong node_modules.
   if (inSourceScope(rel) && isDir && MODULE_DROP_DIRS.includes(name)) return "moduledocs";
   // (5) Prebuild của nền tảng khác.
@@ -280,7 +287,9 @@ export function skipReason(source: string, trim: TrimOptions, ctx: TrimContext):
   // (6) Khai báo kiểu: không bao giờ nạp lúc chạy.
   if (TYPE_DECL.test(name)) return "types";
   // (7) Nguồn TS: GIỮ tệp mà package.json trỏ tới (entry runtime), bỏ phần còn lại.
-  if (TS_SOURCE.test(name) && inSourceScope(rel) && !runtimeEntries(ctx.repoRoot).has(source)) return "ts";
+  //      Ngoại lệ keepSource: giữ toàn bộ `packages/**/src/**` + `build.ts` cho mount gate.
+  const packageSource = keepSource && rel.startsWith("packages/") && (rel.includes("/src/") || name === "build.ts");
+  if (!packageSource && TS_SOURCE.test(name) && inSourceScope(rel) && !runtimeEntries(ctx.repoRoot).has(source)) return "ts";
   // (8) Rác không đọc lúc chạy: map, stamp, log, README/CHANGELOG.
   for (const rule of DROP_FILE_PATTERNS) if (rule.pattern.test(name)) return rule.label;
   // (9) Markdown trong cây chạy.

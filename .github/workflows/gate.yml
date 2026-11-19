@@ -1,0 +1,86 @@
+# author Bùi Trọng Hiếu
+# email kevinbui210191@gmail.com
+# create date 15/10/2026
+# modify date 19/11/2026
+# desc CI TỐI THIỂU: giữ XANH bộ cổng lint của repo trên mọi push/PR — header · file-length · jsdoc · exports-targets ·
+#      dep-guard · parity-matrix · DEVIATION (ratchet theo tools/lint/deviation-baseline.json) · typecheck · hygiene.
+#      Không build app, không pack, không chạy test mặc định (test ~8 phút trên máy dev và cần trạng thái GUI/host) —
+#      bật bằng workflow_dispatch với run_tests=true.
+name: gate
+
+on:
+  push:
+    branches: [main, public-main, public-snap]
+  pull_request:
+  workflow_dispatch:
+    inputs:
+      run_tests:
+        description: "Chạy thêm bun test sau khi cổng XANH (≈8 phút trên máy dev, lâu hơn trên CI)"
+        type: boolean
+        default: false
+
+# Chỉ cần đọc mã nguồn của chính repo này.
+permissions:
+  contents: read
+
+# Push liên tiếp lên cùng nhánh: huỷ lượt cũ, giữ lượt mới nhất (tiết kiệm runner).
+concurrency:
+  group: gate-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  gate:
+    name: cổng lint + deviation ratchet + typecheck
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Lấy mã nguồn
+        uses: actions/checkout@v4
+
+      # Bun là runtime của repo (package.json không khai packageManager) — ghim đúng bản đang dùng ở máy dev.
+      # cache:true giữ ~/.bun/install/cache theo hash lockfile để hai lần install dưới đây không tải lại registry.
+      - name: Cài Bun 1.3.14
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: "1.3.14"
+          cache: true
+
+      # @deepseek-ai/dsh-* (bản stock dùng để so sai khác) là devDependency ở gốc ⇒ phải install ở gốc.
+      # Nếu scope @deepseek-ai/* nằm ở registry riêng thay vì npm công khai: bỏ comment 3 dòng dưới và đặt secret.
+      # - name: Khai báo registry riêng (khi cần)
+      #   run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
+      - name: Cài phụ thuộc gốc
+        run: bun install --frozen-lockfile
+
+      # apps/host KHÔNG nằm trong workspaces của gốc và có lockfile riêng ⇒ phải install riêng.
+      # Cổng deviation đọc bundle stock ở apps/host/node_modules/@deepseek-ai — thiếu bước này sẽ báo
+      # "khong-co-ban-goc" cho gần như mọi gói (cổng XANH nhưng vô nghĩa).
+      - name: Cài phụ thuộc apps/host
+        working-directory: apps/host
+        run: bun install --frozen-lockfile
+
+      # typecheck chạy tsc bằng Node >= 26 (shared.ts findNodeRuntime). Hàm đó chỉ dò đường dẫn CỐ ĐỊNH
+      # (~/.nvm/..., /usr/local/bin, /opt/homebrew/bin) nên đường dẫn toolcache của runner không được thấy;
+      # GBH_NODE là cách ưu tiên đầu tiên của hàm ⇒ trỏ thẳng vào node vừa cài.
+      - name: Cài Node 26 cho typecheck
+        uses: actions/setup-node@v4
+        with:
+          node-version: "26"
+      - name: Trỏ typecheck tới Node của runner
+        run: echo "GBH_NODE=$(command -v node)" >> "$GITHUB_ENV"
+
+      # Cổng ĐẦY ĐỦ trừ test: `deviation` là ratchet — chỉ ĐỎ khi có mục CHƯA KHAI MỚI ngoài
+      # tools/lint/deviation-baseline.json; nợ cũ (28 mục) in WARN, KHÔNG làm đỏ. Đừng chạy --strict ở đây:
+      # khi đó toàn bộ nợ cũ (và mọi cảnh báo jsdoc) sẽ làm đỏ CI.
+      # LƯU Ý PHẠM VI: lib/ của các gói bị .gitignore ⇒ trên checkout sạch cổng deviation chỉ so được phần
+      # đã build (thường 0/N) và tự in WARN "chỉ so được … gói". Muốn so đủ: build artefact TRƯỚC bước này
+      # (`for f in packages/*/*/build.ts; do bun run "$f"; done`) — nặng và chưa đưa vào CI tối thiểu.
+      - name: Chạy cổng
+        run: bun run gate --no-tests
+
+      # Mặc định KHÔNG chạy test: bộ test ~5.4k ca / ~8 phút trên máy dev, cần host/GUI và từng bị đỏ GIẢ khi máy bận.
+      # Bật thủ công trên GitHub khi cần kiểm đầy đủ.
+      - name: Chạy test (tuỳ chọn, chỉ khi workflow_dispatch bật run_tests)
+        if: ${{ inputs.run_tests == true }}
+        timeout-minutes: 60
+        run: bun test --max-concurrency=2 --timeout 60000

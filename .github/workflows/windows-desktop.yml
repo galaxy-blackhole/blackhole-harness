@@ -1,0 +1,78 @@
+# author Bùi Trọng Hiếu
+# email kevinbui210191@gmail.com
+# create date 15/10/2026
+# modify date 19/11/2026
+# desc Build app desktop Windows: stage harness 0.1.4 + node.exe win-x64, Tauri NSIS, upload artifact
+
+name: windows-desktop
+
+on:
+  push:
+    branches:
+      - windows-desktop
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+    timeout-minutes: 120
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node 26
+        uses: actions/setup-node@v4
+        with:
+          node-version: "26"
+
+      - name: Setup Rust
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: x86_64-pc-windows-msvc
+
+      - name: Stage harness 0.1.4 from npm
+        shell: pwsh
+        run: |
+          $stage = Join-Path $env:RUNNER_TEMP "gbh-stage"
+          Remove-Item -Recurse -Force $stage -ErrorAction SilentlyContinue
+          New-Item -ItemType Directory -Force $stage | Out-Null
+          npm install --prefix $stage @galaxy-blackhole/blackhole-harness@0.1.4 --omit=dev --no-audit --no-fund
+          if ($LASTEXITCODE -ne 0) { throw "npm install harness failed" }
+          $pkg = Join-Path $stage "node_modules\@galaxy-blackhole\blackhole-harness"
+          if (!(Test-Path $pkg)) { throw "harness package missing at $pkg" }
+          $res = Join-Path (Get-Location) "apps\desktop-windows\src-tauri\resources"
+          $hostDir = Join-Path $res "host"
+          $runtimeDir = Join-Path $res "runtime"
+          New-Item -ItemType Directory -Force $hostDir, $runtimeDir | Out-Null
+          Copy-Item -Path (Join-Path $pkg "*") -Destination $hostDir -Recurse -Force
+          Copy-Item -Path (Join-Path $stage "node_modules") -Destination (Join-Path $hostDir "node_modules") -Recurse -Force
+          if (!(Test-Path (Join-Path $hostDir "apps\cli\lib\main.js"))) { throw "host lib/main.js missing" }
+
+      - name: Stage Node win-x64 runtime
+        shell: pwsh
+        run: |
+          $zip = Join-Path $env:RUNNER_TEMP "node-win.zip"
+          $url = "https://nodejs.org/dist/v26.9.0/node-v26.9.0-win-x64.zip"
+          Invoke-WebRequest -Uri $url -OutFile $zip
+          $out = Join-Path $env:RUNNER_TEMP "node-win"
+          Remove-Item -Recurse -Force $out -ErrorAction SilentlyContinue
+          Expand-Archive -Path $zip -DestinationPath $out
+          $nodeExe = Join-Path $out "node-v26.9.0-win-x64\node.exe"
+          if (!(Test-Path $nodeExe)) { throw "node.exe missing" }
+          Copy-Item $nodeExe (Join-Path (Get-Location) "apps\desktop-windows\src-tauri\resources\runtime\node.exe") -Force
+
+      - name: Install Tauri CLI
+        shell: pwsh
+        run: npm install --prefix apps/desktop-windows --no-audit --no-fund
+
+      - name: Build Tauri NSIS
+        shell: pwsh
+        run: npm --prefix apps/desktop-windows run build
+
+      - name: Upload installer
+        uses: actions/upload-artifact@v4
+        with:
+          name: galaxy-blackhole-windows
+          path: apps/desktop-windows/src-tauri/target/release/bundle/nsis/*.exe
+          if-no-files-found: error
+          compression-level: 0

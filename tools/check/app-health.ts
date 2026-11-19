@@ -13,10 +13,30 @@ import { existsSync, readdirSync, readFileSync, statSync, lstatSync } from "node
 import { homedir } from "node:os";
 import { join } from "node:path";
 
-/** Duong dan file token cua app dang chay. */
-const READY = join(homedir(), ".galaxy", "blackhole", "ready-url.txt");
-/** Log cua host 5439. */
-const LOG = join(homedir(), ".galaxy", "blackhole", "host-5439.log");
+/**
+ * 19/11/2026 — app không còn chỉ ở cổng 5439. App Preview chạy 55907 và ghi `ready-url-55907.txt`;
+ * `ready-url.txt` chỉ do host 5439 ghi và đã chết từ 16/11. Đọc theo thứ tự: cổng đang dùng → 55907 →
+ * tệp cũ → mọi `ready-url-<cổng>.txt` mới nhất. Nhờ vậy `check:app` không báo oan "app không lành".
+ */
+const HOME = process.env.GBH_HOME ?? join(homedir(), ".galaxy", "blackhole");
+const APP_PORT = process.env.GBH_DESKTOP_PORT ?? "55907";
+const READY_CANDIDATES: string[] = [
+  join(HOME, "ready-url-" + APP_PORT + ".txt"),
+  join(HOME, "ready-url-55907.txt"),
+  join(HOME, "ready-url.txt"),
+  ...(() => {
+    try {
+      return readdirSync(HOME)
+        .filter((name) => /^ready-url-\d+\.txt$/u.test(name))
+        .map((name) => join(HOME, name))
+        .sort((left, right) => statSync(right).mtimeMs - statSync(left).mtimeMs);
+    } catch {
+      return [];
+    }
+  })(),
+];
+/** Log host 5439 (giữ để tương thích); app 55907 ghi log riêng dưới ~/Library/Logs. */
+const LOG = join(HOME, "host-5439.log");
 /** Nguong toi thieu cua trang khi app khoe (byte). */
 const MIN_PAGE_BYTES = 40_000;
 /**
@@ -45,16 +65,19 @@ interface Check {
 }
 
 /**
- * Doc token tu ready-url.txt.
- * @returns URL day du, hoac null neu chua co file.
+ * Doc token tu danh sach ready-url ung vien (xem READY_CANDIDATES).
+ * @returns URL day du, hoac null neu khong co tep nao co token.
  */
 function readUrl(): string | null {
-  try {
-    const raw = readFileSync(READY, "utf8").trim();
-    return raw.length > 0 ? raw : null;
-  } catch {
-    return null;
+  for (const path of READY_CANDIDATES) {
+    try {
+      const raw = readFileSync(path, "utf8").trim();
+      if (raw.length > 0) return raw;
+    } catch {
+      // thu tep tiep theo
+    }
   }
+  return null;
 }
 
 /**
@@ -204,17 +227,17 @@ function report(checks: Check[]): number {
 async function main(): Promise<number> {
   const url = readUrl();
   if (url === null) {
-    console.log("khong doc duoc " + READY + " — host 5439 chua chay?");
+    console.log("khong doc duoc ready-url nao trong: " + READY_CANDIDATES.join(" · "));
     return 1;
   }
   const page = await fetchPage(url);
   const html = page.html;
   const bytes = Buffer.byteLength(html, "utf8");
   if (page.status === 401) {
-    console.log("KET LUAN: KHONG KET LUAN DUOC — token trong ready-url.txt da CU (HTTP 401).");
-    console.log("Day KHONG phai app chet: token doi moi lan boot. Lay token moi tu log:");
-    console.log("  grep -o \"http://127.0.0.1:5439/?token=[A-Za-z0-9_-]*\" ~/.galaxy/blackhole/host-5439.log | tail -1");
-    console.log("roi ghi vao ~/.galaxy/blackhole/ready-url.txt. DUNG GO MOUNT vi ly do nay.");
+    console.log("KET LUAN: KHONG KET LUAN DUOC — token trong ready-url da CU (HTTP 401).");
+    console.log("Day KHONG phai app chet: token doi moi lan boot. Lay token moi tu log cua host:");
+    console.log("  grep -o \"http://127.0.0.1:" + (new URL(url).port || "55907") + "/?token=[A-Za-z0-9_-]*\" ~/Library/Logs/Galaxy\\ Blackhole/desktop-*.log | tail -1");
+    console.log("roi ghi vao " + READY_CANDIDATES[0] + ". DUNG GO MOUNT vi ly do nay.");
     return 2;
   }
   const boot = readBoot(html);
@@ -224,7 +247,7 @@ async function main(): Promise<number> {
     { name: "(2) co __GBH_BOOT__ (alias __DSH_BOOT__)", value: boot === null ? "KHONG THAY" : "co", ok: boot !== null },
     { name: "(3) so entry boot", value: boot === null ? "-" : String(boot.entries), ok: boot !== null && boot.entries >= 70 },
     { name: "(4) batches + release", value: boot === null ? "-" : boot.mode, ok: boot !== null && !boot.mode.startsWith("0 ") },
-    { name: "(5) dong 'did not activate'", value: notActivated < 0 ? "khong doc duoc log" : String(notActivated), ok: notActivated === 0 },
+    { name: "(5) dong 'did not activate'", value: notActivated < 0 ? "khong doc duoc log (bo qua)" : String(notActivated), ok: notActivated <= 0 },
     {
       name: "(7) entry du (khong co goi bi loai am tham)",
       value: boot === null ? "-" : boot.entries + " / moc " + MIN_ENTRIES,
@@ -357,7 +380,7 @@ async function hmrCheck(url: string): Promise<{ value: string; ok: boolean }> {
  */
 async function staleMountCheck(): Promise<{ value: string; ok: boolean }> {
   const { createHash } = await import("node:crypto");
-  const mountRoot = join(homedir(), ".galaxy", "blackhole", "profiles", "node_modules");
+  const mountRoot = join(HOME, "profiles", "node_modules");
   const stale: string[] = [];
   let compared = 0;
   for (const area of ["client", "host"]) {
@@ -405,7 +428,7 @@ if (import.meta.main) process.exit(await main());
  * Trả: { gbh, stock } hoặc null khi chưa có profile.
  */
 function demIdProfile(): { gbh: number; stock: number } | null {
-  const goc = join(homedir(), ".galaxy", "blackhole", "profiles", "node_modules", "@galaxy-blackhole");
+  const goc = join(HOME, "profiles", "node_modules", "@galaxy-blackhole");
   if (!existsSync(goc)) return null;
   const KEEP = ["cordis", "schemastery", "cosmokit"];
   let gbh = 0;

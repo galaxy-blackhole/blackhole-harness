@@ -1,0 +1,237 @@
+{
+  "_doc": [
+    "Baseline RATCHET cho cổng `deviation` trong tools/lint/gate.ts — đóng băng NỢ CŨ, không phải giấy phép.",
+    "So khớp CHỈ bằng `khoa`; các trường khác là thông tin tại thời điểm sinh baseline.",
+    "Mục MỚI (không có trong tệp này) ⇒ cổng ĐỎ. Mục nằm trong tệp này ⇒ WARN (nợ đã biết, chưa khai báo).",
+    "Baseline chỉ được NHỎ ĐI: khai báo xong một mục thì chạy lại lệnh dưới rồi commit."
+  ],
+  "lenhCapNhat": "bun run tools/lint/deviation-registry.ts --update-baseline",
+  "sinhLuc": "2026-11-19T14:42:18.833Z",
+  "soMuc": 28,
+  "muc": [
+    {
+      "khoa": "A|@galaxy-blackhole/gbh-api-remote-access|byte",
+      "cong": "A",
+      "goi": "@galaxy-blackhole/gbh-api-remote-access",
+      "loai": "byte",
+      "artefact": "lib/index.js",
+      "soDongLech": 1
+    },
+    {
+      "khoa": "A|@galaxy-blackhole/gbh-api-remotes|byte",
+      "cong": "A",
+      "goi": "@galaxy-blackhole/gbh-api-remotes",
+      "loai": "byte",
+      "artefact": "lib/index.js",
+      "soDongLech": 253
+    },
+    {
+      "khoa": "A|@galaxy-blackhole/gbh-api-workspace-controller|byte",
+      "cong": "A",
+      "goi": "@galaxy-blackhole/gbh-api-workspace-controller",
+      "loai": "byte",
+      "artefact": "lib/index.js",
+      "soDongLech": 1036
+    },
+    {
+      "khoa": "A|@galaxy-blackhole/gbh-client-shortcuts|byte",
+      "cong": "A",
+      "goi": "@galaxy-blackhole/gbh-client-shortcuts",
+      "loai": "byte",
+      "artefact": "lib/index.js",
+      "soDongLech": 19
+    },
+    {
+      "khoa": "A|@galaxy-blackhole/gbh-client-ui-attachment|byte",
+      "cong": "A",
+      "goi": "@galaxy-blackhole/gbh-client-ui-attachment",
+      "loai": "byte",
+      "artefact": "lib/index.js",
+      "soDongLech": 4
+    },
+    {
+      "khoa": "A|@galaxy-blackhole/gbh-client-ui-conversation|byte",
+      "cong": "A",
+      "goi": "@galaxy-blackhole/gbh-client-ui-conversation",
+      "loai": "byte",
+      "artefact": "lib/index.js",
+      "soDongLech": 25
+    },
+    {
+      "khoa": "A|@galaxy-blackhole/gbh-client-ui-jobs|byte",
+      "cong": "A",
+      "goi": "@galaxy-blackhole/gbh-client-ui-jobs",
+      "loai": "byte",
+      "artefact": "lib/index.js",
+      "soDongLech": 10
+    },
+    {
+      "khoa": "A|@galaxy-blackhole/gbh-client-ui-plugin-manager|byte",
+      "cong": "A",
+      "goi": "@galaxy-blackhole/gbh-client-ui-plugin-manager",
+      "loai": "byte",
+      "artefact": "lib/index.js",
+      "soDongLech": 139
+    },
+    {
+      "khoa": "A|@galaxy-blackhole/gbh-client-ui-settings-account|byte",
+      "cong": "A",
+      "goi": "@galaxy-blackhole/gbh-client-ui-settings-account",
+      "loai": "byte",
+      "artefact": "lib/index.js",
+      "soDongLech": 82
+    },
+    {
+      "khoa": "A|@galaxy-blackhole/gbh-client-ui-sidebar-right|byte",
+      "cong": "A",
+      "goi": "@galaxy-blackhole/gbh-client-ui-sidebar-right",
+      "loai": "byte",
+      "artefact": "lib/index.js",
+      "soDongLech": 4
+    },
+    {
+      "khoa": "A|@galaxy-blackhole/gbh-client-ui-theme|byte",
+      "cong": "A",
+      "goi": "@galaxy-blackhole/gbh-client-ui-theme",
+      "loai": "byte",
+      "artefact": "lib/index.js",
+      "soDongLech": 211
+    },
+    {
+      "khoa": "A|@galaxy-blackhole/gbh-client-ui-workspace|byte",
+      "cong": "A",
+      "goi": "@galaxy-blackhole/gbh-client-ui-workspace",
+      "loai": "byte",
+      "artefact": "lib/index.js",
+      "soDongLech": 10
+    },
+    {
+      "khoa": "A|@galaxy-blackhole/gbh-experimental-client-ui-voice-input|byte",
+      "cong": "A",
+      "goi": "@galaxy-blackhole/gbh-experimental-client-ui-voice-input",
+      "loai": "byte",
+      "artefact": "lib/index.js",
+      "soDongLech": 4
+    },
+    {
+      "khoa": "A|@galaxy-blackhole/gbh-host-cordis-host-runner|byte",
+      "cong": "A",
+      "goi": "@galaxy-blackhole/gbh-host-cordis-host-runner",
+      "loai": "byte",
+      "artefact": "lib/index.js",
+      "soDongLech": 2554
+    },
+    {
+      "khoa": "A|@galaxy-blackhole/gbh-host-plugin-manager|byte",
+      "cong": "A",
+      "goi": "@galaxy-blackhole/gbh-host-plugin-manager",
+      "loai": "byte",
+      "artefact": "lib/index.js",
+      "soDongLech": 2452
+    },
+    {
+      "khoa": "A|@galaxy-blackhole/gbh-host-typert-gateway|byte",
+      "cong": "A",
+      "goi": "@galaxy-blackhole/gbh-host-typert-gateway",
+      "loai": "byte",
+      "artefact": "lib/index.js",
+      "soDongLech": 2
+    },
+    {
+      "khoa": "A|@galaxy-blackhole/gbh-host-webserver|byte",
+      "cong": "A",
+      "goi": "@galaxy-blackhole/gbh-host-webserver",
+      "loai": "byte",
+      "artefact": "lib/index.js",
+      "soDongLech": 2
+    },
+    {
+      "khoa": "A|@galaxy-blackhole/gbh-subagent|byte",
+      "cong": "A",
+      "goi": "@galaxy-blackhole/gbh-subagent",
+      "loai": "byte",
+      "artefact": "lib/index.js",
+      "soDongLech": 3288
+    },
+    {
+      "khoa": "A|@galaxy-blackhole/gbh-tool-pwsh|byte",
+      "cong": "A",
+      "goi": "@galaxy-blackhole/gbh-tool-pwsh",
+      "loai": "byte",
+      "artefact": "lib/index.js",
+      "soDongLech": 726
+    },
+    {
+      "khoa": "B|@galaxy-blackhole/gbh-client-hmr|thua-export",
+      "cong": "B",
+      "goi": "@galaxy-blackhole/gbh-client-hmr",
+      "loai": "thua-export",
+      "artefact": "lib/index.js",
+      "soDongLech": 167
+    },
+    {
+      "khoa": "B|@galaxy-blackhole/gbh-client-resources|thua-export",
+      "cong": "B",
+      "goi": "@galaxy-blackhole/gbh-client-resources",
+      "loai": "thua-export",
+      "artefact": "lib/index.js",
+      "soDongLech": 7
+    },
+    {
+      "khoa": "B|@galaxy-blackhole/gbh-client-ui-deliverables|thua-export",
+      "cong": "B",
+      "goi": "@galaxy-blackhole/gbh-client-ui-deliverables",
+      "loai": "thua-export",
+      "artefact": "lib/index.js",
+      "soDongLech": 268
+    },
+    {
+      "khoa": "B|@galaxy-blackhole/gbh-client-ui-settings-web-search|thua-export",
+      "cong": "B",
+      "goi": "@galaxy-blackhole/gbh-client-ui-settings-web-search",
+      "loai": "thua-export",
+      "artefact": "lib/index.js",
+      "soDongLech": 12
+    },
+    {
+      "khoa": "B|@galaxy-blackhole/gbh-client-ui-skill|thua-export",
+      "cong": "B",
+      "goi": "@galaxy-blackhole/gbh-client-ui-skill",
+      "loai": "thua-export",
+      "artefact": "lib/index.js",
+      "soDongLech": 10
+    },
+    {
+      "khoa": "B|@galaxy-blackhole/gbh-host-open-in-app|thua-export",
+      "cong": "B",
+      "goi": "@galaxy-blackhole/gbh-host-open-in-app",
+      "loai": "thua-export",
+      "artefact": "lib/index.js",
+      "soDongLech": 1392
+    },
+    {
+      "khoa": "B|@galaxy-blackhole/gbh-plugin-market|thua-export",
+      "cong": "B",
+      "goi": "@galaxy-blackhole/gbh-plugin-market",
+      "loai": "thua-export",
+      "artefact": "lib/index.js",
+      "soDongLech": 652
+    },
+    {
+      "khoa": "B|@galaxy-blackhole/gbh-sandbox|thua-export",
+      "cong": "B",
+      "goi": "@galaxy-blackhole/gbh-sandbox",
+      "loai": "thua-export",
+      "artefact": "lib/index.js",
+      "soDongLech": 399
+    },
+    {
+      "khoa": "B|@galaxy-blackhole/gbh-web-fetch-http|thua-export",
+      "cong": "B",
+      "goi": "@galaxy-blackhole/gbh-web-fetch-http",
+      "loai": "thua-export",
+      "artefact": "lib/index.js",
+      "soDongLech": 672
+    }
+  ]
+}

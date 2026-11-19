@@ -4,7 +4,7 @@
  author Bùi Trọng Hiếu
  email kevinbui210191@gmail.com
  create date 15/10/2026
- modify date 11/11/2026
+ modify date 19/11/2026
  desc Khoá cứng danh sách các sai khác CỐ Ý so với bản gốc DSH — để không ai nhầm là lỗi.
 -->
 
@@ -21,10 +21,44 @@ thứ chủ dự án muốn. Vì vậy: **mọi sai khác cố ý phải đượ
    gói đó **PHẢI** có mục trong tệp này.
 2. Mỗi mục ghi đúng 5 thông tin: **gói** · **khác cái gì** · **vì sao** (yêu cầu sản phẩm nào) · **dẫn chứng `tệp:dòng`** ·
    **reviewer cần kiểm gì** (để không đòi parity ở chỗ này).
-3. Sai khác **không khai báo** = lỗi. `tools/lint/deviation-registry.ts` (đang triển khai) sẽ so artefact với stock:
-   lệch byte mà không có mục khai báo ⇒ **cổng ĐỎ**.
+3. Sai khác **không khai báo** = lỗi. `tools/lint/deviation-registry.ts` so artefact với stock:
+   lệch byte/bề mặt mà không có mục khai báo ⇒ **cổng ĐỎ**. Từ 19/11/2026 cổng này **đã bật trong `bun run gate`**
+   (và trong CI) theo cơ chế **baseline ratchet** — xem §Baseline ratchet bên dưới.
 4. Khi port lại bản DSH mới: **giữ nguyên các sai khác đã khai báo**, chỉ cập nhật phần còn lại; mục nào hết đúng thì xoá mục đó
    kèm ghi chú ngày.
+
+## Baseline ratchet — cổng `deviation` trong `bun run gate` (bật 19/11/2026)
+
+Vì sao cần cơ chế này (số đo thật): **193 gói mount** nhưng mới **28 mục** sai khác được khai báo ⇒ bật cổng ở chế độ
+khoá cứng (ĐỎ khi còn bất kỳ mục chưa khai) thì gate ĐỎ vĩnh viễn; còn không bật thì sai khác mới lọt qua. Baseline
+đóng băng **đúng số nợ đã biết** tại thời điểm bật, nhờ vậy cổng **có tác dụng ngay** mà không cần khai báo hết 28 mục.
+
+| Trạng thái | Cổng `deviation` làm gì |
+| --- | --- |
+| Mục **MỚI** (không có trong `tools/lint/deviation-baseline.json`) | **ĐỎ** (vi phạm) — sai khác cố ý mới mà không khai báo |
+| Mục **nằm trong baseline** (nợ cũ) | **WARN** — không làm đỏ CI, nhưng in rõ từng gói/loại |
+| Mục trong baseline **đã hết lệch hoặc đã khai báo** | **WARN** "baseline cũ, nên cập nhật" |
+| Thiếu/hỏng tệp baseline | **ĐỎ** — không có mốc so sánh thì cổng không được phép XANH |
+
+Nguyên tắc: baseline **KHÔNG phải giấy phép miễn trừ** — nó là danh sách nợ, chỉ được **NHỎ ĐI**. Thêm một mục vào baseline
+để tắt cổng là vi phạm luật §1 (điều 3). Mục nào đã khai báo trong tệp này thì cổng tự hết báo, và baseline được cập nhật lại.
+
+**Lệnh (chạy trong repo; `bun` ở `~/.bun/bin/bun` nếu PATH không có):**
+
+```sh
+bun run gate --only deviation --no-tests                # đúng cổng mà gate/CI chạy (ratchet)
+bun run tools/lint/deviation-registry.ts --ratchet      # cùng cổng đó, chạy riêng
+bun run tools/lint/deviation-registry.ts --list         # in từng mục: <cổng>|<gói>|<loại>
+bun run tools/lint/deviation-registry.ts --json         # JSON đầy đủ (kết quả + mục + số liệu phủ)
+bun run tools/lint/deviation-registry.ts                # chế độ KHOÁ CỨNG cũ: ĐỎ nếu còn bất kỳ mục chưa khai
+bun run tools/lint/deviation-registry.ts --update-baseline   # ghi lại baseline — CHỈ khi cố ý (nợ đã khai/đã khớp)
+```
+
+**Phạm vi đo trên checkout sạch:** `lib/` của các gói bị `.gitignore` ⇒ CI không có artefact để so. Cổng tự in WARN
+"chỉ so được N/193 gói" trong trường hợp đó; **XANH ở CI chỉ có nghĩa "không phát sinh mục mới trên phần so được"**,
+KHÔNG chứng minh toàn bộ gói khớp. Muốn so đủ thì build artefact của từng gói trước khi chạy cổng.
+CI tối thiểu nằm ở `.github/workflows/gate.yml` (ubuntu · bun 1.3.14 · `bun install --frozen-lockfile` ở gốc và
+`apps/host` · Node 26 cho typecheck · `bun run gate --no-tests`).
 
 ## SAI KHÁC HỆ THỐNG (áp cho mọi gói)
 

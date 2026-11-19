@@ -18,6 +18,8 @@
  *            nguồn `.ts` (trừ tệp mà package.json trỏ tới), `*.map`, `*.tsbuildinfo`;
  *        (5) dấu `.gbh-*`, `*.debundled`, `*.log`, `.DS_Store`, bản sao lưu `*.truoc-vi`.
  *      Không nhóm nào chạm `apps/cli` (chạy thẳng .ts bằng node strip-types) hay `docs/` cấp repo.
+ *      19/11/2026: THÊM `embed-links.ts` — vật chất hoá 2.904 symlink trỏ repo vào bundle (app tự chứa thật),
+ *      và đưa `tools/check` + `tools/scaffold` vào gói để bản cài cũng chạy cổng chặn mount 12 luật.
  */
 
 import { cpSync, existsSync, lstatSync, mkdirSync, readdirSync, readFileSync, rmSync, symlinkSync, writeFileSync } from "node:fs";
@@ -35,6 +37,7 @@ import {
   type TrimContext,
   type TrimOptions,
 } from "./embed-trim.ts";
+import { materializeExternalLinks, type LinkMaterialization } from "./embed-links.ts";
 
 /** Thư mục chứa script này — Bun có `import.meta.dir`, Node thì không, nên đọc qua `import.meta.url`. */
 const here = dirname(fileURLToPath(import.meta.url));
@@ -56,6 +59,10 @@ const HOST_PATHS: readonly string[] = [
   "apps/host",
   "packages",
   "profiles",
+  // 19/11/2026 — bản đóng gói phải có cổng chặn mount (12 luật) như bản dev.
+  // `rows.ts` cần các tệp cùng thư mục `tools/check` + `tools/scaffold/lib.ts`.
+  "tools/check",
+  "tools/scaffold",
   "tools/p1b",
   "package.json",
   "tsconfig.base.json",
@@ -207,6 +214,10 @@ const KERNEL_BOOT_PACKAGES: readonly string[] = [
 const KERNEL_EXTRA_PACKAGES: readonly string[] = [
   "@deepseek-ai/node-addon-system",
   "@deepseek-ai/node-addon-system-darwin-x64",
+  // 19/11/2026 — gói GBH `experimental-inspector` vẫn import tên stock này trong lib; bản cài cũ giải
+  // qua alias profile, nhưng khi profile trỏ symlink vào bundle thì Node không thấy alias. Giữ gói stock
+  // để import phân giải trực tiếp, không phụ thuộc hình thức mount.
+  "@deepseek-ai/dsh-experimental-inspector",
   "@vscode/ripgrep-darwin-x64",
 ];
 
@@ -251,6 +262,8 @@ interface EmbedReport {
   kernelDropped: number;
   /** MB kernel bị loại. */
   kernelDroppedMb: number;
+  /** Kết quả vật chất hoá symlink (để app tự chứa thật). */
+  materialized: LinkMaterialization;
   /** Các mục cấp 1 trong Contents/Resources. */
   resources: string[];
 }
@@ -283,6 +296,7 @@ function parseArgs(argv: string[]): CliArgs {
   let sign = true;
   let keepLibreOffice = false;
   let kernelAll = false;
+  let keepSource = true;
   for (let index = 0; index < argv.length; index += 1) {
     const arg = argv[index];
     if (arg === "--app") {
@@ -300,11 +314,14 @@ function parseArgs(argv: string[]): CliArgs {
       keepLibreOffice = true;
     } else if (arg === "--kernel-all") {
       kernelAll = true;
+    } else if (arg === "--drop-source") {
+      // Bản lean: bỏ `packages/**/src` + `build.ts`; đổi lại mount gate không chạy được.
+      keepSource = false;
     } else if (arg === "--no-sign") {
       sign = false;
     }
   }
-  return { app, binary, sign, tree, trim: { keepLibreOffice, kernelAll } };
+  return { app, binary, sign, tree, trim: { keepLibreOffice, kernelAll, keepSource } };
 }
 
 /**
@@ -526,7 +543,7 @@ function copyTree(from: string, to: string, trim: TrimOptions): void {
  * Nhận: hostRoot — thư mục đích; trim — tuỳ chọn lọc.
  * Trả: bảng dung lượng theo nhóm + tổng MB/số tệp + bảng đã loại + số gói kernel bị bỏ.
  */
-function buildHostTree(hostRoot: string, trim: TrimOptions): { rows: SizeRow[]; hostMb: number; hostFiles: number; kernelDropped: number; kernelDroppedMb: number; exclusions: SkipRow[] } {
+function buildHostTree(hostRoot: string, trim: TrimOptions): { rows: SizeRow[]; hostMb: number; hostFiles: number; kernelDropped: number; kernelDroppedMb: number; exclusions: SkipRow[]; materialized: LinkMaterialization } {
   const exclusions = auditExclusions(trim, trimContext());
   rmSync(hostRoot, { recursive: true, force: true });
   mkdirSync(hostRoot, { recursive: true });
@@ -548,6 +565,19 @@ function buildHostTree(hostRoot: string, trim: TrimOptions): { rows: SizeRow[]; 
   symlinkSync(join("apps", "host", "node_modules"), rootModules);
 
   const kernel = auditKernel(join(hostRoot, "apps", "host", "node_modules"), trim);
+  // 19/11/2026 — chép kho `.bun` vào bundle: mọi symlink của `packages/**` trỏ vào đây, và các gói trong
+  // store phân giải dependency qua anh em cùng thư mục `node_modules`. Chép nguyên kho là cách duy nhất
+  // giữ đúng layout; sau đó `materializeExternalLinks` chỉ cần thay link tuyệt đối bằng link tương đối.
+  const storeFrom = join(repoRoot, "node_modules", ".bun");
+  const storeTo = join(hostRoot, "apps", "host", "node_modules", ".bun");
+  let storeMb = 0;
+  if (existsSync(storeFrom)) {
+    cpSync(storeFrom, storeTo, { recursive: true, force: true, dereference: false });
+    storeMb = Math.round((treeSize(storeTo).bytes / 1024 / 1024) * 10) / 10;
+  }
+  // 19/11/2026 — vật chất hoá symlink: `cpSync` giữ nguyên link tuyệt đối trỏ về repo dev, nên .app
+  // vẫn đọc repo dù đã "đóng gói". Chép đích vào bundle rồi thay bằng link tương đối.
+  const materialized = materializeExternalLinks(hostRoot, repoRoot);
   writeFileSync(
     join(hostRoot, ".gbh-embedded"),
     JSON.stringify(
@@ -556,6 +586,10 @@ function buildHostTree(hostRoot: string, trim: TrimOptions): { rows: SizeRow[]; 
         marker: "host nhúng — mount dùng lib/ dựng sẵn, không chạy build.ts",
         trim: trim.keepLibreOffice ? "office:giu" : "office:bo",
         kernel: trim.kernelAll ? "all" : "boot-only",
+        selfContained: materialized.remaining === 0,
+        externalLinks: materialized.external,
+        brokenLinks: materialized.broken,
+        storeMb,
       },
       null,
       2,
@@ -569,9 +603,9 @@ function buildHostTree(hostRoot: string, trim: TrimOptions): { rows: SizeRow[]; 
     kernelDropped: kernel.dropped,
     kernelDroppedMb: Math.round(kernel.droppedBytes / 1024 / 1024 * 10) / 10,
     exclusions,
+    materialized,
   };
 }
-
 /**
  * Đối chiếu `apps/host/node_modules` sau khi chép với danh sách giữ, và dọn tàn dư.
  * Nhận: modules — thư mục node_modules trong cây đích; trim — tuỳ chọn lọc.
@@ -747,6 +781,7 @@ function embed(options: { app: string; binary: string; sign: boolean; trim: Trim
     exclusions: built.exclusions,
     kernelDropped: built.kernelDropped,
     kernelDroppedMb: built.kernelDroppedMb,
+    materialized: built.materialized,
     resources: readdirSync(resources),
   };
 }
@@ -795,6 +830,7 @@ function main(argv: string[]): number {
       printRows(built.rows, built.hostMb);
       printExclusions(built.exclusions);
       console.log("[embed] kernel bỏ " + built.kernelDropped + " gói (" + built.kernelDroppedMb + " MB) · host " + built.hostMb + " MB · " + built.hostFiles + " tệp");
+      console.log("[embed] tự chứa: " + (built.materialized.remaining === 0 ? "OK" : "CÒN " + built.materialized.remaining + " link ngoài") + " · đã thay " + built.materialized.external + " link · chép " + built.materialized.copied + " đích · bỏ " + built.materialized.broken + " link gãy");
       return 0;
     } catch (error) {
       console.error("embed: " + (error as Error).message);
@@ -814,6 +850,7 @@ function main(argv: string[]): number {
     console.log("[embed] dung luong: " + report.beforeMb + " MB → " + report.afterMb + " MB · " + report.files + " tệp");
     console.log("[embed] runtime node " + report.runtime.version + " (" + report.runtime.mb + " MB · " + report.runtime.note + ") ← " + report.runtime.source);
     console.log("[embed] host " + join(report.app, "Contents", "Resources", "host") + " (" + report.hostMb + " MB · " + report.hostFiles + " tệp · kernel bỏ " + report.kernelDropped + " gói " + report.kernelDroppedMb + " MB)");
+    console.log("[embed] tự chứa: " + (report.materialized.remaining === 0 ? "OK" : "CÒN " + report.materialized.remaining + " link ngoài") + " · đã thay " + report.materialized.external + " link · chép " + report.materialized.copied + " đích · bỏ " + report.materialized.broken + " link gãy");
     console.log("[embed] Contents/Resources: " + report.resources.join(" · "));
     return 0;
   } catch (error) {

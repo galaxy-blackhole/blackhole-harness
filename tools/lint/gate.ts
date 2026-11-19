@@ -2,8 +2,10 @@
  * author Bùi Trọng Hiếu
  * email kevinbui210191@gmail.com
  * create date 15/10/2026
- * modify date 17/10/2026
- * desc Cong tong: chay header + do dai + JSDoc + dep-guard + parity-matrix + typecheck, tra exit code != 0 khi do
+ * modify date 19/11/2026
+ * desc Cong tong: chay header + do dai + JSDoc + dep-guard + parity-matrix + deviation + typecheck, tra exit code != 0 khi do
+ *      `deviation` (19/11/2026) = cổng RATCHET sai khác cố ý: ĐỎ khi có mục CHƯA KHAI MỚI ngoài
+ *      tools/lint/deviation-baseline.json, WARN với nợ cũ đã đóng băng trong baseline.
  */
 
 import { spawnSync } from "node:child_process";
@@ -16,6 +18,7 @@ import { runJsdocCheck } from "./jsdoc.ts";
 import { runDepGuardCheck } from "./dep-guard.ts";
 import { runHygieneCheck } from "./hygiene.ts";
 import { runParityMatrixCheck } from "./parity-matrix.ts";
+import { runDeviationBaselineCheck } from "./deviation-registry.ts";
 import {
   createResult,
   exitCodeFor,
@@ -30,7 +33,7 @@ import {
 } from "./shared.ts";
 
 /** Thứ tự chạy mặc định của các cổng. */
-export const GATE_ORDER = ["header", "file-length", "jsdoc", "exports-targets", "dep-guard", "parity-matrix", "typecheck"];
+export const GATE_ORDER = ["header", "file-length", "jsdoc", "exports-targets", "dep-guard", "parity-matrix", "deviation", "typecheck"];
 
 /** Cờ compiler phản chiếu đúng tsconfig.base.json (truyền tay vì chạy tsc theo danh sách file). */
 const TSC_BUILD_INFO = join(REPO_ROOT, "node_modules", ".cache", "gbh-typecheck.tsbuildinfo");
@@ -240,6 +243,10 @@ export function runGate(only: string[] = []): CheckResult[] {
   if (wanted("exports-targets")) results.push(runExportsTargetsCheck());
   if (wanted("dep-guard")) results.push(runDepGuardCheck());
   if (wanted("parity-matrix")) results.push(runParityMatrixCheck(true));
+  // Cổng RATCHET sai khác cố ý (19/11/2026): baseline đóng băng NỢ CŨ trong tools/lint/deviation-baseline.json.
+  // Chỉ ĐỎ khi phát sinh mục CHƯA KHAI MỚI; nợ cũ in WARN (--strict thì WARN cũng ĐỎ).
+  // Chạy TRƯỚC typecheck vì rẻ (~4s) và cho tín hiệu sớm; xem tools/lint/deviation-registry.ts.
+  if (wanted("deviation")) results.push(runDeviationBaselineCheck());
   if (wanted("typecheck")) results.push(runTypecheck());
   // Cong ve sinh: package nao DA KHAI gbh.row (tuc da mount that) thi phai (a) co test [G4],
   // (b) co mat trong packages/README.md §4. Package dang viet do KHONG khai gbh.row nen khong bat oan.

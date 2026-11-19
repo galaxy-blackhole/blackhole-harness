@@ -689,6 +689,11 @@ export function clientBuildIssues(dir: string, json: { name: string; dsh?: { cli
     builds += [...readFileSync(file, "utf8").matchAll(/Bun\.build\s*\(/g)].length;
   }
   if (builds >= 2) return issues;
+  // 19/11/2026 — bản CÀI (host nhúng) dùng `lib/` dựng sẵn, không chạy build.ts; artifact nằm trong
+  // CHÍNH gói (`lib/client.js`), không phải profile (profile mount xảy ra sau cổng). Chấp nhận artifact
+  // đó khi nó đăng ký được id — nếu không, mọi gói client đều bị chặn ở lượt boot đầu trên home mới.
+  const prebuilt = join(dir, "lib", "client.js");
+  if (existsSync(prebuilt) && moduleRegistrations(readFileSync(prebuilt, "utf8")).length > 0) return issues;
   // Chua du bang chung tinh: xem artifact trong profile. Co artifact + co dang ky id = van chay duoc.
   const mounted = join(mountRoot(), name, "lib", "client.js");
   if (existsSync(mounted) && moduleRegistrations(readFileSync(mounted, "utf8")).length > 0) return issues;

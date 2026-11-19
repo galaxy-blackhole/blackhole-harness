@@ -1,0 +1,18 @@
+# author Bùi Trọng Hiếu
+# email kevinbui210191@gmail.com
+# create date 15/10/2026
+# modify date 19/11/2026
+# desc Vỏ Tauri Windows: chỉ compile trên Windows; bundle host + runtime Node win-x64 vào resources
+
+[package]
+name = "gbh-desktop-windows"
+version = "0.1.0"
+edition = "2021"
+description = "Galaxy Blackhole Desktop (Windows)"
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[dependencies]
+tauri = { version = "2", features = [] }
+serde_json = "1"
