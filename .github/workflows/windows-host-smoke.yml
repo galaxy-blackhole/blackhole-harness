@@ -1,0 +1,71 @@
+# author Bùi Trọng Hiếu
+# email kevinbui210191@gmail.com
+# create date 15/10/2026
+# modify date 19/11/2026
+# desc Smoke test host harness trên Windows: stage npm 0.1.4 + node.exe, boot, đợi URL, kiểm 0 mount block
+
+name: windows-host-smoke
+
+on:
+  workflow_dispatch:
+
+jobs:
+  smoke:
+    runs-on: windows-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "26"
+      - name: Stage harness
+        shell: pwsh
+        run: |
+          $stage = Join-Path $env:RUNNER_TEMP "gbh-stage"
+          New-Item -ItemType Directory -Force $stage | Out-Null
+          npm install --prefix $stage @galaxy-blackhole/blackhole-harness@0.1.4 --omit=dev --no-audit --no-fund
+          if ($LASTEXITCODE -ne 0) { throw "npm install failed" }
+          $hostDir = Join-Path $env:RUNNER_TEMP "gbh-host"
+          Remove-Item -Recurse -Force $hostDir -ErrorAction SilentlyContinue
+          New-Item -ItemType Directory -Force $hostDir | Out-Null
+          $pkg = Join-Path $stage "node_modules\@galaxy-blackhole\blackhole-harness"
+          Copy-Item (Join-Path $pkg "*") $hostDir -Recurse -Force
+          Copy-Item (Join-Path $stage "node_modules") (Join-Path $hostDir "node_modules") -Recurse -Force
+          $zip = Join-Path $env:RUNNER_TEMP "node.zip"
+          Invoke-WebRequest "https://nodejs.org/dist/v26.9.0/node-v26.9.0-win-x64.zip" -OutFile $zip
+          Expand-Archive $zip (Join-Path $env:RUNNER_TEMP "node") -Force
+          Copy-Item (Join-Path $env:RUNNER_TEMP "node\node-v26.9.0-win-x64\node.exe") (Join-Path $hostDir "node.exe")
+
+      - name: Boot host and wait for URL
+        shell: pwsh
+        run: |
+          $hostDir = Join-Path $env:RUNNER_TEMP "gbh-host"
+          $node = Join-Path $hostDir "node.exe"
+          $homeDir = Join-Path $env:RUNNER_TEMP "gbh-home"
+          Remove-Item -Recurse -Force $homeDir -ErrorAction SilentlyContinue
+          New-Item -ItemType Directory -Force $homeDir | Out-Null
+          $out = Join-Path $env:RUNNER_TEMP "host.out"
+          $err = Join-Path $env:RUNNER_TEMP "host.err"
+          $env:GBH_HOME = $homeDir
+          $env:GBH_NODE = $node
+          $env:GBH_REPO_ROOT = $hostDir
+          $env:HOME = $env:USERPROFILE
+          $p = Start-Process -FilePath $node -ArgumentList @((Join-Path $hostDir "apps\cli\lib\main.js"), "host", "--port", "55920") -PassThru -RedirectStandardOutput $out -RedirectStandardError $err -WorkingDirectory $hostDir
+          $ready = $false
+          for ($i = 0; $i -lt 120; $i++) {
+            Start-Sleep -Seconds 1
+            if (Test-Path $out) {
+              $line = Get-Content $out -Raw -ErrorAction SilentlyContinue
+              if ($line -match '\[bh\] ready http://127\.0\.0\.1:') { $ready = $true; break }
+            }
+            if ($p.HasExited) { break }
+          }
+          Write-Host "=== stdout tail ==="; if (Test-Path $out) { Get-Content $out -Tail 60 }
+          Write-Host "=== stderr tail ==="; if (Test-Path $err) { Get-Content $err -Tail 60 }
+          $bad = 0
+          if (Test-Path $out) { $bad += @(Select-String -Path $out -Pattern 'khong mount duoc|did not activate').Count }
+          if (Test-Path $err) { $bad += @(Select-String -Path $err -Pattern 'khong mount duoc|did not activate').Count }
+          & taskkill /PID $p.Id /T /F | Out-Null
+          if (-not $ready) { throw "host không in ready URL" }
+          if ($bad -gt 0) { throw "host có $bad dòng mount/activate lỗi" }
+          Write-Host "HOST SMOKE OK"
