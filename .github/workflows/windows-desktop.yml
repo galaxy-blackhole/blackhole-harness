@@ -125,7 +125,9 @@ jobs:
           if ($fullCode -ne "200") {
             $uiText = if (Test-Path $ui) { Get-Content $ui -Raw } else { "" }
             Write-Host "=== web diagnostics ==="
-            Select-String -Path $out, $err -Pattern 'web-app|web-frontend|fallback|404|mount|cordis' -ErrorAction SilentlyContinue | Select-Object -Last 40
+            Select-String -Path $out, $err -Pattern 'rewrite|web-app|web-frontend|fallback|404|mount|cordis|link|ket|failed|error|warn' -ErrorAction SilentlyContinue | Select-Object -Last 80
+            Write-Host "=== host.out head ==="; if (Test-Path $out) { Get-Content $out -TotalCount 60 }
+            Write-Host "=== host.err ==="; if (Test-Path $err) { Get-Content $err -TotalCount 40 }
             throw "full token URL trả $fullCode :: $uiText"
           }
           if ((Get-Content $ui -Raw) -notmatch 'Galaxy Blackhole') { throw "HTML không chứa Galaxy Blackhole" }
