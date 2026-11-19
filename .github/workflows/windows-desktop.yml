@@ -11,6 +11,17 @@ on:
     branches:
       - windows-desktop
   workflow_dispatch:
+    inputs:
+      smoke_only:
+        description: "Chỉ test host, bỏ qua build Tauri"
+        required: false
+        default: false
+        type: boolean
+      installer_smoke:
+        description: "Test installer artifact đã có (không build)"
+        required: false
+        default: false
+        type: boolean
 
 jobs:
   build:
@@ -72,15 +83,78 @@ jobs:
           if (!(Test-Path $nodeExe)) { throw "node.exe missing" }
           Copy-Item $nodeExe (Join-Path (Get-Location) "apps\desktop-windows\src-tauri\resources\runtime\node.exe") -Force
 
+      - name: Host smoke (Windows)
+        if: ${{ inputs.smoke_only == true }}
+        shell: pwsh
+        run: |
+          $hostDir = Join-Path (Get-Location) "apps\desktop-windows\src-tauri\resources\host"
+          $node = Join-Path (Get-Location) "apps\desktop-windows\src-tauri\resources\runtime\node.exe"
+          $homeDir = Join-Path $env:RUNNER_TEMP "gbh-home-smoke"
+          New-Item -ItemType Directory -Force $homeDir | Out-Null
+          $out = Join-Path $env:RUNNER_TEMP "host.out"
+          $err = Join-Path $env:RUNNER_TEMP "host.err"
+          $env:GBH_HOME = $homeDir
+          $env:GBH_NODE = $node
+          $env:GBH_REPO_ROOT = $hostDir
+          $env:HOME = $env:USERPROFILE
+          $p = Start-Process -FilePath $node -ArgumentList @((Join-Path $hostDir "apps\cli\lib\main.js"), "host", "--port", "55920") -PassThru -RedirectStandardOutput $out -RedirectStandardError $err -WorkingDirectory $hostDir
+          $ready = $false
+          for ($i = 0; $i -lt 120; $i++) {
+            Start-Sleep -Seconds 1
+            if ((Test-Path $out) -and ((Get-Content $out -Raw -ErrorAction SilentlyContinue) -match '\[bh\] ready http://127\.0\.0\.1:')) { $ready = $true; break }
+            if ($p.HasExited) { break }
+          }
+          Write-Host "=== stdout ==="; if (Test-Path $out) { Get-Content $out -Tail 40 }
+          Write-Host "=== stderr ==="; if (Test-Path $err) { Get-Content $err -Tail 40 }
+          $bad = 0
+          if (Test-Path $out) { $bad += @(Select-String -Path $out -Pattern 'khong mount duoc|did not activate').Count }
+          if (Test-Path $err) { $bad += @(Select-String -Path $err -Pattern 'khong mount duoc|did not activate').Count }
+          & taskkill /PID $p.Id /T /F | Out-Null
+          if (-not $ready) { throw "host không ready" }
+          if ($bad -gt 0) { throw "host có $bad dòng lỗi mount/activate" }
+          Write-Host "HOST SMOKE OK"
+
+      - name: Installer smoke (artifact 14557204751)
+        if: ${{ inputs.installer_smoke == true }}
+        shell: pwsh
+        run: |
+          $zip = Join-Path $env:RUNNER_TEMP "installer.zip"
+          $headers = @{ Authorization = "token ${{ github.token }}" }
+          Invoke-WebRequest -Uri "https://api.github.com/repos/galaxy-blackhole/blackhole-harness/actions/artifacts/14557204751/zip" -Headers $headers -OutFile $zip
+          $dir = Join-Path $env:RUNNER_TEMP "installer"
+          Expand-Archive $zip $dir -Force
+          $setup = Get-ChildItem $dir -Recurse -Filter "*setup.exe" | Select-Object -First 1
+          if (!$setup) { throw "setup.exe missing" }
+          Start-Process -FilePath $setup.FullName -ArgumentList "/S" -Wait
+          $exe = Get-ChildItem (Join-Path $env:LOCALAPPDATA "Programs") -Recurse -Filter "galaxy-blackhole.exe" -ErrorAction SilentlyContinue | Select-Object -First 1
+          if (!$exe) { $exe = Get-ChildItem $env:LOCALAPPDATA -Recurse -Filter "galaxy-blackhole.exe" -ErrorAction SilentlyContinue | Select-Object -First 1 }
+          if (!$exe) { throw "installed galaxy-blackhole.exe not found" }
+          $log = Join-Path $env:LOCALAPPDATA "Galaxy Blackhole\logs\desktop.log"
+          Remove-Item $log -ErrorAction SilentlyContinue
+          $p = Start-Process -FilePath $exe.FullName -PassThru
+          $ready = $false
+          for ($i = 0; $i -lt 150; $i++) {
+            Start-Sleep -Seconds 1
+            if ((Test-Path $log) -and (Select-String -Path $log -Pattern '\[bh\] ready http://127\.0\.0\.1:' -Quiet)) { $ready = $true; break }
+            if ($p.HasExited) { break }
+          }
+          Write-Host "=== desktop.log ==="; if (Test-Path $log) { Get-Content $log -Tail 80 }
+          & taskkill /IM galaxy-blackhole.exe /T /F | Out-Null
+          if (-not $ready) { throw "installed app không ready" }
+          Write-Host "INSTALLER SMOKE OK"
+
       - name: Install Tauri CLI
+        if: ${{ github.event_name == 'push' || (!inputs.smoke_only && !inputs.installer_smoke) }}
         shell: pwsh
         run: npm install --prefix apps/desktop-windows --no-audit --no-fund
 
       - name: Build Tauri NSIS
+        if: ${{ github.event_name == 'push' || (!inputs.smoke_only && !inputs.installer_smoke) }}
         shell: pwsh
         run: npm --prefix apps/desktop-windows run build
 
       - name: Upload installer
+        if: ${{ github.event_name == 'push' || (!inputs.smoke_only && !inputs.installer_smoke) }}
         uses: actions/upload-artifact@v4
         with:
           name: galaxy-blackhole-windows
