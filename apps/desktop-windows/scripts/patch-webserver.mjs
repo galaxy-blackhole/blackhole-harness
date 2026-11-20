@@ -21,8 +21,8 @@ const candidates = [
 
 const marker = "GBH_STATIC_FALLBACK";
 const injection = `
-        // ${marker}: app Windows không có web-app fallback trong một số bản npm.
-        if (fallback === void 0 && (req.method === "GET" || req.method === "HEAD")) {
+        // GBH_STATIC_FALLBACK: phục vụ UI trước fallback (stock fallback có thể 404 trên Windows).
+        if ((req.method === "GET" || req.method === "HEAD")) {
           try {
             const { createRequire } = await import("node:module");
             const { readFileSync, existsSync } = await import("node:fs");
@@ -38,7 +38,7 @@ const injection = `
             if (!existsSync(target)) { res.writeHead(404); res.end(); return; }
             const MIME = { ".html": "text/html; charset=utf-8", ".js": "text/javascript; charset=utf-8", ".css": "text/css; charset=utf-8", ".svg": "image/svg+xml", ".webmanifest": "application/manifest+json", ".json": "application/json" };
             let body = readFileSync(target);
-            if (rel === "index.html") body = this.renderIndex(body.toString("utf8"));
+            if (rel === "index.html") body = typeof this.renderIndex === "function" ? this.renderIndex(body.toString("utf8")) : body;
             res.writeHead(200, { "content-type": MIME[extname(target)] ?? "application/octet-stream" });
             res.end(body);
             return;
@@ -53,12 +53,7 @@ for (const file of candidates) {
   if (!existsSync(file)) continue;
   const source = readFileSync(file, "utf8");
   if (source.includes(marker)) continue;
-  const old = `\t\t\tconst fallback = this.fallback;
-\t\t\tif (fallback === void 0) {
-\t\t\t\tres.writeHead(404);
-\t\t\t\tres.end();
-\t\t\t\treturn;
-\t\t\t}`;
+  const old = `\t\t\tconst fallback = this.fallback;`;
   if (!source.includes(old)) {
     console.warn("[gbh] fallback pattern not found in " + file);
     continue;
