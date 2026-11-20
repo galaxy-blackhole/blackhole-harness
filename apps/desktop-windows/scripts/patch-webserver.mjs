@@ -27,7 +27,8 @@ const injection = `
             const parsed = new URL(req.url ?? "/", "http://x");
             const pathname = decodeURIComponent(parsed.pathname);
             const isUi = pathname === "/" || pathname.startsWith("/assets/") || /^\/(favicon|manifest|icon)/u.test(pathname);
-            if (isUi && !parsed.searchParams.has("token")) {
+            const hasAuthCookie = String(req.headers.cookie ?? "").includes("dsh-auth-");
+            if (isUi && hasAuthCookie && !parsed.searchParams.has("token")) {
               const { createRequire } = await import("node:module");
               const { readFileSync, existsSync } = await import("node:fs");
               const { dirname, extname, join } = await import("node:path");
@@ -35,8 +36,6 @@ const injection = `
               const dist = join(dirname(require.resolve("@deepseek-ai/dsh-web-frontend/package.json")), "dist");
               const rel = pathname === "/" ? "index.html" : pathname.replace(/^\//u, "");
               const target = join(dist, rel);
-              const conn = this.ctx.get("connection");
-              if (conn !== void 0 && !conn.authorizeIndex(req, res)) return;
               if (!existsSync(target)) { res.writeHead(404); res.end(); return; }
               const MIME = { ".html": "text/html; charset=utf-8", ".js": "text/javascript; charset=utf-8", ".css": "text/css; charset=utf-8", ".svg": "image/svg+xml", ".webmanifest": "application/manifest+json", ".json": "application/json" };
               let body = readFileSync(target);
