@@ -34,7 +34,12 @@ const injection = `
               const { readFileSync, existsSync } = await import("node:fs");
               const { dirname, extname, join } = await import("node:path");
               const require = createRequire(import.meta.url);
-              const dist = join(dirname(require.resolve("@deepseek-ai/dsh-web-frontend/package.json")), "dist");
+              const candidates = [];
+              if (process.env.GBH_FRONTEND_DIST) candidates.push(process.env.GBH_FRONTEND_DIST);
+              candidates.push(join(process.cwd(), "node_modules", "@deepseek-ai", "dsh-web-frontend", "dist"));
+              try { candidates.push(join(dirname(require.resolve("@deepseek-ai/dsh-web-frontend/package.json")), "dist")); } catch {}
+              const dist = candidates.find((p) => existsSync(join(p, "index.html")));
+              if (dist === void 0) { console.error("[gbh] frontend dist not found in: " + candidates.join(" | ")); res.writeHead(404); res.end(); return; }
               const rel = pathname === "/" ? "index.html" : pathname.replace(/^\//u, "");
               const target = join(dist, rel);
               if (!existsSync(target)) { res.writeHead(404); res.end(); return; }
