@@ -96,6 +96,26 @@ jobs:
           if (!(Test-Path $nodeExe)) { throw "node.exe missing" }
           Copy-Item $nodeExe (Join-Path (Get-Location) "apps\desktop-windows\src-tauri\resources\runtime\node.exe") -Force
 
+      - name: Patch web diagnostics (smoke only)
+        if: ${{ inputs.smoke_only == true }}
+        shell: pwsh
+        run: |
+          $hostDir = Join-Path (Get-Location) "apps\desktop-windows\src-tauri\resources\host"
+          $webApp = Join-Path $hostDir "packages\host\web-app\lib\index.js"
+          $s = Get-Content $webApp -Raw
+          $s = $s.Replace('function apply(ctx, config) {', 'function apply(ctx, config) { console.log("[diag] gbh-web-app apply"); try { console.log("[diag] dist="+internals.resolveDistIndex()); } catch(e){ console.log("[diag] distERR="+e.message); }')
+          $s = $s.Replace('ctx.plugin(FrontendStatic, { distIndex: internals.resolveDistIndex() });', 'console.log("[diag] before FrontendStatic"); ctx.plugin(FrontendStatic, { distIndex: internals.resolveDistIndex() }); console.log("[diag] after FrontendStatic");')
+          Set-Content -Path $webApp -Value $s -Encoding utf8
+          $static = Join-Path $hostDir "node_modules\@deepseek-ai\dsh-host-frontend-static\lib\index.js"
+          if (Test-Path $static) {
+            $s = Get-Content $static -Raw
+            $s = $s.Replace('function apply(ctx, config) {', 'function apply(ctx, config) { console.log("[diag] frontend-static apply");')
+            $s = $s.Replace('const target = resolve(normalize(join(distRoot, pathname)));', 'const target = resolve(normalize(join(distRoot, pathname))); console.log("[diag] static path="+pathname+" target="+target+" root="+distRoot+" index="+distIndex);')
+            $s = $s.Replace('res.writeHead(404);', 'console.log("[diag] static 404 path="+pathname); res.writeHead(404);')
+            Set-Content -Path $static -Value $s -Encoding utf8
+          }
+          Write-Host "diagnostic patch applied"
+
       - name: Host smoke (Windows)
         if: ${{ inputs.smoke_only == true }}
         shell: pwsh
