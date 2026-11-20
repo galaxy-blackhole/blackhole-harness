@@ -135,6 +135,17 @@ jobs:
           $bp = $bp.Replace("@galaxy-blackhole/gbh-web-app", "@deepseek-ai/dsh-web-app")
           Set-Content -Path $bundlePatch -Value $bp -Encoding utf8
           Write-Host "bundle web-app rows set to stock package"
+          $stockApp = Join-Path $hostDir "node_modules\@deepseek-ai\dsh-web-app\lib\index.js"
+          if (Test-Path $stockApp) {
+            $ss = Get-Content $stockApp -Raw
+            $ss = 'console.log("[diag] stock dsh-web-app module loaded");' + "`n" + $ss
+            $ss = $ss.Replace('function apply(ctx, config) {', 'function apply(ctx, config) { console.log("[diag] stock dsh-web-app apply"); try { console.log("[diag] stock dist="+internals.resolveDistIndex()); } catch(e){ console.log("[diag] stock distERR="+e.message); }')
+            Set-Content -Path $stockApp -Value $ss -Encoding utf8
+            Write-Host "stock web-app patched"
+          }
+          $stockNested = Join-Path $hostDir "node_modules\@deepseek-ai\dsh-web-app\node_modules\@deepseek-ai"
+          New-Item -ItemType Directory -Force $stockNested | Out-Null
+          Copy-Item -Path $fe -Destination (Join-Path $stockNested "dsh-web-frontend") -Recurse -Force
           $static = Join-Path $hostDir "node_modules\@deepseek-ai\dsh-host-frontend-static\lib\index.js"
           if (Test-Path $static) {
             $s = Get-Content $static -Raw
