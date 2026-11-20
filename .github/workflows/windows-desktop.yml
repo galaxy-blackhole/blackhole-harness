@@ -110,6 +110,26 @@ jobs:
           $s = $s.Replace('function apply(ctx, config) {', 'function apply(ctx, config) { console.log("[diag] gbh-web-app apply"); try { console.log("[diag] dist="+internals.resolveDistIndex()); } catch(e){ console.log("[diag] distERR="+e.message); }')
           $s = $s.Replace('ctx.plugin(FrontendStatic, { distIndex: internals.resolveDistIndex() });', 'console.log("[diag] before FrontendStatic"); ctx.plugin(FrontendStatic, { distIndex: internals.resolveDistIndex() }); console.log("[diag] after FrontendStatic");')
           Set-Content -Path $webApp -Value $s -Encoding utf8
+          $profilePath = Join-Path $hostDir "profiles\blackhole\package.json"
+          $profile = Get-Content $profilePath -Raw | ConvertFrom-Json
+          $profile.dsh.profile.bundles = @(
+            "@galaxy-blackhole/gbh-bundle",
+            "@galaxy-blackhole/gbh-client-settings-about",
+            "@galaxy-blackhole/gbh-session-search",
+            "@galaxy-blackhole/gbh-inspector-profile",
+            "@galaxy-blackhole/gbh-terminal-bundle",
+            "@galaxy-blackhole/gbh-badge-skill-bundle",
+            "@galaxy-blackhole/gbh-auto-review-bundle",
+            "@galaxy-blackhole/gbh-plugin-market-bundle",
+            "@galaxy-blackhole/gbh-ralph-bundle",
+            "@galaxy-blackhole/gbh-session-titles-bundle",
+            "@galaxy-blackhole/gbh-tool-worktree-bundle",
+            "@galaxy-blackhole/gbh-agent-team-profile",
+            "@galaxy-blackhole/gbh-cot-translation-bundle",
+            "@galaxy-blackhole/gbh-voice-input-bundle"
+          )
+          $profile | ConvertTo-Json -Depth 20 | Set-Content -Path $profilePath -Encoding utf8
+          Write-Host "profile patched to GBH bundles"
           $static = Join-Path $hostDir "node_modules\@deepseek-ai\dsh-host-frontend-static\lib\index.js"
           if (Test-Path $static) {
             $s = Get-Content $static -Raw
