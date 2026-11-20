@@ -59,6 +59,10 @@ export const APP_PROFILE_BUNDLES: readonly string[] = [
   // moi thu tra theo id (settings/config/slot/typert) deu truot: "Could not save", thieu dong Permission,
   // preset cordis do. Bundle cua ta sinh tu 17 tep patch cua stock, giu nguyen id/order/disabled/config.
   "@galaxy-blackhole/gbh-bundle",
+  // 20/11/2026 — tab "Thông tin" (About) trong Settings là bundle riêng; profile cũ migrate từ
+  // ~/.galaxy/gbh có thể thiếu, khiến Windows/CLI không có tab này. Đưa vào lõi để ensureProfile
+  // reconcile cả hồ sơ đã tồn tại (không xoá bundle người dùng đã tắt).
+  "@galaxy-blackhole/gbh-client-settings-about",
 ];
 
 /** What `ensureProfile` did to the app home on this boot. */
