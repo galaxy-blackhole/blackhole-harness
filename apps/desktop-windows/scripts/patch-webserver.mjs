@@ -28,7 +28,6 @@ const injection = `
             const pathname = decodeURIComponent(parsed.pathname);
             const isUi = pathname === "/" || pathname.startsWith("/assets/") || /^\/(favicon|manifest|icon)/u.test(pathname);
             const hasAuthCookie = String(req.headers.cookie ?? "").includes("dsh-auth-");
-            console.error("[gbh] ui intercept path=" + pathname + " ui=" + String(isUi) + " cookie=" + String(hasAuthCookie) + " url=" + String(req.url));
             if (isUi && hasAuthCookie && !parsed.searchParams.has("token")) {
               const { createRequire } = await import("node:module");
               const { readFileSync, existsSync } = await import("node:fs");
