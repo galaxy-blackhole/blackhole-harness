@@ -22,6 +22,11 @@ on:
         required: false
         default: false
         type: boolean
+      installer_artifact_id:
+        description: "Artifact id cần test (mặc định bản mới nhất đã kiểm)"
+        required: false
+        default: "14611463301"
+        type: string
       cli_smoke:
         description: "Test blackhole web từ npm CLI (không build)"
         required: false
@@ -190,13 +195,13 @@ jobs:
           if ($code -ne "200") { throw "CLI full token URL trả $code" }
           Write-Host "CLI SMOKE OK"
 
-      - name: Installer smoke (artifact 14557204751)
+      - name: Installer smoke (artifact ${{ inputs.installer_artifact_id }})
         if: ${{ inputs.installer_smoke == true }}
         shell: pwsh
         run: |
           $zip = Join-Path $env:RUNNER_TEMP "installer.zip"
           $headers = @{ Authorization = "token ${{ github.token }}" }
-          Invoke-WebRequest -Uri "https://api.github.com/repos/galaxy-blackhole/blackhole-harness/actions/artifacts/14557204751/zip" -Headers $headers -OutFile $zip
+          Invoke-WebRequest -Uri "https://api.github.com/repos/galaxy-blackhole/blackhole-harness/actions/artifacts/${{ inputs.installer_artifact_id }}/zip" -Headers $headers -OutFile $zip
           $dir = Join-Path $env:RUNNER_TEMP "installer"
           Expand-Archive $zip $dir -Force
           $setup = Get-ChildItem $dir -Recurse -Filter "*setup.exe" | Select-Object -First 1
@@ -215,6 +220,20 @@ jobs:
             if ($p.HasExited) { break }
           }
           Write-Host "=== desktop.log ==="; if (Test-Path $log) { Get-Content $log -Tail 80 }
+          if ($ready) {
+            $content = Get-Content $log -Raw
+            $url = [regex]::Match($content, 'http://127\.0\.0\.1:\d+/\?token=[^\s]+').Value
+            $root = $url -replace '/\?token=.*$', '/'
+            $cookie = Join-Path $env:RUNNER_TEMP "installer-cookie.txt"
+            $ui = Join-Path $env:RUNNER_TEMP "installer-ui.html"
+            $fullCode = & curl.exe -sL -c $cookie -b $cookie -o $ui -w "%{http_code}" $url
+            Write-Host "INSTALLER FULL CURL HTTP $fullCode"
+            if ($fullCode -ne "200") { throw "installer UI trả $fullCode" }
+            if ((Get-Content $ui -Raw) -notmatch 'Galaxy Blackhole') { throw "installer UI thiếu title" }
+            $rootCode = & curl.exe -s -o NUL -w "%{http_code}" $root
+            Write-Host "INSTALLER ROOT CURL HTTP $rootCode"
+            if ($rootCode -ne "401") { throw "installer root phải 401, nhận $rootCode" }
+          }
           & taskkill /IM galaxy-blackhole.exe /T /F | Out-Null
           if (-not $ready) { throw "installed app không ready" }
           Write-Host "INSTALLER SMOKE OK"
