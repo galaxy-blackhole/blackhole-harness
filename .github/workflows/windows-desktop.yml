@@ -96,6 +96,11 @@ jobs:
           if (!(Test-Path $nodeExe)) { throw "node.exe missing" }
           Copy-Item $nodeExe (Join-Path (Get-Location) "apps\desktop-windows\src-tauri\resources\runtime\node.exe") -Force
 
+      - name: Patch host webserver static fallback
+        shell: pwsh
+        run: |
+          node apps/desktop-windows/scripts/patch-webserver.mjs "apps\desktop-windows\src-tauri\resources\host"
+
       - name: Patch web diagnostics (smoke only)
         if: ${{ inputs.smoke_only == true }}
         shell: pwsh
