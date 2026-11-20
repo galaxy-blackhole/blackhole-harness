@@ -103,6 +103,10 @@ jobs:
           $hostDir = Join-Path (Get-Location) "apps\desktop-windows\src-tauri\resources\host"
           $webApp = Join-Path $hostDir "packages\host\web-app\lib\index.js"
           $s = Get-Content $webApp -Raw
+          Write-Host "webApp file=$webApp sha=$((Get-FileHash $webApp).Hash)"
+          Write-Host "host web-app links:"
+          Get-ChildItem (Join-Path $hostDir "node_modules\@galaxy-blackhole") -ErrorAction SilentlyContinue | Where-Object { $_.Name -match 'web-app' } | ForEach-Object { Write-Host "LINK $($_.Name) -> $($_.Target)" }
+          $s = 'console.log("[diag] gbh-web-app module loaded");' + "`n" + $s
           $s = $s.Replace('function apply(ctx, config) {', 'function apply(ctx, config) { console.log("[diag] gbh-web-app apply"); try { console.log("[diag] dist="+internals.resolveDistIndex()); } catch(e){ console.log("[diag] distERR="+e.message); }')
           $s = $s.Replace('ctx.plugin(FrontendStatic, { distIndex: internals.resolveDistIndex() });', 'console.log("[diag] before FrontendStatic"); ctx.plugin(FrontendStatic, { distIndex: internals.resolveDistIndex() }); console.log("[diag] after FrontendStatic");')
           Set-Content -Path $webApp -Value $s -Encoding utf8
