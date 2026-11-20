@@ -905,6 +905,9 @@ fn main() {
           .inner_size(1280.0, 860.0)
           .min_inner_size(880.0, 620.0)
           .visible(false)
+          // Web UI dùng HTML5 drop (kéo file vào composer). Tauri/WebKit mặc định bắt OS drag-drop
+          // bằng handler nội bộ nên webview không nhận `drop`; tắt handler để WebKit tự xử lý.
+          .disable_drag_drop_handler()
           .initialization_script(SMOKE_SCRIPT)
           .on_page_load(move |window, payload| {
             if !matches!(payload.event(), tauri::webview::PageLoadEvent::Finished) {
