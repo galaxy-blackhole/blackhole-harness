@@ -25,7 +25,7 @@ on:
       installer_artifact_id:
         description: "Artifact id cần test (mặc định bản mới nhất đã kiểm)"
         required: false
-        default: "14611463301"
+        default: "14613452608"
         type: string
       cli_smoke:
         description: "Test blackhole web từ npm CLI (không build)"
