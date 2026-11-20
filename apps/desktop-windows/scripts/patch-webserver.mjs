@@ -21,27 +21,30 @@ const candidates = [
 
 const marker = "GBH_STATIC_FALLBACK";
 const injection = `
-        // GBH_STATIC_FALLBACK: phục vụ UI trước fallback (stock fallback có thể 404 trên Windows).
-        if ((req.method === "GET" || req.method === "HEAD")) {
+        // GBH_STATIC_FALLBACK: phục vụ UI trước khi route "/" kịp trả 404.
+        if (req.method === "GET" || req.method === "HEAD") {
           try {
-            const { createRequire } = await import("node:module");
-            const { readFileSync, existsSync } = await import("node:fs");
-            const { dirname, extname, join } = await import("node:path");
-            const require = createRequire(import.meta.url);
-            const dist = join(dirname(require.resolve("@deepseek-ai/dsh-web-frontend/package.json")), "dist");
-            const pathname = decodeURIComponent(new URL(req.url ?? "/", "http://x").pathname);
-            const rel = pathname === "/" ? "index.html" : pathname.replace(/^\\//u, "");
-            const target = join(dist, rel);
-            if (!target.startsWith(dist)) { res.writeHead(403); res.end(); return; }
-            const conn = this.ctx.get("connection");
-            if (conn !== void 0 && !conn.authorizeIndex(req, res)) return;
-            if (!existsSync(target)) { res.writeHead(404); res.end(); return; }
-            const MIME = { ".html": "text/html; charset=utf-8", ".js": "text/javascript; charset=utf-8", ".css": "text/css; charset=utf-8", ".svg": "image/svg+xml", ".webmanifest": "application/manifest+json", ".json": "application/json" };
-            let body = readFileSync(target);
-            if (rel === "index.html") body = typeof this.renderIndex === "function" ? this.renderIndex(body.toString("utf8")) : body;
-            res.writeHead(200, { "content-type": MIME[extname(target)] ?? "application/octet-stream" });
-            res.end(body);
-            return;
+            const parsed = new URL(req.url ?? "/", "http://x");
+            const pathname = decodeURIComponent(parsed.pathname);
+            const isUi = pathname === "/" || pathname.startsWith("/assets/") || /^\/(favicon|manifest|icon)/u.test(pathname);
+            if (isUi && !parsed.searchParams.has("token")) {
+              const { createRequire } = await import("node:module");
+              const { readFileSync, existsSync } = await import("node:fs");
+              const { dirname, extname, join } = await import("node:path");
+              const require = createRequire(import.meta.url);
+              const dist = join(dirname(require.resolve("@deepseek-ai/dsh-web-frontend/package.json")), "dist");
+              const rel = pathname === "/" ? "index.html" : pathname.replace(/^\//u, "");
+              const target = join(dist, rel);
+              const conn = this.ctx.get("connection");
+              if (conn !== void 0 && !conn.authorizeIndex(req, res)) return;
+              if (!existsSync(target)) { res.writeHead(404); res.end(); return; }
+              const MIME = { ".html": "text/html; charset=utf-8", ".js": "text/javascript; charset=utf-8", ".css": "text/css; charset=utf-8", ".svg": "image/svg+xml", ".webmanifest": "application/manifest+json", ".json": "application/json" };
+              let body = readFileSync(target);
+              if (rel === "index.html") body = typeof this.renderIndex === "function" ? this.renderIndex(body.toString("utf8")) : body;
+              res.writeHead(200, { "content-type": MIME[extname(target)] ?? "application/octet-stream" });
+              res.end(body);
+              return;
+            }
           } catch (error) {
             console.error("[gbh] static fallback:", error instanceof Error ? error.message : String(error));
           }
@@ -53,12 +56,12 @@ for (const file of candidates) {
   if (!existsSync(file)) continue;
   const source = readFileSync(file, "utf8");
   if (source.includes(marker)) continue;
-  const old = `\t\t\tconst fallback = this.fallback;`;
+  const old = `\t\t\tconst route = this.match(rawPath);`;
   if (!source.includes(old)) {
-    console.warn("[gbh] fallback pattern not found in " + file);
+    console.warn("[gbh] route pattern not found in " + file);
     continue;
   }
-  const next = source.replace(old, `\t\t\tconst fallback = this.fallback;${injection}`);
+  const next = source.replace(old, `${injection}\t\t\tconst route = this.match(rawPath);`);
   writeFileSync(file, next, "utf8");
   patched += 1;
   console.log("[gbh] patched static fallback: " + file);
