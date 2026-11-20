@@ -63,6 +63,14 @@ jobs:
           Copy-Item -Path (Join-Path $pkg "*") -Destination $hostDir -Recurse -Force
           Copy-Item -Path (Join-Path $stage "node_modules") -Destination (Join-Path $hostDir "node_modules") -Recurse -Force
           if (!(Test-Path (Join-Path $hostDir "apps\cli\lib\main.js"))) { throw "host lib/main.js missing" }
+          # gbh-web-app import @deepseek-ai/dsh-web-frontend tu node_modules CUA GOI; ban npm khong mang
+          # node_modules long, nen phai copy frontend vao dung vi tri (app self-contained da co san).
+          $fe = Join-Path $stage "node_modules\@deepseek-ai\dsh-web-frontend"
+          $nestedFe = Join-Path $hostDir "packages\host\web-app\node_modules\@deepseek-ai\dsh-web-frontend"
+          if (!(Test-Path (Join-Path $fe "dist\index.html"))) { throw "frontend dist missing in stage" }
+          New-Item -ItemType Directory -Force (Split-Path $nestedFe) | Out-Null
+          Copy-Item -Path $fe -Destination $nestedFe -Recurse -Force
+          if (!(Test-Path (Join-Path $nestedFe "dist\index.html"))) { throw "nested frontend copy failed" }
           # NSIS/makensis dùng đường dẫn ANSI/MAX_PATH: các tệp devtools mô tả rất dài trong
           # @deepseek-ai/dsh-experimental-inspector làm build fail. Bỏ devtools frontend (không dùng
           # trên đường boot web), rồi dọn mọi tệp còn dài hơn 220 ký tự để makensis mở được.
