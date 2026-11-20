@@ -125,6 +125,7 @@ export async function apply(ctx: PickerContext): Promise<void> {
     bindHost: bindHostOf(ctx),
     allowsRemoteAuthorities: allowsRemoteAuthoritiesOf(ctx),
     platform: process.platform,
+    win32Native: process.env.GBH_TAURI_ROOT !== undefined || process.env.GBH_DESKTOP_PORT !== undefined,
     ssh: launchedThroughSsh(launchEnvironmentOf(ctx)),
     env: { DISPLAY: process.env.DISPLAY, WAYLAND_DISPLAY: process.env.WAYLAND_DISPLAY },
     linuxChooser: hasLinuxChooserBinary(process.env.PATH, canExecute),

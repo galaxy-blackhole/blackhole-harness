@@ -29,6 +29,8 @@ export interface DirectoryPickerHostFacts {
   env: DirectoryPickerEnv;
   /** Có binary chọn thư mục (zenity/kdialog) trên PATH hay không; chỉ xét khi platform là linux. */
   linuxChooser: boolean;
+  /** Windows đang chạy trong desktop shell (Tauri) — native dùng koffi; CLI web phải dùng browse. */
+  win32Native?: boolean;
 }
 
 /** Một env chỉ tính khi được đặt và không rỗng (export rỗng là "không đặt" theo quy ước shell). */
@@ -84,7 +86,10 @@ export function isLoopbackHost(host: string): boolean {
 export function resolveDirectoryPickerBackend(facts: DirectoryPickerHostFacts): DirectoryPickerBackendKind {
   if (facts.allowsRemoteAuthorities || !isLoopbackHost(facts.bindHost)) return "browse";
   if (facts.ssh) return "browse";
-  if (facts.platform === "darwin" || facts.platform === "win32") return "native";
+  if (facts.platform === "darwin") return "native";
+  // 20/11/2026 — Windows CLI web KHÔNG có koffi/COM dialog sẵn (npm 11 chặn install-script của koffi);
+  // chọn native sẽ làm workspace picker im lặng biến mất. Chỉ native khi chạy trong Tauri desktop.
+  if (facts.platform === "win32") return facts.win32Native === true ? "native" : "browse";
   if (facts.platform !== "linux" || !facts.linuxChooser) return "browse";
   return present(facts.env.DISPLAY) || present(facts.env.WAYLAND_DISPLAY) ? "native" : "browse";
 }
