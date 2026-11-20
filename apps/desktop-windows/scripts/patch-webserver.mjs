@@ -14,6 +14,7 @@ const host = process.argv[2];
 if (!host) throw new Error("usage: node patch-webserver.mjs <host-dir>");
 
 const candidates = [
+  join(host, "packages", "host", "host-webserver", "lib", "index.js"),
   join(host, "node_modules", "@galaxy-blackhole", "gbh-host-webserver", "lib", "index.js"),
   join(host, "node_modules", "@deepseek-ai", "dsh-host-webserver", "lib", "index.js"),
 ];
