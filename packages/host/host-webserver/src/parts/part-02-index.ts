@@ -6,6 +6,9 @@
  * desc LAT NGUYEN VAN cua bundle goc @deepseek-ai/dsh-host-webserver — sinh boi tools/split-stock-bundle.ts, khong sua tay
  */
 // @ts-nocheck
+import { existsSync, readFileSync } from "node:fs";
+import { createRequire } from "node:module";
+import { dirname, extname, join } from "node:path";
 
 //#region lib/types/index.js
 /**
@@ -289,6 +292,38 @@ var WebServer = class extends Service {
 			/* v8 ignore next -- `?? '/'` arm: node:http always sets url on server
 			requests; the field is only optional on the client-side IncomingMessage type */
 			const rawPath = new URL(req.url ?? "/", "http://x").pathname;
+			// GBH_STATIC_FALLBACK: bản npm/Windows có thể không mount web-app fallback; phục vụ UI
+			// trực tiếp trước route "/" để tránh 404, chỉ khi có cookie dsh-auth (API auth giữ nguyên).
+			if (req.method === "GET" || req.method === "HEAD") {
+				try {
+					const parsed = new URL(req.url ?? "/", "http://x");
+					const pathname = decodeURIComponent(parsed.pathname);
+					const isUi = pathname === "/" || pathname.startsWith("/assets/") || /^\/(favicon|manifest|icon)/u.test(pathname);
+					const hasAuthCookie = String(req.headers.cookie ?? "").includes("dsh-auth-");
+					if (isUi && hasAuthCookie && !parsed.searchParams.has("token")) {
+						const require = createRequire(import.meta.url);
+						const candidates: string[] = [];
+						if (process.env.GBH_FRONTEND_DIST) candidates.push(process.env.GBH_FRONTEND_DIST);
+						candidates.push(join(process.cwd(), "node_modules", "@deepseek-ai", "dsh-web-frontend", "dist"));
+						try { candidates.push(join(dirname(require.resolve("@deepseek-ai/dsh-web-frontend/package.json")), "dist")); } catch {}
+						const dist = candidates.find((candidate) => existsSync(join(candidate, "index.html")));
+						if (dist !== void 0) {
+							const rel = pathname === "/" ? "index.html" : pathname.replace(/^\//u, "");
+							const target = join(dist, rel);
+							if (target.startsWith(dist) && existsSync(target)) {
+								const MIME: Record<string, string> = { ".html": "text/html; charset=utf-8", ".js": "text/javascript; charset=utf-8", ".css": "text/css; charset=utf-8", ".svg": "image/svg+xml", ".webmanifest": "application/manifest+json", ".json": "application/json" };
+								let body: string | Buffer = readFileSync(target);
+								if (rel === "index.html" && typeof this.renderIndex === "function") body = this.renderIndex(body.toString("utf8"));
+								res.writeHead(200, { "content-type": MIME[extname(target)] ?? "application/octet-stream" });
+								res.end(body);
+								return;
+							}
+						}
+					}
+				} catch (error) {
+					this.ctx.logger.warn(error instanceof Error ? error : new Error(String(error)));
+				}
+			}
 			const route = this.match(rawPath);
 			if (route !== void 0) {
 				await route.handler(req, res);
