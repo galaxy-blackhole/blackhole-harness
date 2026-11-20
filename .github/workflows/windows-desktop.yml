@@ -132,16 +132,16 @@ jobs:
           Write-Host "profile patched to GBH bundles"
           $loader = Join-Path $hostDir "diag-loader.mjs"
           $hooks = Join-Path $hostDir "diag-hooks.mjs"
-          Set-Content -Path $loader -Encoding utf8 -Value @'
-import { register } from "node:module";
-register(new URL("./diag-hooks.mjs", import.meta.url));
-'@
-          Set-Content -Path $hooks -Encoding utf8 -Value @'
-export async function load(url, context, nextLoad) {
-  if (/gbh-web-app|dsh-web-app|host-frontend-static/.test(url)) console.error("[diag] LOAD " + url);
-  return nextLoad(url, context);
-}
-'@
+          Set-Content -Path $loader -Encoding utf8 -Value @(
+            'import { register } from "node:module";',
+            'register(new URL("./diag-hooks.mjs", import.meta.url));'
+          )
+          Set-Content -Path $hooks -Encoding utf8 -Value @(
+            'export async function load(url, context, nextLoad) {',
+            '  if (/gbh-web-app|dsh-web-app|host-frontend-static/.test(url)) console.error("[diag] LOAD " + url);',
+            '  return nextLoad(url, context);',
+            '}'
+          )
           $env:NODE_OPTIONS = "--import=" + ("file:///" + ($loader -replace "\\", "/"))
           Write-Host "NODE_OPTIONS=$env:NODE_OPTIONS"
           $static = Join-Path $hostDir "node_modules\@deepseek-ai\dsh-host-frontend-static\lib\index.js"
