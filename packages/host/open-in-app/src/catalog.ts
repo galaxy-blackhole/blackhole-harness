@@ -5,15 +5,16 @@
  * modify date 17/10/2026
  * desc Bang ung dung mo duoc (catalog cua row open-in-app) + nhan dien tren macOS.
  */
+import { join } from "node:path";
 /**
  * Ma ung dung trong catalog — dung y 5 id ma oracle phuc vu tren macOS.
  */
-export type OpenInAppId = "finder" | "explorer" | "vscode" | "xcode" | "iterm" | "terminal";
+export type OpenInAppId = "finder" | "explorer" | "vscode" | "windowsterminal" | "gitbash" | "xcode" | "iterm" | "terminal";
 
 /**
  * Thu tu id trong catalog (giu nguyen thu tu oracle tra ve: finder, vscode, xcode, iterm, terminal).
  */
-export const OPEN_IN_APP_IDS: readonly OpenInAppId[] = ["finder", "explorer", "vscode", "xcode", "iterm", "terminal"];
+export const OPEN_IN_APP_IDS: readonly OpenInAppId[] = ["finder", "explorer", "vscode", "windowsterminal", "gitbash", "xcode", "iterm", "terminal"];
 
 /**
  * Mot muc catalog da resolve: bundle .app ton tai tren may.
@@ -42,6 +43,27 @@ export function darwinCandidates(): readonly OpenInAppLauncher[] {
 }
 
 /**
+ * Ung vien tren Windows: File Explorer, VS Code, Windows Terminal, Git Bash.
+ * Duong dan tuyet doi de `launch` khong phu thuoc PATH/resolveExecutable.
+ * @returns danh sach ung vien theo thu tu menu.
+ */
+export function windowsCandidates(): readonly OpenInAppLauncher[] {
+  const local = process.env.LOCALAPPDATA ?? "";
+  const pf = process.env.ProgramFiles ?? "";
+  const pf86 = process.env["ProgramFiles(x86)"] ?? "";
+  const systemRoot = process.env.SystemRoot ?? "C:\\Windows";
+  return [
+    { id: "explorer", label: "File Explorer", bundle: join(systemRoot, "explorer.exe") },
+    { id: "vscode", label: "Visual Studio Code", bundle: join(local, "Programs", "Microsoft VS Code", "Code.exe") },
+    { id: "vscode", label: "Visual Studio Code", bundle: join(pf, "Microsoft VS Code", "Code.exe") },
+    { id: "vscode", label: "Visual Studio Code", bundle: join(pf86, "Microsoft VS Code", "Code.exe") },
+    { id: "windowsterminal", label: "Windows Terminal", bundle: join(local, "Microsoft", "WindowsApps", "wt.exe") },
+    { id: "gitbash", label: "Git Bash", bundle: join(pf, "Git", "git-bash.exe") },
+    { id: "gitbash", label: "Git Bash", bundle: join(pf86, "Git", "git-bash.exe") },
+  ];
+}
+
+/**
  * Loc ung vien con cai thuc su ton tai tren may.
  * Nguon su that la he thong tep (khong doan): chi bundle co that moi vao catalog.
  * @param platform - gia tri process.platform (mac dinh lay tu tien trinh).
@@ -52,10 +74,22 @@ export async function resolveCatalog(
   platform: string = process.platform,
   exists: (path: string) => Promise<boolean> = defaultExists,
 ): Promise<OpenInAppLauncher[]> {
-  // 20/11/2026 — Windows cũng phải có "Mở dự án" như macOS. explorer.exe luôn tồn tại trên Windows;
-  // trước đây catalog chỉ có macOS nên client nhận [] và ẩn nút Open in app trên Windows.
+  // 20/11/2026 — Windows phải có menu "Mở bằng" giống macOS. Catalog gồm File Explorer,
+  // VS Code, Windows Terminal, Git Bash; chỉ entry có thật trên máy mới được trả về.
   if (platform === "win32") {
-    return [{ id: "explorer", label: "File Explorer", bundle: "explorer.exe" }];
+    const found: OpenInAppLauncher[] = [];
+    const seen = new Set<OpenInAppId>();
+    for (const candidate of windowsCandidates()) {
+      if (seen.has(candidate.id)) continue;
+      if (await exists(candidate.bundle)) {
+        found.push(candidate);
+        seen.add(candidate.id);
+      }
+    }
+    if (!seen.has("explorer")) {
+      found.unshift({ id: "explorer", label: "File Explorer", bundle: join(process.env.SystemRoot ?? "C:\\Windows", "explorer.exe") });
+    }
+    return found;
   }
   if (platform !== "darwin") return [];
   const found: OpenInAppLauncher[] = [];
@@ -87,8 +121,14 @@ async function defaultExists(path: string): Promise<boolean> {
  * @returns cap lenh + tham so cho node:child_process.
  */
 export function openCommand(launcher: OpenInAppLauncher, path: string): { command: string; args: string[] } {
-  if (launcher.id === "explorer") {
-    return { command: "explorer.exe", args: [path] };
+  if (launcher.id === "explorer" || launcher.id === "vscode") {
+    return { command: launcher.bundle, args: [path] };
+  }
+  if (launcher.id === "windowsterminal") {
+    return { command: launcher.bundle, args: ["-d", path] };
+  }
+  if (launcher.id === "gitbash") {
+    return { command: launcher.bundle, args: ["--cd=" + path] };
   }
   return { command: "open", args: ["-a", launcher.bundle, path] };
 }

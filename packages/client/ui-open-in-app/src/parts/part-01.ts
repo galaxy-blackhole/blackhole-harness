@@ -150,13 +150,18 @@ window.__ModuleLoader__.load({
 			}
 			async run() {
 				let apps = [];
-				try {
-					const response = await this.fetcher(OPEN_IN_APP_APPS_ROUTE, { headers: { accept: "application/json" } });
-					if (response.ok) {
-						const payload = await response.json();
-						if (Array.isArray(payload.apps)) apps = payload.apps.filter((id) => typeof id === "string");
-					}
-				} catch {}
+				for (let attempt = 0; attempt < 4; attempt += 1) {
+					try {
+						const response = await this.fetcher(OPEN_IN_APP_APPS_ROUTE, { headers: { accept: "application/json" } });
+						if (response.ok) {
+							const payload = await response.json();
+							if (Array.isArray(payload.apps)) apps = payload.apps.filter((id) => typeof id === "string");
+							break;
+						}
+						if (response.status !== 404) break;
+					} catch {}
+					if (attempt < 3) await new Promise((resolve) => setTimeout(resolve, 250 * (attempt + 1)));
+				}
 				this.apps.set(apps);
 			}
 		};
