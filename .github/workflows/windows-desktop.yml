@@ -135,6 +135,7 @@ jobs:
           $bp = $bp.Replace("@galaxy-blackhole/gbh-web-app", "@deepseek-ai/dsh-web-app")
           Set-Content -Path $bundlePatch -Value $bp -Encoding utf8
           Write-Host "bundle web-app rows set to stock package"
+          $fe = Join-Path $hostDir "node_modules\@deepseek-ai\dsh-web-frontend"
           $stockApp = Join-Path $hostDir "node_modules\@deepseek-ai\dsh-web-app\lib\index.js"
           if (Test-Path $stockApp) {
             $ss = Get-Content $stockApp -Raw
