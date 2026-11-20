@@ -8,12 +8,12 @@
 /**
  * Ma ung dung trong catalog — dung y 5 id ma oracle phuc vu tren macOS.
  */
-export type OpenInAppId = "finder" | "vscode" | "xcode" | "iterm" | "terminal";
+export type OpenInAppId = "finder" | "explorer" | "vscode" | "xcode" | "iterm" | "terminal";
 
 /**
  * Thu tu id trong catalog (giu nguyen thu tu oracle tra ve: finder, vscode, xcode, iterm, terminal).
  */
-export const OPEN_IN_APP_IDS: readonly OpenInAppId[] = ["finder", "vscode", "xcode", "iterm", "terminal"];
+export const OPEN_IN_APP_IDS: readonly OpenInAppId[] = ["finder", "explorer", "vscode", "xcode", "iterm", "terminal"];
 
 /**
  * Mot muc catalog da resolve: bundle .app ton tai tren may.
@@ -52,6 +52,11 @@ export async function resolveCatalog(
   platform: string = process.platform,
   exists: (path: string) => Promise<boolean> = defaultExists,
 ): Promise<OpenInAppLauncher[]> {
+  // 20/11/2026 — Windows cũng phải có "Mở dự án" như macOS. explorer.exe luôn tồn tại trên Windows;
+  // trước đây catalog chỉ có macOS nên client nhận [] và ẩn nút Open in app trên Windows.
+  if (platform === "win32") {
+    return [{ id: "explorer", label: "File Explorer", bundle: "explorer.exe" }];
+  }
   if (platform !== "darwin") return [];
   const found: OpenInAppLauncher[] = [];
   for (const candidate of darwinCandidates()) {
@@ -82,5 +87,8 @@ async function defaultExists(path: string): Promise<boolean> {
  * @returns cap lenh + tham so cho node:child_process.
  */
 export function openCommand(launcher: OpenInAppLauncher, path: string): { command: string; args: string[] } {
+  if (launcher.id === "explorer") {
+    return { command: "explorer.exe", args: [path] };
+  }
   return { command: "open", args: ["-a", launcher.bundle, path] };
 }
