@@ -30,7 +30,10 @@ function assertNever$1(_value: any) {
 */
 export function DeepSeekOnboardingDialog(props: any) {
 	const { complete, controller, useModels, operations, schema, t, renderSlot, automatic, explicit = false } = props;
-	const [apiKey, setApiKey] = (0, react.useState)(explicit);
+	// 21/11/2026 — GBH first-run flow enters the GBH_GALAXY_API_KEY field directly
+	// after the intro notice. The stock account "Bắt đầu" chooser is not a step the
+	// user should have to dismiss a second time.
+	const [apiKey, setApiKey] = (0, react.useState)(true);
 	const state = useModels((snapshot: any) => snapshot);
 	const readiness = onboardingReadiness(state);
 	(0, react.useEffect)(() => {

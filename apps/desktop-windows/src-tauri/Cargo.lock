@@ -947,7 +947,7 @@ dependencies = [
 
 [[package]]
 name = "gbh-desktop-windows"
-version = "0.1.2"
+version = "0.1.3"
 dependencies = [
  "serde_json",
  "tauri",
