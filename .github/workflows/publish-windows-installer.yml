@@ -1,0 +1,42 @@
+# Upload the already-tested Windows artifact to a public release from a GitHub runner.
+# Doing this on a runner avoids the flaky 130 MB upload from the development machine.
+name: publish-windows-installer
+
+on:
+  workflow_dispatch:
+    inputs:
+      artifact_id:
+        description: "Artifact id of galaxy-blackhole-windows"
+        required: true
+        default: "14690771911"
+      release_tag:
+        description: "Release tag"
+        required: true
+        default: "desktop-windows-0.1.1"
+
+permissions:
+  contents: write
+  actions: read
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Download Windows artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: galaxy-blackhole-windows
+          path: installer
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          run-id: ${{ inputs.artifact_id }}
+
+      - name: Upload installer to release
+        shell: bash
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          setup=$(find installer -type f -iname '*setup.exe' | head -1)
+          test -n "$setup"
+          ls -lh "$setup"
+          gh release upload "${{ inputs.release_tag }}" "$setup#Galaxy-Blackhole-Windows-0.1.1-x64-setup.exe" --clobber
