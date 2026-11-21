@@ -2,7 +2,7 @@
 # email kevinbui210191@gmail.com
 # create date 15/10/2026
 # modify date 19/11/2026
-# desc Build app desktop Windows: stage harness 0.1.4 + node.exe win-x64, Tauri NSIS, upload artifact
+# desc Build app desktop Windows: stage harness 0.1.11 (release asset) + node.exe win-x64, Tauri NSIS, upload artifact
 
 name: windows-desktop
 
@@ -51,13 +51,15 @@ jobs:
         with:
           targets: x86_64-pc-windows-msvc
 
-      - name: Stage harness 0.1.4 from npm
+      - name: Stage harness 0.1.11 from GitHub release
         shell: pwsh
         run: |
           $stage = Join-Path $env:RUNNER_TEMP "gbh-stage"
           Remove-Item -Recurse -Force $stage -ErrorAction SilentlyContinue
           New-Item -ItemType Directory -Force $stage | Out-Null
-          npm install --prefix $stage @galaxy-blackhole/blackhole-harness@0.1.4 --omit=dev --no-audit --no-fund
+          $tgz = Join-Path $env:RUNNER_TEMP "gbh-harness-0.1.11.tgz"
+          Invoke-WebRequest -Uri "https://github.com/galaxy-blackhole/blackhole-harness/releases/download/gbh-harness-0.1.11/gbh-harness-0.1.11.tgz" -OutFile $tgz
+          npm install --prefix $stage $tgz --omit=dev --no-audit --no-fund
           if ($LASTEXITCODE -ne 0) { throw "npm install harness failed" }
           $pkg = Join-Path $stage "node_modules\@galaxy-blackhole\blackhole-harness"
           if (!(Test-Path $pkg)) { throw "harness package missing at $pkg" }
@@ -161,13 +163,13 @@ jobs:
           if ($bad -gt 0) { throw "host có $bad dòng lỗi mount/activate" }
           Write-Host "HOST SMOKE OK"
 
-      - name: CLI smoke (blackhole web 3.0.15)
+      - name: CLI smoke (blackhole web 3.0.21)
         if: ${{ inputs.cli_smoke == true }}
         shell: pwsh
         run: |
           $stage = Join-Path $env:RUNNER_TEMP "gbh-cli-stage"
           New-Item -ItemType Directory -Force $stage | Out-Null
-          npm install --prefix $stage @galaxy-stack/blackhole-cli@3.0.15 --no-audit --no-fund
+          npm install --prefix $stage @galaxy-stack/blackhole-cli@3.0.21 --no-audit --no-fund
           if ($LASTEXITCODE -ne 0) { throw "npm install CLI failed" }
           $cli = Join-Path $stage "node_modules\@galaxy-stack\blackhole-cli\dist\cli.js"
           if (!(Test-Path $cli)) { throw "CLI entry missing" }
