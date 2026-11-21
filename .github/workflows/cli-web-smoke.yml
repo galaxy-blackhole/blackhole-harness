@@ -17,8 +17,8 @@ jobs:
       - name: Install CLI 3.0.24
         shell: pwsh
         run: |
-          $tgz = Join-Path $env:RUNNER_TEMP 'cli-3.0.25.tgz'
-          Invoke-WebRequest -Uri 'https://github.com/galaxy-blackhole/blackhole-harness/releases/download/cli-3.0.25/galaxy-stack-blackhole-cli-3.0.25.tgz' -OutFile $tgz
+          $tgz = Join-Path $env:RUNNER_TEMP 'cli-3.0.26.tgz'
+          Invoke-WebRequest -Uri 'https://github.com/galaxy-blackhole/blackhole-harness/releases/download/cli-3.0.26/galaxy-stack-blackhole-cli-3.0.26.tgz' -OutFile $tgz
           npm install -g $tgz
           blackhole --version
       - name: Boot web and inspect page
@@ -59,7 +59,7 @@ jobs:
             [regex]::Matches($html, '[^" ]*gbh-favicon[^" ]*') | ForEach-Object { $_.Value } | Select-Object -First 5
             Write-Host '=== served favicon ==='
             $fav = Invoke-WebRequest -Uri 'http://127.0.0.1:55930/favicon.svg' -WebSession $session -UseBasicParsing
-            $bytes = $fav.Content
+            $bytes = [System.Text.Encoding]::UTF8.GetBytes([string]$fav.Content)
             $sha = [System.Security.Cryptography.SHA256]::Create().ComputeHash($bytes)
             Write-Host ('favicon bytes: ' + $bytes.Length)
             Write-Host ('favicon sha256: ' + (($sha | ForEach-Object { $_.ToString('x2') }) -join ''))
