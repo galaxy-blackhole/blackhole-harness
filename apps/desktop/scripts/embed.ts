@@ -25,6 +25,7 @@
 import { cpSync, existsSync, lstatSync, mkdirSync, readdirSync, readFileSync, rmSync, symlinkSync, writeFileSync } from "node:fs";
 import { spawnSync } from "node:child_process";
 import { dirname, join, relative, resolve, sep } from "node:path";
+import { tmpdir } from "node:os";
 import { fileURLToPath } from "node:url";
 
 import {
@@ -723,23 +724,39 @@ function embed(options: { app: string; binary: string; sign: boolean; trim: Trim
   // 1. Runtime: ĐÚNG MỘT node. Không bun — xem đầu tệp.
   const node = resolveNode();
   const runtimePath = join(resources, "runtime", "node");
+  // `resolveNode()` may point INTO the target app (GBH_NODE in the app process,
+  // or rebuilding the installed preview). Copy it aside before removing the
+  // destination, otherwise the only source and the destination are the same
+  // file and the app is left without a runtime after a failed embed.
+  const resolvedTarget = resolve(runtimePath);
+  const resolvedSource = resolve(node.path);
+  const sourceInsideTarget = resolvedSource === resolvedTarget || resolvedSource.startsWith(resolvedTarget + sep);
+  let nodeSource = node.path;
+  let tempNode: string | undefined;
+  if (sourceInsideTarget) {
+    tempNode = join(tmpdir(), "gbh-runtime-" + String(process.pid) + "-" + String(Date.now()));
+    cpSync(node.path, tempNode, { recursive: false, force: true });
+    spawnSync("/bin/chmod", ["755", tempNode]);
+    nodeSource = tempNode;
+  }
   rmSync(runtimePath, { recursive: true, force: true });
   mkdirSync(dirname(runtimePath), { recursive: true });
   // Nguồn là binary (nvm/homebrew) hay cả cây cài đặt (installer .pkg) — xử lý cả hai, và chỉ ở nhánh cây
   // mới có npm/npx/corepack để bỏ (xem RUNTIME_NOTE).
-  const nodeIsDirectory = lstatSync(node.path).isDirectory();
+  const nodeIsDirectory = lstatSync(nodeSource).isDirectory();
   if (nodeIsDirectory) {
-    cpSync(node.path, runtimePath, {
+    cpSync(nodeSource, runtimePath, {
       recursive: true,
       force: true,
       filter: (source) => {
-        const rel = relative(node.path, source).split(sep).join("/");
+        const rel = relative(nodeSource, source).split(sep).join("/");
         return !RUNTIME_DROP.some((drop) => rel === drop || rel.startsWith(drop + "/"));
       },
     });
   } else {
-    cpSync(node.path, runtimePath, { force: true });
+    cpSync(nodeSource, runtimePath, { force: true });
   }
+  if (tempNode !== undefined) rmSync(tempNode, { force: true });
   spawnSync("/bin/chmod", ["755", nodeIsDirectory ? join(runtimePath, "bin", "node") : runtimePath]);
   const runtime = {
     path: runtimePath,

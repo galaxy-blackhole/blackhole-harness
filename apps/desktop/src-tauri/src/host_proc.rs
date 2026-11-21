@@ -77,6 +77,16 @@ fn slot() -> &'static Mutex<Option<HostProcess>> {
 pub fn spawn(plan: &HostPlan, port: u16) -> std::io::Result<u32> {
   let args = command_line(plan, port);
   let mut command = Command::new(&plan.node);
+  // The desktop was launched from a shell that already lives inside a GBH
+  // session. Remove every inherited session pointer; otherwise the test build
+  // would mount the working profile even though its home is isolated.
+  for key in [
+    "DSH_HOME", "DSH_PROFILE", "DSH_PROFILE_DIR", "DSH_SESSION_ID", "DSH_WEB_URL", "DSH_SHELL",
+    "GBH_HOME", "GBH_PROFILE", "GBH_DESKTOP_PORT", "GBH_PORT", "GBH_REPO_ROOT", "GBH_TAURI_ROOT",
+    "GBH_REPO", "GBH_CLI",
+  ] {
+    command.env_remove(key);
+  }
   command
     .args(&args)
     .current_dir(&plan.repo)
@@ -86,6 +96,9 @@ pub fn spawn(plan: &HostPlan, port: u16) -> std::io::Result<u32> {
     // runtime này (không phải bản nào khác trên PATH) và gốc host này (không phải repo của máy dev).
     .env("GBH_NODE", &plan.node)
     .env("GBH_REPO_ROOT", &plan.repo)
+    .env("GBH_HOME", crate::instance::home().unwrap_or_default())
+    .env("DSH_HOME", crate::instance::home().unwrap_or_default())
+    .env("GBH_PROFILE", crate::instance::profile_name())
     .stdin(Stdio::null())
     .stdout(Stdio::piped())
     .stderr(Stdio::piped());
@@ -211,6 +224,7 @@ pub fn shutdown() {
     };
     HOST_PGID.store(0, Ordering::SeqCst);
     let pid = process.pid;
+    crate::lease::clear_owned(pid);
     let pgid = process.pid as i32;
     let began = Instant::now();
     logfile::line("shell", &format!("dọn host pid {pid} · nhóm {pgid} · cổng {}", process.port));

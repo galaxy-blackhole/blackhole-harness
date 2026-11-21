@@ -305,8 +305,20 @@ var WebServer = class extends Service {
 						const candidates: string[] = [];
 						if (process.env.GBH_FRONTEND_DIST) candidates.push(process.env.GBH_FRONTEND_DIST);
 						candidates.push(join(process.cwd(), "node_modules", "@deepseek-ai", "dsh-web-frontend", "dist"));
+						// CLI có thể chạy từ Desktop: dò ngược từ entry host (apps/cli/lib/main.js) tới
+						// node_modules của cây CLI, nơi npm đặt @deepseek-ai/dsh-web-frontend.
+						if (process.argv[1]) {
+							let current = dirname(resolve(process.argv[1]));
+							for (let depth = 0; depth < 16; depth += 1) {
+								candidates.push(join(current, "node_modules", "@deepseek-ai", "dsh-web-frontend", "dist"));
+								const parent = dirname(current);
+								if (parent === current) break;
+								current = parent;
+							}
+						}
 						try { candidates.push(join(dirname(require.resolve("@deepseek-ai/dsh-web-frontend/package.json")), "dist")); } catch {}
 						const dist = candidates.find((candidate) => existsSync(join(candidate, "index.html")));
+						if (dist === void 0) this.ctx.logger.warn("[gbh] frontend dist not found; candidates=" + candidates.join(" | "));
 						if (dist !== void 0) {
 							const rel = pathname === "/" ? "index.html" : pathname.replace(/^\//u, "");
 							const target = join(dist, rel);

@@ -112,7 +112,7 @@ export class OllamaSearchProvider {
    */
   private options(): SearchOptions {
     const raw = this.resolveOptions();
-    const dat = raw.baseURL?.trim();
+    const dat = typeof raw.baseURL === "string" ? raw.baseURL.trim() : undefined;
     return { ...raw, baseURL: dat !== undefined && dat !== "" ? dat : OLLAMA_DEFAULT_BASE_URL };
   }
 
@@ -207,7 +207,7 @@ export function apply(ctx: OllamaSearchCtx, raw: (() => OllamaSearchConfig) | Ol
     // nên `??` không bắt được ⇒ endpoint thành "/api/web_search" và provider tự coi là KHÔNG dùng được. Nay chuỗi
     // rỗng/toàn khoảng trắng được coi là "chưa đặt" ⇒ rơi về biến môi trường rồi mới tới mặc định Galaxy cloud,
     // đúng như gợi ý "Để trống để dùng mặc định của nhà cung cấp."
-    const dat = current.baseURL?.trim();
+    const dat = typeof current.baseURL === "string" ? current.baseURL.trim() : undefined;
     const tuMoiTruong = environment?.get("GBH_GALAXY_BASE_URL")?.value?.trim();
     const baseURL = dat !== undefined && dat !== ""
       ? dat

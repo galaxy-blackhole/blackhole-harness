@@ -33,6 +33,8 @@
 mod bridge;
 mod host_command;
 mod host_proc;
+mod instance;
+mod lease;
 mod logfile;
 mod ports;
 
@@ -274,6 +276,12 @@ fn env_or(key: &str, fallback: &str) -> String {
  * @returns (cổng, nguồn) — nguồn là "mac dinh" · "GBH_DESKTOP_PORT" · "GBH_PORT".
  */
 fn requested_port() -> (u16, &'static str) {
+  // The test build ignores the preview's exported GBH_DESKTOP_PORT; otherwise
+  // launching Test from a terminal opened inside the preview session would make
+  // it ask for 55907 and fight the preview. Finder launches have no such env.
+  if instance::is_test() {
+    return (instance::default_port(), "test default");
+  }
   for key in ["GBH_DESKTOP_PORT", "GBH_PORT"] {
     let Ok(value) = std::env::var(key) else { continue };
     let trimmed = value.trim();
@@ -284,11 +292,11 @@ fn requested_port() -> (u16, &'static str) {
       Ok(port) => (port, if key == "GBH_DESKTOP_PORT" { "GBH_DESKTOP_PORT" } else { "GBH_PORT" }),
       Err(_) => {
         logfile::line("shell", &format!("{key}={trimmed} khong phai so cong hop le — dung mac dinh {DEFAULT_PORT}"));
-        (DEFAULT_PORT, "mac dinh")
+        (instance::default_port(), "mac dinh")
       }
     };
   }
-  (DEFAULT_PORT, "mac dinh")
+  (instance::default_port(), "mac dinh")
 }
 
 /**
@@ -449,18 +457,40 @@ fn boot_round(app: tauri::AppHandle, shell: Arc<Shell>, marks: Arc<Mutex<Marks>>
   render(&app, &shell);
   logfile::line("shell", &format!("chọn cổng: yêu cầu {requested} ({source})"));
 
+  // Attach first: the host may already be serving this home (web tab or a
+  // previous desktop window). Never spawn a second host and never kill a
+  // process just because its command line looks like a host.
+  if let Some(existing) = lease::read_live() {
+    let url = existing.url.clone();
+    let port = existing.port;
+    let base = format!("http://{}:{port}", ports::LOOPBACK);
+    {
+      let mut state = lock_state(&shell);
+      state.port = port;
+      state.base = base.clone();
+      state.url = Some(url.clone());
+      state.phase = Phase::Ready;
+      state.status = "Đang dùng host sẵn có — mở giao diện".to_string();
+      state.detail = format!("attach pid {} · cổng {port}", existing.pid);
+    }
+    logfile::line("shell", &format!("attach host sẵn có pid {} · cổng {port}", existing.pid));
+    render(&app, &shell);
+    if let Ok(mut held) = marks.lock() {
+      held.host_ms = lock_state(&shell).started.elapsed().as_millis();
+      held.token_found = true;
+    }
+    if let Ok(parsed) = tauri::Url::parse(&url) {
+      if let Some(window) = app.get_webview_window("main") {
+        if let Err(error) = window.navigate(parsed) {
+          logfile::line("shell", &format!("không điều hướng được sang host sẵn có: {error}"));
+        }
+      }
+    }
+    return;
+  }
   let notes = std::cell::RefCell::new(Vec::<String>::new());
   let free = |port: u16| ports::is_free(port);
-  let reclaim = |port: u16| {
-    let outcome = ports::reclaim_orphan_host(port);
-    for note in &outcome.notes {
-      logfile::line("shell", note);
-    }
-    let released = outcome.released;
-    notes.borrow_mut().extend(outcome.notes);
-    released
-  };
-  let Some(choice) = ports::choose_port(requested, PORT_SCAN_SPAN, &free, &reclaim) else {
+  let Some(choice) = ports::choose_port(requested, PORT_SCAN_SPAN, &free, &|_port| false) else {
     let last = requested.saturating_add(PORT_SCAN_SPAN);
     let collected = notes.borrow().clone();
     {
@@ -623,6 +653,11 @@ fn boot_round(app: tauri::AppHandle, shell: Arc<Shell>, marks: Arc<Mutex<Marks>>
       state.detail = url.clone();
     }
     logfile::line("shell", &format!("port {port} - token found · {url}"));
+    if let Some(pid) = lock_state(&shell).host_pid {
+      if let Err(error) = lease::write(pid, port, &url) {
+        logfile::line("shell", &format!("không ghi được host lease: {error}"));
+      }
+    }
     if let Ok(mut held) = marks.lock() {
       held.host_ms = lock_state(&shell).started.elapsed().as_millis();
       held.token_found = true;
@@ -880,7 +915,7 @@ fn main() {
   let cwd = std::env::current_dir().map(|path| path.display().to_string()).unwrap_or_else(|_| "?".to_string());
   logfile::line(
     "shell",
-    &format!("Galaxy Blackhole Desktop v{} · pid {} · cwd {cwd}", env!("CARGO_PKG_VERSION"), std::process::id()),
+    &format!("{} Desktop v{} · pid {} · cwd {cwd}", instance::display_name(), env!("CARGO_PKG_VERSION"), std::process::id()),
   );
   logfile::line("shell", &format!("cổng yêu cầu {requested} ({source}) · log {}", log_path.display()));
   logfile::line("shell", &format!("HOME={} · PATH={}", env_or("HOME", "(trống)"), env_or("PATH", "(trống)")));
@@ -901,7 +936,7 @@ fn main() {
         let page_shell = shell.clone();
         let page_marks = marks.clone();
         tauri::WebviewWindowBuilder::new(app, "main", tauri::WebviewUrl::App("index.html".into()))
-          .title("Galaxy Blackhole (Preview)")
+          .title(instance::display_name())
           .inner_size(1280.0, 860.0)
           .min_inner_size(880.0, 620.0)
           .visible(false)

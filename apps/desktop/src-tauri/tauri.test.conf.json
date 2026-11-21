@@ -1,0 +1,10 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "productName": "Galaxy Blackhole (Test)",
+  "identifier": "com.galaxyblackhole.desktop.test",
+  "bundle": {
+    "macOS": {
+      "bundleName": "Galaxy Blackhole (Test)"
+    }
+  }
+}

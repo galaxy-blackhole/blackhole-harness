@@ -87,7 +87,7 @@ function wanted(name) {
 }
 
 /** Thu muc artefact: chep TRON (mount chep lai y nguyen vao profile). */
-const ARTIFACT_DIRS = ["lib", "locale", "assets", "runtime", "presets", "experimental"];
+const ARTIFACT_DIRS = ["lib", "locale", "assets", "runtime", "presets", "experimental", "src"];
 /** Thu muc chi de phat trien: KHONG chep (nguon, test, docs...). */
 const SKIP_DIRS = ["src", "src-handwritten", "test", "tests", "docs", "node_modules", "vendor", "lab", "coverage", "dist", "tools"];
 
@@ -121,7 +121,7 @@ function copyTree(group, from, to, mode) {
     if (!entry.isFile()) continue;
     if (mode === "package") {
       const keep =
-        entry.name === "package.json" || /\.(?:yml|yaml)$/u.test(entry.name) || /^icon\.(svg|png)$/u.test(entry.name);
+        entry.name === "package.json" || entry.name === "build.ts" || /\.(?:yml|yaml)$/u.test(entry.name) || /^icon\.(svg|png)$/u.test(entry.name);
       if (!keep) continue;
     }
     if (!wanted(entry.name)) continue;
@@ -295,6 +295,12 @@ for (const entry of readdirSync(profileRoot, { withFileTypes: true })) {
 
 // 5. tools cua launcher: mount.ts import thang tools/p1b/denta-profile.ts
 copyFile("tools", join(REPO, "tools", "p1b", "denta-profile.ts"), join(STAGING, "tools", "p1b", "denta-profile.ts"));
+// 20/11/2026 — mount gate FAIL-CLOSED: bản npm phải kèm tools/check + tools/scaffold + matrix,
+// nếu không host dừng với "thiếu cổng chặn mount" (đã gặp trên CLI 3.0.16 / harness 0.1.5).
+copyTree("tools", join(REPO, "tools", "check"), join(STAGING, "tools", "check"), "all");
+copyTree("tools", join(REPO, "tools", "scaffold"), join(STAGING, "tools", "scaffold"), "all");
+copyFile("docs", join(REPO, "docs", "PARITY-MATRIX.md"), join(STAGING, "docs", "PARITY-MATRIX.md"));
+copyFile("root", join(REPO, "tsconfig.base.json"), join(STAGING, "tsconfig.base.json"));
 
 // ---------------------------------------------------------------- report
 

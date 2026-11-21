@@ -44,13 +44,15 @@ function isNullPtr(value) {
 	return value === null || value === void 0 || value === 0n;
 }
 let cachedTypes;
+/** Per-module Koffi type suffix: two loaded copies of this binding share Koffi's global type registry, so the stock literal names collide ("Duplicate type name"). */
+const KO_TYPE_SUFFIX = "_" + Math.random().toString(36).slice(2, 10);
 /** Resolve Koffi pointer and process layouts on the first native operation. */
 function win32Types() {
 	if (cachedTypes !== void 0) return cachedTypes;
 	const koffi = requireKoffi();
 	const PVOID = koffi.pointer("void");
 	const PPVOID = koffi.pointer(PVOID);
-	const STARTUPINFOW = koffi.struct("DSH_STARTUPINFOW", {
+	const STARTUPINFOW = koffi.struct("DSH_STARTUPINFOW" + KO_TYPE_SUFFIX, {
 		cb: "uint32",
 		lpReserved: "str16",
 		lpDesktop: "str16",
@@ -70,7 +72,7 @@ function win32Types() {
 		hStdOutput: PVOID,
 		hStdError: PVOID
 	});
-	const PROCESS_INFORMATION = koffi.struct("DSH_PROCESS_INFORMATION", {
+	const PROCESS_INFORMATION = koffi.struct("DSH_PROCESS_INFORMATION" + KO_TYPE_SUFFIX, {
 		hProcess: PVOID,
 		hThread: PVOID,
 		dwProcessId: "uint32",

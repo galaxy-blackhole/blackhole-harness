@@ -51,7 +51,7 @@ fn sink() -> &'static Mutex<Sink> {
  */
 pub fn log_dir() -> Option<PathBuf> {
   let home = std::env::var("HOME").ok()?;
-  Some(PathBuf::from(home).join("Library").join("Logs").join("Galaxy Blackhole"))
+  Some(PathBuf::from(home).join("Library").join("Logs").join(crate::instance::log_name()))
 }
 
 /**

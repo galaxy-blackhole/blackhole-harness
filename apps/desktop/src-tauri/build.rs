@@ -12,6 +12,7 @@ use std::path::Path;
 
 /// Tauri's build step: reads `tauri.conf.json` and hands the compiled context to the app.
 fn main() {
+  println!("cargo:rerun-if-env-changed=GBH_INSTANCE");
   tauri_build::build();
   // <repo>/apps/desktop/src-tauri -> <repo>. Nhúng lúc build để bản .app đã cài vẫn biết mã nguồn harness
   // nằm ở đâu; nếu checkout bị di chuyển, host_command còn dò ngược từ vị trí binary và GBH_REPO/GBH_CLI.
@@ -21,3 +22,4 @@ fn main() {
     println!("cargo:rerun-if-changed={}", repo.join("apps").join("cli").join("src").join("main.ts").display());
   }
 }
+
