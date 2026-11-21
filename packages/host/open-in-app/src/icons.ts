@@ -59,6 +59,31 @@ function firstIconInResources(bundle: string): string | null {
 }
 
 /**
+ * Trich icon cua mot file .exe tren Windows thanh PNG bang System.Drawing (PowerShell).
+ * @param exe - duong dan tuyet doi toi .exe (VS Code, IntelliJ, explorer...).
+ * @param timeoutMs - han chot cho tien trinh PowerShell.
+ * @returns bytes PNG, hoac null khi khong trich duoc.
+ */
+function extractWindowsIconPng(exe: string, timeoutMs: number): Buffer | null {
+  const workDir = mkdtempSync(join(tmpdir(), "gbh-open-in-app-"));
+  try {
+    const outPng = join(workDir, "icon.png");
+    const script = "Add-Type -AssemblyName System.Drawing; $i=[System.Drawing.Icon]::ExtractAssociatedIcon($env:GBH_ICON_EXE); if ($i -ne $null) { $i.ToBitmap().Save($env:GBH_ICON_OUT,[System.Drawing.Imaging.ImageFormat]::Png) }";
+    const result = spawnSync("powershell.exe", ["-NoProfile", "-NonInteractive", "-ExecutionPolicy", "Bypass", "-Command", script], {
+      timeout: Math.max(timeoutMs, 15000),
+      windowsHide: true,
+      env: { ...process.env, GBH_ICON_EXE: exe, GBH_ICON_OUT: outPng },
+    });
+    if (result.status !== 0) return null;
+    return readFileSync(outPng);
+  } catch {
+    return null;
+  } finally {
+    rmSync(workDir, { recursive: true, force: true });
+  }
+}
+
+/**
  * Trich icon cua bundle thanh PNG 128x128 (RGBA) — hai buoc y nhu upstream:
  * plutil doc CFBundleIconFile (thieu duoi .icns thi tu them; khong co thi lay .icns dau tien trong Resources),
  * roi sips doi sang PNG co -Z 128. Vi dung dung cong cu he thong va dung tham so nen byte khop oracle.
@@ -67,6 +92,7 @@ function firstIconInResources(bundle: string): string | null {
  * @returns bytes PNG, hoac null khi khong trich duoc (route se tra 404).
  */
 export function extractBundleIconPng(bundle: string, timeoutMs: number): Buffer | null {
+  if (process.platform === "win32") return extractWindowsIconPng(bundle, timeoutMs);
   const named = readIconName(bundle, timeoutMs);
   const icns = named === null ? firstIconInResources(bundle) : join(bundle, "Contents", "Resources", named);
   if (icns === null) return null;

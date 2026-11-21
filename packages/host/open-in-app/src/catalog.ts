@@ -5,16 +5,17 @@
  * modify date 17/10/2026
  * desc Bang ung dung mo duoc (catalog cua row open-in-app) + nhan dien tren macOS.
  */
+import { readdirSync } from "node:fs";
 import { join } from "node:path";
 /**
  * Ma ung dung trong catalog — dung y 5 id ma oracle phuc vu tren macOS.
  */
-export type OpenInAppId = "finder" | "explorer" | "vscode" | "windowsterminal" | "gitbash" | "xcode" | "iterm" | "terminal";
+export type OpenInAppId = "finder" | "explorer" | "vscode" | "intellij" | "windowsterminal" | "gitbash" | "xcode" | "iterm" | "terminal";
 
 /**
  * Thu tu id trong catalog (giu nguyen thu tu oracle tra ve: finder, vscode, xcode, iterm, terminal).
  */
-export const OPEN_IN_APP_IDS: readonly OpenInAppId[] = ["finder", "explorer", "vscode", "windowsterminal", "gitbash", "xcode", "iterm", "terminal"];
+export const OPEN_IN_APP_IDS: readonly OpenInAppId[] = ["finder", "explorer", "vscode", "intellij", "windowsterminal", "gitbash", "xcode", "iterm", "terminal"];
 
 /**
  * Mot muc catalog da resolve: bundle .app ton tai tren may.
@@ -52,15 +53,29 @@ export function windowsCandidates(): readonly OpenInAppLauncher[] {
   const pf = process.env.ProgramFiles ?? "";
   const pf86 = process.env["ProgramFiles(x86)"] ?? "";
   const systemRoot = process.env.SystemRoot ?? "C:\\Windows";
-  return [
+  const candidates: OpenInAppLauncher[] = [
     { id: "explorer", label: "File Explorer", bundle: join(systemRoot, "explorer.exe") },
     { id: "vscode", label: "Visual Studio Code", bundle: join(local, "Programs", "Microsoft VS Code", "Code.exe") },
     { id: "vscode", label: "Visual Studio Code", bundle: join(pf, "Microsoft VS Code", "Code.exe") },
     { id: "vscode", label: "Visual Studio Code", bundle: join(pf86, "Microsoft VS Code", "Code.exe") },
+    { id: "intellij", label: "IntelliJ IDEA", bundle: join(local, "Programs", "IntelliJ IDEA Ultimate", "bin", "idea64.exe") },
+    { id: "intellij", label: "IntelliJ IDEA", bundle: join(local, "Programs", "IntelliJ IDEA Community Edition", "bin", "idea64.exe") },
+    { id: "intellij", label: "IntelliJ IDEA", bundle: join(pf, "JetBrains", "IntelliJ IDEA Ultimate", "bin", "idea64.exe") },
+    { id: "intellij", label: "IntelliJ IDEA", bundle: join(pf, "JetBrains", "IntelliJ IDEA Community Edition", "bin", "idea64.exe") },
     { id: "windowsterminal", label: "Windows Terminal", bundle: join(local, "Microsoft", "WindowsApps", "wt.exe") },
+    { id: "windowsterminal", label: "Windows Terminal", bundle: join(pf, "WindowsApps", "wt.exe") },
     { id: "gitbash", label: "Git Bash", bundle: join(pf, "Git", "git-bash.exe") },
+    { id: "gitbash", label: "Git Bash", bundle: join(local, "Programs", "Git", "git-bash.exe") },
     { id: "gitbash", label: "Git Bash", bundle: join(pf86, "Git", "git-bash.exe") },
   ];
+  // JetBrains Toolbox: %LOCALAPPDATA%\JetBrains\Toolbox\apps\IDEA-U\ch-0\<build>\bin\idea64.exe
+  try {
+    const toolbox = join(local, "JetBrains", "Toolbox", "apps", "IDEA-U", "ch-0");
+    for (const build of readdirSync(toolbox)) {
+      candidates.push({ id: "intellij", label: "IntelliJ IDEA", bundle: join(toolbox, build, "bin", "idea64.exe") });
+    }
+  } catch {}
+  return candidates;
 }
 
 /**
