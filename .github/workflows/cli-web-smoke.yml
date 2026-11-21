@@ -17,10 +17,15 @@ jobs:
       - name: Install CLI 3.0.24
         shell: pwsh
         run: |
-          $tgz = Join-Path $env:RUNNER_TEMP 'cli-3.0.26.tgz'
-          Invoke-WebRequest -Uri 'https://github.com/galaxy-blackhole/blackhole-harness/releases/download/cli-3.0.26/galaxy-stack-blackhole-cli-3.0.26.tgz' -OutFile $tgz
+          $tgz = Join-Path $env:RUNNER_TEMP 'cli-3.0.27.tgz'
+          Invoke-WebRequest -Uri 'https://github.com/galaxy-blackhole/blackhole-harness/releases/download/cli-3.0.27/galaxy-stack-blackhole-cli-3.0.27.tgz' -OutFile $tgz
           npm install -g $tgz
           blackhole --version
+          blackhole web --dry-run
+          Write-Host '=== frontend favicon candidates ==='
+          $prefix = (npm config get prefix)
+          Write-Host "npm prefix: $prefix"
+          Get-ChildItem -Path $prefix -Recurse -Filter favicon.svg -ErrorAction SilentlyContinue | Select-Object -First 20 -ExpandProperty FullName
       - name: Boot web and inspect page
         shell: pwsh
         run: |
