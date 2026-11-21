@@ -2,6 +2,9 @@ name: cli-web-smoke
 
 on:
   workflow_dispatch:
+  push:
+    paths:
+      - .github/workflows/cli-web-smoke.yml
 
 jobs:
   smoke:
