@@ -317,7 +317,7 @@ export function onboardingReadiness(state: any) {
 		kind: "unavailable",
 		reason: "provider-inactive"
 	};
-	if (state.credentialError !== null || row.credential === void 0) return {
+	if (state.credentialError !== null) return {
 		kind: "unavailable",
 		reason: "credentials-unavailable"
 	};
@@ -325,7 +325,12 @@ export function onboardingReadiness(state: any) {
 		kind: "unavailable",
 		reason: "settings-read-only"
 	};
-	if (!row.credential.writable) return {
+	// 21/11/2026 — a MISSING credential is the onboarding trigger, not an
+	// unavailable service. credentials.describe() simply omits refs that are
+	// not stored, so row.credential is undefined on a fresh profile. The port
+	// used to treat that as credentials-unavailable and never opened the key
+	// dialog; stock only reaches this branch when the service itself failed.
+	if (row.credential !== void 0 && !row.credential.writable) return {
 		kind: "unavailable",
 		reason: "credential-read-only"
 	};
