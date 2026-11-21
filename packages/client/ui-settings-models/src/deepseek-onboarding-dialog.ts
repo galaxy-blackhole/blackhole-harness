@@ -8,7 +8,7 @@
 
 import * as reactModule from "react";
 import * as jsxRuntimeModule from "react/jsx-runtime";
-import { onboardingReadiness } from "./store.ts";
+import { onboardingProviderRow, onboardingReadiness } from "./store.ts";
 import { OnboardingModal } from "./onboarding-modal.ts";
 import { ProviderEditor } from "./provider-editor.ts";
 import { CSS_SIGN_IN } from "./styles.ts";
@@ -61,8 +61,8 @@ export function DeepSeekOnboardingDialog(props: any) {
 		/* v8 ignore next -- every current readiness variant is handled above */
 		default: return assertNever$1(readiness);
 	}
-	const row = state.rows.find((candidate: any) => candidate.entry.provider === "deepseek-official" && candidate.entry.settingsNs === "llm-deepseek" && candidate.entry.settingsPath.length === 0);
-	const namespace = state.namespaces.get("llm-deepseek");
+	const row = onboardingProviderRow(state);
+	const namespace = row === void 0 ? void 0 : state.namespaces.get(row.entry.settingsNs);
 	/* v8 ignore next 2 -- credential-missing is derived only from this exact joined row. */
 	if (row === void 0 || namespace === void 0) return null;
 	const finishCredential = (changed: any) => {

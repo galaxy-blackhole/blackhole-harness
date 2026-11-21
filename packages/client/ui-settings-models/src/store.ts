@@ -279,6 +279,22 @@ export function providerUsable(row: any) {
 	return row.credential?.configured === true;
 }
 /**
+ * The provider row the first-run key dialog should edit.
+ *
+ * GBH ships two routes: `auto` (Galaxy Blackhole / GBH_GALAXY_API_KEY) and the
+ * upstream `deepseek-official` route. The upstream onboarding dialog looked
+ * ONLY for deepseek-official, so a fresh GBH profile never offered the key
+ * the product actually uses. Prefer the GBH auto route, then fall back to the
+ * official one for compatibility.
+ * @param state - current shared Models join snapshot.
+ * @returns the preferred writable provider row, or undefined.
+ */
+export function onboardingProviderRow(state: any) {
+	const auto = state.rows.find((candidate: any) => candidate.entry.active && candidate.entry.provider === "auto" && candidate.entry.settingsNs === "llm-pi-ai" && candidate.apiKeyEnv !== void 0);
+	if (auto !== void 0) return auto;
+	return state.rows.find((candidate: any) => candidate.entry.provider === "deepseek-official" && candidate.entry.settingsNs === "llm-deepseek" && candidate.entry.settingsPath.length === 0);
+}
+/**
 * Project first-run readiness from the provider/settings/credential join used
 * by the Models page. The step exists to leave the user with a model to talk
 * to, so ANY usable provider ends it; only when none exists does the official
@@ -295,7 +311,7 @@ export function onboardingReadiness(state: any) {
 		reason: "load-failed"
 	};
 	if (state.rows.some(providerUsable)) return { kind: "provider-ready" };
-	const row = state.rows.find((candidate: any) => candidate.entry.provider === "deepseek-official" && candidate.entry.settingsNs === "llm-deepseek" && candidate.entry.settingsPath.length === 0);
+	const row = onboardingProviderRow(state);
 	if (row === void 0) return { kind: "adapter-absent" };
 	if (!row.entry.active) return {
 		kind: "unavailable",

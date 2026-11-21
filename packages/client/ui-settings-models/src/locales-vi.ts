@@ -132,7 +132,7 @@ export const vi: Readonly<Record<string, string>> = {
   "modelsEmpty": "Sẽ không có model nào hiện trong bộ chọn. ID không có trong danh sách vẫn gửi trực tiếp được.",
   "modelsInherited": "Đang dùng mặc định của adapter",
   "nav": "Model",
-  "onboardingDescription": "Cấu hình nhà cung cấp DeepSeek chính thức để bắt đầu.",
+  "onboardingDescription": "Nhập GBH_GALAXY_API_KEY để bắt đầu sử dụng Galaxy Blackhole.",
   "onboardingLater": "Cấu hình sau",
   "onboardingSave": "Lưu và tiếp tục",
   "onboardingSaving": "Đang lưu…",

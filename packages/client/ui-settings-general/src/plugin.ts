@@ -90,6 +90,12 @@ export type ClientContextLike = GeneralContextLike & {
     }, component: unknown): unknown;
     /** Phơi hook cấp gốc. */
     provideRoot(spec: { hooks: Record<string, unknown> }): unknown;
+    /** Phiên bản ledger của một slot (tuỳ chọn). */
+    getVersion?(name: string): number;
+    /** Các entry đang đăng ký của một slot (tuỳ chọn). */
+    entries?(name: string): { options: { id?: string; order?: number } }[];
+    /** Theo dõi ledger của một slot (tuỳ chọn). */
+    subscribe?(name: string, listener: () => void): () => void;
   };
   /** Seam từ điển. */
   locale: {
@@ -252,6 +258,28 @@ export function createPlugin(requireFn: RequireFn): GeneralPlugin {
       ? (slotsSeam.resolveSlotLabel as (label: unknown) => string | undefined)
       : undefined;
     const sections = createSectionsSource(ctx, resolveLabel);
+    // 21/11/2026 — DSH mounts one ordered `settings.onboarding` registrant while the
+    // sessions-derived empty-Hero fact is active. GBH registered the DeepSeek API-key
+    // dialog into that slot but never exposed the ledger or rendered the slot, so a
+    // first run with no credential showed NO popup at all. Keep a snapshot source here
+    // and let SettingsRoot mount the active step exactly like stock.
+    let onboardingVersion = -1;
+    let onboardingSteps: { id: string; order: number }[] = [];
+    const onboardingStepsSource = {
+      getSnapshot(): { id: string; order: number }[] {
+        const version = typeof ctx.slots.getVersion === "function" ? ctx.slots.getVersion("settings.onboarding") : 0;
+        if (version !== onboardingVersion) {
+          onboardingVersion = version;
+          onboardingSteps = typeof ctx.slots.entries === "function"
+            ? ctx.slots.entries("settings.onboarding").map((entry) => ({ id: entry.options.id ?? "", order: entry.options.order ?? 0 })).sort((a, b) => a.order - b.order)
+            : [];
+        }
+        return onboardingSteps;
+      },
+      subscribe(listener: () => void): () => void {
+        return typeof ctx.slots.subscribe === "function" ? ctx.slots.subscribe("settings.onboarding", listener) : () => undefined;
+      },
+    };
     /** `inject` của ghế vỏ: hook + hai động tử (đúng `shellInjected` của bản gốc). */
     const shellInjected = (): ShellInjected => ({
       openDesktopUpdate: () => undefined,
@@ -263,6 +291,7 @@ export function createPlugin(requireFn: RequireFn): GeneralPlugin {
         desktopUpdate: store.desktopUpdate,
         connectionState: ctx.connection.state,
         sections,
+        onboardingSteps: onboardingStepsSource,
       },
     });
     // 08/11/2026 (Lead — đối chiếu UI thật với DSH): THIẾU ĐĂNG KÝ PHÍM TẮT `settings.open`.

@@ -94,6 +94,10 @@ export interface ReactStateLike {
    * Trả: [giá trị hiện tại, hàm đặt giá trị].
    */
   useState<T>(initial: T): [T, (next: T) => void];
+  /** Tạo ref (tuỳ chọn; shim không trạng thái khi runtime rút gọn). */
+  useRef?<T>(initial: T): { current: T };
+  /** Chạy hiệu ứng (tuỳ chọn; shim bỏ qua khi runtime rút gọn). */
+  useEffect?(effect: () => void | (() => void), deps?: unknown[]): void;
 }
 
 /**

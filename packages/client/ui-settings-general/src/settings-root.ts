@@ -115,6 +115,36 @@ export const createSettingsRoot: ComponentFactory = (deps: GeneralDeps): unknown
     const activeId = state?.activeId;
     const wide = props.wide === true;
     const rows = (pick(props.useSections, (value) => value, []) as { id?: unknown; label?: unknown }[]) ?? [];
+    // 21/11/2026 — Onboarding coordinator (stock SettingsRoot.js:362-378,489-496).
+    //   The API-key dialog was registered into settings.onboarding but never mounted:
+    //   a fresh profile with no GBH_GALAXY_API_KEY therefore showed no popup at all.
+    const useState = deps.react.useState;
+    const useRef = typeof deps.react.useRef === "function" ? deps.react.useRef : <T,>(initial: T): { current: T } => ({ current: initial });
+    const useEffect = typeof deps.react.useEffect === "function" ? deps.react.useEffect : (_effect: () => void | (() => void), _deps?: unknown[]): void => undefined;
+    const [requestedOnboarding, setRequestedOnboarding] = useState<string | undefined>(undefined);
+    const [completedOnboarding, setCompletedOnboarding] = useState<Set<string>>(new Set());
+    const onboardingSteps = (pick(props.useOnboardingSteps, (value) => value, []) as { id?: unknown }[]) ?? [];
+    const onboardingActive = pick(
+      props.useSessions,
+      (sessionState: unknown) => {
+        const snapshot = sessionState as { phase?: unknown; byId?: Record<string, { retainedBy?: { mainView?: number }; blank?: boolean }> };
+        const main = Object.values(snapshot?.byId ?? {}).find((session) => (session?.retainedBy?.mainView ?? 0) > 0);
+        return snapshot?.phase === "ready" && (main === undefined || main.blank === true);
+      },
+      false,
+    ) === true;
+    const onboardingStep = requestedOnboarding !== undefined
+      ? onboardingSteps.find((step) => step.id === requestedOnboarding)
+      : onboardingActive
+        ? onboardingSteps.find((step) => !completedOnboarding.has(String(step.id)))
+        : undefined;
+    const onboardingStepSeen = useRef<string | undefined>(onboardingStep?.id === undefined ? undefined : String(onboardingStep.id));
+    useEffect(() => {
+      const nextId = onboardingStep?.id === undefined ? undefined : String(onboardingStep.id);
+      const appeared = onboardingStepSeen.current === undefined && nextId !== undefined;
+      onboardingStepSeen.current = nextId;
+      if (appeared && state?.open === true) actions.close();
+    }, [onboardingStep, state?.open]);
     const desktopUpdate = pick(props.useDesktopUpdate, (value) => value, deps.store.desktopUpdate) as
       | { presentation?: { phase?: string } }
       | undefined;
@@ -151,7 +181,10 @@ export const createSettingsRoot: ComponentFactory = (deps: GeneralDeps): unknown
         settingsOpen: open,
         openSettings: actions.open,
         ...(keys.length > 0 ? { settingsShortcut: { keys: shortcut?.keys, aria: shortcut?.aria } } : {}),
-        openOnboarding: () => actions.close(),
+        openOnboarding: (id?: string) => {
+          actions.close();
+          setRequestedOnboarding(id);
+        },
       },
       { fallback },
     );
@@ -192,7 +225,27 @@ export const createSettingsRoot: ComponentFactory = (deps: GeneralDeps): unknown
         onClose: actions.close,
       })
       : null;
-    return [triggerRow, modal];
+    // The step paints its own modal chrome; SettingsRoot only mounts the active one.
+    const onboarding = onboardingStep === undefined
+      ? null
+      : slot(
+        "settings.onboarding",
+        {
+          stepId: onboardingStep.id,
+          explicit: requestedOnboarding !== undefined,
+          complete: () => {
+            setRequestedOnboarding(undefined);
+            const id = String(onboardingStep.id);
+            setCompletedOnboarding((previous) => (previous.has(id) ? previous : new Set([...previous, id])));
+          },
+          openSection: (id: string) => {
+            actions.close();
+            actions.select(id);
+          },
+        },
+        { only: onboardingStep.id },
+      );
+    return [triggerRow, modal, onboarding];
   };
 
   return (props: Record<string, unknown>): unknown => {
