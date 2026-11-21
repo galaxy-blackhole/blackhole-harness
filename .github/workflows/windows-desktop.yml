@@ -6,6 +6,10 @@
 
 name: windows-desktop
 
+permissions:
+  contents: write
+  actions: read
+
 on:
   push:
     branches:
@@ -239,6 +243,17 @@ jobs:
           & taskkill /IM galaxy-blackhole.exe /T /F | Out-Null
           if (-not $ready) { throw "installed app không ready" }
           Write-Host "INSTALLER SMOKE OK"
+
+      - name: Upload installer to release
+        if: ${{ inputs.installer_smoke == true }}
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          $setup = Get-ChildItem (Join-Path $env:RUNNER_TEMP "installer") -Recurse -Filter "*setup.exe" -ErrorAction SilentlyContinue | Select-Object -First 1
+          if (!$setup) { throw "setup.exe missing for release upload" }
+          gh release upload "desktop-windows-0.1.1" "$($setup.FullName)#Galaxy-Blackhole-Windows-0.1.1-x64-setup.exe" --clobber
+          Write-Host "uploaded $($setup.FullName)"
 
       - name: Install Tauri CLI
         if: ${{ github.event_name == 'push' || (!inputs.smoke_only && !inputs.installer_smoke && !inputs.cli_smoke) }}
