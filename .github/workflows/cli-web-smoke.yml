@@ -17,8 +17,8 @@ jobs:
       - name: Install CLI 3.0.24
         shell: pwsh
         run: |
-          $tgz = Join-Path $env:RUNNER_TEMP 'cli-3.0.27.tgz'
-          Invoke-WebRequest -Uri 'https://github.com/galaxy-blackhole/blackhole-harness/releases/download/cli-3.0.27/galaxy-stack-blackhole-cli-3.0.27.tgz' -OutFile $tgz
+          $tgz = Join-Path $env:RUNNER_TEMP 'cli-3.0.28.tgz'
+          Invoke-WebRequest -Uri 'https://github.com/galaxy-blackhole/blackhole-harness/releases/download/cli-3.0.28/galaxy-stack-blackhole-cli-3.0.28.tgz' -OutFile $tgz
           npm install -g $tgz
           blackhole --version
           blackhole web --dry-run
