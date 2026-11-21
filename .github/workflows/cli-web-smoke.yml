@@ -1,0 +1,68 @@
+name: cli-web-smoke
+
+on:
+  workflow_dispatch:
+
+jobs:
+  smoke:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 26
+      - name: Install CLI 3.0.24
+        shell: pwsh
+        run: |
+          $tgz = Join-Path $env:RUNNER_TEMP 'cli-3.0.24.tgz'
+          Invoke-WebRequest -Uri 'https://github.com/galaxy-blackhole/blackhole-harness/releases/download/cli-3.0.24/galaxy-stack-blackhole-cli-3.0.24.tgz' -OutFile $tgz
+          npm install -g $tgz
+          blackhole --version
+      - name: Boot web and inspect page
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Continue'
+          $home = Join-Path $env:RUNNER_TEMP 'gbh-home'
+          New-Item -ItemType Directory -Force -Path $home | Out-Null
+          $env:GBH_HOME = $home
+          $out = Join-Path $env:RUNNER_TEMP 'web.out.log'
+          $err = Join-Path $env:RUNNER_TEMP 'web.err.log'
+          $p = Start-Process -FilePath 'blackhole.cmd' -ArgumentList 'web','--port','55930','--no-open','--verbose' -RedirectStandardOutput $out -RedirectStandardError $err -PassThru -NoNewWindow
+          $url = $null
+          for ($i = 0; $i -lt 120; $i++) {
+            Start-Sleep -Seconds 2
+            if (Test-Path $out) {
+              $m = Select-String -Path $out -Pattern 'gbh web: (http://127\.0\.0\.1:55930/\?token=\S+)' | Select-Object -Last 1
+              if ($m) { $url = $m.Matches[0].Groups[1].Value; break }
+            }
+            if ($p.HasExited) { break }
+          }
+          Write-Host '=== stdout ==='
+          if (Test-Path $out) { Get-Content $out -Tail 120 }
+          Write-Host '=== stderr ==='
+          if (Test-Path $err) { Get-Content $err -Tail 120 }
+          if ($url) {
+            Write-Host "=== URL found: $url"
+            $session = New-Object Microsoft.PowerShell.Commands.WebRequestSession
+            $page = Invoke-WebRequest -Uri $url -WebSession $session -UseBasicParsing
+            $html = $page.Content
+            Set-Content -Path (Join-Path $env:RUNNER_TEMP 'page.html') -Value $html -Encoding utf8
+            Write-Host "page bytes: $($html.Length)"
+            Write-Host '=== failure markers ==='
+            Select-String -InputObject $html -Pattern 'Failed to load plugins|did not activate|gbh-favicon|gbh-brand' -AllMatches | ForEach-Object { $_.Line }
+            Write-Host '=== favicon links ==='
+            [regex]::Matches($html, '<link[^>]*icon[^>]*>') | ForEach-Object { $_.Value }
+            Write-Host '=== client list ==='
+            [regex]::Matches($html, '[^" ]*gbh-favicon[^" ]*') | ForEach-Object { $_.Value } | Select-Object -First 5
+          } else {
+            Write-Host 'NO READY URL'
+          }
+          if (!$p.HasExited) { taskkill /PID $p.Id /T /F | Out-Null }
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: cli-web-smoke-logs
+          path: |
+            ${{ runner.temp }}/web.out.log
+            ${{ runner.temp }}/web.err.log
+            ${{ runner.temp }}/page.html
