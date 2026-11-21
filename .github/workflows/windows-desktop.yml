@@ -107,6 +107,12 @@ jobs:
           if (!(Test-Path $nodeExe)) { throw "node.exe missing" }
           Copy-Item $nodeExe (Join-Path (Get-Location) "apps\desktop-windows\src-tauri\resources\runtime\node.exe") -Force
 
+      - name: Apply host runtime fixes
+        shell: pwsh
+        run: |
+          $hostDir = Join-Path (Get-Location) "apps\desktop-windows\src-tauri\resources\host"
+          if (!(Test-Path $hostDir)) { throw "staged host directory missing: $hostDir" }
+          node scripts/host-runtime-fixes.mjs $hostDir
       - name: Apply GBH favicon to Windows web frontend
         shell: pwsh
         run: |
@@ -272,7 +278,7 @@ jobs:
         run: |
           $setup = Get-ChildItem (Join-Path $env:RUNNER_TEMP "installer") -Recurse -Filter "*setup.exe" -ErrorAction SilentlyContinue | Select-Object -First 1
           if (!$setup) { throw "setup.exe missing for release upload" }
-          gh release upload "desktop-windows-0.1.4" "$($setup.FullName)#Galaxy-Blackhole-Windows-0.1.4-x64-setup.exe" --clobber
+          gh release upload "desktop-windows-0.1.5" "$($setup.FullName)#Galaxy-Blackhole-Windows-0.1.5-x64-setup.exe" --clobber
           Write-Host "uploaded $($setup.FullName)"
 
       - name: Install Tauri CLI
