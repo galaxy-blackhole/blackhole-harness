@@ -87,9 +87,10 @@ export function resolveDirectoryPickerBackend(facts: DirectoryPickerHostFacts): 
   if (facts.allowsRemoteAuthorities || !isLoopbackHost(facts.bindHost)) return "browse";
   if (facts.ssh) return "browse";
   if (facts.platform === "darwin") return "native";
-  // 20/11/2026 — Windows CLI web KHÔNG có koffi/COM dialog sẵn (npm 11 chặn install-script của koffi);
-  // chọn native sẽ làm workspace picker im lặng biến mất. Chỉ native khi chạy trong Tauri desktop.
-  if (facts.platform === "win32") return facts.win32Native === true ? "native" : "browse";
+  // 21/11/2026 — Windows KHÔNG dùng native cho workspace picker: dialog native cần koffi,
+  // nhưng koffi không nằm trong gói harness và npm 11 chặn install-script. Browser picker
+  // chạy được trong cả CLI web lẫn WebView2 của app desktop, nên Windows luôn chọn browse.
+  if (facts.platform === "win32") return "browse";
   if (facts.platform !== "linux" || !facts.linuxChooser) return "browse";
   return present(facts.env.DISPLAY) || present(facts.env.WAYLAND_DISPLAY) ? "native" : "browse";
 }

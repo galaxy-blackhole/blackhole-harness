@@ -55,14 +55,14 @@ jobs:
         with:
           targets: x86_64-pc-windows-msvc
 
-      - name: Stage harness 0.1.11 from GitHub release
+      - name: Stage harness 0.1.12 from GitHub release
         shell: pwsh
         run: |
           $stage = Join-Path $env:RUNNER_TEMP "gbh-stage"
           Remove-Item -Recurse -Force $stage -ErrorAction SilentlyContinue
           New-Item -ItemType Directory -Force $stage | Out-Null
-          $tgz = Join-Path $env:RUNNER_TEMP "gbh-harness-0.1.11.tgz"
-          Invoke-WebRequest -Uri "https://github.com/galaxy-blackhole/blackhole-harness/releases/download/gbh-harness-0.1.11/gbh-harness-0.1.11.tgz" -OutFile $tgz
+          $tgz = Join-Path $env:RUNNER_TEMP "gbh-harness-0.1.12.tgz"
+          Invoke-WebRequest -Uri "https://github.com/galaxy-blackhole/blackhole-harness/releases/download/gbh-harness-0.1.11/gbh-harness-0.1.12.tgz" -OutFile $tgz
           npm install --prefix $stage $tgz --omit=dev --no-audit --no-fund
           if ($LASTEXITCODE -ne 0) { throw "npm install harness failed" }
           $pkg = Join-Path $stage "node_modules\@galaxy-blackhole\blackhole-harness"
@@ -252,7 +252,7 @@ jobs:
         run: |
           $setup = Get-ChildItem (Join-Path $env:RUNNER_TEMP "installer") -Recurse -Filter "*setup.exe" -ErrorAction SilentlyContinue | Select-Object -First 1
           if (!$setup) { throw "setup.exe missing for release upload" }
-          gh release upload "desktop-windows-0.1.1" "$($setup.FullName)#Galaxy-Blackhole-Windows-0.1.1-x64-setup.exe" --clobber
+          gh release upload "desktop-windows-0.1.2" "$($setup.FullName)#Galaxy-Blackhole-Windows-0.1.2-x64-setup.exe" --clobber
           Write-Host "uploaded $($setup.FullName)"
 
       - name: Install Tauri CLI

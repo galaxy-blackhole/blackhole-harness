@@ -1,7 +1,7 @@
 {
   "name": "@galaxy-blackhole/gbh-desktop-windows",
   "private": true,
-  "version": "0.1.1",
+  "version": "0.1.2",
   "type": "module",
   "description": "Vỏ Tauri Windows tối giản cho Galaxy Blackhole — đóng gói host + Node win-x64",
   "scripts": {
