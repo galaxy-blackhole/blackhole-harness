@@ -6,7 +6,7 @@
  desc Trang chờ của app Windows; shell chuyển sang URL host khi harness ready
 -->
 <!doctype html>
-<html lang="vi">
+<html lang="vi" style="background:#0b0d10">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -31,5 +31,18 @@
       <h1>Galaxy Blackhole</h1>
       <p>Đang khởi động harness… Cửa sổ sẽ tự chuyển sang giao diện khi host sẵn sàng.</p>
     </div>
+    <script>
+      // The window is hidden until WebView2 has painted this page; otherwise the
+      // first frame is a white rectangle. A 2 s Rust fallback also shows it.
+      function showWindow() {
+        try {
+          if (window.__TAURI_INTERNALS__) {
+            void window.__TAURI_INTERNALS__.invoke("ui_ready");
+          }
+        } catch (_) {}
+      }
+      if (document.readyState === "complete") showWindow();
+      else window.addEventListener("load", showWindow);
+    </script>
   </body>
 </html>

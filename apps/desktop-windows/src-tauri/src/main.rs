@@ -1,3 +1,5 @@
+#![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
+
 /**
  * author Bùi Trọng Hiếu
  * email kevinbui210191@gmail.com
@@ -9,6 +11,8 @@
 use std::env;
 use std::fs::{self, OpenOptions};
 use std::io::{BufRead, BufReader, Write};
+use std::net::{TcpStream, ToSocketAddrs};
+use std::time::Duration;
 use std::path::{Path, PathBuf};
 use std::process::{Child, Command, Stdio};
 use std::sync::{Mutex, OnceLock};
@@ -97,7 +101,35 @@ fn node_path(app: &AppHandle) -> Result<PathBuf, String> {
 fn navigate(app: &AppHandle, url: &str) {
   let Some(window) = app.get_webview_window("main") else { return };
   let Ok(encoded) = serde_json::to_string(url) else { return };
+  // The hidden window appears before the host page navigates; otherwise a slow
+  // WebView2 first paint looks like a blank white app.
+  let _ = window.show();
   let _ = window.eval(&format!("window.location.replace({encoded});"));
+}
+
+/**
+ * Wait until the host's loopback port accepts a TCP connection.
+ *
+ * The harness prints its ready URL before every startup task has necessarily
+ * bound the socket. Navigating on the printed line alone produced Edge's
+ * ERR_CONNECTION_REFUSED page on first launch, which never retries itself.
+ * @param url - authenticated loopback URL printed by the host.
+ * @returns true when the port is connectable.
+ */
+fn wait_for_port(url: &str) -> bool {
+  let Some(rest) = url.strip_prefix("http://") else { return false };
+  let authority = rest.split('/').next().unwrap_or(rest);
+  let Some((host, port)) = authority.rsplit_once(':') else { return false };
+  let Ok(port) = port.parse::<u16>() else { return false };
+  let Ok(mut addresses) = (host, port).to_socket_addrs() else { return false };
+  let Some(address) = addresses.next() else { return false };
+  for _ in 0..150 {
+    if TcpStream::connect_timeout(&address, Duration::from_millis(400)).is_ok() {
+      return true;
+    }
+    thread::sleep(Duration::from_millis(100));
+  }
+  false
 }
 
 /**
@@ -108,6 +140,7 @@ fn navigate(app: &AppHandle, url: &str) {
 fn show_error(app: &AppHandle, message: &str) {
   log("shell", message);
   let Some(window) = app.get_webview_window("main") else { return };
+  let _ = window.show();
   let html = format!(
     "<div style=\"font:14px/1.6 Segoe UI,sans-serif;color:#e8edf2;background:#0b0d10;padding:28px\"><h2>Galaxy Blackhole không khởi động được</h2><pre style=\"white-space:pre-wrap;color:#fca5a5\">{}</pre></div>",
     message.replace('&', "&amp;").replace('<', "&lt;").replace('>', "&gt;")
@@ -191,6 +224,9 @@ fn start_host(app: &AppHandle) -> Result<(), String> {
   for line in reader.lines().map_while(Result::ok) {
     log("host", &line);
     if let Some(url) = ready_url(&line) {
+      if !wait_for_port(&url) {
+        return Err(format!("host in URL nhưng cổng chưa mở: {url}"));
+      }
       navigate(app, &url);
       return Ok(());
     }
@@ -219,12 +255,34 @@ fn cleanup() {
 }
 
 /**
+ * Show the main window once the local loading page has painted.
+ *
+ * `tauri.conf.json` creates the window hidden. Showing it before WebView2 has
+ * painted is the white first-run frame users reported.
+ * @param window - the main webview window.
+ */
+#[tauri::command]
+fn ui_ready(window: tauri::WebviewWindow) {
+  let _ = window.show();
+}
+
+/**
  * Entry point: dựng Tauri, khởi động host trong thread nền, dọn khi thoát.
  */
 fn main() {
   let app = tauri::Builder::default()
+    .invoke_handler(tauri::generate_handler![ui_ready])
     .setup(|app| {
       let handle = app.handle().clone();
+      if let Some(window) = app.get_webview_window("main") {
+        // The loading page normally calls ui_ready in its load event. This
+        // fallback keeps a renderer/IPC failure from leaving an invisible app.
+        let fallback = window.clone();
+        thread::spawn(move || {
+          thread::sleep(Duration::from_millis(2000));
+          let _ = fallback.show();
+        });
+      }
       thread::spawn(move || {
         if let Err(error) = start_host(&handle) {
           show_error(&handle, &error);
