@@ -2,8 +2,10 @@
  * author Bùi Trọng Hiếu
  * email kevinbui210191@gmail.com
  * create date 15/10/2026
- * modify date 17/10/2026
+ * modify date 22/11/2026
  * desc GoalBar (dai muc tieu trong dock soan tin) va GoalDock (bo ghep projection + kich hoat)
+ *   22/11/2026 (client-vi, task-13): muc tieu bi cat 1 dong (ellipsis) NAY co title = objective day du —
+ *   truoc day chi pha "blocked" moi co title (ly do chan) nen nguoi dung khong cach nao doc het muc tieu.
  */
 
 import { BAR_CLASS } from "./class-names.ts";
@@ -246,7 +248,9 @@ export function createGoalComponents(
             children: react.jsx(primitives.IconGoalOutlineRegular, { size: 14 }),
           }),
           react.jsx("span", { className: BAR_CLASS.label, children: label }),
-          react.jsx("span", { className: BAR_CLASS.objective, children: goal.objective }),
+          // 22/11/2026 (client-vi): CSS .objective cắt 1 dòng bằng ellipsis ⇒ PHẢI có title để hover đọc đủ.
+          // Giữ nguyên ellipsis (bố cục 1 dòng) — title là kênh đọc đầy đủ, không nới chiều cao dải.
+          react.jsx("span", { className: BAR_CLASS.objective, title: goal.objective, children: goal.objective }),
           actionError !== null && react.jsx("span", { className: BAR_CLASS.error, role: "alert", children: actionError }),
           react.jsxs("div", {
             className: BAR_CLASS.actions,

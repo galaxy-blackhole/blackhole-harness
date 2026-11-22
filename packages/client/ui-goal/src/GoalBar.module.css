@@ -4,10 +4,15 @@
  create date 15/10/2026
  modify date 17/10/2026
  desc CSS GoalBar cua row ui-goal — NGUYEN VAN ban goc (newline chi o ranh gioi cap 0)
+      22/11/2026 (client-vi): SUA TRAN NGANG. Do bang Chrome headless (harness that, xem
+      tests/client/ui-goal.test.ts): dock cu = 100% - 2*side-clearance - 4*dock-inset, con the soan tin bi
+      chan boi max-width = card-max-width. Khi cot rong: 1200px -> dock 1136 / the 932 (tran +204);
+      1600px -> dock 1536 / the 932 (tran +604). Nay dock = DUNG bang the (min cua cung hai bieu thuc),
+      bar = 100% cua dock ⇒ khong bao gio rong hon the.
 */
 
-.nLMEza_dock{box-sizing:border-box;width:calc(100% - var(--dsh-composer-side-clearance) - var(--dsh-composer-side-clearance) - var(--dsh-composer-dock-inset) - var(--dsh-composer-dock-inset) - var(--dsh-composer-dock-inset) - var(--dsh-composer-dock-inset));margin:0 auto}
-.nLMEza_bar{isolation:isolate;box-sizing:border-box;width:100%;max-width:calc(var(--dsh-composer-card-max-width) - 4 * var(--dsh-composer-dock-inset));--dsw-elevation-stroke-color:var(--dsw-alias-border-l1);border-radius:var(--dsw-radius-md);height:36px;box-shadow:var(--dsw-elevation-panel);border:0;align-items:center;gap:10px;margin:0 auto;padding:4px 5px 4px 12px;display:flex;position:relative}
+.nLMEza_dock{box-sizing:border-box;width:min(calc(100% - var(--dsh-composer-side-clearance) - var(--dsh-composer-side-clearance)), var(--dsh-composer-card-max-width));margin:0 auto}
+.nLMEza_bar{isolation:isolate;box-sizing:border-box;width:100%;max-width:100%;--dsw-elevation-stroke-color:var(--dsw-alias-border-l1);border-radius:var(--dsw-radius-md);height:36px;box-shadow:var(--dsw-elevation-panel);border:0;align-items:center;gap:10px;margin:0 auto;padding:4px 5px 4px 12px;display:flex;position:relative}
 .nLMEza_bar:before{z-index:-1;border-radius:inherit;background:var(--dsw-specific-menu);backdrop-filter:var(--dsw-menu-backdrop-filter);content:"";pointer-events:none;position:absolute;inset:0}
 .nLMEza_goalGlyph{color:var(--dsw-alias-label-tertiary);flex:none;display:inline-flex}
 .nLMEza_label{color:var(--dsw-alias-label-primary);flex:none;font-size:13px;font-weight:500;line-height:24px}
