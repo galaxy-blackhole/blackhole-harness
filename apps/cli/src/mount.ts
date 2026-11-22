@@ -2,24 +2,26 @@
  * author Bùi Trọng Hiếu
  * email kevinbui210191@gmail.com
  * create date 15/10/2026
- * modify date 12/11/2026
+ * modify date 22/11/2026
  * desc Mount cac package viet lai cua ta vao profile cua app: build + copy vao
  *      <DSH_HOME>/profiles/node_modules, va symlink peer ve DUNG ban kernel dang chay (ADR 0004)
  *      11/11/2026: buoc doi id stock -> GBH co CACHE bang stamp lib/.gbh-rewrite-stamp + co GBH_FORCE_REWRITE=1
  *      12/11/2026: launcher Node khong con thu build.ts (chac chan hong) — chep thang lib/ co san
  *      12/11/2026: kernelModulesDir() lay tu paths.ts (ban npm: kernel o <goi>/node_modules)
  *      12/11/2026: cong chan mount chay duoc duoi Node (mount-gate.ts) — truoc day `node run rows.ts` im lang khong chay
+ *      22/11/2026: moi buoc link dung ensureDirLink() — TU CHUA link GAY sau khi .app doi ten/di chuyen
+ *      (loi that: resume failed vi thieu node-addon-system-darwin-x64 trong profile prod)
  */
 
 import { spawnSync } from "node:child_process";
 import { tmpdir } from "node:os";
 import { createHash } from "node:crypto";
-import { cpSync, existsSync, lstatSync, mkdirSync, mkdtempSync, readFileSync, readdirSync, realpathSync, rmSync, statSync, symlinkSync, writeFileSync } from "node:fs";
+import { cpSync, existsSync, lstatSync, mkdirSync, mkdtempSync, readFileSync, readdirSync, realpathSync, rmSync, statSync, writeFileSync } from "node:fs";
 import { suaIdProfile } from "../../../tools/p1b/denta-profile.ts";
 import { dirname, join, relative } from "node:path";
 import { appHome, kernelModulesDir as kernelModulesDirFromPaths, repoRoot } from "./paths.ts";
 import { linkSelfPackages } from "./self-links.ts";
-import { linkDirSync } from "./link-dir.ts";
+import { ensureDirLink, linkDirSync } from "./link-dir.ts";
 import { bunOnlyCommand, runMountGate } from "./mount-gate.ts";
 import { timePhase } from "./boot-timing.ts";
 
@@ -525,8 +527,8 @@ export function applyAliasesBeforeBoot(): string[] {
 }
 
 /**
- * Link các gói HẠ TẦNG của ta vào profile (nếu chưa có) để harness luôn phân giải được.
- * Nhận: không. Trả: danh sách tên đã link.
+ * Link các gói HẠ TẦNG của ta vào profile và TỰ CHỮA link gãy, để harness luôn phân giải được.
+ * Nhận: không. Trả: danh sách tên vừa tạo mới hoặc vừa được trỏ lại.
  */
 export function linkInfrastructurePackages(): string[] {
   const linked: string[] = [];
@@ -543,14 +545,10 @@ export function linkInfrastructurePackages(): string[] {
     }
     if (typeof specifier !== "string") continue;
     const link = join(modules, specifier);
+    // 22/11/2026 — dùng ensureDirLink (KHÔNG tự kiểm existsSync): link GÃY trỏ vào bản .app đã đổi
+    //   tên vẫn phải được trỏ lại, nếu không gói hạ tầng nằm chết trong profile (xem link-dir.ts).
     try {
-      if (existsSync(link) || lstatSync(link).isSymbolicLink()) continue;
-    } catch {
-      // chưa tồn tại — tiếp tục tạo link
-    }
-    try {
-      mkdirSync(dirname(link), { recursive: true });
-      linkDirSync(nguon, link);
+      if (ensureDirLink(nguon, link) === "unchanged") continue;
       linked.push(specifier);
     } catch {
       continue;
@@ -571,6 +569,12 @@ export function linkInfrastructurePackages(): string[] {
  *   (flock) ném "Cannot find module …" ⇒ `gateway/internal: resume failed` ⇒ `command.list` hỏng ⇒
  *   menu "/" MẤT các mục quan trọng (goal · plan · compact · quyền) và tab Terminal báo lỗi.
  *   Vì là BINARY BIÊN DỊCH THEO NỀN TẢNG, không thể port sang gói của ta — chỉ có thể symlink.
+ *
+ * ⚠️ 22/11/2026 — TÁI PHÁT trên bản prod "Galaxy Blackhole" (đổi tên từ "… (Preview).app"): link cũ trỏ
+ *   đường dẫn TUYỆT ĐỐI của bản .app trước, đích biến mất ⇒ link gãy. Mã cũ `existsSync(link)` trả false
+ *   cho link gãy rồi `symlinkSync` ném EEXIST và bị nuốt ⇒ link chết nằm lại VĨNH VIỄN ⇒ gửi tin nhắn là
+ *   toast `resume failed for session … Cannot find module '@deepseek-ai/node-addon-system-darwin-x64/package.json'`.
+ *   Nay dùng ensureDirLink(): nhận diện link bằng lstat, thấy đích chết thì gỡ rồi trỏ lại.
  */
 export function linkNativeAddonPackages(): string[] {
   const linked: string[] = [];
@@ -588,14 +592,9 @@ export function linkNativeAddonPackages(): string[] {
     if (!mau.test(goi)) continue;
     const nguon = join(thuMucStock, goi);
     const link = join(profileModulesDir(), "@deepseek-ai", goi);
+    // 22/11/2026 — ensureDirLink TỰ CHỮA link gãy/trỏ sai; chỉ ghi nhận khi có thay đổi thật.
     try {
-      if (existsSync(link)) continue;
-    } catch {
-      // chưa tồn tại — tạo link
-    }
-    try {
-      mkdirSync(dirname(link), { recursive: true });
-      linkDirSync(nguon, link);
+      if (ensureDirLink(nguon, link) === "unchanged") continue;
       linked.push("@deepseek-ai/" + goi);
     } catch {
       continue;
@@ -952,6 +951,17 @@ export function applyProvenanceAliases(): string[] {
             const thuMucKernelTruoc = join(kernelModulesDir(), stock);
             const nguonTruoc = chiCoKhaiKieu(dir) && existsSync(thuMucKernelTruoc) ? thuMucKernelTruoc : dich;
             const dichThat = realpathSync(nguonTruoc);
+            // 22/11/2026 — LINK GÃY: `existsSync` đi THEO symlink nên trả false cho link chết, còn
+            //   `realpathSync(link)` bên dưới NÉM ENOENT ⇒ rơi vào catch của cả vòng lặp ⇒ alias chết
+            //   được GIỮ NGUYÊN. Đo thật (app prod sau khi đổi tên .app): @deepseek-ai/dsh-web-frontend
+            //   trỏ bản cũ ⇒ module không phân giải được. Gỡ link gãy TRƯỚC khi xét "đã trỏ đúng".
+            if (!existsSync(link)) {
+              try {
+                if (lstatSync(link).isSymbolicLink()) rmSync(link, { force: true });
+              } catch {
+                // chưa có gì ở đường dẫn này — tạo mới bên dưới
+              }
+            }
             if (existsSync(link)) {
               const hienTai = lstatSync(link).isSymbolicLink() ? realpathSync(link) : undefined;
               // 12/11/2026 — ĐÃ TRỎ ĐÚNG ĐÍCH thì không rm+symlink lại: đo được 205 alias bị tạo lại mỗi
