@@ -777,6 +777,17 @@ function embed(options: { app: string; binary: string; sign: boolean; trim: Trim
   const hostRoot = join(resources, "host");
   const built = buildHostTree(hostRoot, options.trim);
 
+  // 22/11/2026 — node-pty là NATIVE module chỉ được require MUỘN (lúc mở pane Terminal), nên bước trim theo
+  // "phủ boot" đã làm RỖNG thư mục của nó (còn vỏ, mất lib/ + prebuilds/) ⇒ profile báo
+  // `Cannot find module 'node-pty'` và pane Terminal chết (sự cố thật 22/11/2026 trên bản Product).
+  // Chép lại bản THẬT từ repo ngay sau trim — TRƯỚC bước ký, để chữ ký ad-hoc phủ luôn các tệp này.
+  const ptySource = join(repoRoot, "apps", "host", "node_modules", "node-pty");
+  const ptyTarget = join(hostRoot, "apps", "host", "node_modules", "node-pty");
+  if (existsSync(ptySource)) {
+    rmSync(ptyTarget, { recursive: true, force: true });
+    cpSync(ptySource, ptyTarget, { recursive: true });
+  }
+
   // Ký ad-hoc SAU khi chép: mọi thay đổi trong gói đều làm chữ ký cũ mất hiệu lực và macOS sẽ chặn.
   if (options.sign) {
     const sign = spawnSync("/usr/bin/codesign", ["--force", "--deep", "--sign", "-", app], { encoding: "utf8" });
