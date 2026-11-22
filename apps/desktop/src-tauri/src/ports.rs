@@ -6,6 +6,10 @@
  * desc Dò cổng trống, nhận diện host mồ côi của chính app đang giữ cổng và dọn nó trước khi bind
  */
 
+// 22/11/2026 — bộ hàm thu hồi cổng này chưa nối vào đường chạy nào (giữ lại cho việc dọn host mồ côi),
+// nên tắt cảnh báo dead_code ở mức MODULE thay vì xoá: xoá đi thì lần cần lại phải viết lại từ đầu.
+#![allow(dead_code)]
+
 //! Chủ quyền cổng của vỏ desktop.
 //!
 //! 11/11/2026: máy dev đã thấy 3 host con cùng listen 55906 và 2 cùng 55907 — di sản của những lượt app
