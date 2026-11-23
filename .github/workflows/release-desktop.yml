@@ -321,11 +321,13 @@ jobs:
           cp "$RUNNER_TEMP/node/bin/node" apps/desktop-windows/src-tauri/resources/runtime/node
           chmod +x apps/desktop-windows/src-tauri/resources/runtime/node
           "$RUNNER_TEMP/node/bin/node" --version
-      - name: Build vỏ Tauri Linux (deb + AppImage)
+      # 23/11/2026: bỏ AppImage khỏi lượt CI — linuxdeploy cần FUSE, hay hỏng trên runner Ubuntu;
+      # .deb là gói cài được ngay trên Debian/Ubuntu nên phát hành trước, AppImage để lượt sau.
+      - name: Build vỏ Tauri Linux (.deb)
         working-directory: apps/desktop-windows
         run: |
           npm install --no-audit --no-fund
-          npm run build -- --bundles deb,appimage --config '{"productName":"Galaxy Blackhole","identifier":"com.galaxyblackhole.desktop.linux","version":"${{ needs.resolve.outputs.version }}","bundle":{"targets":["deb","appimage"],"icon":["icons/icon.png"]}}'
+          npm run build -- --bundles deb --config '{"productName":"Galaxy Blackhole","identifier":"com.galaxyblackhole.desktop.linux","version":"${{ needs.resolve.outputs.version }}","bundle":{"targets":["deb"],"icon":["icons/icon.png"]}}'
       - name: Gom tệp cài
         run: |
           version="${{ needs.resolve.outputs.version }}"
