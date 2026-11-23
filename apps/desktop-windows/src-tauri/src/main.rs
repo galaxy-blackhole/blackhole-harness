@@ -4,8 +4,10 @@
  * author Bùi Trọng Hiếu
  * email kevinbui210191@gmail.com
  * create date 15/10/2026
- * modify date 19/11/2026
- * desc Vỏ Tauri Windows tối giản: spawn node.exe + host nhúng, chờ URL, điều hướng webview, dọn cây process
+ * modify date 23/11/2026
+ * desc Vỏ Tauri Windows/Linux tối giản: spawn node + host nhúng, chờ URL, điều hướng webview, dọn cây process
+ *      23/11/2026: cùng mã nguồn này dựng bản Linux (deb + AppImage) — thư mục log thêm nhánh XDG nên
+ *      trên Linux vẫn có desktop.log thay vì im lặng.
  */
 
 use std::env;
@@ -47,12 +49,20 @@ fn log(tag: &str, message: &str) {
 }
 
 /**
- * Thư mục log Windows: %LOCALAPPDATA%\Galaxy Blackhole\logs (fallback APPDATA).
+ * Thư mục log: Windows dùng %LOCALAPPDATA%\Galaxy Blackhole\logs (fallback APPDATA); nền khác dùng
+ * $XDG_STATE_HOME (mặc định ~/.local/state) — nhờ vậy bản Linux cũng có desktop.log.
  * @returns đường dẫn hoặc None khi không có môi trường.
  */
 fn log_dir() -> Option<PathBuf> {
-  let base = env::var("LOCALAPPDATA").ok().or_else(|| env::var("APPDATA").ok())?;
-  Some(PathBuf::from(base).join("Galaxy Blackhole").join("logs"))
+  if let Ok(base) = env::var("LOCALAPPDATA").or_else(|_| env::var("APPDATA")) {
+    return Some(PathBuf::from(base).join("Galaxy Blackhole").join("logs"));
+  }
+  let state = env::var("XDG_STATE_HOME")
+    .ok()
+    .filter(|value| !value.trim().is_empty())
+    .map(PathBuf::from)
+    .or_else(|| env::var("HOME").ok().map(|home| PathBuf::from(home).join(".local").join("state")))?;
+  Some(state.join("galaxy-blackhole").join("logs"))
 }
 
 /**

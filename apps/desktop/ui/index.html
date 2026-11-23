@@ -3,12 +3,12 @@
  author Bùi Trọng Hiếu
  email kevinbui210191@gmail.com
  create date 15/10/2026
- modify date 11/11/2026
+ modify date 23/11/2026
  desc Trang splash dong goi: qua cau Galaxy Blackhole animate (lay tu galaxy-ai-assistant AvatarCore,
-      viet lai bang CSS/JS thuan) + DUNG MOT dong trang thai; moi log/moc chi tiet nam sau nut
-      "Chi tiet" (monospace, cuon duoc) — 11/11/2026 bo khoi log tho "[bh] host alias…" +
-      "cong 55907 · pid host 9289 · 11s" khoi mat truoc. Giu nguyen: cua so visible(false) -> hien khi
-      trang host nap xong; loi van hien tieu de + ly do + "Da thu" + nut Thu lai/Thoat.
+      viet lai bang CSS/JS thuan) + DUNG MOT dong trang thai. 23/11/2026: BO HAN nut + khung "Chi tiet"
+      khoi mat truoc (mot dong trang thai la du; log tho van nam trong tep log cua vo Rust), nen khong
+      con lop monospace nao phu len splash. Giu nguyen: cua so visible(false) -> hien khi trang host
+      nap xong; loi van hien tieu de + ly do + "Da thu" + nut Thu lai/Thoat.
 -->
 <html lang="vi">
 <head>
@@ -135,10 +135,6 @@
       transition: opacity .2s ease;
     }
     body.is-error .line { margin-top: 16px; color: #d6bbc0; }
-    /* Khung "Chi tiết" phủ lên đáy: chữ phía sau mờ hẳn đi thay vì lấp ló sau mép khung. */
-    body.is-detail .line,
-    body.is-detail .fail { opacity: 0; }
-
     /* ───────── khối LỖI: tiêu đề + lý do + ĐÃ THỬ + Thử lại/Thoát (không phải dump log) ───────── */
     .fail {
       width: min(560px, calc(100vw - 64px)); margin: 18px 0 0; padding: 20px 22px;
@@ -172,47 +168,6 @@
     .actions button.ghost:hover { color: #d7dbe8; border-color: rgba(159, 169, 220, .38); }
     button:focus-visible { outline: 2px solid rgba(133, 137, 255, .8); outline-offset: 3px; }
 
-    /* ───────── nút + khung "Chi tiết": mọi log/mốc thô sống ở đây ───────── */
-    .toggle {
-      position: fixed; right: 18px; bottom: 16px; z-index: 5;
-      appearance: none; padding: 7px 12px; border-radius: 8px;
-      border: 1px solid var(--gbh-line); background: rgba(19, 22, 37, .66);
-      color: #7f879e; font-size: 11px; letter-spacing: .02em;
-      transition: color .18s, border-color .18s, background .18s, opacity .18s;
-    }
-    .toggle:hover { color: #dfe3f2; border-color: rgba(159, 169, 220, .42); background: rgba(30, 34, 54, .86); }
-    body.is-detail .toggle { opacity: 0; pointer-events: none; }
-    .panel {
-      position: fixed; left: 0; right: 0; bottom: 0; z-index: 6;
-      display: flex; flex-direction: column; max-height: 62vh;
-      border-top: 1px solid var(--gbh-line);
-      background: rgba(9, 11, 22, .97);
-      box-shadow: 0 -22px 60px rgba(0, 0, 0, .55);
-    }
-    .panel[hidden] { display: none; }
-    .panel-head { display: flex; align-items: center; justify-content: space-between; padding: 12px 18px 0; }
-    .panel-title { color: #c2c7d8; font-size: 11px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; }
-    .panel-close {
-      appearance: none; border: 1px solid var(--gbh-line); border-radius: 7px;
-      background: transparent; color: var(--gbh-dim); font-size: 11px; padding: 4px 10px;
-      transition: color .18s, border-color .18s;
-    }
-    .panel-close:hover { color: #e2e6f2; border-color: rgba(159, 169, 220, .4); }
-    /* dòng cổng · pid · giây CHỈ tồn tại trong khung này */
-    .panel-meta {
-      margin: 9px 18px 0; padding-bottom: 9px;
-      border-bottom: 1px solid rgba(159, 169, 220, .1);
-      color: #b7bdd0; font: 12px/1.5 ui-monospace, "SF Mono", Menlo, monospace;
-      letter-spacing: .01em; -webkit-user-select: text; user-select: text;
-    }
-    .panel-log {
-      margin: 0; padding: 11px 18px 18px; overflow: auto;
-      color: #868da4; font: 11px/1.7 ui-monospace, "SF Mono", Menlo, monospace;
-      white-space: pre-wrap; word-break: break-word;
-      -webkit-user-select: text; user-select: text;
-    }
-    .panel-log::-webkit-scrollbar { width: 9px; }
-    .panel-log::-webkit-scrollbar-thumb { background: rgba(146, 135, 201, .28); border-radius: 5px; }
 
     @media (prefers-reduced-motion: reduce) {
       .avatar-sphere, .orbit, .core-pulse { animation: none; }
@@ -259,17 +214,6 @@
     </section>
   </main>
 
-  <button class="toggle" id="toggle" type="button" aria-controls="panel" aria-expanded="false">Chi tiết</button>
-
-  <section class="panel" id="panel" hidden aria-label="Chi tiết khởi động">
-    <div class="panel-head">
-      <span class="panel-title">Chi tiết</span>
-      <button class="panel-close" id="panel-close" type="button">Đóng</button>
-    </div>
-    <p class="panel-meta" id="panel-meta"></p>
-    <pre class="panel-log" id="panel-log"></pre>
-  </section>
-
   <script>
     (function () {
       var nodes = {
@@ -280,12 +224,7 @@
         failReason: document.getElementById("fail-reason"),
         failTried: document.getElementById("fail-tried"),
         retry: document.getElementById("retry"),
-        quit: document.getElementById("quit"),
-        toggle: document.getElementById("toggle"),
-        panel: document.getElementById("panel"),
-        panelClose: document.getElementById("panel-close"),
-        panelMeta: document.getElementById("panel-meta"),
-        panelLog: document.getElementById("panel-log")
+        quit: document.getElementById("quit")
       };
 
       /** Câu trạng thái DUY NHẤT hiện trên splash, suy từ pha của vỏ Rust. */
@@ -299,10 +238,6 @@
 
       /** Trạng thái nhận được gần nhất; null khi trang mới nạp và chưa hỏi được Rust. */
       var current = null;
-      /** Mốc nhận gói trạng thái gần nhất, để dòng "giây" tự chạy giữa hai lần đẩy. */
-      var lastAt = 0;
-      /** Số mili giây đã chờ mà Rust báo tại lần đẩy gần nhất. */
-      var lastElapsed = 0;
 
       /**
        * Gọi một lệnh Tauri, chấp nhận cả hai cầu IPC (withGlobalTauri và bridge nội bộ).
@@ -345,95 +280,6 @@
       }
 
       /**
-       * Số giây đã chờ, tính cả thời gian trôi từ lần đẩy trạng thái gần nhất.
-       * Nhận: không (đọc current/lastAt/lastElapsed).
-       * Trả: số nguyên giây, hoặc null khi chưa có mốc.
-       */
-      function elapsedSeconds() {
-        if (!current) { return null; }
-        var drift = lastAt > 0 ? Date.now() - lastAt : 0;
-        return Math.max(0, Math.round((lastElapsed + drift) / 1000));
-      }
-
-      /**
-       * Dòng cổng · pid · giây — CHỈ vẽ trong khung "Chi tiết".
-       * Nhận: state — gói trạng thái.
-       * Trả: chuỗi đã ghép, rỗng khi chưa có gì để nói.
-       */
-      function metaLine(state) {
-        var parts = [];
-        var port = state && (state.port || state.requestedPort);
-        if (port) { parts.push("cổng " + port); }
-        if (state && state.hostPid) { parts.push("pid host " + state.hostPid); }
-        var seconds = elapsedSeconds();
-        if (seconds !== null) { parts.push(seconds + "s"); }
-        return parts.join(" · ");
-      }
-
-      /**
-       * Canh nhãn trái của khối monospace.
-       * Nhận: label — nhãn cần canh.
-       * Trả: nhãn đã đệm cho đủ 16 cột.
-       */
-      function padLabel(label) {
-        var unit = String(label);
-        while (unit.length < 16) { unit += " "; }
-        return unit + " ";
-      }
-
-      /**
-       * Dựng phần thân monospace của khung "Chi tiết": mọi mốc + log thô mà vỏ Rust gửi vào splash.
-       * Nhận: state — gói trạng thái (cùng hình dạng lệnh boot_status).
-       * Trả: chuỗi nhiều dòng.
-       */
-      function detailBody(state) {
-        var out = [];
-        var row = function (label, value) {
-          out.push(padLabel(label) + (value === undefined || value === null || value === "" ? "—" : String(value)));
-        };
-        var block = function (title, values) {
-          if (!values || values.length === 0) { return; }
-          out.push("");
-          out.push("— " + title + " —");
-          for (var index = 0; index < values.length; index += 1) { out.push("  · " + values[index]); }
-        };
-
-        out.push("# Galaxy Blackhole Desktop — chi tiết khởi động");
-        row("pha", state.phase);
-        row("trạng thái", state.status);
-        row("chi tiết", state.detail);
-        row("cổng yêu cầu", state.requestedPort);
-        row("url", state.url);
-        row("log", state.logPath);
-
-        if (state.failure) {
-          out.push("");
-          out.push("— lỗi —");
-          out.push("  " + (state.failure.title || "(không có tiêu đề)"));
-          if (state.failure.reason) { out.push("  " + state.failure.reason); }
-        }
-        block("ghi chú chọn cổng", state.notes);
-        block("đã thử", (state.failure && state.failure.details) || state.attempts);
-        block("log host (gần nhất)", state.recent);
-
-        return out.join("\n");
-      }
-
-      /**
-       * Vẽ lại khung "Chi tiết" và bám đáy, để dòng mới nhất luôn nhìn thấy.
-       * Nhận: state — gói trạng thái (null thì bỏ qua).
-       * Trả: không.
-       */
-      function paintDetail(state) {
-        if (!state) { return; }
-        var log = nodes.panelLog;
-        var pinned = log.scrollHeight - log.scrollTop - log.clientHeight < 24;
-        text(nodes.panelMeta, metaLine(state));
-        text(log, detailBody(state));
-        if (pinned) { log.scrollTop = log.scrollHeight; }
-      }
-
-      /**
        * Vẽ trạng thái đang chờ: quả cầu chạy, một dòng chữ, không log.
        * Nhận: state — gói trạng thái.
        * Trả: không.
@@ -444,7 +290,6 @@
         nodes.fail.hidden = true;
         nodes.orb.className = "avatar-stage is-thinking";
         text(nodes.line, phaseLine(state));
-        paintDetail(state);
       }
 
       /**
@@ -468,22 +313,6 @@
           item.textContent = String(details[index]);
           nodes.failTried.appendChild(item);
         }
-        paintDetail(state);
-      }
-
-      /**
-       * Mở/đóng khung "Chi tiết".
-       * Nhận: open — true để mở.
-       * Trả: không.
-       */
-      function setDetail(open) {
-        nodes.panel.hidden = !open;
-        nodes.toggle.setAttribute("aria-expanded", open ? "true" : "false");
-        document.body.classList.toggle("is-detail", open);
-        if (open && current) {
-          paintDetail(current);
-          nodes.panelLog.scrollTop = nodes.panelLog.scrollHeight;
-        }
       }
 
       window.__GBH_SHELL__ = {
@@ -491,8 +320,6 @@
         apply: function (state) {
           if (!state) { return; }
           current = state;
-          lastAt = Date.now();
-          lastElapsed = typeof state.elapsedMs === "number" ? state.elapsedMs : 0;
           if (state.failure) { showError(state); } else { showStatus(state); }
         },
         /** Đặt nhanh dòng trạng thái, dùng cho các cập nhật ngắn. */
@@ -507,12 +334,6 @@
         }
       };
 
-      nodes.toggle.addEventListener("click", function () { setDetail(true); });
-      nodes.panelClose.addEventListener("click", function () { setDetail(false); });
-      document.addEventListener("keydown", function (event) {
-        if (event.key === "Escape" && !nodes.panel.hidden) { setDetail(false); }
-      });
-
       nodes.retry.addEventListener("click", function () {
         window.__GBH_SHELL__.reset();
         invoke("retry_boot").catch(function (error) {
@@ -523,11 +344,6 @@
       nodes.quit.addEventListener("click", function () {
         invoke("quit_app").catch(function () { window.close(); });
       });
-
-      // Dòng "giây" trong khung Chi tiết phải tự chạy dù Rust chỉ đẩy trạng thái khi host in log.
-      setInterval(function () {
-        if (!nodes.panel.hidden && current) { text(nodes.panelMeta, metaLine(current)); }
-      }, 1000);
 
       // Lần eval đầu có thể tới trước khi trang nạp xong; trang tự hỏi lại trạng thái để khối lỗi
       // không bao giờ biến mất chỉ vì một lần eval bị mất.

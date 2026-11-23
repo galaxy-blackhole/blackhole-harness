@@ -30,7 +30,28 @@ jobs:
       - name: Cai dat (khong chan publish neu CI thieu goi he thong)
         continue-on-error: true
         run: bun install --no-save --ignore-scripts || true
+      # 23/11/2026: lib/ nam trong .gitignore nen runner checkout KHONG co artifact da build. Ban 0.1.15
+      # phat hanh thieu lib/ (0 tep lib/index.js so voi 328 cua 0.1.14) => may moi cai tu npm phai build
+      # lai bang bun moi mount duoc; khong co bun thi host thoat ma 1 ("4 required plugins did not
+      # activate"). Buoc nay dung lai dung thu ban 0.1.14 co: moi goi mot lib/index.js da build.
+      - name: Build lib/ cho moi goi (ban npm phai co .js da build)
+        run: |
+          built=0
+          failed=""
+          for dir in packages/*/*/; do
+            if [ ! -f "$dir/build.ts" ]; then continue; fi
+            if (cd "$dir" && bun run build.ts >/tmp/pkg-build.log 2>&1); then
+              built=$((built + 1))
+            else
+              failed="$failed $dir"
+              tail -5 /tmp/pkg-build.log
+            fi
+          done
+          count=$(find packages -path '*/lib/index.js' | wc -l | tr -d ' ')
+          echo "goi build xong: $built · lib/index.js: $count"
+          if [ -n "$failed" ]; then echo "build loi:$failed" >&2; exit 1; fi
+          if [ "$count" -lt 250 ]; then echo "thieu lib/index.js: $count < 250" >&2; exit 1; fi
       - name: Publish harness
         env:
-          GBH_HARNESS_VERSION: 0.1.15
+          GBH_HARNESS_VERSION: 0.1.16
         run: bun run tools/publish-harness.mjs --trusted
