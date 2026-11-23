@@ -2,14 +2,14 @@
  * author Bùi Trọng Hiếu
  * email kevinbui210191@gmail.com
  * create date 15/10/2026
- * modify date 12/11/2026
+ * modify date 23/11/2026
  * desc Cài package bằng lib/ ĐÃ BUILD SẴN khi chạy host nhúng trong .app (không có mã nguồn để build)
  *      11/11/2026: bản .app tự chứa không chạy build.ts lúc boot — mount chép lib/ có sẵn, nhờ vậy máy
  *      mới boot trong vài giây thay vì hàng phút và không cần Bun.build trong gói cài
  *      12/11/2026: thêm buildRuntimeAvailable() — launcher Node không chạy được build.ts (xem mount.ts)
  */
 
-import { cpSync, existsSync, mkdirSync, readlinkSync, rmSync, statSync, symlinkSync } from "node:fs";
+import { cpSync, existsSync, mkdirSync, readFileSync, readlinkSync, rmSync, statSync, symlinkSync, writeFileSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
 import { linkDirSync } from "./link-dir.ts";
 import { repoRoot } from "./paths.ts";
@@ -54,6 +54,20 @@ export function buildRuntimeAvailable(): boolean {
 }
 
 /**
+ * Phiên bản của BỘ CHÉP lib dựng sẵn. Tăng số này khi cách build/emit thay đổi để MỌI profile cũ
+ * tự chép lại một lần.
+ * @remarks 23/11/2026 — Sự cố "agent preset: SRC method must use unique identifier parameters":
+ *   profile giữ artefact build bằng emit decorator CŨ (dạng `async[(_dec = [Remote(\"list\")], \"remoteExportList\")]()`),
+ *   nên `Function.prototype.toString` trả về chuỗi có `(` nằm trong decorator ⇒ Gateway parse sai chữ ký.
+ *   Guard cũ so **mtime** nên bản cũ "mới hơn" không bao giờ bị thay ⇒ lỗi sống mãi trong profile. Nay marker
+ *   theo phiên bản bộ chép: profile thấy marker cũ/thiếu ⇒ chép đè đúng một lần.
+ */
+const PREBUILT_VERSION = "2";
+
+/** Tên tệp marker ghi phiên bản bộ chép trong `lib/` của profile. */
+const PREBUILT_MARKER = ".gbh-prebuilt-version";
+
+/**
  * Bảo đảm một symlink trong profile trỏ đúng đích HIỆN TẠI, chữa cả link đã gãy.
  * Nhận: link — đường dẫn symlink; target — đích tuyệt đối muốn trỏ tới.
  * Trả: true khi vừa tạo lại (hoặc tạo mới), false khi link đã đúng.
@@ -89,9 +103,15 @@ export function installPrebuiltLib(sourceDir: string, libDir: string): boolean {
   try {
     const cũ = statSync(entry).mtimeMs;
     const đích = join(libDir, entry.slice(source.length + 1));
-    if (existsSync(đích) && statSync(đích).mtimeMs >= cũ) return false;
+    // 23/11/2026 — marker PHIÊN BẢN đứng trước guard mtime: artefact cũ do bộ build khác sinh ra vẫn
+    // "mới hơn" theo mtime nên guard cũ bỏ qua vĩnh viễn (xem PREBUILT_VERSION). Thiếu/khác ⇒ chép đè.
+    const markerPath = join(libDir, PREBUILT_MARKER);
+    const marker = existsSync(markerPath) ? readFileSync(markerPath, "utf8").trim() : "";
+    const canChép = marker !== PREBUILT_VERSION;
+    if (!canChép && existsSync(đích) && statSync(đích).mtimeMs >= cũ) return false;
     mkdirSync(libDir, { recursive: true });
     cpSync(source, libDir, { recursive: true, force: true });
+    writeFileSync(markerPath, PREBUILT_VERSION + "\n", "utf8");
     return true;
   } catch {
     // Chép lỗi thì trả false để mount rơi về đường build cũ (hoặc cảnh báo), không làm sập boot.
