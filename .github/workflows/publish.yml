@@ -35,50 +35,41 @@ jobs:
           # (vi du packages/host/util-values/build.ts cpSync tu @deepseek-ai/dsh-util-values).
           # apps/host cai rieng (khong thuoc workspace) nen root install khong mang no sang.
           (cd apps/host && bun install --no-save) || true
-      # 23/11/2026: lib/ nam trong .gitignore nen runner checkout KHONG co artifact da build. Ban 0.1.15
-      # phat hanh thieu lib/ (0 tep lib/index.js so voi 328 cua 0.1.14) => may moi cai tu npm phai build
-      # lai bang bun moi mount duoc; khong co bun thi host thoat ma 1 ("4 required plugins did not
-      # activate"). Buoc nay dung lai dung thu ban 0.1.14 co: moi goi mot lib/index.js da build.
-      - name: Build lib/ cho moi goi (ban npm phai co .js da build)
-        run: |
-          built=0
-          failed=""
-          for dir in packages/*/*/; do
-            if [ ! -f "$dir/build.ts" ]; then continue; fi
-            if (cd "$dir" && bun run build.ts >/tmp/pkg-build.log 2>&1); then
-              built=$((built + 1))
-            else
-              failed="$failed $dir"
-              tail -5 /tmp/pkg-build.log
-            fi
-          done
-          count=$(find packages -path '*/lib/index.js' | wc -l | tr -d ' ')
-          echo "goi build xong: $built · lib/index.js: $count"
-          if [ -n "$failed" ]; then echo "canh bao: $built goi build loi:$failed"; fi
-      # Checkout sach KHONG dung lai duoc toan bo lib/: 13 goi de-bundle chi chep nguyen cay lib/
-      # (tools/debundle-guard.ts), 48 goi khong co build.ts (artefact sinh bang tools khac). Vi vay lay
-      # moi tep lib/** ma ban 0.1.14 da phat hanh ma ta CHUA co — khong de len artefact vua build.
-      - name: Bu lib/ con thieu tu ban 0.1.14 (khong de len ban vua build)
+      # 23/11/2026 (Lead, sau khi bisect bang Electron): artifact lib/ do CI build lai KHONG tuong duong
+      # ban 0.1.14 da build tren may — client entry "cot-translation" ket "loading" va boot UI chan ca app
+      # (tai hien tren macOS voi 0.1.18, 0.1.14 thi sach). Vi vay KHONG build lai tat ca nua: lay nguyen
+      # lib/ cua ban 0.1.14 (ban da chay dung) lam nen, roi chi build lai DUNG cac goi ta sua trong ngay.
+      - name: Lay lib/ cua ban 0.1.14 lam nen
         run: |
           url=$(npm view @galaxy-blackhole/blackhole-harness@0.1.14 dist.tarball)
-          rm -rf /tmp/prev && mkdir -p /tmp/prev
-          curl -fsSL "$url" -o /tmp/prev/prev.tgz && tar -xzf /tmp/prev/prev.tgz -C /tmp/prev
-          added=0
-          ( cd /tmp/prev/package && find packages -path '*/lib/*' -type f -print0 ) | while IFS= read -r -d '' f; do
-            if [ -e "$f" ]; then continue; fi
+          rm -rf /tmp/base && mkdir -p /tmp/base
+          curl -fsSL "$url" -o /tmp/base/base.tgz && tar -xzf /tmp/base/base.tgz -C /tmp/base
+          ( cd /tmp/base/package && find packages -path '*/lib/*' -type f -print0 ) | while IFS= read -r -d '' f; do
             mkdir -p "$(dirname "$f")"
-            cp "/tmp/prev/package/$f" "$f"
+            cp "/tmp/base/package/$f" "$f"
           done
-          added=$( ( cd /tmp/prev/package && find packages -path '*/lib/*' -type f ) | while read -r f; do [ -e "$f" ] && echo x; done | wc -l | tr -d ' ' )
-          echo "tep lib/** co san sau khi bu: $added"
-      - name: Cong kiem lib/ truoc khi publish
+          count=$(find packages -path '*/lib/index.js' | wc -l | tr -d ' ')
+          echo "lib/index.js sau khi lay nen 0.1.14: $count (0.1.14 co 328)"
+      - name: Build lai dung cac goi da sua trong ngay
+        run: |
+          set -e
+          for dir in packages/host/goal packages/host/agent-preset-registry; do
+            echo "--- build $dir"
+            ( cd "$dir" && bun run build.ts )
+          done
+          # mat typert cua goal phai co trong lib/ (tang mount chi chep lib/)
+          test -f packages/host/goal/lib/typert-face/typert.host.js
+          node -e "const p=require('./packages/host/goal/package.json');const t=p.exports['./typert'];const ok=typeof t==='string'||typeof (t&&t.default)==='string';if(!ok){console.error('goal exports[\"./typert\"] thieu default kieu chuoi');process.exit(1)};console.log('goal export OK')"
+          grep -q "GBH_LOG" packages/host/agent-preset-registry/lib/index.js
+          echo "ban va da nam trong lib/"
+      - name: Cong kiem truoc khi publish
         run: |
           count=$(find packages -path '*/lib/index.js' | wc -l | tr -d ' ')
-          echo "lib/index.js: $count (0.1.14: 328)"
+          echo "lib/index.js: $count"
           if [ "$count" -lt 320 ]; then echo "thieu lib/index.js: $count < 320" >&2; exit 1; fi
       - name: Publish harness
         env:
-          GBH_HARNESS_VERSION: 0.1.18
+          GBH_HARNESS_VERSION: 0.1.19
         run: |
           # Moi push len main deu chay workflow nay, nhung chi version MOI moi publish duoc. Bo qua khi
           # version da co tren npm de push tai lieu/workflow khong sinh mot luot do gia.
