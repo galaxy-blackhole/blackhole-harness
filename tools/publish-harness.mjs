@@ -56,6 +56,16 @@ function run(command, args, cwd, quiet = false) {
 
 mkdirSync(OUT, { recursive: true });
 run(process.execPath, [join(STAGING, "prepare.mjs")], STAGING);
+
+// 23/11/2026 — npm provenance (sigstore) doi hoi package.json.repository.url KHOP repo GitHub,
+// neu khong: "422 Error verifying sigstore provenance bundle ... repository.url is ''".
+// Staging sinh boi prepare.mjs nen bo sung o day (staging khong duoc commit).
+{
+  const pkgPath = join(STAGING, "package.json");
+  const doc = JSON.parse(readFileSync(pkgPath, "utf8"));
+  doc.repository = { type: "git", url: "https://github.com/galaxy-blackhole/blackhole-harness.git" };
+  writeFileSync(pkgPath, JSON.stringify(doc, null, 2) + "\n");
+}
 const npm = npmCommand();
 run(npm.command, [...npm.prefix, "pack", "--pack-destination", OUT], STAGING, true);
 
