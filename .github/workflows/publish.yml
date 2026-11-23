@@ -53,7 +53,9 @@ jobs:
       - name: Build lai dung cac goi da sua trong ngay
         run: |
           set -e
-          for dir in packages/host/goal packages/host/agent-preset-registry; do
+          # 3 goi ta SUA trong ngay. open-in-app: ban 0.1.14 trong "nen lib/" la ban CHUA VA (spawn
+          # thang .app => EACCES), nen phai build lai tu src (da co openCommand platform-aware).
+          for dir in packages/host/goal packages/host/agent-preset-registry packages/host/open-in-app; do
             echo "--- build $dir"
             ( cd "$dir" && bun run build.ts )
           done
@@ -61,6 +63,8 @@ jobs:
           test -f packages/host/goal/lib/typert-face/typert.host.js
           node -e "const p=require('./packages/host/goal/package.json');const t=p.exports['./typert'];const ok=typeof t==='string'||typeof (t&&t.default)==='string';if(!ok){console.error('goal exports[\"./typert\"] thieu default kieu chuoi');process.exit(1)};console.log('goal export OK')"
           grep -q "GBH_LOG" packages/host/agent-preset-registry/lib/index.js
+          # ban va open-in-app: tren macOS phai goi "open -a", khong spawn thang bundle (EACCES)
+          grep -q "open -a\|\"open\", \[" packages/host/open-in-app/lib/index.js || node -e "const fs=require('fs');const t=fs.readFileSync('packages/host/open-in-app/lib/index.js','utf8');if(!/open/.test(t)){console.error('open-in-app lib khong co lenh open');process.exit(1)};console.log('open-in-app lib co lenh open')"
           echo "ban va da nam trong lib/"
       - name: Cong kiem truoc khi publish
         run: |
@@ -69,7 +73,7 @@ jobs:
           if [ "$count" -lt 320 ]; then echo "thieu lib/index.js: $count < 320" >&2; exit 1; fi
       - name: Publish harness
         env:
-          GBH_HARNESS_VERSION: 0.1.19
+          GBH_HARNESS_VERSION: 0.1.20
         run: |
           # Moi push len main deu chay workflow nay, nhung chi version MOI moi publish duoc. Bo qua khi
           # version da co tren npm de push tai lieu/workflow khong sinh mot luot do gia.
