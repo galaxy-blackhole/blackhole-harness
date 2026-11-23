@@ -55,30 +55,22 @@ jobs:
           count=$(find packages -path '*/lib/index.js' | wc -l | tr -d ' ')
           echo "goi build xong: $built · lib/index.js: $count"
           if [ -n "$failed" ]; then echo "canh bao: $built goi build loi:$failed"; fi
-      # 13 goi de-bundle (src/parts hoac .debundled) co build.ts CHI chep nguyen cay lib/ sang dich
-      # (tools/debundle-guard.ts) vi artefact la lat nguyen van cua ban goc + delta id. Checkout sach khong
-      # co lib/ nen chung khong tu dung lai duoc; lay dung artefact do tu ban 0.1.14 da phat hanh.
-      - name: Bu lib/ cho goi de-bundle tu ban 0.1.14
+      # Checkout sach KHONG dung lai duoc toan bo lib/: 13 goi de-bundle chi chep nguyen cay lib/
+      # (tools/debundle-guard.ts), 48 goi khong co build.ts (artefact sinh bang tools khac). Vi vay lay
+      # moi tep lib/** ma ban 0.1.14 da phat hanh ma ta CHUA co — khong de len artefact vua build.
+      - name: Bu lib/ con thieu tu ban 0.1.14 (khong de len ban vua build)
         run: |
-          missing=""
-          for dir in packages/*/*/; do
-            if [ ! -f "$dir/build.ts" ]; then continue; fi
-            if [ -d "$dir/lib" ]; then continue; fi
-            missing="$missing ${dir%/}"
-          done
-          if [ -z "$missing" ]; then echo "khong goi nao thieu lib/"; exit 0; fi
-          echo "thieu lib/:$missing"
           url=$(npm view @galaxy-blackhole/blackhole-harness@0.1.14 dist.tarball)
-          mkdir -p /tmp/prev && curl -fsSL "$url" -o /tmp/prev/prev.tgz && tar -xzf /tmp/prev/prev.tgz -C /tmp/prev
-          for dir in $missing; do
-            if [ -d "/tmp/prev/package/$dir/lib" ]; then
-              mkdir -p "$dir"
-              cp -R "/tmp/prev/package/$dir/lib" "$dir/lib"
-              echo "bu: $dir/lib"
-            else
-              echo "khong co trong 0.1.14: $dir" >&2
-            fi
+          rm -rf /tmp/prev && mkdir -p /tmp/prev
+          curl -fsSL "$url" -o /tmp/prev/prev.tgz && tar -xzf /tmp/prev/prev.tgz -C /tmp/prev
+          added=0
+          ( cd /tmp/prev/package && find packages -path '*/lib/*' -type f -print0 ) | while IFS= read -r -d '' f; do
+            if [ -e "$f" ]; then continue; fi
+            mkdir -p "$(dirname "$f")"
+            cp "/tmp/prev/package/$f" "$f"
           done
+          added=$( ( cd /tmp/prev/package && find packages -path '*/lib/*' -type f ) | while read -r f; do [ -e "$f" ] && echo x; done | wc -l | tr -d ' ' )
+          echo "tep lib/** co san sau khi bu: $added"
       - name: Cong kiem lib/ truoc khi publish
         run: |
           count=$(find packages -path '*/lib/index.js' | wc -l | tr -d ' ')
