@@ -2,7 +2,7 @@
  * author Bùi Trọng Hiếu
  * email kevinbui210191@gmail.com
  * create date 15/10/2026
- * modify date 12/11/2026
+ * modify date 23/11/2026
  * desc Lenh `bh host`: boot harness cua app, bat URL co ?token= de vo Tauri mo, va --dump-config parity — 11/11/2026: moi dong log relay duoc doi nhan stock "dsh ..." thanh "gbh ..." (chi doi chuoi in, khong doi hanh vi boot)
  *      12/11/2026: them moc do thoi gian tung pha cua resolveLaunch (GBH_BOOT_TIMING=1) de do khởi động
  */
@@ -18,6 +18,7 @@ import {
   dshBinPath,
   repoRoot,
 } from "./paths.ts";
+import { ghiLoiHost } from "./host-log.ts";
 import { phase, timePhase } from "./boot-timing.ts";
 import { logChiTietBat } from "./log.ts";
 import { chuanHoaProfile, ensureRewriteMounts } from "./mount.ts";
@@ -226,6 +227,10 @@ export function spawnHost(options: HostOptions): HostProcess {
         // 23/11/2026 — mức mặc định CHỈ giữ lỗi thật: "gbh web:" / "gbh inspector:" là thông tin thuần, không phải
         // lỗi, nên bỏ đi; dòng "[bh] ready" do CHÍNH tiến trình này in (URL lấy từ buffer, không phụ thuộc relay).
         if (!logChiTietBat() && DONG_THONG_TIN.test(nhan)) continue;
+        // 23/11/2026 — dòng LỖI được ghi xuống `<home>/logs/host-loi-<ngày>.log` kể cả khi host vẫn sống:
+        // kernel chỉ ghi `startup-*.log` lúc chết, nên sự cố "plugin không activate nhưng host chạy" trước
+        // đây không để lại dấu vết nào (log mới nhất người dùng thấy là của nhiều ngày trước).
+        if (sink === process.stderr) ghiLoiHost(launch.home, nhan);
         sink.write(nhan + "\n");
       }
     };

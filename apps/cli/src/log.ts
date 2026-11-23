@@ -8,6 +8,8 @@
  *      và các cảnh báo mount cùng loại được gộp thành MỘT dòng tổng kết có đếm.
  */
 
+import { buildRuntimeAvailable } from "./prebuilt.ts";
+
 /** Hai mức log của một lượt chạy: `quiet` (mặc định) và `debug` (GBH_LOG=debug hoặc --verbose). */
 export type MucLog = "quiet" | "debug";
 
@@ -96,4 +98,10 @@ export function tomTatCanhBaoMount(danhSach: readonly CanhBaoMount[]): void {
     .map(([nhom, so]) => String(so) + " gói " + nhom)
     .join(" · ");
   console.log("[bh] mount: " + String(canhBao.length) + " cảnh báo, vẫn mount — " + phan + " (chi tiết: GBH_LOG=debug)");
+  // 23/11/2026 — nhãn "mount sẽ build" chỉ đúng khi máy CÓ bun. Máy không có bun thì gói nào thiếu
+  // artefact dựng sẵn sẽ nằm lại rỗng trong profile ⇒ kernel báo "Cannot find module …/lib/index.js"
+  // (đúng sự cố 183 plugin trên Windows), nên phải nói thẳng thay vì để người đọc tưởng đã build xong.
+  if (!buildRuntimeAvailable()) {
+    console.log("[bh] mount: máy KHÔNG có bun — gói thiếu artefact dựng sẵn sẽ không mount được (cài bun để mount tự build)");
+  }
 }

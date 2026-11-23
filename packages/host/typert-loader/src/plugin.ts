@@ -2,7 +2,7 @@
  * author Bùi Trọng Hiếu
  * email kevinbui210191@gmail.com
  * create date 15/10/2026
- * modify date 18/10/2026
+ * modify date 23/11/2026
  * desc Thân plugin typert-loader: quét entry của Loader lúc kích hoạt, rồi theo dõi mount/unmount
  *      trong suốt vòng đời plugin. Quét TĂNG DẦN theo tên entry — mỗi lần kernel phát
  *      `internal/plugin` đánh dấu tên của fiber là BẨN, một lượt microtask đối chiếu từng tên bẩn
@@ -52,9 +52,14 @@ interface PackageManifest {
  * Quét entry của Loader lúc kích hoạt, rồi theo dõi mount/unmount trong suốt vòng đời plugin.
  * @param ctx - context plugin mang `typert` và `loader`.
  * @param config - tệp typert tường minh, thêm vào các entry của Loader.
- * @returns promise hoàn tất khi lượt quét kích hoạt xong; ném khi có gói hỏng.
+ * @returns promise hoàn tất khi lượt quét kích hoạt xong.
  * @throws {Error} khi `ctx.baseUrl` chưa đặt — bộ nạp cần neo của cây cấu hình để giải gói.
- * @throws {AggregateError} khi một hoặc nhiều gói đóng góp hỏng ngay ở lượt kích hoạt.
+ * @remarks 23/11/2026 — TRƯỚC ĐÂY hàm này ném `AggregateError` khi bất kỳ gói nào hỏng. Ném ra khỏi
+ *   `apply` làm cordis đánh dấu plugin thất bại và **dispose mọi effect** của nó, tức là rút lại
+ *   TOÀN BỘ đăng ký typert vừa thành công — sổ typert rỗng, gateway trả "its strict definition was
+ *   withdrawn" cho mọi RPC (sự cố 23/11: chỉ `gbh-goal` sai hình dạng `exports["./typert"]` mà
+ *   `session/control` + `cot-translation` chết theo). Nay: ghi log từng gói hỏng rồi ĐI TIẾP;
+ *   một gói hỏng không được kéo sập cả sổ.
  */
 export async function apply(ctx: TypertLoaderContext, config: Config): Promise<void> {
   if (ctx.baseUrl === undefined) {
@@ -235,9 +240,12 @@ export async function apply(ctx: TypertLoaderContext, config: Config): Promise<v
     }),
   );
   if (failures.length > 0) {
-    throw new AggregateError(
-      failures,
-      `typert-loader: ${String(failures.length)} typert contributor(s) failed to register:\n${failures.map((e) => `  - ${e.message}`).join("\n")}`,
+    // 23/11/2026 — KHÔNG ném: ném ra khỏi `apply` khiến cordis dispose plugin này và rút lại mọi
+    // đăng ký typert đã thành công ⇒ toàn bộ gateway trả "definition was withdrawn" (sự cố 23/11).
+    // Chỉ bỏ đúng gói hỏng, giữ nguyên phần còn lại, và ghi rõ gói nào hỏng để người đọc log sửa.
+    for (const error of failures) ctx.logger.error(error);
+    ctx.logger.warn(
+      `typert-loader: ${String(failures.length)} typert contributor(s) failed to register (đã bỏ qua, sổ còn lại vẫn dùng được):\n${failures.map((e) => `  - ${e.message}`).join("\n")}`,
     );
   }
 }
