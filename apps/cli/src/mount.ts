@@ -24,6 +24,7 @@ import { linkSelfPackages } from "./self-links.ts";
 import { ensureDirLink, linkDirSync } from "./link-dir.ts";
 import { bunOnlyCommand, runMountGate } from "./mount-gate.ts";
 import { timePhase } from "./boot-timing.ts";
+import { logChiTiet, tomTatCanhBaoMount } from "./log.ts";
 
 /** Goc repo (dung cho ban do alias stock → goi ta). */
 const REPO_ROOT = repoRoot();
@@ -188,18 +189,17 @@ function blockedPackages(): Map<string, string> {
   // khong chay. mount-gate chon runtime dung (Node --experimental-strip-types, hoac bun du phong) va ghi
   // canh bao RO RANG khi khong runtime nao chay duoc — khong bao gio im lang.
   const gate = timePhase('cong chan mount', () => runMountGate({ script, cwd: repoRoot(), home: appHome() }));
-  console.log('[bh] cổng chặn mount: ' + gate.detail);
+  logChiTiet('[bh] cổng chặn mount: ' + gate.detail);
   if (gate.warning !== undefined) console.warn('[bh] ' + gate.warning);
   const verdicts = parseRowVerdicts(gate.output);
-  for (const verdict of verdicts) {
-    if (verdict.level === 'chan') continue;
-    // MUC KHONG-PHAI-CHAN: IN RA NHUNG KHONG BO ROW. Truoc 18/10/2026 duong mount coi MOI van de la chan
-    // (no substring-match chu 'chan' o BAT KY dau trong dong — ke ca trong CAU CHU cua mot canh bao),
-    // nen mot luat muc canh bao da BO QUA 2 row that: ui-permission-presets + ui-settings-subagent.
-    // Bang chung nguyen van: [bh] khong mount duoc ... (BO QUA (kiem tra truoc mount): artifact con cong chan
-    // KHAO THEO ctx ...) -> giu row cua DSH
-    console.log('[bh] ' + verdict.pkg + ': ' + verdict.level + ', van mount — ' + verdict.reason);
-  }
+  // MUC KHONG-PHAI-CHAN: IN RA NHUNG KHONG BO ROW. Truoc 18/10/2026 duong mount coi MOI van de la chan
+  // (no substring-match chu 'chan' o BAT KY dau trong dong — ke ca trong CAU CHU cua mot canh bao),
+  // nen mot luat muc canh bao da BO QUA 2 row that: ui-permission-presets + ui-settings-subagent.
+  // Bang chung nguyen van: [bh] khong mount duoc ... (BO QUA (kiem tra truoc mount): artifact con cong chan
+  // KHAO THEO ctx ...) -> giu row cua DSH
+  // 23/11/2026 — LOG KHOI DONG GON: cung danh sach nay di qua tomTatCanhBaoMount() ⇒ mac dinh MOT dong
+  // tong ket co dem, tung dong day du khi GBH_LOG=debug (yeu cau: mac dinh chi con dong [bh] ready).
+  tomTatCanhBaoMount(verdicts);
   for (const verdict of verdicts) {
     if (verdict.level !== 'chan') continue;
     blocked.set(verdict.pkg, verdict.reason);
@@ -355,7 +355,7 @@ export function buildIfStale(pkg: RewritePackage, libDir: string): boolean {
       cpSync(thuMucTypes, join(banSaoTypes, "types"), { recursive: true });
     } catch (error) {
       banSaoTypes = undefined;
-      console.log("[bh] canh bao: khong snapshot duoc lib/types cua " + pkg.specifier + " (" + String(error).slice(0, 80) + ")");
+      console.warn("[bh] canh bao: khong snapshot duoc lib/types cua " + pkg.specifier + " (" + String(error).slice(0, 80) + ")");
     }
   }
   // 12/11/2026 — build.ts dung Bun.build nên CHỈ chạy được bằng bun; Node phải dò bun (GBH_BUN/~/.bun/bin)
@@ -371,7 +371,7 @@ export function buildIfStale(pkg: RewritePackage, libDir: string): boolean {
     try {
       cpSync(join(banSaoTypes, "types"), thuMucTypes, { recursive: true, force: true });
     } catch (error) {
-      console.log("[bh] canh bao: khong phuc hoi duoc lib/types cua " + pkg.specifier + " (" + String(error).slice(0, 80) + ")");
+      console.warn("[bh] canh bao: khong phuc hoi duoc lib/types cua " + pkg.specifier + " (" + String(error).slice(0, 80) + ")");
     }
     try {
       rmSync(banSaoTypes, { recursive: true, force: true });
@@ -446,7 +446,7 @@ const trace = process.env.BH_TRACE === "1" ? (step: string): void => { console.l
       if (existsSync(join(repoLib, "index.js"))) {
         mkdirSync(join(dir, "lib"), { recursive: true });
         cpSync(repoLib, join(dir, "lib"), { recursive: true });
-        if (!embeddedHost()) console.log("[bh] " + pkg.specifier + ": dung artefact co san trong repo (build loi: " + buildError.slice(0, 120) + ")");
+        if (!embeddedHost()) console.warn("[bh] " + pkg.specifier + ": dung artefact co san trong repo (build loi: " + buildError.slice(0, 120) + ")");
       } else {
         throw new Error(buildError);
       }
@@ -554,7 +554,7 @@ export function linkInfrastructurePackages(): string[] {
       continue;
     }
   }
-  if (linked.length > 0) console.log("[bh] link ha tang: " + linked.join(", "));
+  logChiTiet("[bh] link ha tang: " + linked.join(", "));
   return linked;
 }
 
@@ -600,7 +600,7 @@ export function linkNativeAddonPackages(): string[] {
       continue;
     }
   }
-  if (linked.length > 0) console.log("[bh] link addon native: " + linked.join(", "));
+  logChiTiet("[bh] link addon native: " + linked.join(", "));
   return linked;
 }
 
@@ -645,7 +645,7 @@ export function ensureRewriteMounts(): MountResult[] {
   applyProvenanceAliases();
   // 08/11/2026 — liên kết đủ mọi gói GBH vào profile (xem linkMoiGoiGbh: import chéo id GBH từng làm chết boot).
   const soLink = linkMoiGoiGbh();
-  if (soLink > 0) console.log("[bh] lien ket them " + String(soLink) + " goi GBH vao profile");
+  if (soLink > 0) logChiTiet("[bh] lien ket them " + String(soLink) + " goi GBH vao profile");
   // 02/11/2026 — LINK HẠ TẦNG: gói hạ tầng của ta (cordis · schemastery · cosmokit) KHÔNG phải row nên
   // trước đây không được mount ⇒ nếu một artefact nào đó import '@galaxy-blackhole/gbh-cordis' thì
   // harness chết với ERR_MODULE_NOT_FOUND (đo được 13 lỗi, app không boot). Nay luôn link sẵn.
@@ -712,7 +712,7 @@ export function chepIconVaoProfile(): number {
       }
     }
   }
-  if (soIcon > 0) console.log("[bh] chep icon vao profile: " + String(soIcon));
+  if (soIcon > 0) logChiTiet("[bh] chep icon vao profile: " + String(soIcon));
   return soIcon;
 }
 
@@ -752,7 +752,7 @@ export function vaMatApiLlmDeepSeek(): number {
       continue;
     }
   }
-  if (soTep > 0) console.log("[bh] va mat API llm-deepseek: " + String(soTep) + " tep");
+  if (soTep > 0) logChiTiet("[bh] va mat API llm-deepseek: " + String(soTep) + " tep");
   return soTep;
 }
 
@@ -768,7 +768,7 @@ export function suaIdTrongProfile(): number {
     //   (66 MB / 3315 tep lib, 217 goi) du ket qua 0 tep. `GBH_FORCE_REWRITE=1` ep doi lai toan bo de debug.
     const force = (process.env.GBH_FORCE_REWRITE ?? "").trim() === "1";
     const kq = suaIdProfile(thuMuc, repoRoot(), { force });
-    console.log(
+    logChiTiet(
       "[bh] doi id stock -> GBH: " + String(kq.tep) + " tep / " + String(kq.goi) + " goi · manifest " + String(kq.manifest) +
         " · bo qua " + String(kq.boQua) + "/" + String(kq.soGoi) + " goi" +
         (force ? " (GBH_FORCE_REWRITE=1)" : kq.boQua > 0 ? " (stamp khop)" : ""),
@@ -840,7 +840,7 @@ export function applyHostAliases(results: readonly MountResult[]): string[] {
       }
     }
   }
-  if (applied.length > 0) console.log("[bh] host alias (toan cuc): " + applied.join(", "));
+  if (applied.length > 0) logChiTiet("[bh] host alias (toan cuc): " + applied.join(", "));
   return applied;
 }
 
@@ -993,6 +993,6 @@ export function applyProvenanceAliases(): string[] {
       }
     }
   }
-  if (applied.length > 0) console.log('[bh] alias provenance: ' + String(applied.length) + ' ten stock -> goi ta');
+  if (applied.length > 0) logChiTiet('[bh] alias provenance: ' + String(applied.length) + ' ten stock -> goi ta');
   return applied;
 }

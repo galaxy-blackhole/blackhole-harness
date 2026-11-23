@@ -19,6 +19,7 @@ import {
   repoRoot,
 } from "./paths.ts";
 import { phase, timePhase } from "./boot-timing.ts";
+import { logChiTietBat } from "./log.ts";
 import { chuanHoaProfile, ensureRewriteMounts } from "./mount.ts";
 import { ensureProfile, readAppPatch, writeAppPatch } from "./profile.ts";
 import { resolveNodeRuntime } from "./runtime.ts";
@@ -100,6 +101,9 @@ export function brandLogLine(line: string): string {
     .replace(/^dsh (?=web:|inspector:)/u, "gbh ")
     .replace(/^dsh: /u, "gbh: ");
 }
+
+/** Dòng THÔNG TIN của harness con (không phải lỗi) — bị bỏ ở mức log mặc định cho log khởi động gọn. */
+const DONG_THONG_TIN = /^(?:gbh|dsh) (?:web|inspector): /u;
 
 /**
  * Extracts the authenticated URL the web bundle prints on stdout (`dsh web: http://...?token=...`).
@@ -217,7 +221,13 @@ export function spawnHost(options: HostOptions): HostProcess {
       pending += chunk;
       const lines = pending.split(/\r?\n/u);
       pending = lines.pop() ?? "";
-      for (const line of lines) sink.write(brandLogLine(line) + "\n");
+      for (const line of lines) {
+        const nhan = brandLogLine(line);
+        // 23/11/2026 — mức mặc định CHỈ giữ lỗi thật: "gbh web:" / "gbh inspector:" là thông tin thuần, không phải
+        // lỗi, nên bỏ đi; dòng "[bh] ready" do CHÍNH tiến trình này in (URL lấy từ buffer, không phụ thuộc relay).
+        if (!logChiTietBat() && DONG_THONG_TIN.test(nhan)) continue;
+        sink.write(nhan + "\n");
+      }
     };
   };
   const relayOut = relayTo(process.stdout);

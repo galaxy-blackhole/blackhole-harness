@@ -2,9 +2,10 @@
  * author Bùi Trọng Hiếu
  * email kevinbui210191@gmail.com
  * create date 15/10/2026
- * modify date 12/11/2026
+ * modify date 23/11/2026
  * desc Diem vao CLI `bh`: host (boot harness + URL ?token=), doctor (bao cao), dump-config (parity)
  *      12/11/2026: moc do pha "di tru tu dong" + "spawn kernel" (GBH_BOOT_TIMING=1) — do khởi động
+ *      23/11/2026: mac dinh CHI in dong `[bh] ready`; banner + khoi migrate chi hien khi GBH_LOG=debug/--verbose
  */
 
 import { phase } from "./boot-timing.ts";
@@ -15,6 +16,7 @@ import { autoMigrate } from "./auto-migrate.ts";
 import { defaultNewHome, defaultOldHome, migrateHome, type MigrateReport } from "./migrate.ts";
 import { galaxyRoot } from "./paths.ts";
 import { isPortAvailable, portOwnerHint } from "./port.ts";
+import { datMucLog, logChiTiet } from "./log.ts";
 
 /** Exit codes the Tauri shell branches on. */
 export const EXIT = { ok: 0, error: 1, usage: 2, portBusy: 3 } as const;
@@ -37,6 +39,8 @@ export interface CliOptions {
   dryRun: boolean;
   /** Extra `--patch` overlays, forwarded to the harness. */
   extraPatches: string[];
+  /** In đủ chi tiết khởi động — tương đương GBH_LOG=debug (đặt vào env cho cả harness con). */
+  verbose: boolean;
   /** Home cũ cho `migrate` (chỉ đọc); rỗng = mặc định ~/.galaxy/gbh. */
   migrateFrom: string;
   /** Home mới cho `migrate`; rỗng = mặc định của app (GBH_HOME hoặc ~/.galaxy/blackhole). */
@@ -61,8 +65,9 @@ export function usage(): string {
   return [
     "bh — Galaxy Blackhole Desktop launcher",
     "",
-    "  bh host [--port 5439] [--profile blackhole] [--open] [--auto-port] [--patch <file>]",
+    "  bh host [--port 5439] [--profile blackhole] [--open] [--auto-port] [--patch <file>] [--verbose]",
     "      boot the harness host of this app and print the ?token= URL the shell opens",
+    "      --verbose prints every boot detail (same as GBH_LOG=debug); default prints only the ready line",
     "  bh host --dry-run",
     "      print runtime, home, patch and argv without booting",
     "  bh host --dump-config",
@@ -97,6 +102,7 @@ export function parseArgs(argv: string[]): CliParseResult {
     dumpConfig: false,
     dryRun: false,
     extraPatches: [],
+    verbose: false,
     migrateFrom: "",
     migrateTo: "",
   };
@@ -150,6 +156,9 @@ export function parseArgs(argv: string[]): CliParseResult {
       case "--dry-run":
         options.dryRun = true;
         break;
+      case "--verbose":
+        options.verbose = true;
+        break;
       case "--help":
       case "-h":
         return { help: true };
@@ -177,6 +186,12 @@ export async function main(argv: string[]): Promise<number> {
     return EXIT.usage;
   }
   const invocation = parsed.options;
+  if (invocation.verbose) {
+    // 23/11/2026 — `--verbose` = cùng ngưỡng với GBH_LOG=debug. Đặt vào ENV để tiến trình harness CON (nơi mount
+    // preset in chẩn đoán) cũng thấy; `hostChildEnv` kế thừa process.env nên không cần thêm tham số nào.
+    datMucLog("debug");
+    process.env.GBH_LOG = "debug";
+  }
   if (invocation.command === "doctor") return await runDoctor(invocation.port);
   if (invocation.command === "migrate") {
     // 10/11/2026 (Lead): người dùng chuyển từ galaxy-code (home ~/.galaxy/gbh) sang bản GBH này
@@ -196,8 +211,9 @@ export async function main(argv: string[]): Promise<number> {
   try {
     const ketQua = autoMigrate({ galaxyRoot: galaxyRoot() });
     if (ketQua.ran && ketQua.report !== undefined) {
-      for (const line of describeMigrate(ketQua.report)) console.log(line);
-      console.log("[bh] migrate: đã ghi cờ migrate: true vào " + ketQua.credentialsPath);
+      // 23/11/2026 — khoi di tru nay chi la TIEN TRINH cua lan boot dau, khong phai ket qua: chi hien khi debug.
+      for (const line of describeMigrate(ketQua.report)) logChiTiet(line);
+      logChiTiet("[bh] migrate: đã ghi cờ migrate: true vào " + ketQua.credentialsPath);
     }
   } catch (error) {
     console.warn("[bh] migrate tự động bỏ qua: " + (error as Error).message);
@@ -253,7 +269,8 @@ export async function main(argv: string[]): Promise<number> {
     console.error(`bh: ${(error as Error).message}`);
     return EXIT.error;
   }
-  for (const line of describeLaunch(host.launch)) console.log(`[bh] ${line}`);
+  // 23/11/2026 — banner (node · harness · home · profile · patch · rewrite · argv) la chi tiet, khong phai ket qua.
+  for (const line of describeLaunch(host.launch)) logChiTiet(`[bh] ${line}`);
   host.ready.catch((error: Error) => {
     console.error(`bh: ${error.message}`);
   });

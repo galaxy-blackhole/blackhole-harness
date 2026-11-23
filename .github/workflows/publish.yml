@@ -78,5 +78,5 @@ jobs:
           if [ "$count" -lt 320 ]; then echo "thieu lib/index.js: $count < 320" >&2; exit 1; fi
       - name: Publish harness
         env:
-          GBH_HARNESS_VERSION: 0.1.16
+          GBH_HARNESS_VERSION: 0.1.17
         run: bun run tools/publish-harness.mjs --trusted

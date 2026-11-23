@@ -2,10 +2,12 @@
  * author Bùi Trọng Hiếu
  * email kevinbui210191@gmail.com
  * create date 15/10/2026
- * modify date 19/10/2026
+ * modify date 23/11/2026
  * desc Mount một revision preset vào scope riêng + audit hàng + phát hiện service RÒ — port 1:1
  *      `PresetTree`, `withinFiber`, `leakedServices`, `serviceForMount`, `detailBranches`, `mountDetail`,
  *      `auditRows`, `mountPreset`.
+ *      23/11/2026: mọi dòng CHẨN ĐOÁN (probe/inject/fiber/task-204) đi qua bootLog() — mặc định im lặng,
+ *      chỉ in khi GBH_LOG=debug/--verbose để log khởi động mặc định chỉ còn `[bh] ready`.
  */
 
 import { Context } from "@deepseek-ai/cordis";
@@ -13,6 +15,7 @@ import { prepareProfileEntries } from "@deepseek-ai/dsh-app-boot";
 import { scopeOf } from "@deepseek-ai/dsh-scope";
 import { EntryTree } from "@deepseek-ai/cordis-plugin-loader";
 
+import { bootLog, bootLogOn } from "./boot-log.ts";
 import { collectEntryNames, isUnresolvedStockName, readNestedRedirects, rewriteNestedNames } from "./nested-mount.ts";
 import type { PresetMount, RowAudit } from "./types.ts";
 
@@ -176,10 +179,12 @@ export async function auditRows(tree: { await(): Promise<void>; entries(): Itera
  * Nhận: scopeContext — context scope preset; presetId — nhãn log. Trả: không.
  */
 function logToolsLater(scopeContext: unknown, presetId: string, cheDo: string): void {
+  // 23/11/2026 — mức log mặc định: khong dung chẩn đoán và cũng khong đặt timer (đỡ việc cho đường boot).
+  if (!bootLogOn()) return;
   for (const moc of [5000, 10000, 20000]) {
     const timer = setTimeout(() => {
       const liet = describeTools(scopeContext);
-      console.log("agent-preset[" + presetId + "] probe (" + cheDo + ") tool da dang ky (muon " + String(moc) + "ms): " + liet);
+      bootLog("agent-preset[" + presetId + "] probe (" + cheDo + ") tool da dang ky (muon " + String(moc) + "ms): " + liet);
     }, moc);
     (timer as unknown as { unref?: () => void }).unref?.();
   }
@@ -193,19 +198,21 @@ function logToolsLater(scopeContext: unknown, presetId: string, cheDo: string): 
  * Trả: không (chỉ log; lỗi được nuốt vì đây là phép đo, không phải đường nghiệp vụ).
  */
 function logToolsAfterSettle(scopeContext: unknown, presetId: string, tree: { entries(): Iterable<unknown> } | undefined, cheDo: string): void {
+  // 23/11/2026 — mức log mặc định: khong dựng chẩn đoán (describeTools + timer) cho log khởi động gọn.
+  if (!bootLogOn()) return;
   const moc = [200, 700, 1500, 3000];
   let da = 0;
   const thu = (): void => {
     const liet = describeTools(scopeContext);
     const coSchedule = liet.includes("schedule_");
     if (coSchedule || da === moc.length - 1) {
-      console.log("agent-preset[" + presetId + "] probe (" + cheDo + ") tool da dang ky (sau mount settle, moc " + String(moc[da]) + "ms): " + liet);
+      bootLog("agent-preset[" + presetId + "] probe (" + cheDo + ") tool da dang ky (sau mount settle, moc " + String(moc[da]) + "ms): " + liet);
       // Chẩn đoán DỊCH VỤ trong CHÍNH realm của preset — chặn thật nằm ở inject ĐỘNG `ctx.inject(['schedule'])`
       // bên trong apply của plugin, nên phải đo `ctx.get('schedule')` ở đây chứ không chỉ đọc inject tĩnh.
-      console.log("agent-preset[" + presetId + "] dich vu trong realm preset: " + describeService(scopeContext, "schedule") + " · " + describeService(scopeContext, "tools"));
-      console.log("agent-preset[" + presetId + "] tool trong ROOT runtime loc 'schedule': " + describeRootScheduleTools(scopeContext));
+      bootLog("agent-preset[" + presetId + "] dich vu trong realm preset: " + describeService(scopeContext, "schedule") + " · " + describeService(scopeContext, "tools"));
+      bootLog("agent-preset[" + presetId + "] tool trong ROOT runtime loc 'schedule': " + describeRootScheduleTools(scopeContext));
       void describeEntryFiber(tree, presetId);
-      if (!coSchedule) console.log("agent-preset[" + presetId + "] inject chua tho (sau settle): " + describeInjectState(tree));
+      if (!coSchedule) bootLog("agent-preset[" + presetId + "] inject chua tho (sau settle): " + describeInjectState(tree));
       return;
     }
     da += 1;
@@ -279,18 +286,18 @@ async function describeEntryFiber(tree: { entries(): Iterable<unknown> } | undef
       if (entry.options?.name?.includes("gbh-tool-schedule") !== true) continue;
       const fiber = entry.fiber;
       if (fiber === undefined) {
-        console.log("agent-preset[" + presetId + "] fiber tool-schedule: (khong co fiber)");
+        bootLog("agent-preset[" + presetId + "] fiber tool-schedule: (khong co fiber)");
         continue;
       }
       try {
         await fiber.await();
-        console.log("agent-preset[" + presetId + "] fiber tool-schedule: apply xong KHONG loi");
+        bootLog("agent-preset[" + presetId + "] fiber tool-schedule: apply xong KHONG loi");
       } catch (error) {
-        console.log("agent-preset[" + presetId + "] fiber tool-schedule: LOI " + String(error).slice(0, 160));
+        bootLog("agent-preset[" + presetId + "] fiber tool-schedule: LOI " + String(error).slice(0, 160));
       }
     }
   } catch (error) {
-    console.log("agent-preset[" + presetId + "] fiber tool-schedule: loi doc cay " + String(error).slice(0, 80));
+    bootLog("agent-preset[" + presetId + "] fiber tool-schedule: loi doc cay " + String(error).slice(0, 80));
   }
 }
 
@@ -452,7 +459,7 @@ function nestedRedirectsFor(plugins: readonly unknown[]): { readonly map: Readon
     const fresh = readNestedRedirects();
     for (const warning of fresh.warnings) console.warn(warning);
     if (fresh.map.size > current.map.size) {
-      console.log("agent-preset: doc LAI ban do redirect row long (" + String(current.map.size) + " -> " + String(fresh.map.size) + " muc) vi con ten stock chua phu: " + unresolved.slice(0, 4).join(", "));
+      bootLog("agent-preset: doc LAI ban do redirect row long (" + String(current.map.size) + " -> " + String(fresh.map.size) + " muc) vi con ten stock chua phu: " + unresolved.slice(0, 4).join(", "));
     }
     nestedCache = fresh;
   } catch (error) {
@@ -483,14 +490,15 @@ export async function mountPreset(ctx: unknown, id: string, plugins: readonly un
   // Bằng chứng RUNTIME (ADR 0007 §5): in 1 dòng cho mỗi plugin bị đổi tên — đây là log để đối chiếu khi boot,
   // vì `--dump-config` KHÔNG thấy được (redirect xảy ra lúc mount, không nằm trong văn bản config).
   if (effectivePlugins !== plugins) {
-    for (const line of describeRedirects(plugins, effectivePlugins)) console.log("agent-preset[" + id + "] " + line);
+    for (const line of describeRedirects(plugins, effectivePlugins)) bootLog("agent-preset[" + id + "] " + line);
   }
   const prepared = prepareProfileEntries(scopeContext as never, effectivePlugins as never, scopeContext.baseUrl as never);
   await (tree as unknown as { root: { update(value: unknown): Promise<void> } }).root.update(prepared);
   const audit = await auditRows(tree as unknown as { await(): Promise<void>; entries(): Iterable<unknown> });
   // task-204 — BẰNG CHỨNG RUNTIME: liệt kê entry ĐÃ KHAI vs entry CÓ THẬT trong cây sau khi mount, kèm lý do loại.
   // Mục đích: thấy đúng chỗ preset cordis đánh rơi `tool-schedule` (không phải đoán).
-  {
+  // 23/11/2026 — cả khối là CHẨN ĐOÁN: mức log mặc định bỏ qua để không dựng cây/flatten vô ích.
+  if (bootLogOn()) {
     /** Rút (id, name, disabled) từ một node entry bất kỳ của Loader. */
     const identify = (value: unknown): { id: string; name: string; disabled: boolean; error: string } => {
       const record = value as {
@@ -522,16 +530,16 @@ export async function mountPreset(ctx: unknown, id: string, plugins: readonly un
     const mounted = [...tree.entries()].map(identify);
     const mountedIds = new Set(mounted.map((row) => row.id));
     const dropped = declared.filter((row) => !row.disabled && !mountedIds.has(row.id));
-    console.log(
+    bootLog(
       "agent-preset[" + id + "] task-204: khai " + String(declared.length) + " · cây có " + String(mounted.length) +
         " · BỊ RƠI " + String(dropped.length) +
         (dropped.length === 0 ? "" : " ⇒ " + dropped.map((row) => row.id + "(" + row.name + ")" + (row.error === "" ? "" : " loi=" + row.error)).join(" | ")),
     );
     if (id === "cordis") {
-      for (const row of declared) console.log("agent-preset[cordis] task-204 khai: " + row.id + " (" + row.name + ")" + (row.disabled ? " [disabled]" : ""));
-      for (const row of mounted) console.log("agent-preset[cordis] task-204 cây: " + row.id + " (" + row.name + ")" + (row.disabled ? " [disabled]" : "") + (row.error === "" ? "" : " loi=" + row.error));
-      for (const row of audit.failed) console.log("agent-preset[cordis] task-204 audit FAILED: " + row);
-      for (const row of audit.pending) console.log("agent-preset[cordis] task-204 audit PENDING: " + row);
+      for (const row of declared) bootLog("agent-preset[cordis] task-204 khai: " + row.id + " (" + row.name + ")" + (row.disabled ? " [disabled]" : ""));
+      for (const row of mounted) bootLog("agent-preset[cordis] task-204 cây: " + row.id + " (" + row.name + ")" + (row.disabled ? " [disabled]" : "") + (row.error === "" ? "" : " loi=" + row.error));
+      for (const row of audit.failed) bootLog("agent-preset[cordis] task-204 audit FAILED: " + row);
+      for (const row of audit.pending) bootLog("agent-preset[cordis] task-204 audit PENDING: " + row);
     }
   }
   // Bằng chứng RUNTIME cho ADR 0007 §5/§7.4: chạy SONG SONG ở cả hai chế độ (redirect bật/tắt) để A/B đúng nghĩa
@@ -539,7 +547,7 @@ export async function mountPreset(ctx: unknown, id: string, plugins: readonly un
   const hasSchedulePlugin = JSON.stringify(plugins).includes("tool-schedule");
   if (hasSchedulePlugin) {
     const cheDo = effectivePlugins === plugins ? "redirect:OFF" : "redirect:ON";
-    console.log("agent-preset[" + id + "] probe (" + cheDo + ") tool da dang ky (ngay sau mount): " + describeTools(scopeContext));
+    bootLog("agent-preset[" + id + "] probe (" + cheDo + ") tool da dang ky (ngay sau mount): " + describeTools(scopeContext));
     logToolsAfterSettle(scopeContext, id, tree as unknown as { entries(): Iterable<unknown> }, cheDo);
     logToolsLater(scopeContext, id, cheDo);
   }
