@@ -17,8 +17,9 @@
     "./src/*": "./src/*",
     "./locale/*.json": "./locale/*.json",
     "./typert": {
-      "import": "./src/typert-face/typert.host.js",
-      "types": "./src/typert-face/typert.host.d.ts"
+      "types": "./lib/typert-face/typert.host.d.ts",
+      "import": "./lib/typert-face/typert.host.js",
+      "default": "./lib/typert-face/typert.host.js"
     }
   },
   "peerDependencies": {
