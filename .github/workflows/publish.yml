@@ -82,7 +82,7 @@ jobs:
           if [ "$count" -lt 320 ]; then echo "thieu lib/index.js: $count < 320" >&2; exit 1; fi
       - name: Publish harness
         env:
-          GBH_HARNESS_VERSION: 0.1.21
+          GBH_HARNESS_VERSION: 0.1.22
         run: |
           # Moi push len main deu chay workflow nay, nhung chi version MOI moi publish duoc. Bo qua khi
           # version da co tren npm de push tai lieu/workflow khong sinh mot luot do gia.
