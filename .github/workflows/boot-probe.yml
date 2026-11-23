@@ -56,7 +56,10 @@ jobs:
           cd /tmp/probe
           npm i playwright --no-audit --no-fund 2>&1 | tail -1
           npx playwright install --with-deps chromium >/dev/null 2>&1
-          node "$GITHUB_WORKSPACE/tools/boot-probe.mjs" "$(cat url.txt)"
+          # Chạy script NGAY TRONG /tmp/probe: ESM phân giải 'playwright' từ vị trí tệp, không đọc NODE_PATH,
+          # nên để script ở $GITHUB_WORKSPACE thì import sẽ nổ ERR_MODULE_NOT_FOUND (lượt chạy 23/11 09:02).
+          cp "$GITHUB_WORKSPACE/tools/boot-probe.mjs" /tmp/probe/boot-probe.mjs
+          node /tmp/probe/boot-probe.mjs "$(cat url.txt)"
       - name: Nhật ký host khi hỏng
         if: failure()
         run: |
