@@ -177,6 +177,9 @@ export async function buildPackage(outDir?: string): Promise<{ host: string; cli
  * parity so TỪNG BYTE với bundle gốc), nên không thể thêm chuỗi tiếng Việt vào nguồn. Nhưng trang Model
  * của người dùng Việt cần tiếng Việt. Bản vá idempotent: chạy lại không nhân đôi.
  * @param target - đường dẫn `lib/client.js` vừa build.
+ * @remarks 23/11/2026 (yêu cầu Lead): CHỈ đăng ký `en` + `vi` — bỏ hẳn tiếng Trung khỏi bản đăng ký
+ *   của namespace này. Khối `zh` vẫn nằm trong artefact (do bundle gốc sinh) nhưng không được đăng ký,
+ *   nên locale `zh` sẽ rơi về `en`; muốn gỡ cả khối thì phải cắt khỏi artefact và sẽ phá test parity byte.
  * @returns không.
  */
 function themTiengViet(target: string): void {
@@ -189,7 +192,7 @@ function themTiengViet(target: string): void {
     return;
   }
   const daChen = goc.replace("const zh = {", tuDien + "const zh = {");
-  writeFileSync(target, daChen.replace(neoDangKy, "ctx.locale.register(NS, { zh, en, vi })"));
+  writeFileSync(target, daChen.replace(neoDangKy, "ctx.locale.register(NS, { en, vi })"));
 }
 
 /**
