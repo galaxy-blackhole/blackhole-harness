@@ -18,9 +18,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      # 23/11/2026 — GHIM bun: bun MỚI emit decorator TC39 thành `async[(_dec = [...], "ten")]()`,
+      # và `Function.prototype.toString` của method khi đó trả chuỗi có "(" nằm TRONG decorator ⇒ Gateway
+      # parse sai chữ ký ⇒ app báo "agentPresets/list: SRC method ... must use unique identifier parameters".
+      # Bun 1.3.14 (bản dựng trên máy dev, đã kiểm artefact sạch) giữ method dạng `async remoteExportList()`.
       - uses: oven-sh/setup-bun@v2
         with:
-          bun-version: latest
+          bun-version: 1.3.14
       - uses: actions/setup-node@v4
         with:
           node-version: 22
@@ -48,6 +52,13 @@ jobs:
             mkdir -p "$(dirname "$f")"
             cp "/tmp/base/package/$f" "$f"
           done
+          # 23/11/2026 — cổng chặn artefact có decorator emit dạng computed-key: Gateway đọc chữ ký bằng
+          # Function.prototype.toString nên dạng đó luôn làm sai chữ ký (sự cố agentPresets/list).
+          if grep -rIl 'async\[(_dec' packages/*/*/lib/*.js 2>/dev/null | head -5 | grep -q .; then
+            echo "artefact co decorator emit dang computed-key (async[(_dec = ...)]) — doi bun/bo build:" >&2
+            grep -rIl 'async\[(_dec' packages/*/*/lib/*.js 2>/dev/null | head -5 >&2
+            exit 1
+          fi
           count=$(find packages -path '*/lib/index.js' | wc -l | tr -d ' ')
           echo "lib/index.js sau khi lay nen 0.1.14: $count (0.1.14 co 328)"
       - name: Build lai dung cac goi da sua trong ngay
@@ -82,7 +93,7 @@ jobs:
           if [ "$count" -lt 320 ]; then echo "thieu lib/index.js: $count < 320" >&2; exit 1; fi
       - name: Publish harness
         env:
-          GBH_HARNESS_VERSION: 0.1.23
+          GBH_HARNESS_VERSION: 0.1.24
         run: |
           # Moi push len main deu chay workflow nay, nhung chi version MOI moi publish duoc. Bo qua khi
           # version da co tren npm de push tai lieu/workflow khong sinh mot luot do gia.
