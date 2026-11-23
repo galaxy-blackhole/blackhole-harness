@@ -68,7 +68,9 @@ jobs:
           # thang .app => EACCES), nen phai build lai tu src (da co openCommand platform-aware).
           # 4 goi ta SUA: goal (mat typert) · agent-preset-registry (cong log) · open-in-app (open -a) ·
           # typert-loader (khong nem AggregateError => khong rut sach so typert).
-          for dir in packages/host/goal packages/host/agent-preset-registry packages/host/open-in-app packages/host/typert-loader; do
+          # 5 goi ta SUA: goal (mat typert) · agent-preset-registry (cong log) · open-in-app (open -a) ·
+          # typert-loader (khong nem AggregateError) · client/ui-settings-models (tu dien en+vi trang Model).
+          for dir in packages/host/goal packages/host/agent-preset-registry packages/host/open-in-app packages/host/typert-loader packages/client/ui-settings-models; do
             echo "--- build $dir"
             ( cd "$dir" && bun run build.ts )
           done
@@ -83,6 +85,9 @@ jobs:
             exit 1
           fi
           grep -q "failed to register (đã bỏ qua" packages/host/typert-loader/lib/index.js
+          # 23/11/2026 — trang Model phai co tu dien tieng Viet va CHI dang ky en + vi (Lead bo tieng Trung).
+          grep -q "const vi = {" packages/client/ui-settings-models/lib/client.js
+          grep -q "ctx.locale.register(NS, { en, vi })" packages/client/ui-settings-models/lib/client.js
           # ban va open-in-app: tren macOS phai goi "open -a", khong spawn thang bundle (EACCES)
           grep -q "open -a\|\"open\", \[" packages/host/open-in-app/lib/index.js || node -e "const fs=require('fs');const t=fs.readFileSync('packages/host/open-in-app/lib/index.js','utf8');if(!/open/.test(t)){console.error('open-in-app lib khong co lenh open');process.exit(1)};console.log('open-in-app lib co lenh open')"
           echo "ban va da nam trong lib/"
@@ -93,7 +98,7 @@ jobs:
           if [ "$count" -lt 320 ]; then echo "thieu lib/index.js: $count < 320" >&2; exit 1; fi
       - name: Publish harness
         env:
-          GBH_HARNESS_VERSION: 0.1.25
+          GBH_HARNESS_VERSION: 0.1.26
         run: |
           # Moi push len main deu chay workflow nay, nhung chi version MOI moi publish duoc. Bo qua khi
           # version da co tren npm de push tai lieu/workflow khong sinh mot luot do gia.
