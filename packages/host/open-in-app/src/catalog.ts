@@ -135,8 +135,14 @@ async function defaultExists(path: string): Promise<boolean> {
  * @param path - duong dan tuyet doi nguoi dung chon.
  * @returns cap lenh + tham so cho node:child_process.
  */
-export function openCommand(launcher: OpenInAppLauncher, path: string): { command: string; args: string[] } {
-  if (launcher.id === "explorer" || launcher.id === "vscode") {
+export function openCommand(
+  launcher: OpenInAppLauncher,
+  path: string,
+  platform: NodeJS.Platform = process.platform,
+): { command: string; args: string[] } {
+  // 23/11/2026 - macOS bundle la THU MUC .app: spawn thang -> EACCES (do duoc).
+  // Chi win32 moi chay thang .exe.
+  if (platform === "win32" && (launcher.id === "explorer" || launcher.id === "vscode")) {
     return { command: launcher.bundle, args: [path] };
   }
   if (launcher.id === "windowsterminal") {

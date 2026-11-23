@@ -64,5 +64,9 @@ const { version } = JSON.parse(readFileSync(join(STAGING, "package.json"), "utf8
 /** Tarball tuyệt đối — npm chỉ hiểu đúng khi đường dẫn tuyệt đối hoặc bắt đầu bằng ./ */
 const tarball = join(OUT, "galaxy-blackhole-blackhole-harness-" + version + ".tgz");
 console.log("[publish-harness] tarball: " + tarball + " (version " + version + ")");
-const extra = process.argv.slice(2);
+// 23/11/2026 — "—--trusted": dang nhap bang OIDC (GitHub Actions) nen KHONG can token;
+// npm hieu co "—--provenance" (npm>=9.5). Co nay chi doi ten, khong doi hanh vi publish khac.
+const rawExtra = process.argv.slice(2);
+const extra = rawExtra.map((flag) => (flag === "--trusted" ? "--provenance" : flag));
+if (!rawExtra.includes("--trusted") && process.env.GITHUB_ACTIONS === "true") extra.push("--provenance");
 run(npm.command, [...npm.prefix, "publish", tarball, "--access", "public", ...extra], REPO);

@@ -1,0 +1,33 @@
+# author Bùi Trọng Hiếu
+# email kevinbui210191@gmail.com
+# create date 15/10/2026
+# modify date 23/11/2026
+# desc Publish @galaxy-blackhole/blackhole-harness len npm khi push len main.
+#      Dung TRUSTED PUBLISHING (OIDC) — khong can NPM_TOKEN; npm>=11.5 moi ho tro.
+#      Ten tep phai khop "Workflow filename" da khai tren npmjs: publish.yml
+name: publish
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+  id-token: write
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          registry-url: https://registry.npmjs.org
+      - name: Nang npm de ho tro OIDC trusted publishing
+        run: npm install -g npm@latest && npm --version
+      - name: Cai dat
+        run: bun install --frozen-lockfile
+      - name: Publish harness
+        run: bun run tools/publish-harness.mjs --trusted
