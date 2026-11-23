@@ -2,7 +2,7 @@
  * author Bùi Trọng Hiếu
  * email kevinbui210191@gmail.com
  * create date 15/10/2026
- * modify date 18/10/2026
+ * modify date 23/11/2026
  * desc Build hai nửa của package: lib/index.js (node ESM) và lib/client.js (script classic, MỘT id)
  */
 
@@ -17,6 +17,7 @@ import { debundleClient } from "../../../tools/debundle-client.ts";
 import { mkdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { PACKAGE_NAME, STOCK_PACKAGE_NAME } from "./src/ids.ts";
+import { vi } from "./src/locales.ts";
 
 /** Năm dòng header bắt buộc của repo, in vào artifact để bản build cũng tự khai nguồn. */
 const GENERATED_HEADER = [
@@ -163,9 +164,32 @@ export async function buildPackage(outDir?: string): Promise<{ host: string; cli
     ? await buildDebundledClient()
     : await buildClientHalf(out);
   anNhanTuyChinh(client);
+  themTiengViet(client);
   // anNutSua(client) — ĐÃ BỎ 24/10/2026, xem chú thích ở import phía trên.
   void renameClientArtifact;
   return { host, client };
+}
+
+/**
+ * Chèn bộ từ điển TIẾNG VIỆT cho trang Model vào artefact client.
+ *
+ * Vì sao cần bản vá thay vì sửa thẳng artefact: artefact de-bundle phải giữ hình dạng stock (bốn test
+ * parity so TỪNG BYTE với bundle gốc), nên không thể thêm chuỗi tiếng Việt vào nguồn. Nhưng trang Model
+ * của người dùng Việt cần tiếng Việt. Bản vá idempotent: chạy lại không nhân đôi.
+ * @param target - đường dẫn `lib/client.js` vừa build.
+ * @returns không.
+ */
+function themTiengViet(target: string): void {
+  const goc = readFileSync(target, "utf8");
+  if (goc.includes("const vi = {")) return;
+  const tuDien = "const vi = " + JSON.stringify(vi) + ";\n\t\t";
+  const neoDangKy = /ctx\.locale\.register\(NS, \{\s*zh,\s*en\s*\}\)/u;
+  if (!neoDangKy.test(goc)) {
+    console.warn("[bh] ui-settings-models: khong thay neo dang ky tu dien — bo qua ban va tieng Viet");
+    return;
+  }
+  const daChen = goc.replace("const zh = {", tuDien + "const zh = {");
+  writeFileSync(target, daChen.replace(neoDangKy, "ctx.locale.register(NS, { zh, en, vi })"));
 }
 
 /**
