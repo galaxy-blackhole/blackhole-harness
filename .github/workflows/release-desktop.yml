@@ -1,0 +1,367 @@
+# author Bùi Trọng Hiếu
+# email kevinbui210191@gmail.com
+# create date 23/11/2026
+# modify date 23/11/2026
+# desc Phát hành app desktop 3 nền vào MỘT release của repo này (repo CÔNG KHAI nên tệp cài tải được
+#      không cần đăng nhập, và macOS runner dùng được — repo private không có macOS runner).
+#      23/11/2026: chuyển từ galaxy-code sang đây vì runner macOS + tệp cài công khai.
+#      Vỏ Tauri: apps/desktop (macOS), apps/desktop-windows (Windows + Linux). Host đóng vào app lấy
+#      từ npm theo đúng version đã publish. Version app = version CLI mới nhất trên npm (hoặc input).
+
+name: release-desktop
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Version của app desktop (mặc định = version CLI mới nhất trên npm)"
+        required: false
+        default: ""
+      harness_version:
+        description: "Version harness đóng vào app (mặc định: bản mới nhất trên npm)"
+        required: false
+        default: "latest"
+      ref:
+        description: "Nhánh/tag chứa mã vỏ Tauri"
+        required: false
+        default: "main"
+      publish_release:
+        description: "Tạo/cập nhật release desktop-v<version> (false = chỉ build, để tải artifact)"
+        required: false
+        default: true
+        type: boolean
+  push:
+    tags:
+      - "desktop-v*"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: release-desktop-${{ github.ref }}
+  cancel-in-progress: false
+
+env:
+  # Runtime Node nhúng trong app: harness chỉ boot bằng Node (native addon cần symbol V8), không bun.
+  NODE_RUNTIME_VERSION: "26.9.0"
+
+jobs:
+  resolve:
+    name: Chốt version + tarball harness
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+      tarball: ${{ steps.tarball.outputs.url }}
+      harness_version: ${{ steps.tarball.outputs.version }}
+      publish: ${{ steps.version.outputs.publish }}
+    steps:
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - name: Chốt version app
+        id: version
+        run: |
+          version="${{ inputs.version }}"
+          if [ -z "$version" ]; then version=$(npm view @galaxy-stack/blackhole-cli version); fi
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+          # Tag push desktop-vX dùng chính X, để tên tệp và tên release không lệch nhau.
+          echo "app version: $version"
+          publish="${{ inputs.publish_release }}"
+          if [ -z "$publish" ]; then publish=true; fi
+          echo "publish=$publish" >> "$GITHUB_OUTPUT"
+      - name: Chốt tarball harness
+        id: tarball
+        run: |
+          want="${{ inputs.harness_version }}"
+          if [ -z "$want" ]; then want=latest; fi
+          url=$(npm view "@galaxy-blackhole/blackhole-harness@$want" dist.tarball)
+          version=$(npm view "@galaxy-blackhole/blackhole-harness@$want" version)
+          if [ -z "$url" ]; then echo "không tìm được tarball harness@$want" >&2; exit 1; fi
+          echo "url=$url" >> "$GITHUB_OUTPUT"
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+          echo "harness: $version ($url)"
+
+  macos:
+    name: macOS ${{ matrix.arch }}
+    needs: resolve
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 90
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - arch: arm64
+            runner: macos-14
+            node_arch: arm64
+          - arch: x64
+            runner: macos-13
+            node_arch: x64
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.ref || 'main' }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: swatinem/rust-cache@v2
+        with:
+          workspaces: apps/desktop/src-tauri
+      - name: Đóng host harness từ npm
+        run: |
+          version="${{ needs.resolve.outputs.harness_version }}"
+          tarball="${{ needs.resolve.outputs.tarball }}"
+          echo "harness $version"
+          npm install --prefix "$RUNNER_TEMP/stage" "$tarball" --omit=dev --no-audit --no-fund
+          pkg="$RUNNER_TEMP/stage/node_modules/@galaxy-blackhole/blackhole-harness"
+          test -f "$pkg/apps/cli/src/main.ts"
+          test -f "$pkg/apps/cli/lib/main.js"
+          echo "PKG=$pkg" >> "$GITHUB_ENV"
+      - name: Tải runtime Node ${{ env.NODE_RUNTIME_VERSION }} (${{ matrix.arch }})
+        run: |
+          url="https://nodejs.org/dist/v${{ env.NODE_RUNTIME_VERSION }}/node-v${{ env.NODE_RUNTIME_VERSION }}-darwin-${{ matrix.node_arch }}.tar.gz"
+          curl -fsSL "$url" -o "$RUNNER_TEMP/node.tar.gz"
+          mkdir -p "$RUNNER_TEMP/node"
+          tar -xzf "$RUNNER_TEMP/node.tar.gz" -C "$RUNNER_TEMP/node" --strip-components=1
+          "$RUNNER_TEMP/node/bin/node" --version
+      - name: Build vỏ Tauri macOS
+        working-directory: apps/desktop
+        run: |
+          npm install --no-audit --no-fund
+          npm run build -- --bundles app --config '{"version":"${{ needs.resolve.outputs.version }}"}'
+      - name: Đóng host + runtime vào .app
+        run: |
+          app=$(find apps/desktop/src-tauri/target/release/bundle/macos -maxdepth 1 -name "*.app" | head -1)
+          if [ -z "$app" ]; then echo "không tìm thấy .app" >&2; find apps/desktop/src-tauri/target/release/bundle -maxdepth 3 | head -40; exit 1; fi
+          res="$app/Contents/Resources"
+          mkdir -p "$res/host" "$res/runtime"
+          rsync -a --delete "$PKG/" "$res/host/"
+          rsync -a --delete "$RUNNER_TEMP/stage/node_modules/" "$res/host/node_modules/"
+          # gbh-web-app import @deepseek-ai/dsh-web-frontend từ node_modules CỦA GÓI: bản npm không mang
+          # node_modules lồng, nên phải chép frontend vào đúng vị trí (app tự chứa mới render được).
+          fe="$RUNNER_TEMP/stage/node_modules/@deepseek-ai/dsh-web-frontend"
+          if [ -d "$fe" ]; then
+            mkdir -p "$res/host/packages/host/web-app/node_modules/@deepseek-ai"
+            rsync -a --delete "$fe" "$res/host/packages/host/web-app/node_modules/@deepseek-ai/"
+          fi
+          cp "$RUNNER_TEMP/node/bin/node" "$res/runtime/node"
+          chmod +x "$res/runtime/node"
+          test -f "$res/host/apps/cli/src/main.ts"
+          test -f "$res/host/apps/cli/lib/main.js"
+          du -sh "$res/host" "$res/runtime"
+          # Ký ad-hoc: arm64 từ chối chạy binary không có chữ ký, và ta không có chứng chỉ Apple.
+          codesign --force --deep --sign - "$app"
+          codesign --force --sign - "$res/runtime/node"
+          codesign --force --sign - "$app/Contents/MacOS/"*
+      - name: Smoke host đã đóng gói
+        run: |
+          app=$(find apps/desktop/src-tauri/target/release/bundle/macos -maxdepth 1 -name "*.app" | head -1)
+          host="$app/Contents/Resources/host"
+          node="$app/Contents/Resources/runtime/node"
+          rm -rf "$RUNNER_TEMP/home" && mkdir -p "$RUNNER_TEMP/home"
+          ( GBH_HOME="$RUNNER_TEMP/home" "$node" --experimental-strip-types "$host/apps/cli/src/main.ts" host --port 55960 > "$RUNNER_TEMP/host.out" 2>&1 & echo $! > "$RUNNER_TEMP/host.pid" )
+          ok=false
+          for i in $(seq 1 120); do
+            if grep -q "http://127.0.0.1:55960/?token=" "$RUNNER_TEMP/host.out"; then ok=true; break; fi
+            sleep 1
+          done
+          tail -30 "$RUNNER_TEMP/host.out"
+          kill "$(cat "$RUNNER_TEMP/host.pid")" 2>/dev/null || true
+          if [ "$ok" != true ]; then echo "host trong .app không in được URL ready" >&2; exit 1; fi
+          url=$(grep -o "http://127.0.0.1:55960/?token=[^ ]*" "$RUNNER_TEMP/host.out" | head -1)
+          code=$(curl -sL -c "$RUNNER_TEMP/ck.txt" -b "$RUNNER_TEMP/ck.txt" -o "$RUNNER_TEMP/ui.html" -w "%{http_code}" "$url")
+          echo "UI HTTP $code"
+          grep -q "Galaxy Blackhole" "$RUNNER_TEMP/ui.html"
+          if [ "$code" != "200" ]; then echo "UI trả $code" >&2; exit 1; fi
+      - name: Đóng gói zip
+        run: |
+          version="${{ needs.resolve.outputs.version }}"
+          app=$(find apps/desktop/src-tauri/target/release/bundle/macos -maxdepth 1 -name "*.app" | head -1)
+          mkdir -p out
+          ditto -c -k --sequesterRsrc --keepParent "$app" "out/Galaxy-Blackhole-${version}-macOS-${{ matrix.arch }}.zip"
+          ls -lh out
+      - uses: actions/upload-artifact@v4
+        with:
+          name: desktop-macos-${{ matrix.arch }}
+          path: out/*.zip
+          if-no-files-found: error
+          compression-level: 0
+
+  windows:
+    name: Windows x64
+    needs: resolve
+    runs-on: windows-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.ref || 'main' }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: x86_64-pc-windows-msvc
+      - uses: swatinem/rust-cache@v2
+        with:
+          workspaces: apps/desktop-windows/src-tauri
+      - name: Đóng host harness từ npm
+        shell: pwsh
+        run: |
+          $version = "${{ needs.resolve.outputs.harness_version }}"
+          $tarball = "${{ needs.resolve.outputs.tarball }}"
+          Write-Host "harness $version"
+          $stage = Join-Path $env:RUNNER_TEMP "stage"
+          npm install --prefix $stage $tarball --omit=dev --no-audit --no-fund
+          if ($LASTEXITCODE -ne 0) { throw "npm install harness failed" }
+          $pkg = Join-Path $stage "node_modules\@galaxy-blackhole\blackhole-harness"
+          if (!(Test-Path (Join-Path $pkg "apps\cli\lib\main.js"))) { throw "host lib/main.js missing" }
+          $res = Join-Path (Get-Location) "apps\desktop-windows\src-tauri\resources"
+          Remove-Item -Recurse -Force $res -ErrorAction SilentlyContinue
+          New-Item -ItemType Directory -Force (Join-Path $res "host"), (Join-Path $res "runtime") | Out-Null
+          Copy-Item -Path (Join-Path $pkg "*") -Destination (Join-Path $res "host") -Recurse -Force
+          Copy-Item -Path (Join-Path $stage "node_modules") -Destination (Join-Path $res "host\node_modules") -Recurse -Force
+          $fe = Join-Path $stage "node_modules\@deepseek-ai\dsh-web-frontend"
+          if (Test-Path (Join-Path $fe "dist\index.html")) {
+            $nested = Join-Path $res "host\packages\host\web-app\node_modules\@deepseek-ai"
+            New-Item -ItemType Directory -Force $nested | Out-Null
+            Copy-Item -Path $fe -Destination $nested -Recurse -Force
+          } else { throw "frontend dist missing in stage" }
+          # NSIS/makensis dùng đường dẫn ANSI/MAX_PATH: devtools mô tả dài và mọi tệp >220 ký tự làm build fail.
+          $devtools = Join-Path $res "host\node_modules\@deepseek-ai\dsh-experimental-inspector\lib\devtools"
+          if (Test-Path $devtools) { Remove-Item -Recurse -Force $devtools }
+          $long = Get-ChildItem (Join-Path $res "host") -Recurse -File | Where-Object { $_.FullName.Length -gt 220 }
+          if (@($long).Count -gt 0) { Write-Host "pruning $(@($long).Count) long paths"; $long | Remove-Item -Force }
+          echo "STAGE=$stage" >> $env:GITHUB_ENV
+      - name: Tải runtime Node ${{ env.NODE_RUNTIME_VERSION }} win-x64
+        shell: pwsh
+        run: |
+          $zip = Join-Path $env:RUNNER_TEMP "node-win.zip"
+          Invoke-WebRequest -Uri "https://nodejs.org/dist/v${{ env.NODE_RUNTIME_VERSION }}/node-v${{ env.NODE_RUNTIME_VERSION }}-win-x64.zip" -OutFile $zip
+          $out = Join-Path $env:RUNNER_TEMP "node-win"
+          Expand-Archive -Path $zip -DestinationPath $out -Force
+          $exe = Join-Path $out "node-v${{ env.NODE_RUNTIME_VERSION }}-win-x64\node.exe"
+          if (!(Test-Path $exe)) { throw "node.exe missing" }
+          Copy-Item $exe "apps\desktop-windows\src-tauri\resources\runtime\node.exe" -Force
+          & "apps\desktop-windows\src-tauri\resources\runtime\node.exe" --version
+      - name: Build vỏ Tauri Windows (NSIS)
+        working-directory: apps/desktop-windows
+        shell: pwsh
+        run: |
+          npm install --no-audit --no-fund
+          npm run build -- --config '{"version":"${{ needs.resolve.outputs.version }}"}'
+      - name: Đóng gói tệp cài
+        shell: pwsh
+        run: |
+          $version = "${{ needs.resolve.outputs.version }}"
+          $setup = Get-ChildItem "apps\desktop-windows\src-tauri\target\release\bundle\nsis" -Filter "*setup.exe" | Select-Object -First 1
+          if (!$setup) { throw "setup.exe missing" }
+          New-Item -ItemType Directory -Force out | Out-Null
+          Copy-Item $setup.FullName "out\Galaxy-Blackhole-$version-Windows-x64-setup.exe" -Force
+          Get-ChildItem out | Format-List Name,Length
+      - uses: actions/upload-artifact@v4
+        with:
+          name: desktop-windows
+          path: out/*.exe
+          if-no-files-found: error
+          compression-level: 0
+
+  linux:
+    name: Linux x64
+    needs: resolve
+    runs-on: ubuntu-22.04
+    timeout-minutes: 120
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.ref || 'main' }}
+      - name: Thư viện hệ thống cho Tauri (webkit2gtk 4.1)
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libwebkit2gtk-4.1-dev libgtk-3-dev librsvg2-dev patchelf \
+            libayatana-appindicator3-dev libsoup-3.0-dev xz-utils rsync file
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: swatinem/rust-cache@v2
+        with:
+          workspaces: apps/desktop-windows/src-tauri
+      - name: Đóng host harness từ npm
+        run: |
+          version="${{ needs.resolve.outputs.harness_version }}"
+          tarball="${{ needs.resolve.outputs.tarball }}"
+          echo "harness $version"
+          npm install --prefix "$RUNNER_TEMP/stage" "$tarball" --omit=dev --no-audit --no-fund
+          pkg="$RUNNER_TEMP/stage/node_modules/@galaxy-blackhole/blackhole-harness"
+          test -f "$pkg/apps/cli/lib/main.js"
+          res="$PWD/apps/desktop-windows/src-tauri/resources"
+          rm -rf "$res" && mkdir -p "$res/host" "$res/runtime"
+          rsync -a "$pkg/" "$res/host/"
+          rsync -a "$RUNNER_TEMP/stage/node_modules/" "$res/host/node_modules/"
+          fe="$RUNNER_TEMP/stage/node_modules/@deepseek-ai/dsh-web-frontend"
+          if [ -d "$fe" ]; then
+            mkdir -p "$res/host/packages/host/web-app/node_modules/@deepseek-ai"
+            rsync -a "$fe" "$res/host/packages/host/web-app/node_modules/@deepseek-ai/"
+          fi
+          echo "PKG=$pkg" >> "$GITHUB_ENV"
+      - name: Tải runtime Node ${{ env.NODE_RUNTIME_VERSION }} linux-x64
+        run: |
+          url="https://nodejs.org/dist/v${{ env.NODE_RUNTIME_VERSION }}/node-v${{ env.NODE_RUNTIME_VERSION }}-linux-x64.tar.xz"
+          curl -fsSL "$url" -o "$RUNNER_TEMP/node.tar.xz"
+          mkdir -p "$RUNNER_TEMP/node"
+          tar -xJf "$RUNNER_TEMP/node.tar.xz" -C "$RUNNER_TEMP/node" --strip-components=1
+          cp "$RUNNER_TEMP/node/bin/node" apps/desktop-windows/src-tauri/resources/runtime/node
+          chmod +x apps/desktop-windows/src-tauri/resources/runtime/node
+          "$RUNNER_TEMP/node/bin/node" --version
+      - name: Build vỏ Tauri Linux (deb + AppImage)
+        working-directory: apps/desktop-windows
+        run: |
+          npm install --no-audit --no-fund
+          npm run build -- --bundles deb,appimage --config '{"productName":"Galaxy Blackhole","identifier":"com.galaxyblackhole.desktop.linux","version":"${{ needs.resolve.outputs.version }}","bundle":{"targets":["deb","appimage"],"icon":["icons/icon.png"]}}'
+      - name: Gom tệp cài
+        run: |
+          version="${{ needs.resolve.outputs.version }}"
+          mkdir -p out
+          find apps/desktop-windows/src-tauri/target/release/bundle -maxdepth 3 -type f | head -40
+          deb=$(find apps/desktop-windows/src-tauri/target/release/bundle -name "*.deb" | head -1)
+          appimage=$(find apps/desktop-windows/src-tauri/target/release/bundle -name "*.AppImage" | head -1)
+          if [ -n "$deb" ]; then cp "$deb" "out/Galaxy-Blackhole-$version-Linux-x64.deb"; fi
+          if [ -n "$appimage" ]; then cp "$appimage" "out/Galaxy-Blackhole-$version-Linux-x64.AppImage"; fi
+          ls -lh out
+          test -n "$deb" -o -n "$appimage"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: desktop-linux
+          path: out/*
+          if-no-files-found: warn
+          compression-level: 0
+
+  release:
+    name: Đăng lên release desktop-v${{ needs.resolve.outputs.version }}
+    needs: [resolve, macos, windows, linux]
+    if: ${{ needs.resolve.outputs.publish == 'true' && always() && needs.macos.result == 'success' && needs.windows.result == 'success' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: dist
+          merge-multiple: true
+      - name: Liệt kê tệp sẽ đăng
+        run: ls -lh dist
+      - name: Tạo/cập nhật release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAG: desktop-v${{ needs.resolve.outputs.version }}
+        run: |
+          notes="App desktop Galaxy Blackhole (macOS arm64/x64, Windows x64, Linux x64) · host harness ${{ needs.resolve.outputs.harness_version }}"
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            echo "release $TAG đã có, cập nhật asset"
+          else
+            gh release create "$TAG" --title "Galaxy Blackhole Desktop ${{ needs.resolve.outputs.version }}" --notes "$notes"
+          fi
+          gh release upload "$TAG" dist/* --clobber
+          gh release view "$TAG" --json assets --jq '.assets[] | "\(.name) \(.size)"'
