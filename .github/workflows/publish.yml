@@ -31,4 +31,6 @@ jobs:
         continue-on-error: true
         run: bun install --no-save --ignore-scripts || true
       - name: Publish harness
+        env:
+          GBH_HARNESS_VERSION: 0.1.15
         run: bun run tools/publish-harness.mjs --trusted
