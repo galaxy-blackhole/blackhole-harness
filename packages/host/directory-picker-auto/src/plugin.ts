@@ -121,10 +121,11 @@ function allowsRemoteAuthoritiesOf(ctx: PickerContext): boolean {
  * @returns promise hoàn tất khi đã mount xong cặp entry (hoặc đã dọn sạch nếu lỗi).
  */
 export async function apply(ctx: PickerContext): Promise<void> {
+  const platform = process.platform;
   const backend = resolveDirectoryPickerBackend({
     bindHost: bindHostOf(ctx),
     allowsRemoteAuthorities: allowsRemoteAuthoritiesOf(ctx),
-    platform: process.platform,
+    platform,
     win32Native: process.env.GBH_TAURI_ROOT !== undefined || process.env.GBH_DESKTOP_PORT !== undefined,
     ssh: launchedThroughSsh(launchEnvironmentOf(ctx)),
     env: { DISPLAY: process.env.DISPLAY, WAYLAND_DISPLAY: process.env.WAYLAND_DISPLAY },
@@ -142,13 +143,31 @@ export async function apply(ctx: PickerContext): Promise<void> {
         await disposal;
       }
     };
-    try {
-      for (const specifier of [BACKEND_PACKAGES[backend], SURFACE_PACKAGES[backend]]) {
+    /**
+     * Mount backend + surface của nó; ném khi không mount được.
+     * Nhận: `kind` — backend cần mount.
+     * Trả: promise hoàn tất khi cả hai entry đã sống.
+     */
+    const mountBackend = async (kind: DirectoryPickerBackendKind): Promise<void> => {
+      for (const specifier of [BACKEND_PACKAGES[kind], SURFACE_PACKAGES[kind]]) {
         const id = await loader.create({ name: specifier });
         ids.push(id);
         const entry = loader.resolve(id);
         if (entry.fiber === undefined) throw new Error("directory-picker-auto: failed to load " + specifier);
         await entry.fiber.await();
+      }
+    };
+    try {
+      try {
+        await mountBackend(backend);
+      } catch (cause) {
+        // 24/11/2026 (task-82): app desktop Windows có thể THIẾU koffi (native backend) ⇒ đường LÙI sang
+        // picker trình duyệt, để người dùng vẫn chọn được thư mục thay vì nhận toast 'Không mở được'.
+        // CHỈ áp cho win32 (đúng ca PROD): nền tảng khác giữ nguyên hành vi cũ (ném lên trên).
+        if (backend === "native" && platform === "win32") {
+          await unmount();
+          await mountBackend("browse");
+        } else throw cause;
       }
     } catch (cause) {
       await unmount();

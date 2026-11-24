@@ -145,7 +145,9 @@ describe("bộ giải: đối chứng từng ca với bản gốc", () => {
       facts({ bindHost: "::ffff:127.0.0.1" }),
       facts({ allowsRemoteAuthorities: true }),
       facts({ ssh: true }),
-      facts({ platform: "win32" }),
+      // 24/11/2026 (task-82 · PROD alpha.4): cờ `win32Native` nay CÓ hiệu lực ⇒ ca "win32 KHÔNG có cờ"
+      //   được đối chứng RIÊNG bên dưới (ta cố ý khác stock: desktop ⇒ native, CLI web ⇒ browse).
+      facts({ platform: "win32", win32Native: true }),
       facts({ platform: "linux", linuxChooser: true, env: { DISPLAY: ":0" } }),
       facts({ platform: "linux", linuxChooser: true, env: { WAYLAND_DISPLAY: "wayland-0" } }),
       facts({ platform: "linux", linuxChooser: true, env: {} }),
@@ -254,5 +256,24 @@ describe("apply: mount cặp backend + bề mặt, rồi dọn sạch", () => {
   test("thiếu seam loader ⇒ lỗi rõ ràng, không treo", async () => {
     const bare = { get: () => undefined, effect: async (callback: () => Promise<() => Promise<void>>) => void (await callback()) } as never;
     await expect(apply(bare)).rejects.toThrow("service loader chưa sẵn sàng");
+  });
+});
+
+describe("Windows (task-82 · PROD alpha.4): cờ win32Native quyết định nhánh", () => {
+  // Vì sao khoá lại bằng test: trên Windows, app DESKTOP (Tauri/WebView2) phải mở hộp thoại của hệ điều
+  // hành; CLI web thuần thì phải dùng picker trình duyệt. Trước đây resolver BỎ QUA cờ nên app desktop vẫn
+  // rơi vào browse — đúng vùng sinh toast 'Không mở được. Hãy thử lại.' trên bản prod.
+  test("win32 + cờ desktop ⇒ native; win32 KHÔNG có cờ ⇒ browse", () => {
+    expect(resolveDirectoryPickerBackend({ bindHost: "127.0.0.1", allowsRemoteAuthorities: false, platform: "win32", ssh: false, env: {}, linuxChooser: false, win32Native: true })).toBe("native");
+    expect(resolveDirectoryPickerBackend({ bindHost: "127.0.0.1", allowsRemoteAuthorities: false, platform: "win32", ssh: false, env: {}, linuxChooser: false })).toBe("browse");
+    expect(resolveDirectoryPickerBackend({ bindHost: "127.0.0.1", allowsRemoteAuthorities: false, platform: "win32", ssh: false, env: {}, linuxChooser: false, win32Native: false })).toBe("browse");
+  });
+
+  test("cờ desktop KHÔNG được vượt qua luật an toàn: bind ngoài loopback / remote authority / SSH ⇒ browse", () => {
+    const win = { platform: "win32" as const, env: {}, linuxChooser: false, win32Native: true, ssh: false, allowsRemoteAuthorities: false, bindHost: "127.0.0.1" };
+    expect(resolveDirectoryPickerBackend({ ...win, bindHost: "192.168.1.10" })).toBe("browse");
+    expect(resolveDirectoryPickerBackend({ ...win, bindHost: "::ffff:127.0.0.1" })).toBe("native");
+    expect(resolveDirectoryPickerBackend({ ...win, allowsRemoteAuthorities: true })).toBe("browse");
+    expect(resolveDirectoryPickerBackend({ ...win, ssh: true })).toBe("browse");
   });
 });

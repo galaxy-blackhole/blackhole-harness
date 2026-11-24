@@ -90,7 +90,10 @@ export function resolveDirectoryPickerBackend(facts: DirectoryPickerHostFacts): 
   // 21/11/2026 — Windows KHÔNG dùng native cho workspace picker: dialog native cần koffi,
   // nhưng koffi không nằm trong gói harness và npm 11 chặn install-script. Browser picker
   // chạy được trong cả CLI web lẫn WebView2 của app desktop, nên Windows luôn chọn browse.
-  if (facts.platform === "win32") return "browse";
+  // 24/11/2026 (backport PROD 0.2.1-alpha.4 · task-82): nhánh này TRƯỚC ĐÂY bỏ qua cờ `win32Native` ⇒ app
+  // desktop Windows (Tauri/WebView2, có GBH_TAURI_ROOT/GBH_DESKTOP_PORT) vẫn rơi vào picker TRÌNH DUYỆT —
+  // đúng vùng sinh toast 'Không mở được. Hãy thử lại.'. Nay: trong app desktop ⇒ "native"; CLI web ⇒ "browse".
+  if (facts.platform === "win32") return facts.win32Native === true ? "native" : "browse";
   if (facts.platform !== "linux" || !facts.linuxChooser) return "browse";
   return present(facts.env.DISPLAY) || present(facts.env.WAYLAND_DISPLAY) ? "native" : "browse";
 }
