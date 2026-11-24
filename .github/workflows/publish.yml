@@ -70,7 +70,7 @@ jobs:
           # typert-loader (khong nem AggregateError => khong rut sach so typert).
           # 5 goi ta SUA: goal (mat typert) · agent-preset-registry (cong log) · open-in-app (open -a) ·
           # typert-loader (khong nem AggregateError) · client/ui-settings-models (tu dien en+vi trang Model).
-          for dir in packages/host/goal packages/host/agent-preset-registry packages/host/open-in-app packages/host/typert-loader packages/client/ui-settings-models; do
+          for dir in packages/host/goal packages/host/agent-preset-registry packages/host/open-in-app packages/host/typert-loader packages/client/ui-settings-models packages/host/directory-picker-auto; do
             echo "--- build $dir"
             ( cd "$dir" && bun run build.ts )
           done
@@ -90,7 +90,9 @@ jobs:
           grep -q "ctx.locale.register(NS, { en, vi })" packages/client/ui-settings-models/lib/client.js
           # ban va open-in-app: tren macOS phai goi "open -a", khong spawn thang bundle (EACCES)
           grep -q "open -a\|\"open\", \[" packages/host/open-in-app/lib/index.js || node -e "const fs=require('fs');const t=fs.readFileSync('packages/host/open-in-app/lib/index.js','utf8');if(!/open/.test(t)){console.error('open-in-app lib khong co lenh open');process.exit(1)};console.log('open-in-app lib co lenh open')"
-          echo "ban va da nam trong lib/"
+          # 25/11/2026 — bản vá PROD win32 (ADR 0031): picker phải tôn trọng cờ win32Native
+          grep -q "win32Native" packages/host/directory-picker-auto/lib/index.js
+          echo "ban va picker win32 da nam trong lib/"
       - name: Cong kiem truoc khi publish
         run: |
           count=$(find packages -path '*/lib/index.js' | wc -l | tr -d ' ')
@@ -98,7 +100,7 @@ jobs:
           if [ "$count" -lt 320 ]; then echo "thieu lib/index.js: $count < 320" >&2; exit 1; fi
       - name: Publish harness
         env:
-          GBH_HARNESS_VERSION: 0.1.26
+          GBH_HARNESS_VERSION: 0.1.27
         run: |
           # Moi push len main deu chay workflow nay, nhung chi version MOI moi publish duoc. Bo qua khi
           # version da co tren npm de push tai lieu/workflow khong sinh mot luot do gia.
